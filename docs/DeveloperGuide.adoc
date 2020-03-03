@@ -337,7 +337,7 @@ Use case ends.
 * 2a. User enters incorrect information.
 [none]
 ** 2a1. Modulo shows user the correct format for the deadline creation.
-** 2a2. User enters new information following the correct format. 
+** 2a2. User enters new information following the correct format.
 +
 Use case resumes from step 3.
 
@@ -363,21 +363,21 @@ Use case ends.
 [none]
 ** 1a1. Steps 2 and 3 are performed.
 ** 1a2. User enters ‘N’ to reject his/her module selection.
-** 1a3. Steps 1 to 4 are repeated until the correct module is found and User enters ‘Y’. 
+** 1a3. Steps 1 to 4 are repeated until the correct module is found and User enters ‘Y’.
 +
 Use case resumes from step 5.
 [none]
 * 1b. User enters invalid data and no modules are found.
 [none]
 ** 1b1. Modulo informs User that no modules with the given information can be found.
-** 1b2. Steps 1 to 4 or 1 to 1b1 are repeated until User finds a module. 
+** 1b2. Steps 1 to 4 or 1 to 1b1 are repeated until User finds a module.
 +
 Use case resumes from step 3.
 [none]
 * 4a. User enters something other than ‘Y’.
 [none]
 ** 4a1. Modulo cancels the request by the User.
-** 4a2. Modulo informs the User of the cancellation. 
+** 4a2. Modulo informs the User of the cancellation.
 +
 Use case ends.
 
