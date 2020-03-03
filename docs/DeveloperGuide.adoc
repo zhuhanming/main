@@ -12,9 +12,9 @@ ifdef::env-github[]
 :note-caption: :information_source:
 :warning-caption: :warning:
 endif::[]
-:repoURL: https://github.com/se-edu/addressbook-level3/tree/master
+:repoURL: https://github.com/AY1920S2-CS2103-T09-1/main
 
-By: `Team SE-EDU`      Since: `Jun 2016`      Licence: `MIT`
+By: `Team Modulo`      Since: `Feb 2020`      Licence: `MIT`
 
 == Setting up
 
@@ -279,13 +279,13 @@ Refer to the guide <<DevOps#, here>>.
 
 *Target user profile*:
 
-* has a need to manage a significant number of contacts
+* has a need to manage their modules and the deadlines for these modules
 * prefer desktop apps over other types
 * can type fast
 * prefers typing over mouse input
 * is reasonably comfortable using CLI apps
 
-*Value proposition*: manage contacts faster than a typical mouse/GUI driven app
+*Value proposition*: manage modules and deadlines faster than a typical mouse/GUI driven app
 
 [appendix]
 == User Stories
@@ -297,15 +297,19 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 |Priority |As a ... |I want to ... |So that I can...
 |`* * *` |new user |see usage instructions |refer to instructions when I forget how to use the App
 
-|`* * *` |user |add a new person |
+|`* * *` |user |create a deadline |ensure I do not miss any of my module / assignment deadlines
 
-|`* * *` |user |delete a person |remove entries that I no longer need
+|`* * *` |user |track all my daily events |never miss any event
 
-|`* * *` |user |find a person by name |locate details of persons without having to go through the entire list
+|`* * *` |user |categorise my work based on module |don’t have to manually categorise myself
 
-|`* *` |user |hide <<private-contact-detail,private contact details>> by default |minimize chance of someone else seeing them by accident
+|`* * *` |user |can track the tutorials which I have done |
 
-|`*` |user with many persons in the address book |sort persons by name |locate a person easily
+|`* *` |user |avoid clashes within my own schedule |
+
+|`* *` |user |export my data from this app |access the data I’ve created from anywhere
+
+|`*` |user |can assign a maximum number of deadlines within a timeframe |not get overwhelmed by my assigned workload
 |=======================================================================
 
 _{More to be added}_
@@ -313,42 +317,79 @@ _{More to be added}_
 [appendix]
 == Use Cases
 
-(For all use cases below, the *System* is the `AddressBook` and the *Actor* is the `user`, unless specified otherwise)
+(For all use cases below, the *System* is the `Modulo` and the *Actor* is the `user`, unless specified otherwise)
 
 [discrete]
-=== Use case: Delete person
+=== Use case: UC01 - Add a <<deadline,deadline>>
 
 *MSS*
+Preconditions: Module data file is loaded properly. +
+Guarantees: Deadline is added, tagged to the correct <<module,module>> and <<event,event>>, with the correct details. +
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+1.  User +++<u>adds a module (UC02)</u>+++.
+2.  User adds a deadline to the correct <<module,module>> and <<event,event>>, with all the required details.
+3.  Modulo shows the newly created deadline.
++
+Use case ends.
+
+*Extensions*
+[none]
+* 2a. User enters incorrect information.
+[none]
+** 2a1. Modulo shows user the correct format for the deadline creation.
+** 2a2. User enters new information following the correct format. 
++
+Use case resumes from step 3.
+
+[discrete]
+=== Use case: UC02 - Add a module
+
+*MSS*
+Preconditions: Module data file is loaded properly. +
+Guarantees: Module is added to the user's calendar. +
+
+1. User enters a module code or module name.
+2. Modulo searches its data files for the closest matching module
+3. Modulo prompts the user for his/her confirmation
+4. User enters ‘Y’ to confirm his/her module selection
+5. Modulo shows the newly created module in the user’s calendar
 +
 Use case ends.
 
 *Extensions*
 
 [none]
-* 2a. The list is empty.
+* 1a. User enters incorrect data and the wrong module is found.
+[none]
+** 1a1. Steps 2 and 3 are performed.
+** 1a2. User enters ‘N’ to reject his/her module selection.
+** 1a3. Steps 1 to 4 are repeated until the correct module is found and User enters ‘Y’. 
++
+Use case resumes from step 5.
+[none]
+* 1b. User enters invalid data and no modules are found.
+[none]
+** 1b1. Modulo informs User that no modules with the given information can be found.
+** 1b2. Steps 1 to 4 or 1 to 1b1 are repeated until User finds a module. 
++
+Use case resumes from step 3.
+[none]
+* 4a. User enters something other than ‘Y’.
+[none]
+** 4a1. Modulo cancels the request by the User.
+** 4a2. Modulo informs the User of the cancellation. 
 +
 Use case ends.
-
-* 3a. The given index is invalid.
-+
-[none]
-** 3a1. AddressBook shows an error message.
-+
-Use case resumes at step 2.
-
-_{More to be added}_
 
 [appendix]
 == Non Functional Requirements
 
-.  Should work on any <<mainstream-os,mainstream OS>> as long as it has Java `11` or above installed.
-.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
-.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+.  A NUS student with above-average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+.  Should work on any <<mainstream-os,mainstream OS>> as long as it has Java 11 or above installed.
+.  Should be able to run seamlessly with 10 <<module,module>>s’ worth of data.
+.  Data should be persistent within the local machine and the save file should be editable.
+.  The application should not require an installer and be for a single user, with its size being smaller than 100mb.
+.  Object-oriented.
 
 _{More to be added}_
 
@@ -358,8 +399,14 @@ _{More to be added}_
 [[mainstream-os]] Mainstream OS::
 Windows, Linux, Unix, OS-X
 
-[[private-contact-detail]] Private contact detail::
-A contact detail that is not meant to be shared with others
+[[module]] Module::
+Modules that the User is taking for the current semester.
+
+[[event]] Event
+These are default events for each module, such as Lectures, Tutorials, Recitations, Sectionals etc. All these events are automatically populated from NUS data upon module creation.
+
+[[deadline]] Deadlines
+Individual tasks to complete that can be tagged to a specific event. These can be both recurring or just one-off.
 
 [appendix]
 == Product Survey
