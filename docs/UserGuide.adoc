@@ -48,9 +48,7 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 * Words in `UPPER_CASE` are the parameters to be supplied by the user e.g. in `module n/NAME`, `NAME` is a parameter
 which can be used as `module n/CS2103`.
 * Items in square brackets are optional e.g `list [m/MONTH]` can be used as `list m/July` or as `list`.
-* Items with `…`​ after them can be used multiple times including zero times e.g. `[m/MONTH]...` can be used as `{nbsp}`
-
-(i.e. 0 times), `m/JULY`, `m/JULY m/MARCH` etc.
+* Items with `…`​ after them can be used multiple times including zero times e.g. `[m/MONTH]...` can be used as `{nbsp}` (i.e. 0 times), `m/JULY`, `m/JULY m/MARCH` etc.
 * Parameters can be in any order e.g. if the command specifies `m/MODULE n/NAME`, `n/NAME m/MODULE` is
 also
 acceptable.
@@ -67,7 +65,7 @@ Format: `module n/NAME`
 
 Example:
 
-* `module n/cs2103 `
+* `module n/cs2103`
 
 === Adding an event : `event`
 
@@ -123,6 +121,37 @@ Shows a list of events happening in August
 * Shows the events happening during the specified period.
 ****
 
+=== Find event/module/deadline [keywords]: `find`
+User able to find module which matches any of the given keywords.
+
+* The search is case insensitive. e.g tutorial will match Tutorial
+* The order of the keywords does not matter. e.g. 3 Tutorial will match Tutorial 3
+* Names containing part of the searched words will be matched e.g. tut will match Tutorial 4
+
+Format: `find m/MODULE_CODE`
+
+Return registered modules that match module
+
+Format: `find d/Deadline`
+
+Return matched deadline
+
+=== Finishing a task : `done`
+If the user is currently not viewing an event or is not viewing the event of interest, the following format will be used:
+and bring the closest event to focus e.g. Tutorial 4 happening on Week 6, where the UI will prompt the user: “Which deadline do you wish to complete?”
+
+Format: `done m/MODULE_CODE n/EVENT_NAME`
+
+The following command can then be used (or be used instantly should the user already be viewing the event of interest):
+and complete the first deadline on the list of deadlines for that event.
+
+Format: `done 1`
+
+=== Export: `export`
+User could export all the module, event, and deadlines as a .ics file.
+
+Format: `export [s/START_DATE] [e/END_DATE] [d/TARGET_DIRECTORY] f/FILENAME`
+
 === Deleting a module/event/deadline: `delete`
 
 Deletes a module and all its associated events. +
@@ -131,12 +160,12 @@ Format: `delete m/MODULE_CODE [n/EVENT_NAME]`
 
 The UI will display the event of interest and prompt: Delete event or delete one of its deadlines? +
 ****
-* Format: delete event (deletes the event)
-* Format: delete 1 (deletes the first deadline)
+* Format: `delete event` (deletes the event)
+* Format: `delete 1` (deletes the first deadline)
 ****
 In all cases, the UI will confirm with the user. The user can then follow up with:
 ****
-* Format: y
+* Format: `y`
 ****
 
 === Importing a Calendar: `import`
