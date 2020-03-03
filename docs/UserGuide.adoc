@@ -48,9 +48,7 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 * Words in `UPPER_CASE` are the parameters to be supplied by the user e.g. in `module n/NAME`, `NAME` is a parameter
 which can be used as `module n/CS2103`.
 * Items in square brackets are optional e.g `list [m/MONTH]` can be used as `list m/July` or as `list`.
-* Items with `…`​ after them can be used multiple times including zero times e.g. `[m/MONTH]...` can be used as `{nbsp}`
-
-(i.e. 0 times), `m/JULY`, `m/JULY m/MARCH` etc.
+* Items with `…`​ after them can be used multiple times including zero times e.g. `[m/MONTH]...` can be used as `{nbsp}` (i.e. 0 times), `m/JULY`, `m/JULY m/MARCH` etc.
 * Parameters can be in any order e.g. if the command specifies `m/MODULE n/NAME`, `n/NAME m/MODULE` is
 also
 acceptable.
@@ -67,7 +65,7 @@ Format: `module n/NAME`
 
 Example:
 
-* `module n/cs2103 `
+* `module n/cs2103`
 
 === Adding an event : `event`
 
@@ -75,6 +73,37 @@ Adds an event to a module
 Format: event m/MODULE n/NAME t/TIME f/FREQUENCY
 
 Autopopulated based on keyword detection, e.g. Tutorials added for weekly will be populated from Week 3-13, and will have numbers automatically appended, e.g. Tutorial 1, Tutorial 2. A default deadline will also be added to the event, e.g. Tutorial Homework
+
+=== Find event/module/deadline [keywords]: `find`
+User able to find module which matches any of the given keywords.
+
+* The search is case insensitive. e.g tutorial will match Tutorial
+* The order of the keywords does not matter. e.g. 3 Tutorial will match Tutorial 3
+* Names containing part of the searched words will be matched e.g. tut will match Tutorial 4
+
+Format: `find m/MODULE_CODE`
+
+Return registered modules that match module
+
+Format: `find d/Deadline`
+
+Return matched deadline
+
+=== Finishing a task : `done`
+If the user is currently not viewing an event or is not viewing the event of interest, the following format will be used:
+and bring the closest event to focus e.g. Tutorial 4 happening on Week 6, where the UI will prompt the user: “Which deadline do you wish to complete?”
+
+Format: `done m/MODULE_CODE n/EVENT_NAME`
+
+The following command can then be used (or be used instantly should the user already be viewing the event of interest):
+and complete the first deadline on the list of deadlines for that event.
+
+Format: `done 1`
+
+=== Export: `export`
+User could export all the module, event, and deadlines as a .ics file.
+
+Format: `export [s/START_DATE] [e/END_DATE] [d/TARGET_DIRECTORY] f/FILENAME`
 
 === Deleting a module/event/deadline: `delete`
 
@@ -86,12 +115,12 @@ Format: `delete m/MODULE_CODE [n/EVENT_NAME]`
 
 The following formats can be used:
 ****
-* Format: delete event (deletes the event)
-* Format: delete 1 (deletes the first deadline)
+* Format: `delete event` (deletes the event)
+* Format: `delete 1` (deletes the first deadline)
 ****
 In all cases, the UI will confirm with the user. The user can then follow up with:
 ****
-* Format: y
+* Format: `y`
 ****
 
 === Importing a Calendar: `import`
@@ -123,17 +152,3 @@ _{explain how the user can enable/disable data encryption}_
 
 *Q*: How do I transfer my data to another Computer? +
 *A*: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous Address Book folder.
-
-== Command Summary
-
-* *Add* `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...` +
-e.g. `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
-* *Clear* : `clear`
-* *Delete* : `delete INDEX` +
-e.g. `delete 3`
-* *Edit* : `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...` +
-e.g. `edit 2 n/James Lee e/jameslee@example.com`
-* *Find* : `find KEYWORD [MORE_KEYWORDS]` +
-e.g. `find James Jake`
-* *List* : `list`
-* *Help* : `help`
