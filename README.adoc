@@ -1,11 +1,13 @@
-= Address Book (Level 3)
+= Modulo
 ifdef::env-github,env-browser[:relfileprefix: docs/]
 
 https://travis-ci.com/AY1920S2-CS2103-T09-1/main[image:https://travis-ci.com/AY1920S2-CS2103-T09-1/main.svg?branch=master[Build Status]]
 https://ci.appveyor.com/project/zhuhanming/main-a6krd[image:https://ci.appveyor.com/api/projects/status/o23c9crc7x2n59w2?svg=true[Build status]]
 https://coveralls.io/github/AY1920S2-CS2103-T09-1/main?branch=master[image:https://coveralls.io/repos/github/AY1920S2-CS2103-T09-1/main/badge.svg?branch=master[Coverage Status]]
 
-### Team: CS2103-T09-1
+### Manage your modules like never before.
+
+### Team: Modulo (CS2103-T09-1)
 ifdef::env-github[]
 image::docs/images/Ui.png[width="600"]
 endif::[]
@@ -14,15 +16,14 @@ ifndef::env-github[]
 image::images/Ui.png[width="600"]
 endif::[]
 
-* This is a desktop Address Book application. It has a GUI but most of the user interactions happen using a CLI (Command Line Interface).
-* It is a Java sample application intended for students learning Software Engineering while using Java as the main programming language.
-* It is *written in OOP fashion*. It provides a *reasonably well-written* code example that is *significantly bigger* (around 6 KLoC)than what students usually write in beginner-level SE modules.
+* This is a desktop module management application written for students with fast fingers. Being a CLI-centric application, users can quickly manage their modules simply by typing.
+* A GUI is also provided to help users visualise the various deadlines they have for their modules and enhance their overall experience.
+* More information can be found in the various guides below!
 
 == Site Map
 
 * <<UserGuide#, User Guide>>
 * <<DeveloperGuide#, Developer Guide>>
-* <<LearningOutcomes#, Learning Outcomes>>
 * <<AboutUs#, About Us>>
 * <<ContactUs#, Contact Us>>
 
@@ -31,5 +32,6 @@ endif::[]
 * Some parts of this sample application were inspired by the excellent http://code.makery.ch/library/javafx-8-tutorial/[Java FX tutorial] by
 _Marco Jakob_.
 * Libraries used: https://openjfx.io/[JavaFX], https://github.com/FasterXML/jackson[Jackson], https://github.com/junit-team/junit5[JUnit5]
+* This project was extended from https://se-education.org[AddressBook-Level3] project created by SE-EDU initiative
 
 == Licence : link:LICENSE[MIT]
