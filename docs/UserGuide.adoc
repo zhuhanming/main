@@ -95,7 +95,7 @@ Format: `list / calendar [m/MONTH]`
 
 
 ****
-* Shows all tasks of all modules in calendar view
+* Shows the tasks of modules in the calender view during the specified month.
 ****
 
 Examples:
@@ -111,7 +111,7 @@ Format: `today / tomorrow / this week / next week / this month / MMM`
 
 
 ****
-* Shows the events happening during the specified period
+* Shows the events happening during the specified period.
 ****
 
 Examples:
