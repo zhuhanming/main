@@ -74,6 +74,53 @@ Format: event m/MODULE n/NAME t/TIME f/FREQUENCY
 
 Autopopulated based on keyword detection, e.g. Tutorials added for weekly will be populated from Week 3-13, and will have numbers automatically appended, e.g. Tutorial 1, Tutorial 2. A default deadline will also be added to the event, e.g. Tutorial Homework
 
+=== Adding a deadline : `deadline`
+
+Adds a deadline to an event.
+Format: `deadline m/MODULE e/EVENT NAME n/DESCRIPTION [r/YES/NO]`
+
+****
+* Automatically adds a deadline to the nearest event of this name
+* If the deadline is to be added to all events of this type, e.g. Tutorials, then set r (repeat) to YES
+****
+
+Examples:
+
+* `deadline m/CS2103 e/Tutorial n/Homework r/NO` +
+Adds a Homework deadline to the nearest upcoming tutorial of CS2103
+
+=== Displaying all events and modules: `list / calendar`
+
+Shows a list of modules in the calendar view. +
+Format: `list / calendar [m/MONTH]`
+
+Examples:
+
+* `list m/AUGUST` +
+Returns all tasks in August
+
+****
+* Shows the tasks of modules in the calender view during the specified month.
+****
+
+=== Displaying all events based on timeframe: `today / tomorrow / this week / next week / this month / MMM (e.g. Mar)`
+
+Shows a list of events happening today or anytime during the timeframe requested +
+Format: `today / tomorrow / this week / next week / this month / MMM`
+
+Examples:
+
+* `today` +
+Shows a list of events happening today
+* `this week` +
+Shows a list of events happening this week
+* `august` +
+Shows a list of events happening in August
+
+****
+* Shows the events happening during the specified period.
+****
+
 === Find event/module/deadline [keywords]: `find`
 User able to find module which matches any of the given keywords.
 
@@ -108,12 +155,10 @@ Format: `export [s/START_DATE] [e/END_DATE] [d/TARGET_DIRECTORY] f/FILENAME`
 === Deleting a module/event/deadline: `delete`
 
 Deletes a module and all its associated events. +
-The UI will display the event of interest and prompt: Delete event or delete one of its deadlines? +
-
+****
 Format: `delete m/MODULE_CODE [n/EVENT_NAME]`
 
-
-The following formats can be used:
+The UI will display the event of interest and prompt: Delete event or delete one of its deadlines? +
 ****
 * Format: `delete event` (deletes the event)
 * Format: `delete 1` (deletes the first deadline)
