@@ -45,11 +45,36 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 ====
 *Command Format*
 
-* Words in `UPPER_CASE` are the parameters to be supplied by the user e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
-* Items in square brackets are optional e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
-* Items with `…`​ after them can be used multiple times including zero times e.g. `[t/TAG]...` can be used as `{nbsp}` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
-* Parameters can be in any order e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
+* Words in `UPPER_CASE` are the parameters to be supplied by the user e.g. in `module n/NAME`, `NAME` is a parameter
+which can be used as `module n/CS2103`.
+* Items in square brackets are optional e.g `list [m/MONTH]` can be used as `list m/July` or as `list`.
+* Items with `…`​ after them can be used multiple times including zero times e.g. `[m/MONTH]...` can be used as `{nbsp}`
+
+(i.e. 0 times), `m/JULY`, `m/JULY m/MARCH` etc.
+* Parameters can be in any order e.g. if the command specifies `m/MODULE n/NAME`, `n/NAME m/MODULE` is
+also
+acceptable.
 ====
+
+=== Viewing help : `help`
+
+Format: `help`
+
+=== Adding a module: `module`
+
+Adds a module to Modulo. The default timeframe is set to the current academic year, AY19/20. +
+Format: `module n/NAME`
+
+Example:
+
+* `module n/cs2103 `
+
+=== Adding an event : `event`
+
+Adds an event to a module
+Format: event m/MODULE n/NAME t/TIME f/FREQUENCY
+
+Autopopulated based on keyword detection, e.g. Tutorials added for weekly will be populated from Week 3-13, and will have numbers automatically appended, e.g. Tutorial 1, Tutorial 2. A default deadline will also be added to the event, e.g. Tutorial Homework
 
 === Deleting a module/event/deadline: `delete`
 
