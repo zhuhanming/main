@@ -11,46 +11,35 @@ We are a team based in the http://www.comp.nus.edu.sg[School of Computing, Natio
 
 == Project Team
 
-=== John Doe
-image::damithc.jpg[width="150", align="left"]
-{empty}[http://www.comp.nus.edu.sg/~damithch[homepage]] [https://github.com/damithc[github]] [<<johndoe#, portfolio>>]
+=== Low Chen Yi, Sean
+image::seanlowcy77.jpg[width="150", align="left"]
+{empty}[http://github.com/seanlowcy77[github]]
 
-Role: Project Advisor
-
-'''
-
-=== John Roe
-image::lejolly.jpg[width="150", align="left"]
-{empty}[http://github.com/lejolly[github]] [<<johndoe#, portfolio>>]
-
-Role: Team Lead +
-Responsibilities: UI
+Role: Developer
 
 '''
 
-=== Johnny Doe
-image::yijinl.jpg[width="150", align="left"]
-{empty}[http://github.com/yijinl[github]] [<<johndoe#, portfolio>>]
+=== Ong Jing Yu
+image::jingyuong.png[width="150", align="left"]
+{empty}[https://github.com/jingyuong[github]]
 
-Role: Developer +
-Responsibilities: Data
-
-'''
-
-=== Johnny Roe
-image::m133225.jpg[width="150", align="left"]
-{empty}[http://github.com/m133225[github]] [<<johndoe#, portfolio>>]
-
-Role: Developer +
-Responsibilities: Dev Ops + Threading
+Role: Developer
 
 '''
 
-=== Benson Meier
-image::yl_coder.jpg[width="150", align="left"]
-{empty}[http://github.com/yl-coder[github]] [<<johndoe#, portfolio>>]
+=== Teoh Ern Tek
+image::erntekteoh.png[width="150", align="left"]
+{empty}[http://github.com/erntekteoh[github]]
 
-Role: Developer +
-Responsibilities: UI
+Role: Developer
 
 '''
+
+=== Zhu Hanming
+image::zhuhanming.png[width="150", align="left"]
+{empty}[http://github.com/zhuhanming[github]]
+
+Role: Developer
+
+'''
+
