@@ -59,7 +59,7 @@ The UI will display the event of interest and prompt: Delete event or delete one
 Format: `delete m/MODULE_CODE [n/EVENT_NAME]`
 
 
-The following formats can be used:\
+The following formats can be used:
 ****
 * Format: delete event (deletes the event)
 * Format: delete 1 (deletes the first deadline)
