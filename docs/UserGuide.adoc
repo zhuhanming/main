@@ -121,6 +121,7 @@ Shows a list of events happening in August
 * Shows the events happening during the specified period.
 ****
 
+
 === Find event/module/deadline [keywords]: `find`
 User able to find module which matches any of the given keywords.
 
@@ -155,10 +156,12 @@ Format: `export [s/START_DATE] [e/END_DATE] [d/TARGET_DIRECTORY] f/FILENAME`
 === Deleting a module/event/deadline: `delete`
 
 Deletes a module and all its associated events. +
-****
+The UI will display the event of interest and prompt: Delete event or delete one of its deadlines? +
+
 Format: `delete m/MODULE_CODE [n/EVENT_NAME]`
 
-The UI will display the event of interest and prompt: Delete event or delete one of its deadlines? +
+
+The following formats can be used:
 ****
 * Format: `delete event` (deletes the event)
 * Format: `delete 1` (deletes the first deadline)
