@@ -33,10 +33,17 @@ public class CalendarParser {
         final String arguments = matcher.group("arguments");
         System.out.println("WEEEEE");
         System.out.println(commandWord);
+        System.out.println("arguments "+arguments);
         switch (commandWord) {
 
             case AddDeadlineCommand.COMMAND_WORD:
                 return new AddDeadlineCommandParser().parse(arguments);
+
+            case AddEventCommand.COMMAND_WORD:
+                return new AddEventCommandParser().parse(arguments);
+
+            case AddModuleCommand.COMMAND_WORD:
+                return new AddModuleCommandParser().parse(arguments);
 
             default:
                 throw new ParseException(MESSAGE_UNKNOWN_COMMAND);

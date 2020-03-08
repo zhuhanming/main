@@ -43,6 +43,7 @@ public class LogicManager implements Logic {
         commandResult = command.execute(model);
 
         try {
+            System.out.println("model get calendar "+model.getCalendar());
             storage.saveCalendar(model.getCalendar());
         } catch (IOException ioe) {
             throw new CommandException(FILE_OPS_ERROR_MESSAGE + ioe, ioe);

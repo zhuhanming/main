@@ -65,6 +65,7 @@ public class StorageManager implements Storage {
 
     @Override
     public void saveCalendar(ReadOnlyCalendar calendar) throws IOException {
+        System.out.println("calendar "+calendar);
         saveCalendar(calendar, calendarStorage.getCalendarFilePath());
     }
 

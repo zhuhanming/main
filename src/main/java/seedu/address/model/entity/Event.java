@@ -16,7 +16,7 @@ public class Event extends CalendarItem {
     private LocalDateTime eventStart;
     private LocalDateTime eventEnd;
     private TemporalAmount duration;
-    private Module module;
+    private Module parentModule;
 
 
     public Event() {
@@ -80,12 +80,12 @@ public class Event extends CalendarItem {
         this.duration = duration;
     }
 
-    public Module getModule() {
-        return module;
+    public Module getParentModule() {
+        return parentModule;
     }
 
-    public void setModule(Module module) {
-        this.module = module;
+    public void setParentModule(Module module) {
+        this.parentModule = module;
     }
 
     public LocalDateTime getEventStart() {

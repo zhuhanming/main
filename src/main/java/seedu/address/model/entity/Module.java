@@ -5,8 +5,13 @@ import java.util.List;
 public class Module extends CalendarItem {
 
     private String moduleCode;
-    private String moduleName;
+    private CalendarItemName moduleName;
     List<Event> events;
+
+
+    public Module(CalendarItemName moduleName){
+        this.moduleName = moduleName;
+    }
 
     public String getModuleCode() {
         return moduleCode;
@@ -16,11 +21,10 @@ public class Module extends CalendarItem {
         this.moduleCode = moduleCode;
     }
 
-    public String getModuleName() {
+    public CalendarItemName getModuleName() {
         return moduleName;
     }
-
-    public void setModuleName(String moduleName) {
+    public void setModuleName(CalendarItemName moduleName) {
         this.moduleName = moduleName;
     }
 
@@ -30,5 +34,9 @@ public class Module extends CalendarItem {
 
     public void setEvents(List<Event> events) {
         this.events = events;
+    }
+
+    public void addEvents(Event event){
+        events.add(event);
     }
 }

@@ -116,7 +116,6 @@ public class ModelManager implements Model {
     @Override
     public CalendarItem findCalendarItem(CalendarItem toFind) {
         requireNonNull(toFind);
-
         List<CalendarItem> calendarItemList =  calendar.getCalendarItemList();
         for (int i = 0; i < calendarItemList.size(); i++) {
             if (calendarItemList.get(i).matchCalendarItem(toFind)) {
