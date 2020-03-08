@@ -21,7 +21,7 @@ public class StorageManager implements Storage {
     private UserPrefsStorage userPrefsStorage;
 
 
-    public StorageManager(AddressBookStorage addressBookStorage, UserPrefsStorage userPrefsStorage) {
+    public StorageManager(CalendarStorage calendarStorage, UserPrefsStorage userPrefsStorage) {
         super();
         this.calendarStorage = calendarStorage;
         this.userPrefsStorage = userPrefsStorage;

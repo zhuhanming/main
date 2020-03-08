@@ -36,18 +36,23 @@ public class LogicManager implements Logic {
 
     @Override
     public CommandResult execute(String commandText) throws CommandException, ParseException {
+
+        for (int i = 0; i < model.getCalendar().getCalendarItemList().size(); i++) {
+            System.out.println("Item " + i + ": ");
+            System.out.println(model.getCalendar().getCalendarItemList().get(i));
+        }
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
         CommandResult commandResult;
         Command command = calendarParser.parseCommand(commandText);
         commandResult = command.execute(model);
 
-        try {
-            System.out.println("model get calendar "+model.getCalendar());
-            storage.saveCalendar(model.getCalendar());
-        } catch (IOException ioe) {
-            throw new CommandException(FILE_OPS_ERROR_MESSAGE + ioe, ioe);
-        }
+        //try {
+        System.out.println("model get calendar " + model.getCalendar());
+        //storage.saveCalendar(model.getCalendar());
+        //} catch (IOException ioe) {
+        //  throw new CommandException(FILE_OPS_ERROR_MESSAGE + ioe, ioe);
+        //}
 
         return commandResult;
     }
