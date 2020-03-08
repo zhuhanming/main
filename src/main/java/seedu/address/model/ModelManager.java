@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -11,7 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.model.person.Person;
+import seedu.address.model.entity.CalendarItem;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -19,26 +20,26 @@ import seedu.address.model.person.Person;
 public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
-    private final AddressBook addressBook;
+    private final Calendar calendar;
     private final UserPrefs userPrefs;
-    private final FilteredList<Person> filteredPersons;
+    private final FilteredList<CalendarItem> filteredCalendarItems;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
      */
-    public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyUserPrefs userPrefs) {
+    public ModelManager(ReadOnlyCalendar calendar, ReadOnlyUserPrefs userPrefs) {
         super();
-        requireAllNonNull(addressBook, userPrefs);
+        requireAllNonNull(calendar, userPrefs);
 
-        logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
+        logger.fine("Initializing with calendar: " + calendar + " and user prefs " + userPrefs);
 
-        this.addressBook = new AddressBook(addressBook);
+        this.calendar = new Calendar(calendar);
         this.userPrefs = new UserPrefs(userPrefs);
-        filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
+        filteredCalendarItems = new FilteredList<>(this.calendar.getCalendarItemList());
     }
 
     public ModelManager() {
-        this(new AddressBook(), new UserPrefs());
+        this(new Calendar(), new UserPrefs());
     }
 
     //=========== UserPrefs ==================================================================================
@@ -66,50 +67,62 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public Path getAddressBookFilePath() {
-        return userPrefs.getAddressBookFilePath();
+    public Path getCalendarFilePath() {
+        return userPrefs.getCalendarFilePath();
     }
 
     @Override
-    public void setAddressBookFilePath(Path addressBookFilePath) {
-        requireNonNull(addressBookFilePath);
-        userPrefs.setAddressBookFilePath(addressBookFilePath);
+    public void setCalendarFilePath(Path calendarFilePath) {
+        requireNonNull(calendarFilePath);
+        userPrefs.setCalendarFilePath(calendarFilePath);
     }
 
     //=========== AddressBook ================================================================================
 
     @Override
-    public void setAddressBook(ReadOnlyAddressBook addressBook) {
-        this.addressBook.resetData(addressBook);
+    public void setCalendar(ReadOnlyCalendar calendar) {
+        this.calendar.resetData(calendar);
     }
 
     @Override
-    public ReadOnlyAddressBook getAddressBook() {
-        return addressBook;
+    public ReadOnlyCalendar getCalendar() {
+        return calendar;
     }
 
     @Override
-    public boolean hasPerson(Person person) {
-        requireNonNull(person);
-        return addressBook.hasPerson(person);
+    public boolean hasCalendarItem(CalendarItem calendarItem) {
+        requireNonNull(calendarItem);
+        return calendar.hasCalendarItem(calendarItem);
     }
 
     @Override
-    public void deletePerson(Person target) {
-        addressBook.removePerson(target);
+    public void deleteCalendarItem(CalendarItem target) {
+        calendar.removeCalendarItem(target);
     }
 
     @Override
-    public void addPerson(Person person) {
-        addressBook.addPerson(person);
-        updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+    public void addCalendarItem(CalendarItem calendarItem) {
+        calendar.addCalendarItem(calendarItem);
+        updateFilteredCalendarItemList(PREDICATE_SHOW_ALL_CALENDAR_ITEMS);
     }
 
     @Override
-    public void setPerson(Person target, Person editedPerson) {
-        requireAllNonNull(target, editedPerson);
+    public void setCalendarItem(CalendarItem target, CalendarItem editedCalendarItem) {
+        requireAllNonNull(target, editedCalendarItem);
 
-        addressBook.setPerson(target, editedPerson);
+        calendar.setCalendarItems(target, editedCalendarItem);
+    }
+
+    @Override
+    public CalendarItem findCalendarItem(CalendarItem toFind) {
+        requireNonNull(toFind);
+        List<CalendarItem> calendarItemList =  calendar.getCalendarItemList();
+        for (int i = 0; i < calendarItemList.size(); i++) {
+            if (calendarItemList.get(i).matchCalendarItem(toFind)) {
+                return calendarItemList.get(i);
+            }
+        }
+        return null;
     }
 
     //=========== Filtered Person List Accessors =============================================================
@@ -119,14 +132,14 @@ public class ModelManager implements Model {
      * {@code versionedAddressBook}
      */
     @Override
-    public ObservableList<Person> getFilteredPersonList() {
-        return filteredPersons;
+    public ObservableList<CalendarItem> getFilteredCalendarItemList() {
+        return filteredCalendarItems;
     }
 
     @Override
-    public void updateFilteredPersonList(Predicate<Person> predicate) {
+    public void updateFilteredCalendarItemList(Predicate<CalendarItem> predicate) {
         requireNonNull(predicate);
-        filteredPersons.setPredicate(predicate);
+        filteredCalendarItems.setPredicate(predicate);
     }
 
     @Override
@@ -143,9 +156,9 @@ public class ModelManager implements Model {
 
         // state check
         ModelManager other = (ModelManager) obj;
-        return addressBook.equals(other.addressBook)
+        return calendar.equals(other.calendar)
                 && userPrefs.equals(other.userPrefs)
-                && filteredPersons.equals(other.filteredPersons);
+                && filteredCalendarItems.equals(other.filteredCalendarItems);
     }
 
 }
