@@ -26,9 +26,9 @@ public class AddDeadlineCommand extends Command {
             + "[" + PREFIX_REPEAT + "YES/NO]...\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_MODULE + "CS2103 "
-            + PREFIX_EVENT + "Tutorial 3 "
+            + PREFIX_EVENT + "Tutorial "
             + PREFIX_NAME + "Complete tutorial questions "
-            + PREFIX_REPEAT + "NO";
+            + PREFIX_REPEAT + "YES";
 
     public static final String MESSAGE_SUCCESS = "New deadline added: %1$s";
     public static final String MESSAGE_DUPLICATE_DEADLINE = "This deadline already exists in the calendar";
