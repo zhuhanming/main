@@ -54,6 +54,7 @@ public class AddDeadlineCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
+
         if (model.hasCalendarItem(toAdd)) {
             throw new CommandException(MESSAGE_DUPLICATE_DEADLINE);
         }
@@ -66,6 +67,7 @@ public class AddDeadlineCommand extends Command {
         toAdd.setParentEvent(event);
         toAdd.setDueTime();
         model.addCalendarItem(toAdd);
+        System.out.println(model.checkCurrentCalendar());
         return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
     }
 

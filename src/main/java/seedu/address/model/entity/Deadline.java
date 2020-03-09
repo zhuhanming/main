@@ -1,14 +1,15 @@
 package seedu.address.model.entity;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 public class Deadline extends CalendarItem {
     private CalendarItemName deadlineName;
-    private LocalDateTime dueTime;
+    private Date dueTime;
     private Event parentEvent;
     private boolean isCompleted;
 
-    public Deadline(CalendarItemName deadlineName, LocalDateTime dueTime, Event parentEvent, boolean isCompleted) {
+    public Deadline(CalendarItemName deadlineName, Date dueTime, Event parentEvent, boolean isCompleted) {
         this.deadlineName = deadlineName;
         this.dueTime = dueTime;
         this.parentEvent = parentEvent;
@@ -32,11 +33,11 @@ public class Deadline extends CalendarItem {
         this.deadlineName = deadlineName;
     }
 
-    public LocalDateTime getDueTime() {
+    public Date getDueTime() {
         return dueTime;
     }
 
-    public void setDueTime(LocalDateTime dueTime) {
+    public void setDueTime(Date dueTime) {
         this.dueTime = dueTime;
     }
 
@@ -58,5 +59,13 @@ public class Deadline extends CalendarItem {
 
     public void setCompleted(boolean completed) {
         isCompleted = completed;
+    }
+
+    public String toDebugString() {
+        return super.getCalendarItemType() + " " + deadlineName;
+    }
+
+    public Module getModule() {
+        return parentEvent.getParentModule();
     }
 }

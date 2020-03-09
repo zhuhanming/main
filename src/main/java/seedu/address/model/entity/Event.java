@@ -4,6 +4,7 @@ import seedu.address.model.person.Person;
 
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAmount;
+import java.util.Date;
 import java.util.List;
 
 public class Event extends CalendarItem {
@@ -13,8 +14,8 @@ public class Event extends CalendarItem {
     private Enum eventType;
     private List<Deadline> deadlines;
     private Boolean isOver;
-    private LocalDateTime eventStart;
-    private LocalDateTime eventEnd;
+    private Date eventStart;
+    private Date eventEnd;
     private TemporalAmount duration;
     private Module parentModule;
 
@@ -22,11 +23,12 @@ public class Event extends CalendarItem {
     public Event() {
     }
 
-    public Event(CalendarItemName eventName, Enum eventType, LocalDateTime eventStart, TemporalAmount duration) {
+    public Event(CalendarItemName eventName, Enum eventType, Date eventStart, Date eventEnd) {
+        super(eventName, CalendarItemType.EVENT);
         this.eventName = eventName;
         this.eventType = eventType;
         this.eventStart = eventStart;
-        this.duration = duration;
+        this.eventEnd = eventEnd;
         // create deadline here also ??
     }
 
@@ -96,21 +98,22 @@ public class Event extends CalendarItem {
 
     public void setParentModule(Module module) {
         this.parentModule = module;
+        super.setModule(module);
     }
 
-    public LocalDateTime getEventStart() {
+    public Date getEventStart() {
         return eventStart;
     }
 
-    public void setEventStart(LocalDateTime eventStart) {
+    public void setEventStart(Date eventStart) {
         this.eventStart = eventStart;
     }
 
-    public LocalDateTime getEventEnd() {
+    public Date getEventEnd() {
         return eventEnd;
     }
 
-    public void setEventEnd(LocalDateTime eventEnd) {
+    public void setEventEnd(Date eventEnd) {
         this.eventEnd = eventEnd;
     }
 
@@ -121,7 +124,7 @@ public class Event extends CalendarItem {
 
         return otherEvent != null
                 && otherEvent.getEventName().equals(getEventName())
-                && (otherEvent.getModule().equals(getModule()));
+                && (otherEvent.getParentModule().equals(getParentModule()));
     }
 
     /**
@@ -140,7 +143,7 @@ public class Event extends CalendarItem {
 
         Event otherEvent = (Event) other;
         return otherEvent.getEventName().equals(getEventName())
-                && otherEvent.getModule().equals(getModule())
+                && otherEvent.getParentModule().equals(getParentModule())
                 && otherEvent.getDeadlines().equals(getDeadlines())
                 && otherEvent.getDuration().equals(getDuration())
                 && otherEvent.getEventEnd().equals(getEventEnd())
@@ -148,27 +151,12 @@ public class Event extends CalendarItem {
                 && otherEvent.getOver().equals(getOver())
                 && otherEvent.getEventType().equals(getEventType());
     }
-
-
-    @Override
-    public String toString() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append(getEventName())
-                .append(" Module: ")
-                .append(getModule().toString())
-                .append(" Start: ")
-                .append(getEventStart())
-                .append(" End: ")
-                .append(getEventEnd())
-                .append(" EventType: ")
-                .append(getEventType())
-                .append((" Status "))
-                .append((getOver()))
-                .append(" Duration")
-                .append(getDuration())
-                .append(" Deadlines ")
-                .append(getDeadlines());
+@Override
+public Module getModule() {
+        return parentModule;
+}
+    public String toDebugString() {
+        return (getModule() == null ? "null" : super.getModule().getModuleCode()) + " | " + eventType + " | " + eventName + " | " + eventStart + " | " + eventEnd;
 //        getTags().forEach(builder::append);
-        return builder.toString();
     }
 }

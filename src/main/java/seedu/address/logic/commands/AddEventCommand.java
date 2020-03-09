@@ -47,21 +47,28 @@ public class AddEventCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
+        System.out.println("module +++++    "+ toAdd.getParentModule().getModuleCode());
+        Module module = model.findModule(toAdd.getParentModule());
+        System.out.println("module retrieve "+module);
+        toAdd.setParentModule(module);
+
+        if (module == null) {
+            throw new CommandException(MESSAGE_MODULE_DOESNT_EXIST);
+        }
+        System.out.println("Before checking hasCalendarItem: ");
+        System.out.println(toAdd.toDebugString());
         if (model.hasCalendarItem(toAdd)) {
             throw new CommandException(MESSAGE_DUPLICATE_EVENT);
         }
 
-        System.out.println("module +++++    "+ toAdd.getParentModule().getModuleName());
-        Module module = (Module) model.findCalendarItem(toAdd.getParentModule());
-        System.out.println("module retrieve "+module);
-        if (module == null) {
-            throw new CommandException(MESSAGE_MODULE_DOESNT_EXIST);
-        }
+
         // need to check is same event already exists?
+
         module.addEvents(toAdd);
-        toAdd.setParentModule(module);
+
 //        toAdd.setDueTime();
         model.addCalendarItem(toAdd);
+        System.out.println(model.checkCurrentCalendar());
         return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
     }
 

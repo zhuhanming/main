@@ -2,11 +2,13 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.yaml.snakeyaml.parser.ParserException;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -23,10 +25,12 @@ import seedu.address.model.tag.Tag;
 public class ParserUtil {
 
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
+    public static final SimpleDateFormat DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
      * trimmed.
+     *
      * @throws ParseException if the specified index is invalid (not non-zero unsigned integer).
      */
     public static Index parseIndex(String oneBasedIndex) throws ParseException {
@@ -124,19 +128,32 @@ public class ParserUtil {
         return new CalendarItemName(trimmedName);
     }
 
-      public static String parseDate(String date) throws ParseException{
-          requireNonNull(date);
-          String trimmedDate = date.trim();
-          if (!CalendarItemName.isValidName(trimmedDate)) {
-              throw new ParseException("Please enter a valid date format ");
-          }
-          return trimmedDate;
-      }
+    public static String parseDate(String date) throws ParseException {
+        requireNonNull(date);
+        String trimmedDate = date.trim();
+        if (!CalendarItemName.isValidName(trimmedDate)) {
+            throw new ParseException("Please enter a valid date format ");
+        }
+        return trimmedDate;
+    }
 
+    public static String parseModuleCode(String moduleCode) throws ParseException {
+        requireNonNull(moduleCode);
+        String trimmedModuleCode = moduleCode.trim();
+        //TO REPLACE WITH MODULE CHECKING WITHIN IMPORTED NUSMOD SET
+        if (false) {
+            throw new ParseException("Please enter a valid module code ");
+        }
+        return trimmedModuleCode;
+    }
 
-
-
-
+    public static Date parseDateTime(String dateTime) throws ParseException {
+        try {
+            return DATETIME_FORMAT.parse(dateTime);
+        } catch (java.text.ParseException e) {
+            throw new ParseException("Please enter a valid datetime format: yyyy-MM-dd HH:mm");
+        }
+    }
 
 
 }

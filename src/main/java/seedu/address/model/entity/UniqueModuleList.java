@@ -4,6 +4,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.entity.exceptions.CalendarItemNotFoundException;
 import seedu.address.model.entity.exceptions.DuplicateCalendarItemException;
+import seedu.address.model.entity.exceptions.DuplicateModuleException;
+import seedu.address.model.entity.exceptions.ModuleNotFoundException;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 
 import java.util.Iterator;
@@ -24,7 +26,7 @@ public class UniqueModuleList implements Iterable<Module> {
      */
     public boolean contains(Module toCheck) {
         requireNonNull(toCheck);
-        System.out.println("Check in uniqueModuleList     ##########"+toCheck.getModuleName());
+        System.out.println("Check in uniqueModuleList     ##########"+toCheck.getModuleCode());
         return internalList.stream().anyMatch(toCheck::isSameModule);
     }
 
@@ -35,7 +37,7 @@ public class UniqueModuleList implements Iterable<Module> {
     public void add(Module toAdd) {
         requireNonNull(toAdd);
         if (contains(toAdd)) {
-            throw new DuplicateCalendarItemException();
+            throw new DuplicateModuleException();
         }
         internalList.add(toAdd);
     }
@@ -45,16 +47,16 @@ public class UniqueModuleList implements Iterable<Module> {
      * {@code target} must exist in the list.
      * The person identity of {@code editedPerson} must not be the same as another existing person in the list.
      */
-    public void setModuleItem(Module target, Module editedModule) {
+    public void setModule(Module target, Module editedModule) {
         requireAllNonNull(target, editedModule);
 
         int index = internalList.indexOf(target);
         if (index == -1) {
-            throw new CalendarItemNotFoundException();
+            throw new ModuleNotFoundException();
         }
 
         if (!target.isSameModule(editedModule) && contains(editedModule)) {
-            throw new DuplicateCalendarItemException();
+            throw new DuplicateModuleException();
         }
 
         internalList.set(index, editedModule);
@@ -68,11 +70,11 @@ public class UniqueModuleList implements Iterable<Module> {
     public void remove(Module toRemove) {
         requireNonNull(toRemove);
         if (!internalList.remove(toRemove)) {
-            throw new CalendarItemNotFoundException();
+            throw new ModuleNotFoundException();
         }
     }
 
-    public void setModuleItem(UniqueModuleList replacement) {
+    public void setModules(UniqueModuleList replacement) {
         requireNonNull(replacement);
         internalList.setAll(replacement.internalList);
     }
@@ -81,13 +83,13 @@ public class UniqueModuleList implements Iterable<Module> {
      * Replaces the contents of this list with {@code persons}.
      * {@code persons} must not contain duplicate persons.
      */
-    public void setModuleItem(List<Module> modulesItems) {
-        requireAllNonNull(modulesItems);
-        if (!moduleItemsAreUnique(modulesItems)) {
-            throw new DuplicatePersonException();
+    public void setModules(List<Module> modules) {
+        requireAllNonNull(modules);
+        if (!modulesAreUnique(modules)) {
+            throw new DuplicateModuleException();
         }
 
-        internalList.setAll(modulesItems);
+        internalList.setAll(modules);
     }
 
     /**
@@ -101,11 +103,6 @@ public class UniqueModuleList implements Iterable<Module> {
     public Iterator<Module> iterator() {
         return internalList.iterator();
     }
-
-//    @Override
-//    public Iterator<Module> iterator() {
-//        return internalList.iterator();
-//    }
 
     @Override
     public boolean equals(Object other) {
@@ -123,7 +120,7 @@ public class UniqueModuleList implements Iterable<Module> {
     /**
      * Returns true if {@code persons} contains only unique persons.
      */
-    private boolean moduleItemsAreUnique(List<Module> moduleItems) {
+    private boolean modulesAreUnique(List<Module> moduleItems) {
         for (int i = 0; i < moduleItems.size() - 1; i++) {
             for (int j = i + 1; j < moduleItems.size(); j++) {
                 if (moduleItems.get(i).isSameModule(moduleItems.get(j))) {
@@ -133,6 +130,4 @@ public class UniqueModuleList implements Iterable<Module> {
         }
         return true;
     }
-
-
 }

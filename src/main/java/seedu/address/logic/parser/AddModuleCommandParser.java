@@ -28,8 +28,8 @@ public class AddModuleCommandParser implements Parser<AddModuleCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddModuleCommand.MESSAGE_USAGE));
         }
 
-        CalendarItemName moduleName = ParserUtil.parseName(argMultimap.getValue(PREFIX_MODULE).get());
-        Module module = new Module(moduleName);
+        String moduleCode = ParserUtil.parseModuleCode(argMultimap.getValue(PREFIX_MODULE).get());
+        Module module = new Module(moduleCode);
         // how to save into storage or calendar item
 
         return new AddModuleCommand(module);

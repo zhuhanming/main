@@ -19,8 +19,8 @@ public class AddModuleCommand extends Command {
             + PREFIX_MODULE + "CS2103 ";
 
     public static final String MESSAGE_SUCCESS = "New module added: %1$s";
-    public static final String MESSAGE_DUPLICATE_MODULE = "This module is already exists in the calendar";
-//    public static final String MESSAGE_EVENT_DOESNT_EXIST = "The specified module does not exist in the calendar";
+    public static final String MESSAGE_DUPLICATE_MODULE = "This module already exists in the calendar";
+    public static final String MESSAGE_MODULE_DOESNT_EXIST = "The specified module does not exist in the calendar";
 
     private final Module toAdd;
 
@@ -32,14 +32,16 @@ public class AddModuleCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+
         // change it module entity
-        if (model.hasModule(toAdd);) {
+        if (model.hasModule(toAdd)) {
             throw new CommandException(MESSAGE_DUPLICATE_MODULE);
         }
 
-        Module module = new Module(toAdd.getModuleName());
+        Module module = new Module(toAdd.getModuleCode());
         module.setEvents(null);
         model.addModule(toAdd);
+        System.out.println(model.checkCurrentCalendar());
         return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
     }
     @Override

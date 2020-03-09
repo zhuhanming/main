@@ -3,6 +3,8 @@ package seedu.address.model;
 import javafx.collections.ObservableList;
 import seedu.address.model.entity.CalendarItem;
 import seedu.address.model.entity.UniqueCalendarItemList;
+import seedu.address.model.entity.UniqueModuleList;
+import seedu.address.model.entity.Module;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
 
@@ -13,6 +15,7 @@ import static java.util.Objects.requireNonNull;
 public class Calendar implements ReadOnlyCalendar {
 
     private final UniqueCalendarItemList calendarItems;
+    private final UniqueModuleList modules;
 
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
@@ -23,6 +26,7 @@ public class Calendar implements ReadOnlyCalendar {
      */
     {
         calendarItems = new UniqueCalendarItemList();
+        modules = new UniqueModuleList();
     }
 
     public Calendar() {}
@@ -41,6 +45,49 @@ public class Calendar implements ReadOnlyCalendar {
      * Replaces the contents of the person list with {@code persons}.
      * {@code persons} must not contain duplicate persons.
      */
+    public void setModules(List<Module> modules) {
+        this.modules.setModules(modules);
+    }
+
+    /**
+     * Returns true if a person with the same identity as {@code person} exists in the address book.
+     */
+    public boolean hasModule(Module module) {
+        requireNonNull(module);
+        return modules.contains(module);
+    }
+
+    /**
+     * Adds a person to the address book.
+     * The person must not already exist in the address book.
+     */
+    public void addModule(Module module) {
+        modules.add(module);
+    }
+
+    /**
+     * Replaces the given person {@code target} in the list with {@code editedPerson}.
+     * {@code target} must exist in the address book.
+     * The person identity of {@code editedPerson} must not be the same as another existing person in the address book.
+     */
+    public void setModule(Module target, Module editedModule) {
+        requireNonNull(editedModule);
+
+        modules.setModule(target, editedModule);
+    }
+
+    /**
+     * Removes {@code key} from this {@code AddressBook}.
+     * {@code key} must exist in the address book.
+     */
+    public void removeModule(Module key) {
+        modules.remove(key);
+    }
+
+    /**
+     * Replaces the contents of the person list with {@code persons}.
+     * {@code persons} must not contain duplicate persons.
+     */
     public void setCalendarItems(List<CalendarItem> calendarItems) {
         this.calendarItems.setCalendarItems(calendarItems);
     }
@@ -52,6 +99,7 @@ public class Calendar implements ReadOnlyCalendar {
         requireNonNull(newData);
 
         setCalendarItems(newData.getCalendarItemList());
+        setModules(newData.getModuleList());
     }
 
     //// person-level operations
@@ -103,6 +151,11 @@ public class Calendar implements ReadOnlyCalendar {
     @Override
     public ObservableList<CalendarItem> getCalendarItemList() {
         return calendarItems.asUnmodifiableObservableList();
+    }
+
+    @Override
+    public ObservableList<Module> getModuleList() {
+        return modules.asUnmodifiableObservableList();
     }
 
     @Override

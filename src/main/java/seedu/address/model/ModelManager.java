@@ -12,6 +12,7 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.entity.CalendarItem;
+import seedu.address.model.entity.Module;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -20,23 +21,23 @@ public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
     private final Calendar calendar;
-    private final Module module ;
     private final UserPrefs userPrefs;
     private final FilteredList<CalendarItem> filteredCalendarItems;
+    private final FilteredList<Module> filteredModules;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
      */
-    public ModelManager(ReadOnlyCalendar calendar, ReadOnlyUserPrefs userPrefs,ReadOnlyModule module ) {
+    public ModelManager(ReadOnlyCalendar calendar, ReadOnlyUserPrefs userPrefs) {
         super();
-        requireAllNonNull(calendar, userPrefs, module);
+        requireAllNonNull(calendar, userPrefs);
 
         logger.fine("Initializing with calendar: " + calendar + " and user prefs " + userPrefs);
-        this.module = new Module(module);
         this.calendar = new Calendar(calendar);
         this.userPrefs = new UserPrefs(userPrefs);
 
         filteredCalendarItems = new FilteredList<>(this.calendar.getCalendarItemList());
+        filteredModules = new FilteredList<>(this.calendar.getModuleList());
     }
 
     public ModelManager() {
@@ -107,18 +108,6 @@ public class ModelManager implements Model {
         updateFilteredCalendarItemList(PREDICATE_SHOW_ALL_CALENDAR_ITEMS);
     }
 
-    @Override
-    public void addModule(Module module) {
-        requireNonNull(module);
-         // return calendar.hasCalendarItem(calendarItem);
-    }
-
-    @Override
-    public void hasModule(Module module) {
-        requireNonNull(module);
-         // return calendar.hasCalendarItem(calendarItem);
-    }
-
 
     @Override
     public void setCalendarItem(CalendarItem target, CalendarItem editedCalendarItem) {
@@ -129,8 +118,6 @@ public class ModelManager implements Model {
 
     @Override
     public CalendarItem findCalendarItem(CalendarItem toFind) {
-        System.out.println("toFInd ^^^^^^^^^"+toFind);
-        System.out.println("toFInd get module ^^^^^^^^^"+toFind.getModule());
         requireNonNull(toFind);
         List<CalendarItem> calendarItemList =  calendar.getCalendarItemList();
         for (int i = 0; i < calendarItemList.size(); i++) {
@@ -140,6 +127,45 @@ public class ModelManager implements Model {
         }
         return null;
     }
+
+    @Override
+    public boolean hasModule(Module module) {
+        requireNonNull(module);
+        return calendar.hasModule(module);
+    }
+
+    @Override
+    public void deleteModule(Module target) {
+        calendar.removeModule(target);
+    }
+
+    @Override
+    public void addModule(Module module) {
+        calendar.addModule(module);
+        updateFilteredModuleList(PREDICATE_SHOW_ALL_MODULES);
+    }
+
+
+
+    @Override
+    public void setModule(Module target, Module editedModule) {
+        requireAllNonNull(target, editedModule);
+
+        calendar.setModule(target, editedModule);
+    }
+
+    @Override
+    public Module findModule(Module toFind) {
+        requireNonNull(toFind);
+        List<Module> moduleList = calendar.getModuleList();
+        for (int i = 0; i < moduleList.size(); i++) {
+            if (moduleList.get(i).matchModule(toFind)) {
+                return moduleList.get(i);
+            }
+        }
+        return null;
+    }
+
 
     //=========== Filtered Person List Accessors =============================================================
 
@@ -156,6 +182,21 @@ public class ModelManager implements Model {
     public void updateFilteredCalendarItemList(Predicate<CalendarItem> predicate) {
         requireNonNull(predicate);
         filteredCalendarItems.setPredicate(predicate);
+    }
+
+    /**
+     * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of
+     * {@code versionedAddressBook}
+     */
+    @Override
+    public ObservableList<Module> getFilteredModuleList() {
+        return filteredModules;
+    }
+
+    @Override
+    public void updateFilteredModuleList(Predicate<Module> predicate) {
+        requireNonNull(predicate);
+        filteredModules.setPredicate(predicate);
     }
 
     @Override
@@ -175,6 +216,27 @@ public class ModelManager implements Model {
         return calendar.equals(other.calendar)
                 && userPrefs.equals(other.userPrefs)
                 && filteredCalendarItems.equals(other.filteredCalendarItems);
+    }
+
+    @Override
+    public String checkCurrentCalendar() {
+        List<Module> modules = calendar.getModuleList();
+        List<CalendarItem> calendaritems = calendar.getCalendarItemList();
+        StringBuilder sb = new StringBuilder();
+        sb.append("Modules: ");
+        sb.append("\n");
+        for(Module eachModule: modules) {
+            sb.append(eachModule.toDebugString());
+            sb.append("\n");
+        }
+
+        sb.append("Calendar Items: ");
+        sb.append("\n");
+        for(CalendarItem eachCalendarItem: calendaritems) {
+            sb.append(eachCalendarItem.toDebugString());
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 
 }

@@ -24,5 +24,7 @@ public class CliSyntax {
     public static final Prefix PREFIX_TARGET_DIRECTORY = new Prefix("");
     public static final Prefix PREFIX_FILENAME = new Prefix("");
     public static final Prefix PREFIX_DURATION = new Prefix("D/");
+    public static final Prefix PREFIX_START_DATETIME = new Prefix("s/");
+    public static final Prefix PREFIX_END_DATETIME = new Prefix("e/");
 
 }
