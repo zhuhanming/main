@@ -3,7 +3,10 @@ package seedu.address.logic.parser;
 import static java.util.Objects.requireNonNull;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -25,8 +28,8 @@ import seedu.address.model.tag.Tag;
 public class ParserUtil {
 
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
-    public static final SimpleDateFormat DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-
+    public static final DateTimeFormatter DATETIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    public static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
      * trimmed.
@@ -128,13 +131,16 @@ public class ParserUtil {
         return new CalendarItemName(trimmedName);
     }
 
-    public static String parseDate(String date) throws ParseException {
+    public static LocalDate parseDate(String date) throws ParseException {
         requireNonNull(date);
         String trimmedDate = date.trim();
-        if (!CalendarItemName.isValidName(trimmedDate)) {
-            throw new ParseException("Please enter a valid date format ");
+        LocalDate result;
+        try {
+            result = LocalDate.parse(trimmedDate);
+        } catch (DateTimeParseException e) {
+            throw new ParseException("Please enter a valid date in the format: yyyy-MM-dd");
         }
-        return trimmedDate;
+        return result;
     }
 
     public static String parseModuleCode(String moduleCode) throws ParseException {
@@ -147,11 +153,24 @@ public class ParserUtil {
         return trimmedModuleCode;
     }
 
-    public static Date parseDateTime(String dateTime) throws ParseException {
+    public static LocalDateTime parseDateTime(String dateTime) throws ParseException {
+        LocalDateTime result;
         try {
-            return DATETIME_FORMAT.parse(dateTime);
-        } catch (java.text.ParseException e) {
-            throw new ParseException("Please enter a valid datetime format: yyyy-MM-dd HH:mm");
+             result = LocalDateTime.parse(dateTime, DATETIME_FORMAT);
+        } catch (DateTimeParseException e){
+            throw new ParseException("Please enter a valid date time in the format: yyyy-MM-dd HH:mm");
+        }
+        return result;
+    }
+
+    public static boolean parseRepeat(String repeat) throws ParseException{
+        switch(repeat) {
+            case "YES":
+                return true;
+            case "NO" :
+                return false;
+            default:
+                throw new ParseException("Please enter valid input for repeat : YES/NO");
         }
     }
 

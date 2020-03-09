@@ -34,6 +34,7 @@ public class UniqueCalendarItemList implements Iterable<CalendarItem> {
     public void add(CalendarItem toAdd) {
         requireNonNull(toAdd);
         if (contains(toAdd)) {
+            System.out.println("ALready contain: " + toAdd.toDebugString());
             throw new DuplicateCalendarItemException();
         }
         internalList.add(toAdd);

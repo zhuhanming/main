@@ -6,6 +6,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.entity.Deadline;
 
 import seedu.address.model.entity.Event;
+import seedu.address.model.entity.Module;
 import seedu.address.model.entity.CalendarItemName;
 
 import java.util.stream.Stream;
@@ -23,22 +24,24 @@ public class AddDeadlineCommandParser implements Parser<AddDeadlineCommand> {
      */
     public AddDeadlineCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_MODULE, PREFIX_EVENT, PREFIX_NAME);
+                ArgumentTokenizer.tokenize(args, PREFIX_MODULE, PREFIX_EVENT, PREFIX_NAME, PREFIX_REPEAT);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_MODULE, PREFIX_EVENT, PREFIX_NAME)
+        if (!arePrefixesPresent(argMultimap, PREFIX_MODULE, PREFIX_EVENT, PREFIX_NAME, PREFIX_REPEAT)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddDeadlineCommand.MESSAGE_USAGE));
         }
 
-        //Module module = ParserUtil.parseModule(argMultimap.getValue(PREFIX_MODULE).get());
+        CalendarItemName module = ParserUtil.parseName(argMultimap.getValue(PREFIX_MODULE).get());
         CalendarItemName name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
         CalendarItemName eventName = ParserUtil.parseName(argMultimap.getValue(PREFIX_EVENT).get());
-
+        boolean isRepeated = ParserUtil.parseRepeat(argMultimap.getValue(PREFIX_REPEAT).get());
 
         Deadline deadline = new Deadline(name);
-        deadline.setParentEvent(new Event(eventName));
+        Event event = new Event(eventName);
+        event.setParentModule(new Module(module.toString()));
+        deadline.setParentEvent(event);
 
-        return new AddDeadlineCommand(deadline);
+        return new AddDeadlineCommand(deadline, isRepeated);
     }
 
     /**

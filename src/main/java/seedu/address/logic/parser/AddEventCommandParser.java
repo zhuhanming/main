@@ -7,6 +7,7 @@ import seedu.address.model.entity.CalendarItemName;
 import seedu.address.model.entity.Event;
 import seedu.address.model.entity.Module;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.stream.Stream;
@@ -24,10 +25,10 @@ public class AddEventCommandParser implements Parser<AddEventCommand> {
      */
     public AddEventCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_MODULE, PREFIX_NAME, PREFIX_START_DATETIME, PREFIX_END_DATETIME);
+                ArgumentTokenizer.tokenize(args, PREFIX_MODULE, PREFIX_NAME, PREFIX_START_DATETIME, PREFIX_END_DATETIME, PREFIX_REPEAT);
 
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_MODULE, PREFIX_NAME, PREFIX_START_DATETIME, PREFIX_END_DATETIME)
+        if (!arePrefixesPresent(argMultimap, PREFIX_MODULE, PREFIX_NAME, PREFIX_START_DATETIME, PREFIX_END_DATETIME, PREFIX_REPEAT)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddEventCommand.MESSAGE_USAGE));
         }
@@ -35,15 +36,20 @@ public class AddEventCommandParser implements Parser<AddEventCommand> {
 //        Module module = ParserUtil.parseModule(argMultimap.getValue(PREFIX_MODULE).get());
         CalendarItemName name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
         String moduleCode = ParserUtil.parseModuleCode(argMultimap.getValue(PREFIX_MODULE).get());
-        Date startDateTime = ParserUtil.parseDateTime(argMultimap.getValue(PREFIX_START_DATETIME).get());
-        Date endDateTime = ParserUtil.parseDateTime(argMultimap.getValue(PREFIX_END_DATETIME).get());
+        LocalDateTime startDateTime = ParserUtil.parseDateTime(argMultimap.getValue(PREFIX_START_DATETIME).get());
+        LocalDateTime endDateTime = ParserUtil.parseDateTime(argMultimap.getValue(PREFIX_END_DATETIME).get());
+        boolean isRepeated = ParserUtil.parseRepeat(argMultimap.getValue(PREFIX_REPEAT).get());
+        LocalDate endRepeatDate = null;
+//        if (isRepeated) {
+//            endRepeatDate = ParserUtil.parseDate(argMultimap.getValue(PREFIX_STOP_REPEAT).get());
+//        }
 
         // retrive from module name and check if module alr exists
         Module module = new Module(moduleCode);
         Event event = new Event(name, CalendarItem.CalendarItemType.EVENT, startDateTime, endDateTime);
         event.setParentModule(module);
 
-        return new AddEventCommand(event);
+        return new AddEventCommand(event, isRepeated, endRepeatDate);
     }
 
     /**

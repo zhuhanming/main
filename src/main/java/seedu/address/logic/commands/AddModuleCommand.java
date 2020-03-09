@@ -14,9 +14,13 @@ public class AddModuleCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a module to the calendar. "
             + "Parameters: "
             + PREFIX_MODULE + "MODULE "
+            + PREFIX_START_DATE + "START_DATE "
+            + PREFIX_END_DATE + "END_DATE"
             + "\n"
             + "Example: " + COMMAND_WORD + " "
-            + PREFIX_MODULE + "CS2103 ";
+            + PREFIX_MODULE + "CS2103 "
+            + PREFIX_START_DATE + "2020-01-01 "
+            + PREFIX_END_DATE + "2020-05-01";
 
     public static final String MESSAGE_SUCCESS = "New module added: %1$s";
     public static final String MESSAGE_DUPLICATE_MODULE = "This module already exists in the calendar";
@@ -38,8 +42,6 @@ public class AddModuleCommand extends Command {
             throw new CommandException(MESSAGE_DUPLICATE_MODULE);
         }
 
-        Module module = new Module(toAdd.getModuleCode());
-        module.setEvents(null);
         model.addModule(toAdd);
         System.out.println(model.checkCurrentCalendar());
         return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));

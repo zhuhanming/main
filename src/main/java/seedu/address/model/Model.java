@@ -1,11 +1,13 @@
 package seedu.address.model;
 
 import java.nio.file.Path;
+import java.util.List;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.entity.CalendarItem;
+import seedu.address.model.entity.Event;
 import seedu.address.model.person.Person;
 import seedu.address.model.entity.Module;
 
@@ -130,4 +132,6 @@ public interface Model {
 
     //to be deleted after debugging
     String checkCurrentCalendar();
+
+    List<Event> findAllEvents(Event toFind);
 }

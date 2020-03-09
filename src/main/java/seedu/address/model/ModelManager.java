@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
@@ -12,6 +13,7 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.entity.CalendarItem;
+import seedu.address.model.entity.Event;
 import seedu.address.model.entity.Module;
 
 /**
@@ -126,6 +128,20 @@ public class ModelManager implements Model {
             }
         }
         return null;
+    }
+
+    @Override
+    public List<Event> findAllEvents(Event toFind) {
+        requireNonNull(toFind);
+        List<CalendarItem> calendarItemList =  calendar.getCalendarItemList();
+        List<Event> result = new ArrayList<>();
+        System.out.println("calendar length: " + calendarItemList.size());
+        for (int i = 0; i < calendarItemList.size(); i++) {
+            if (calendarItemList.get(i).matchCalendarItem(toFind)) {
+                result.add((Event) calendarItemList.get(i));
+            }
+        }
+        return result;
     }
 
     @Override

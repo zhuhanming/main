@@ -4,6 +4,7 @@ import seedu.address.model.person.Person;
 
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAmount;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,34 +14,31 @@ public class Event extends CalendarItem {
     // List of Enum class
     private Enum eventType;
     private List<Deadline> deadlines;
-    private Boolean isOver;
-    private Date eventStart;
-    private Date eventEnd;
-    private TemporalAmount duration;
+    private boolean isOver;
+    private LocalDateTime eventStart;
+    private LocalDateTime eventEnd;
     private Module parentModule;
 
 
     public Event() {
     }
 
-    public Event(CalendarItemName eventName, Enum eventType, Date eventStart, Date eventEnd) {
-        super(eventName, CalendarItemType.EVENT);
+    public Event(CalendarItemName eventName, Enum eventType, LocalDateTime eventStart, LocalDateTime eventEnd) {
         this.eventName = eventName;
         this.eventType = eventType;
         this.eventStart = eventStart;
         this.eventEnd = eventEnd;
-        // create deadline here also ??
+        this.deadlines = new ArrayList<>();
     }
 
 
     public Event(CalendarItemName eventName,Module module) {
-        super(eventName,CalendarItemType.EVENT);
         this.eventName = eventName;
         this.parentModule = module;
+        this.deadlines = new ArrayList<>();
     }
 
     public Event(CalendarItemName eventName) {
-        super(eventName,CalendarItemType.EVENT);
         this.eventName = eventName;
     }
 
@@ -51,6 +49,8 @@ public class Event extends CalendarItem {
 //    public static boolean isValidEvent(CalendarItemName test) {
 //        return test.matches(VALIDATION_REGEX);
 //    }
+
+
 
     public Enum getEventType() {
         return eventType;
@@ -76,20 +76,12 @@ public class Event extends CalendarItem {
         this.deadlines = deadlines;
     }
 
-    public Boolean getOver() {
+    public boolean getIsOver() {
         return isOver;
     }
 
-    public void setOver(Boolean over) {
-        isOver = over;
-    }
-
-    public TemporalAmount getDuration() {
-        return duration;
-    }
-
-    public void setDuration(TemporalAmount duration) {
-        this.duration = duration;
+    public void setIsOver(boolean isOver) {
+        isOver = isOver;
     }
 
     public Module getParentModule() {
@@ -98,22 +90,21 @@ public class Event extends CalendarItem {
 
     public void setParentModule(Module module) {
         this.parentModule = module;
-        super.setModule(module);
     }
 
-    public Date getEventStart() {
+    public LocalDateTime getEventStart() {
         return eventStart;
     }
 
-    public void setEventStart(Date eventStart) {
+    public void setEventStart(LocalDateTime eventStart) {
         this.eventStart = eventStart;
     }
 
-    public Date getEventEnd() {
+    public LocalDateTime getEventEnd() {
         return eventEnd;
     }
 
-    public void setEventEnd(Date eventEnd) {
+    public void setEventEnd(LocalDateTime eventEnd) {
         this.eventEnd = eventEnd;
     }
 
@@ -145,10 +136,9 @@ public class Event extends CalendarItem {
         return otherEvent.getEventName().equals(getEventName())
                 && otherEvent.getParentModule().equals(getParentModule())
                 && otherEvent.getDeadlines().equals(getDeadlines())
-                && otherEvent.getDuration().equals(getDuration())
                 && otherEvent.getEventEnd().equals(getEventEnd())
                 && otherEvent.getEventStart().equals(getEventStart())
-                && otherEvent.getOver().equals(getOver())
+                && otherEvent.getIsOver() == getIsOver()
                 && otherEvent.getEventType().equals(getEventType());
     }
 @Override
@@ -156,7 +146,39 @@ public Module getModule() {
         return parentModule;
 }
     public String toDebugString() {
-        return (getModule() == null ? "null" : super.getModule().getModuleCode()) + " | " + eventType + " | " + eventName + " | " + eventStart + " | " + eventEnd;
+        return (getModule() == null ? "null" : getModule().getModuleCode()) + " | " + eventType + " | " + eventName + " | " + eventStart + " | " + eventEnd;
 //        getTags().forEach(builder::append);
     }
+
+    @Override
+    public boolean isSameCalendarItem(CalendarItem otherCalendarItem) {
+        System.out.println("COmparing: " + toDebugString() + " **** " + otherCalendarItem.toDebugString());
+        if (otherCalendarItem == this) {
+            System.out.println("SAME EVENT");
+            return true;
+        }
+
+        if (otherCalendarItem.getCalendarItemType() != CalendarItemType.EVENT) {
+            return false;
+        }
+
+        Event otherEvent = (Event) otherCalendarItem;
+        return otherCalendarItem != null &&
+                this.eventName.equals(otherEvent.getEventName()) &&
+                this.eventType.equals(otherEvent.getEventType()) &&
+                this.eventStart.equals(otherEvent.getEventStart()) &&
+                this.eventEnd.equals(otherEvent.getEventEnd()) &&
+                this.getModule().matchModule(otherEvent.getModule());
+    }
+
+    @Override
+    public String getItemName() {
+        return eventName.toString();
+    }
+
+    @Override
+    public CalendarItemType getCalendarItemType() {
+        return CalendarItemType.EVENT;
+    }
 }
+
