@@ -2,6 +2,7 @@ package seedu.address.logic.parser;
 
 import seedu.address.logic.commands.AddEventCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.entity.CalendarItem;
 import seedu.address.model.entity.CalendarItemName;
 import seedu.address.model.entity.Event;
 import seedu.address.model.entity.Module;
@@ -25,14 +26,15 @@ public class AddEventCommandParser implements Parser<AddEventCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddEventCommand.MESSAGE_USAGE));
         }
 
-        //Module module = ParserUtil.parseModule(argMultimap.getValue(PREFIX_MODULE).get());
+//        Module module = ParserUtil.parseModule(argMultimap.getValue(PREFIX_MODULE).get());
         CalendarItemName name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
         CalendarItemName moduleName = ParserUtil.parseName(argMultimap.getValue(PREFIX_MODULE).get());
+        String startDate = ParserUtil.parseDate(argMultimap.getValue(PREFIX_START_DATE).get());
 
-
-        Event event = new Event(name);
-        event.setParentModule(new Module(moduleName));
-        // retrieve module and update event here
+        // retrive from module name and check if module alr exists
+        Module m = new Module(moduleName);
+        Event event = new Event(name,m);
+        event.setParentModule(m);
 
         return new AddEventCommand(event);
     }

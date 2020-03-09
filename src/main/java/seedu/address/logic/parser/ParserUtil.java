@@ -6,9 +6,11 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.yaml.snakeyaml.parser.ParserException;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.entity.CalendarItem;
 import seedu.address.model.entity.CalendarItemName;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
@@ -121,6 +123,19 @@ public class ParserUtil {
         }
         return new CalendarItemName(trimmedName);
     }
+
+      public static String parseDate(String date) throws ParseException{
+          requireNonNull(date);
+          String trimmedDate = date.trim();
+          if (!CalendarItemName.isValidName(trimmedDate)) {
+              throw new ParseException("Please enter a valid date format ");
+          }
+          return trimmedDate;
+      }
+
+
+
+
 
 
 

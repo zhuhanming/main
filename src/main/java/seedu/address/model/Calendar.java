@@ -61,6 +61,7 @@ public class Calendar implements ReadOnlyCalendar {
      */
     public boolean hasCalendarItem(CalendarItem calendarItem) {
         requireNonNull(calendarItem);
+//        System.out.println("Calendar item !!!!!!!!!!!!!!!"+ calendarItem);
         return calendarItems.contains(calendarItem);
     }
 

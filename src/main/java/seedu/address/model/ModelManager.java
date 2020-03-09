@@ -7,7 +7,6 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
-
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
@@ -21,20 +20,22 @@ public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
     private final Calendar calendar;
+    private final Module module ;
     private final UserPrefs userPrefs;
     private final FilteredList<CalendarItem> filteredCalendarItems;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
      */
-    public ModelManager(ReadOnlyCalendar calendar, ReadOnlyUserPrefs userPrefs) {
+    public ModelManager(ReadOnlyCalendar calendar, ReadOnlyUserPrefs userPrefs,ReadOnlyModule module ) {
         super();
-        requireAllNonNull(calendar, userPrefs);
+        requireAllNonNull(calendar, userPrefs, module);
 
         logger.fine("Initializing with calendar: " + calendar + " and user prefs " + userPrefs);
-
+        this.module = new Module(module);
         this.calendar = new Calendar(calendar);
         this.userPrefs = new UserPrefs(userPrefs);
+
         filteredCalendarItems = new FilteredList<>(this.calendar.getCalendarItemList());
     }
 
@@ -107,6 +108,19 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public void addModule(Module module) {
+        requireNonNull(module);
+         // return calendar.hasCalendarItem(calendarItem);
+    }
+
+    @Override
+    public void hasModule(Module module) {
+        requireNonNull(module);
+         // return calendar.hasCalendarItem(calendarItem);
+    }
+
+
+    @Override
     public void setCalendarItem(CalendarItem target, CalendarItem editedCalendarItem) {
         requireAllNonNull(target, editedCalendarItem);
 
@@ -115,6 +129,8 @@ public class ModelManager implements Model {
 
     @Override
     public CalendarItem findCalendarItem(CalendarItem toFind) {
+        System.out.println("toFInd ^^^^^^^^^"+toFind);
+        System.out.println("toFInd get module ^^^^^^^^^"+toFind.getModule());
         requireNonNull(toFind);
         List<CalendarItem> calendarItemList =  calendar.getCalendarItemList();
         for (int i = 0; i < calendarItemList.size(); i++) {

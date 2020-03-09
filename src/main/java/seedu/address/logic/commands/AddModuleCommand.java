@@ -32,15 +32,14 @@ public class AddModuleCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-
-        if (model.hasCalendarItem(toAdd)) {
+        // change it module entity
+        if (model.hasModule(toAdd);) {
             throw new CommandException(MESSAGE_DUPLICATE_MODULE);
         }
 
         Module module = new Module(toAdd.getModuleName());
-
         module.setEvents(null);
-        model.addCalendarItem(toAdd);
+        model.addModule(toAdd);
         return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
     }
     @Override

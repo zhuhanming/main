@@ -30,9 +30,19 @@ public class Event extends CalendarItem {
         // create deadline here also ??
     }
 
+
+    public Event(CalendarItemName eventName,Module module) {
+        super(eventName,CalendarItemType.EVENT);
+        this.eventName = eventName;
+        this.parentModule = module;
+    }
+
     public Event(CalendarItemName eventName) {
+        super(eventName,CalendarItemType.EVENT);
         this.eventName = eventName;
     }
+
+
     /**
      * Returns true if a given string is a valid name.
      */

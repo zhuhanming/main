@@ -76,6 +76,10 @@ public interface Model {
      */
     void addCalendarItem(CalendarItem calendarItem);
 
+    void addModule(Module module );
+
+    void hasModule(Module module);
+
     /**
      * Replaces the given person {@code target} with {@code editedPerson}.
      * {@code target} must exist in the address book.

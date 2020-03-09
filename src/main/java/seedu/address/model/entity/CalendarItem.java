@@ -54,8 +54,9 @@ public abstract class CalendarItem {
         if (otherCalendarItem == this) {
             return true;
         }
-
-        //two calendaritems are the same whe n
+        System.out.println("itemName is "+itemName);
+        System.out.println("Module name is "+module);
+        //two calendaritems are the same when
         return otherCalendarItem != null &&
                 this.itemName.equals(otherCalendarItem.getItemName()) &&
                 this.module.getModuleCode() == otherCalendarItem.getModule().getModuleCode(); //todo COMPARE MORE THINGS
@@ -63,6 +64,9 @@ public abstract class CalendarItem {
     }
 
     public boolean matchCalendarItem(CalendarItem otherCalendarItem) {
+        System.out.println("otherCalenderItem %%%%%%%%%%%%%" + otherCalendarItem);
+        System.out.println("other Celendar Item Name is ***"+otherCalendarItem.getItemName());
+        System.out.println("this calendarItem is "+this.itemName);
         return otherCalendarItem.getItemName().equals(this.itemName) &&
                 otherCalendarItem.getCalendarItemType().equals(otherCalendarItem.getCalendarItemType()) &&
                 otherCalendarItem.getModule().getModuleCode().equals(this.module.getModuleCode());

@@ -8,30 +8,31 @@ import seedu.address.model.person.exceptions.DuplicatePersonException;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Consumer;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-public class UniqueCalendarItemList implements Iterable<CalendarItem> {
+public class UniqueModuleList implements Iterable<Module> {
 
-    private final ObservableList<CalendarItem> internalList = FXCollections.observableArrayList();
-    private final ObservableList<CalendarItem> internalUnmodifiableList =
+    private final ObservableList<Module> internalList = FXCollections.observableArrayList();
+    private final ObservableList<Module> internalUnmodifiableList =
             FXCollections.unmodifiableObservableList(internalList);
 
     /**
      * Returns true if the list contains an equivalent person as the given argument.
      */
-    public boolean contains(CalendarItem toCheck) {
+    public boolean contains(Module toCheck) {
         requireNonNull(toCheck);
-//        System.out.println("toCheck ins uniqueCalendarList "+ toCheck.);
-        return internalList.stream().anyMatch(toCheck::isSameCalendarItem);
+        System.out.println("Check in uniqueModuleList     ##########"+toCheck.getModuleName());
+        return internalList.stream().anyMatch(toCheck::isSameModule);
     }
 
     /**
      * Adds a person to the list.
      * The person must not already exist in the list.
      */
-    public void add(CalendarItem toAdd) {
+    public void add(Module toAdd) {
         requireNonNull(toAdd);
         if (contains(toAdd)) {
             throw new DuplicateCalendarItemException();
@@ -44,33 +45,34 @@ public class UniqueCalendarItemList implements Iterable<CalendarItem> {
      * {@code target} must exist in the list.
      * The person identity of {@code editedPerson} must not be the same as another existing person in the list.
      */
-    public void setCalendarItem(CalendarItem target, CalendarItem editedCalendarItem) {
-        requireAllNonNull(target, editedCalendarItem);
+    public void setModuleItem(Module target, Module editedModule) {
+        requireAllNonNull(target, editedModule);
 
         int index = internalList.indexOf(target);
         if (index == -1) {
             throw new CalendarItemNotFoundException();
         }
 
-        if (!target.isSameCalendarItem(editedCalendarItem) && contains(editedCalendarItem)) {
+        if (!target.isSameModule(editedModule) && contains(editedModule)) {
             throw new DuplicateCalendarItemException();
         }
 
-        internalList.set(index, editedCalendarItem);
+        internalList.set(index, editedModule);
     }
+
 
     /**
      * Removes the equivalent person from the list.
      * The person must exist in the list.
      */
-    public void remove(CalendarItem toRemove) {
+    public void remove(Module toRemove) {
         requireNonNull(toRemove);
         if (!internalList.remove(toRemove)) {
             throw new CalendarItemNotFoundException();
         }
     }
 
-    public void setCalendarItems(UniqueCalendarItemList replacement) {
+    public void setModuleItem(UniqueModuleList replacement) {
         requireNonNull(replacement);
         internalList.setAll(replacement.internalList);
     }
@@ -79,33 +81,39 @@ public class UniqueCalendarItemList implements Iterable<CalendarItem> {
      * Replaces the contents of this list with {@code persons}.
      * {@code persons} must not contain duplicate persons.
      */
-    public void setCalendarItems(List<CalendarItem> calendarItems) {
-        requireAllNonNull(calendarItems);
-        if (!calendarItemsAreUnique(calendarItems)) {
+    public void setModuleItem(List<Module> modulesItems) {
+        requireAllNonNull(modulesItems);
+        if (!moduleItemsAreUnique(modulesItems)) {
             throw new DuplicatePersonException();
         }
 
-        internalList.setAll(calendarItems);
+        internalList.setAll(modulesItems);
     }
 
     /**
      * Returns the backing list as an unmodifiable {@code ObservableList}.
      */
-    public ObservableList<CalendarItem> asUnmodifiableObservableList() {
+    public ObservableList<Module> asUnmodifiableObservableList() {
         return internalUnmodifiableList;
     }
 
     @Override
-    public Iterator<CalendarItem> iterator() {
+    public Iterator<Module> iterator() {
         return internalList.iterator();
     }
+
+//    @Override
+//    public Iterator<Module> iterator() {
+//        return internalList.iterator();
+//    }
 
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof UniqueCalendarItemList // instanceof handles nulls
-                && internalList.equals(((UniqueCalendarItemList) other).internalList));
+                || (other instanceof UniqueModuleList // instanceof handles nulls
+                && internalList.equals(((UniqueModuleList) other).internalList));
     }
+
 
     @Override
     public int hashCode() {
@@ -115,14 +123,16 @@ public class UniqueCalendarItemList implements Iterable<CalendarItem> {
     /**
      * Returns true if {@code persons} contains only unique persons.
      */
-    private boolean calendarItemsAreUnique(List<CalendarItem> calendarItems) {
-        for (int i = 0; i < calendarItems.size() - 1; i++) {
-            for (int j = i + 1; j < calendarItems.size(); j++) {
-                if (calendarItems.get(i).isSameCalendarItem(calendarItems.get(j))) {
+    private boolean moduleItemsAreUnique(List<Module> moduleItems) {
+        for (int i = 0; i < moduleItems.size() - 1; i++) {
+            for (int j = i + 1; j < moduleItems.size(); j++) {
+                if (moduleItems.get(i).isSameModule(moduleItems.get(j))) {
                     return false;
                 }
             }
         }
         return true;
     }
+
+
 }

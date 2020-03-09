@@ -23,9 +23,9 @@ public class AddEventCommand extends Command {
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_MODULE + "CS2103 "
             + PREFIX_NAME + "Tutorial 3 "
-            + PREFIX_START_DATE + "2019-10-23 8am "
+            + PREFIX_START_DATE + "Tue 8:30 "
             + PREFIX_DURATION + "2 hours "
-            + PREFIX_REPEAT + " Yes ";
+            + PREFIX_REPEAT + "Yes ";
 
     public static final String MESSAGE_SUCCESS = "New event added: %1$s";
     public static final String MESSAGE_DUPLICATE_EVENT = "This event in this module is already exists in the calendar";
@@ -51,14 +51,13 @@ public class AddEventCommand extends Command {
             throw new CommandException(MESSAGE_DUPLICATE_EVENT);
         }
 
-        System.out.println("module +++++"+ toAdd.getParentModule());
+        System.out.println("module +++++    "+ toAdd.getParentModule().getModuleName());
         Module module = (Module) model.findCalendarItem(toAdd.getParentModule());
-
+        System.out.println("module retrieve "+module);
         if (module == null) {
             throw new CommandException(MESSAGE_MODULE_DOESNT_EXIST);
         }
-
-
+        // need to check is same event already exists?
         module.addEvents(toAdd);
         toAdd.setParentModule(module);
 //        toAdd.setDueTime();
