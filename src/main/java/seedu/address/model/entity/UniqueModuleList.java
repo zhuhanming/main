@@ -1,20 +1,28 @@
 package seedu.address.model.entity;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import seedu.address.model.entity.exceptions.CalendarItemNotFoundException;
-import seedu.address.model.entity.exceptions.DuplicateCalendarItemException;
-import seedu.address.model.entity.exceptions.DuplicateModuleException;
-import seedu.address.model.entity.exceptions.ModuleNotFoundException;
-import seedu.address.model.person.exceptions.DuplicatePersonException;
-
-import java.util.Iterator;
-import java.util.List;
-import java.util.function.Consumer;
-
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.Iterator;
+import java.util.List;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import seedu.address.model.entity.exceptions.DuplicateModuleException;
+import seedu.address.model.entity.exceptions.ModuleNotFoundException;
+
+/**
+ * A list of modules that enforces uniqueness between its elements and does not allow nulls.
+ * A module is considered unique by comparing using {@code Module#isSameModule(Module)}. As such, adding
+ * and updating of modules uses Module#isSameModule(Module) for equality so as to ensure that the module
+ * being added or updated is unique in terms of identity in the UniqueModuleList. However, the removal
+ * of a module uses Module#equals(Object) so as to ensure that the module with exactly the same
+ * fields will be removed.
+ * <p>
+ * Supports a minimal set of list operations.
+ *
+ * @see Module#isSameModule(Module)
+ */
 public class UniqueModuleList implements Iterable<Module> {
 
     private final ObservableList<Module> internalList = FXCollections.observableArrayList();
@@ -26,7 +34,7 @@ public class UniqueModuleList implements Iterable<Module> {
      */
     public boolean contains(Module toCheck) {
         requireNonNull(toCheck);
-        System.out.println("Check in uniqueModuleList     ##########"+toCheck.getModuleCode());
+        System.out.println("Check in uniqueModuleList     ##########" + toCheck.getModuleCode());
         return internalList.stream().anyMatch(toCheck::isSameModule);
     }
 

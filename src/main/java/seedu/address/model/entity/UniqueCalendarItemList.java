@@ -1,17 +1,29 @@
 package seedu.address.model.entity;
 
+import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+
+import java.util.Iterator;
+import java.util.List;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.entity.exceptions.CalendarItemNotFoundException;
 import seedu.address.model.entity.exceptions.DuplicateCalendarItemException;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 
-import java.util.Iterator;
-import java.util.List;
-
-import static java.util.Objects.requireNonNull;
-import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
-
+/**
+ * A list of CalendarItems that enforces uniqueness between its elements and does not allow nulls.
+ * A module is considered unique by comparing using {@code CalendarItem#isSameCalendarItem(CalendarItem)}.
+ * As such, adding and updating of CalendarItems uses CalendarItem#isSameCalendarItem(CalendarItem) for
+ * equality so as to ensure that the calendar item being added or updated is unique in terms of identity in the
+ * UniqueCalendarItemList. However, the removal of a calendar item uses CalendarItem#equals(Object) so as to
+ * ensure that the calendar item with exactly the same fields will be removed.
+ * <p>
+ * Supports a minimal set of list operations.
+ *
+ * @see CalendarItem#isSameCalendarItem(CalendarItem)
+ */
 public class UniqueCalendarItemList implements Iterable<CalendarItem> {
 
     private final ObservableList<CalendarItem> internalList = FXCollections.observableArrayList();
@@ -23,7 +35,7 @@ public class UniqueCalendarItemList implements Iterable<CalendarItem> {
      */
     public boolean contains(CalendarItem toCheck) {
         requireNonNull(toCheck);
-//        System.out.println("toCheck ins uniqueCalendarList "+ toCheck.);
+        // System.out.println("toCheck ins uniqueCalendarList "+ toCheck.);
         return internalList.stream().anyMatch(toCheck::isSameCalendarItem);
     }
 
