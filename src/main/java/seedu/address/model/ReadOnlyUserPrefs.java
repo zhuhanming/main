@@ -12,7 +12,7 @@ public interface ReadOnlyUserPrefs {
     GuiSettings getGuiSettings();
 
     Path getAddressBookFilePath();
-    
+
     Path getCalendarFilePath();
 
 }

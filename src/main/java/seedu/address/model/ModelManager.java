@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
+
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
@@ -121,10 +122,10 @@ public class ModelManager implements Model {
     @Override
     public CalendarItem findCalendarItem(CalendarItem toFind) {
         requireNonNull(toFind);
-        List<CalendarItem> calendarItemList =  calendar.getCalendarItemList();
-        for (int i = 0; i < calendarItemList.size(); i++) {
-            if (calendarItemList.get(i).matchCalendarItem(toFind)) {
-                return calendarItemList.get(i);
+        List<CalendarItem> calendarItemList = calendar.getCalendarItemList();
+        for (CalendarItem calendarItem : calendarItemList) {
+            if (calendarItem.matchCalendarItem(toFind)) {
+                return calendarItem;
             }
         }
         return null;
@@ -133,12 +134,12 @@ public class ModelManager implements Model {
     @Override
     public List<Event> findAllEvents(Event toFind) {
         requireNonNull(toFind);
-        List<CalendarItem> calendarItemList =  calendar.getCalendarItemList();
+        List<CalendarItem> calendarItemList = calendar.getCalendarItemList();
         List<Event> result = new ArrayList<>();
         System.out.println("calendar length: " + calendarItemList.size());
-        for (int i = 0; i < calendarItemList.size(); i++) {
-            if (calendarItemList.get(i).matchCalendarItem(toFind)) {
-                result.add((Event) calendarItemList.get(i));
+        for (CalendarItem calendarItem : calendarItemList) {
+            if (calendarItem.matchCalendarItem(toFind)) {
+                result.add((Event) calendarItem);
             }
         }
         return result;
@@ -162,7 +163,6 @@ public class ModelManager implements Model {
     }
 
 
-
     @Override
     public void setModule(Module target, Module editedModule) {
         requireAllNonNull(target, editedModule);
@@ -174,9 +174,9 @@ public class ModelManager implements Model {
     public Module findModule(Module toFind) {
         requireNonNull(toFind);
         List<Module> moduleList = calendar.getModuleList();
-        for (int i = 0; i < moduleList.size(); i++) {
-            if (moduleList.get(i).matchModule(toFind)) {
-                return moduleList.get(i);
+        for (Module module : moduleList) {
+            if (module.matchModule(toFind)) {
+                return module;
             }
         }
         return null;
@@ -241,14 +241,14 @@ public class ModelManager implements Model {
         StringBuilder sb = new StringBuilder();
         sb.append("Modules: ");
         sb.append("\n");
-        for(Module eachModule: modules) {
+        for (Module eachModule : modules) {
             sb.append(eachModule.toDebugString());
             sb.append("\n");
         }
 
         sb.append("Calendar Items: ");
         sb.append("\n");
-        for(CalendarItem eachCalendarItem: calendaritems) {
+        for (CalendarItem eachCalendarItem : calendaritems) {
             sb.append(eachCalendarItem.toDebugString());
             sb.append("\n");
         }

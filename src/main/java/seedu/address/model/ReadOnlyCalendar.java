@@ -5,7 +5,7 @@ import seedu.address.model.entity.CalendarItem;
 import seedu.address.model.entity.Module;
 
 /**
- * Unmodifiable view of a calendar
+ * Unmodifiable view of a calendar.
  */
 public interface ReadOnlyCalendar {
 

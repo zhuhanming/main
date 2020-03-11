@@ -8,14 +8,15 @@ import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.entity.CalendarItem;
 import seedu.address.model.entity.Event;
-import seedu.address.model.person.Person;
 import seedu.address.model.entity.Module;
 
 /**
  * The API of the Model component.
  */
 public interface Model {
-    /** {@code Predicate} that always evaluate to true */
+    /**
+     * {@code Predicate} that always evaluate to true
+     */
     Predicate<CalendarItem> PREDICATE_SHOW_ALL_CALENDAR_ITEMS = unused -> true;
     Predicate<Module> PREDICATE_SHOW_ALL_MODULES = unused -> true;
 
@@ -52,7 +53,7 @@ public interface Model {
     /**
      * Finds reference to existing calendar item
      */
-     CalendarItem findCalendarItem(CalendarItem calendarItem);
+    CalendarItem findCalendarItem(CalendarItem calendarItem);
 
     /**
      * Finds reference to existing calendar item
@@ -64,7 +65,9 @@ public interface Model {
      */
     void setCalendar(ReadOnlyCalendar calendar);
 
-    /** Returns the AddressBook */
+    /**
+     * Returns the AddressBook
+     */
     ReadOnlyCalendar getCalendar();
 
     /**
@@ -112,20 +115,26 @@ public interface Model {
      */
     void setModule(Module target, Module editedModule);
 
-    /** Returns an unmodifiable view of the filtered person list */
+    /**
+     * Returns an unmodifiable view of the filtered person list
+     */
     ObservableList<CalendarItem> getFilteredCalendarItemList();
 
-    /** Returns an unmodifiable view of the filtered person list */
+    /**
+     * Returns an unmodifiable view of the filtered person list
+     */
     ObservableList<Module> getFilteredModuleList();
 
     /**
      * Updates the filter of the filtered person list to filter by the given {@code predicate}.
+     *
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredCalendarItemList(Predicate<CalendarItem> predicate);
 
     /**
      * Updates the filter of the filtered person list to filter by the given {@code predicate}.
+     *
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredModuleList(Predicate<Module> predicate);
