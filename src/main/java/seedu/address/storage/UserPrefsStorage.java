@@ -9,7 +9,7 @@ import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.UserPrefs;
 
 /**
- * Represents a storage for {@link seedu.address.model.UserPrefs}.
+ * Represents a storage for {@link UserPrefs}.
  */
 public interface UserPrefsStorage {
 

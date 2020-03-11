@@ -10,11 +10,11 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.logic.parser.AddressBookParser;
+import seedu.address.logic.parser.CalendarParser;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
-import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.person.Person;
+import seedu.address.model.ReadOnlyCalendar;
+import seedu.address.model.entity.CalendarItem;
 import seedu.address.storage.Storage;
 
 /**
@@ -26,44 +26,50 @@ public class LogicManager implements Logic {
 
     private final Model model;
     private final Storage storage;
-    private final AddressBookParser addressBookParser;
+    private final CalendarParser calendarParser;
 
     public LogicManager(Model model, Storage storage) {
         this.model = model;
         this.storage = storage;
-        addressBookParser = new AddressBookParser();
+        calendarParser = new CalendarParser();
     }
 
     @Override
     public CommandResult execute(String commandText) throws CommandException, ParseException {
+
+        for (int i = 0; i < model.getCalendar().getCalendarItemList().size(); i++) {
+            System.out.println("Item " + i + ": ");
+            System.out.println(model.getCalendar().getCalendarItemList().get(i));
+        }
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
         CommandResult commandResult;
-        Command command = addressBookParser.parseCommand(commandText);
+        Command command = calendarParser.parseCommand(commandText);
         commandResult = command.execute(model);
 
-        try {
-            storage.saveAddressBook(model.getAddressBook());
-        } catch (IOException ioe) {
-            throw new CommandException(FILE_OPS_ERROR_MESSAGE + ioe, ioe);
-        }
+        //try {
+        System.out.println("model get calendar " + model.getCalendar());
+        //storage.saveCalendar(model.getCalendar());
+        //} catch (IOException ioe) {
+        //  throw new CommandException(FILE_OPS_ERROR_MESSAGE + ioe, ioe);
+        //}
 
         return commandResult;
     }
 
     @Override
-    public ReadOnlyAddressBook getAddressBook() {
-        return model.getAddressBook();
+    public ReadOnlyCalendar getCalendar() {
+        return model.getCalendar();
     }
 
     @Override
-    public ObservableList<Person> getFilteredPersonList() {
-        return model.getFilteredPersonList();
+    public ObservableList<CalendarItem> getFilteredCalendarItemList() {
+        return model.getFilteredCalendarItemList();
     }
 
     @Override
-    public Path getAddressBookFilePath() {
-        return model.getAddressBookFilePath();
+    public Path getCalendarFilePath() {
+        return model.getCalendarFilePath();
     }
 
     @Override
