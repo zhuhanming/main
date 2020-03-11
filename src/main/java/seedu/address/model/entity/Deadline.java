@@ -1,63 +1,82 @@
 package seedu.address.model.entity;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.time.LocalDateTime;
+
+/**
+ * Represents a deadline in Modulo.
+ * Guarantees: details are present and not null, field values are validated, fields are immutable.
+ */
 public class Deadline extends CalendarItem {
+
+    // Identity fields
     private CalendarItemName deadlineName;
     private LocalDateTime dueTime;
     private Event parentEvent;
+
+    // Data fields
     private boolean isCompleted;
 
-    public Deadline(CalendarItemName deadlineName, Event parentEvent, boolean isCompleted) {
+    public Deadline(CalendarItemName deadlineName, Event parentEvent) {
+        requireAllNonNull(deadlineName, parentEvent);
         this.deadlineName = deadlineName;
         this.parentEvent = parentEvent;
-        this.isCompleted = isCompleted;
-    }
-
-    public Deadline(CalendarItemName deadlineName) {
-        this.deadlineName = deadlineName;
+        this.dueTime = parentEvent.getEventStart();
         this.isCompleted = false;
     }
 
-    public Deadline() {
+    public Deadline(CalendarItemName deadlineName, Event parentEvent, boolean isCompleted) {
+        requireAllNonNull(deadlineName, parentEvent);
+        this.deadlineName = deadlineName;
+        this.parentEvent = parentEvent;
+        this.dueTime = parentEvent.getEventStart();
+        this.isCompleted = isCompleted;
     }
 
     public CalendarItemName getDeadlineName() {
         return deadlineName;
     }
 
-    public void setDeadlineName(CalendarItemName deadlineName) {
-        this.deadlineName = deadlineName;
-    }
-
-    public void setDueTime() {
-        this.dueTime = parentEvent.getEventStart();
-    }
-
     public Event getParentEvent() {
         return parentEvent;
-    }
-
-    public void setParentEvent(Event parentEvent) {
-        this.parentEvent = parentEvent;
     }
 
     public boolean isCompleted() {
         return isCompleted;
     }
 
-    public void setCompleted(boolean completed) {
-        isCompleted = completed;
-    }
-
-    public String toDebugString() {
-        return getModule().getModuleCode() + " | " + CalendarItemType.DEADLINE + " | " + deadlineName + " || " + parentEvent.toDebugString();
-    }
-
     public Module getModule() {
         return parentEvent.getParentModule();
+    }
+
+    /**
+     * Returns a new Deadline with the new Event as its parentEvent to maintain immutability.
+     *
+     * @param newParentEvent New event to set as parent.
+     * @return New Deadline.
+     */
+    public Deadline setParentEvent(Event newParentEvent) {
+        return new Deadline(deadlineName, newParentEvent, isCompleted);
+    }
+
+    /**
+     * Returns a new completed Deadline to maintain immutability.
+     *
+     * @return Completed Deadline.
+     */
+    public Deadline completeDeadline() {
+        return new Deadline(deadlineName, parentEvent, true);
+    }
+
+    /**
+     * Returns a string for debugging purposes.
+     *
+     * @return String for debugging purposes.
+     */
+    public String toDebugString() {
+        return getModule().getModuleCode() + " | " + CalendarItemType.DEADLINE + " | "
+                + deadlineName + " || " + parentEvent.toDebugString();
     }
 
     @Override
@@ -73,11 +92,9 @@ public class Deadline extends CalendarItem {
         }
 
         Deadline otherDeadline = (Deadline) otherCalendarItem;
-        System.out.println(this.deadlineName.equals(otherDeadline.getDeadlineName()));
-        System.out.println(this.parentEvent.matchCalendarItem(otherDeadline.getParentEvent()));
-        return otherCalendarItem != null &&
-                this.deadlineName.equals(otherDeadline.getDeadlineName()) &&
-                this.parentEvent.isSameCalendarItem(otherDeadline.getParentEvent());
+
+        return otherDeadline.getDeadlineName().equals(getDeadlineName())
+                && otherDeadline.getParentEvent().equals(getParentEvent());
     }
 
     @Override
