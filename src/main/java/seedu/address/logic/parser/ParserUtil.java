@@ -2,20 +2,17 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.entity.CalendarItem;
 import seedu.address.model.entity.CalendarItemName;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
@@ -30,6 +27,7 @@ public class ParserUtil {
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
     public static final DateTimeFormatter DATETIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     public static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
      * trimmed.
@@ -131,46 +129,74 @@ public class ParserUtil {
         return new CalendarItemName(trimmedName);
     }
 
+    /**
+     * Parses the user input date.
+     *
+     * @param date Date provided by user.
+     * @return LocalDate from the string provided.
+     * @throws ParseException If date format is not recognised.
+     */
     public static LocalDate parseDate(String date) throws ParseException {
         requireNonNull(date);
         String trimmedDate = date.trim();
         LocalDate result;
         try {
-            result = LocalDate.parse(trimmedDate);
+            result = LocalDate.parse(trimmedDate, DATE_FORMAT);
         } catch (DateTimeParseException e) {
             throw new ParseException("Please enter a valid date in the format: yyyy-MM-dd");
         }
         return result;
     }
 
+    /**
+     * Parses the user input module code.
+     *
+     * @param moduleCode Module code provided by user.
+     * @return Module code string from the input provided.
+     * @throws ParseException If the module code is not valid.
+     */
     public static String parseModuleCode(String moduleCode) throws ParseException {
         requireNonNull(moduleCode);
         String trimmedModuleCode = moduleCode.trim();
         //TO REPLACE WITH MODULE CHECKING WITHIN IMPORTED NUSMOD SET
         if (false) {
-            throw new ParseException("Please enter a valid module code ");
+            throw new ParseException("Please enter a valid module code.");
         }
         return trimmedModuleCode;
     }
 
+    /**
+     * Parses the user input datetime.
+     *
+     * @param dateTime Date time provided by user.
+     * @return LocalDateTime from the string provided.
+     * @throws ParseException If datetime format is not recognised.
+     */
     public static LocalDateTime parseDateTime(String dateTime) throws ParseException {
         LocalDateTime result;
         try {
-             result = LocalDateTime.parse(dateTime, DATETIME_FORMAT);
-        } catch (DateTimeParseException e){
+            result = LocalDateTime.parse(dateTime, DATETIME_FORMAT);
+        } catch (DateTimeParseException e) {
             throw new ParseException("Please enter a valid date time in the format: yyyy-MM-dd HH:mm");
         }
         return result;
     }
 
-    public static boolean parseRepeat(String repeat) throws ParseException{
-        switch(repeat) {
-            case "YES":
-                return true;
-            case "NO" :
-                return false;
-            default:
-                throw new ParseException("Please enter valid input for repeat : YES/NO");
+    /**
+     * Parses the user input repeat.
+     *
+     * @param repeat Date time provided by user.
+     * @return boolean value denoting whether the event should repeat.
+     * @throws ParseException If the repeat string is not recognised.
+     */
+    public static boolean parseRepeat(String repeat) throws ParseException {
+        switch (repeat.toLowerCase()) {
+        case "yes":
+            return true;
+        case "no":
+            return false;
+        default:
+            throw new ParseException("Please enter valid input for repeat : YES/NO");
         }
     }
 

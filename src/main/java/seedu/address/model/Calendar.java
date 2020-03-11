@@ -1,35 +1,37 @@
 package seedu.address.model;
 
-import javafx.collections.ObservableList;
-import seedu.address.model.entity.CalendarItem;
-import seedu.address.model.entity.UniqueCalendarItemList;
-import seedu.address.model.entity.UniqueModuleList;
-import seedu.address.model.entity.Module;
-import seedu.address.model.person.Person;
-import seedu.address.model.person.UniquePersonList;
+import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 
-import static java.util.Objects.requireNonNull;
+import javafx.collections.ObservableList;
+import seedu.address.model.entity.CalendarItem;
+import seedu.address.model.entity.Module;
+import seedu.address.model.entity.UniqueCalendarItemList;
+import seedu.address.model.entity.UniqueModuleList;
 
+/**
+ * Wraps all data at the calendar level
+ * Duplicates are not allowed (by .isSameModule comparison)
+ */
 public class Calendar implements ReadOnlyCalendar {
 
     private final UniqueCalendarItemList calendarItems;
     private final UniqueModuleList modules;
 
     /*
-     * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
-     * between constructors. See https://docs.oracle.com/javase/tutorial/java/javaOO/initial.html
+     *  The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
+     *  between constructors. See https://docs.oracle.com/javase/tutorial/java/javaOO/initial.html
      *
-     * Note that non-static init blocks are not recommended to use. There are other ways to avoid duplication
-     *   among constructors.
-     */
-    {
+     *  Note that non-static init blocks are not recommended to use. There are other ways to avoid duplication
+     *  among constructors.
+     */ {
         calendarItems = new UniqueCalendarItemList();
         modules = new UniqueModuleList();
     }
 
-    public Calendar() {}
+    public Calendar() {
+    }
 
     /**
      * Creates an AddressBook using the Persons in the {@code toBeCopied}
@@ -93,6 +95,16 @@ public class Calendar implements ReadOnlyCalendar {
     }
 
     /**
+     * Replaces the given person {@code target} in the list with {@code editedPerson}.
+     * {@code target} must exist in the address book.
+     * The person identity of {@code editedPerson} must not be the same as another existing person in the address book.
+     */
+    public void setCalendarItems(CalendarItem target, CalendarItem editedCalendarItem) {
+        requireNonNull(editedCalendarItem);
+        calendarItems.setCalendarItem(target, editedCalendarItem);
+    }
+
+    /**
      * Resets the existing data of this {@code AddressBook} with {@code newData}.
      */
     public void resetData(ReadOnlyCalendar newData) {
@@ -109,7 +121,7 @@ public class Calendar implements ReadOnlyCalendar {
      */
     public boolean hasCalendarItem(CalendarItem calendarItem) {
         requireNonNull(calendarItem);
-//        System.out.println("Calendar item !!!!!!!!!!!!!!!"+ calendarItem);
+        // System.out.println("Calendar item !!!!!!!!!!!!!!!"+ calendarItem);
         return calendarItems.contains(calendarItem);
     }
 
@@ -121,16 +133,6 @@ public class Calendar implements ReadOnlyCalendar {
         calendarItems.add(calendarItem);
     }
 
-    /**
-     * Replaces the given person {@code target} in the list with {@code editedPerson}.
-     * {@code target} must exist in the address book.
-     * The person identity of {@code editedPerson} must not be the same as another existing person in the address book.
-     */
-    public void setCalendarItems(CalendarItem target, CalendarItem editedCalendarItem) {
-        requireNonNull(editedCalendarItem);
-
-        calendarItems.setCalendarItem(target, editedCalendarItem);
-    }
 
     /**
      * Removes {@code key} from this {@code AddressBook}.

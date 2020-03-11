@@ -1,14 +1,21 @@
 package seedu.address.logic.parser;
 
-import seedu.address.logic.commands.*;
-import seedu.address.logic.parser.exceptions.ParseException;
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
+import seedu.address.logic.commands.AddDeadlineCommand;
+import seedu.address.logic.commands.AddEventCommand;
+import seedu.address.logic.commands.AddModuleCommand;
+import seedu.address.logic.commands.Command;
+import seedu.address.logic.commands.HelpCommand;
+import seedu.address.logic.parser.exceptions.ParseException;
 
+/**
+ * Parses user input.
+ */
 public class CalendarParser {
 
     /**
@@ -33,20 +40,20 @@ public class CalendarParser {
         final String arguments = matcher.group("arguments");
         System.out.println("WEEEEE");
         System.out.println(commandWord);
-        System.out.println("arguments "+arguments);
+        System.out.println("arguments " + arguments);
         switch (commandWord) {
 
-            case AddDeadlineCommand.COMMAND_WORD:
-                return new AddDeadlineCommandParser().parse(arguments);
+        case AddDeadlineCommand.COMMAND_WORD:
+            return new AddDeadlineCommandParser().parse(arguments);
 
-            case AddEventCommand.COMMAND_WORD:
-                return new AddEventCommandParser().parse(arguments);
+        case AddEventCommand.COMMAND_WORD:
+            return new AddEventCommandParser().parse(arguments);
 
-            case AddModuleCommand.COMMAND_WORD:
-                return new AddModuleCommandParser().parse(arguments);
+        case AddModuleCommand.COMMAND_WORD:
+            return new AddModuleCommandParser().parse(arguments);
 
-            default:
-                throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
+        default:
+            throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
         }
     }
 }
