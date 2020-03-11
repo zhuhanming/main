@@ -1,17 +1,24 @@
 package seedu.address.logic.commands;
 
-import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.Model;
-import seedu.address.model.entity.Deadline;
-import seedu.address.model.entity.Event;
-import seedu.address.model.entity.Module;
+import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_END_DATETIME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_MODULE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_REPEAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_START_DATETIME;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.*;
+import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.Model;
+import seedu.address.model.entity.Event;
+import seedu.address.model.entity.Module;
 
+
+/**
+ * Adds an event to the address book.
+ */
 public class AddEventCommand extends Command {
     public static final String COMMAND_WORD = "event";
 
@@ -35,18 +42,14 @@ public class AddEventCommand extends Command {
     public static final String MESSAGE_MODULE_DOESNT_EXIST = "The specified module does not exist in the calendar";
 
     private final Event toAdd;
-    private final Module parentModule;
-    private final Deadline deadline;
     private final boolean isRepeated;
     private LocalDate endRepeatDate;
 
 
     public AddEventCommand(Event event, boolean isRepeated, LocalDate endRepeatDate) {
         requireNonNull(event);
-        toAdd = event;
-        parentModule = null;
-        deadline = null;
-        endRepeatDate = endRepeatDate;
+        this.toAdd = event;
+        this.endRepeatDate = endRepeatDate;
         this.isRepeated = isRepeated;
     }
 
@@ -54,21 +57,23 @@ public class AddEventCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        System.out.println("module +++++    "+ toAdd.getParentModule().getModuleCode());
+        System.out.println("module +++++    " + toAdd.getParentModule().getModuleCode());
         Module module = model.findModule(toAdd.getParentModule());
-        System.out.println("module retrieve "+module);
-        toAdd.setParentModule(module);
+        System.out.println("module retrieve " + module);
+        Event newToAdd = toAdd.setParentModule(module);
 
         if (module == null) {
             throw new CommandException(MESSAGE_MODULE_DOESNT_EXIST);
         }
 
-        if (toAdd.getEventStart().toLocalDate().isBefore(module.getStartDate()) || toAdd.getEventStart().toLocalDate().isAfter(module.getEndDate())
-        || toAdd.getEventEnd().toLocalDate().isBefore(module.getStartDate()) || toAdd.getEventEnd().toLocalDate().isAfter(module.getEndDate())) {
+        if (newToAdd.getEventStart().toLocalDate().isBefore(module.getStartDate())
+                || newToAdd.getEventStart().toLocalDate().isAfter(module.getEndDate())
+                || newToAdd.getEventEnd().toLocalDate().isBefore(module.getStartDate())
+                || newToAdd.getEventEnd().toLocalDate().isAfter(module.getEndDate())) {
             throw new CommandException(MESSAGE_INVALID_DATE_RANGE);
         }
 
-        if (model.hasCalendarItem(toAdd) && !isRepeated) {
+        if (model.hasCalendarItem(newToAdd) && !isRepeated) {
             throw new CommandException(MESSAGE_DUPLICATE_EVENT);
         }
 
@@ -76,11 +81,13 @@ public class AddEventCommand extends Command {
             endRepeatDate = module.getEndDate();
         }
         if (isRepeated) {
-            for (LocalDateTime start = toAdd.getEventStart(), end = toAdd.getEventEnd(); !start.toLocalDate().isAfter(endRepeatDate) && !end.toLocalDate().isAfter(endRepeatDate); start = start.plusDays(7), end = end.plusDays(7)) {
-                Event nextEvent = new Event(toAdd.getEventName(), toAdd.getEventType(), start, end);
+            for (LocalDateTime start = newToAdd.getEventStart(), end = toAdd.getEventEnd();
+                 !start.toLocalDate().isAfter(endRepeatDate) && !end.toLocalDate().isAfter(endRepeatDate);
+                 start = start.plusDays(7), end = end.plusDays(7)) {
+                Event nextEvent = new Event(newToAdd.getEventName(), newToAdd.getEventType(), start, end, module);
                 nextEvent.setParentModule(module);
                 if (!model.hasCalendarItem(nextEvent)) {
-                    module.addEvents(nextEvent);
+                    module.addEvent(nextEvent);
                     model.addCalendarItem(nextEvent);
                 }
 
@@ -88,7 +95,7 @@ public class AddEventCommand extends Command {
 
         }
         System.out.println(model.checkCurrentCalendar());
-        return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, newToAdd));
     }
 
     @Override

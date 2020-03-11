@@ -1,19 +1,21 @@
 package seedu.address.logic.commands;
 
-import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.Model;
-import seedu.address.model.entity.CalendarItem;
-import seedu.address.model.entity.Deadline;
-import seedu.address.model.entity.Event;
-import seedu.address.model.entity.Module;
+import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_MODULE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_REPEAT;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.*;
+import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.Model;
+import seedu.address.model.entity.Deadline;
+import seedu.address.model.entity.Event;
 
+/**
+ * Adds a deadline to the address book.
+ */
 public class AddDeadlineCommand extends Command {
 
     public static final String COMMAND_WORD = "deadline";
@@ -35,7 +37,6 @@ public class AddDeadlineCommand extends Command {
     public static final String MESSAGE_EVENT_DOESNT_EXIST = "The specified event does not exist in the calendar";
 
     private final Deadline toAdd;
-    private final Event parentEvent;
     private final boolean isRepeated;
 
 
@@ -45,14 +46,6 @@ public class AddDeadlineCommand extends Command {
     public AddDeadlineCommand(Deadline deadline, boolean isRepeated) {
         requireNonNull(deadline);
         this.toAdd = deadline;
-        this.parentEvent = null;
-        this.isRepeated = isRepeated;
-    }
-
-    public AddDeadlineCommand(Deadline deadline, Event event, boolean isRepeated) {
-        requireNonNull(deadline);
-        this.toAdd = deadline;
-        this.parentEvent = event;
         this.isRepeated = isRepeated;
     }
 
@@ -72,16 +65,12 @@ public class AddDeadlineCommand extends Command {
             throw new CommandException(MESSAGE_EVENT_DOESNT_EXIST);
         }
 
-        Collections.sort(events, new Comparator<Event>() {
-            public int compare(Event event1, Event event2) {
-                return event1.getEventStart().isBefore(event2.getEventStart()) ? -1 : (event2.getEventStart().isBefore(event1.getEventStart()) ? 1 : 0);
-            }
-        });
+        events.sort((event1, event2) -> event1.getEventStart().isBefore(event2.getEventStart())
+                ? -1 : (event2.getEventStart().isBefore(event1.getEventStart()) ? 1 : 0));
 
-        for (int i = 0; i < events.size(); i++) {
-            if(!events.get(i).getIsOver()) {
-                Deadline currentToAdd = new Deadline(toAdd.getDeadlineName());
-                currentToAdd.setParentEvent(events.get(i));
+        for (Event event : events) {
+            if (!event.getIsOver()) {
+                Deadline currentToAdd = new Deadline(toAdd.getDeadlineName(), event);
                 model.addCalendarItem(currentToAdd);
                 System.out.println("Added: " + toAdd.toDebugString());
                 if (!isRepeated) {
