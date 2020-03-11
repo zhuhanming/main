@@ -1,6 +1,6 @@
 package seedu.address.commons.core;
 
-import java.awt.*;
+import java.awt.Point;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -64,10 +64,8 @@ public class GuiSettings implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Width : " + windowWidth + "\n");
-        sb.append("Height : " + windowHeight + "\n");
-        sb.append("Position : " + windowCoordinates);
-        return sb.toString();
+        return "Width : " + windowWidth + "\n"
+                + "Height : " + windowHeight + "\n"
+                + "Position : " + windowCoordinates;
     }
 }
