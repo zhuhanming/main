@@ -1,20 +1,22 @@
 package seedu.address.storage;
 
-import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.exceptions.DataConversionException;
-import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.commons.util.FileUtil;
-import seedu.address.commons.util.JsonUtil;
-import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.ReadOnlyCalendar;
+import static java.util.Objects.requireNonNull;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-import static java.util.Objects.requireNonNull;
+import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.exceptions.DataConversionException;
+import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.commons.util.FileUtil;
+import seedu.address.commons.util.JsonUtil;
+import seedu.address.model.ReadOnlyCalendar;
 
+/**
+ * A class to access Calendar data stored as a json file on the hard disk.
+ */
 public class JsonCalendarStorage implements CalendarStorage {
 
     private static final Logger logger = LogsCenter.getLogger(JsonCalendarStorage.class);
@@ -45,7 +47,7 @@ public class JsonCalendarStorage implements CalendarStorage {
 
         Optional<JsonSerializableCalendar> jsonSerializableCalendar = JsonUtil.readJsonFile(
                 filePath, JsonSerializableCalendar.class);
-        if (!jsonSerializableCalendar.isPresent()) {
+        if (jsonSerializableCalendar.isEmpty()) {
             return Optional.empty();
         }
 
@@ -63,7 +65,7 @@ public class JsonCalendarStorage implements CalendarStorage {
     }
 
     /**
-     * Similar to {@link #saveAddressBook(ReadOnlyAddressBook)}.
+     * Similar to {@link #saveCalendar(ReadOnlyCalendar)}.
      *
      * @param filePath location of the data. Cannot be null.
      */

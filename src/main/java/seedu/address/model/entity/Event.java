@@ -1,113 +1,79 @@
 package seedu.address.model.entity;
 
-import seedu.address.model.person.Person;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.time.LocalDateTime;
-import java.time.temporal.TemporalAmount;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+/**
+ * Represents an event in Modulo.
+ * Guarantees: details are present and not null, field values are validated, immutable.
+ */
 public class Event extends CalendarItem {
 
+    // Identity Fields
     private CalendarItemName eventName;
-    // List of Enum class
-    private Enum eventType;
-    private List<Deadline> deadlines;
-    private boolean isOver;
+    private EventType eventType;
     private LocalDateTime eventStart;
     private LocalDateTime eventEnd;
     private Module parentModule;
 
+    // Data Fields
+    private List<Deadline> deadlines;
+    private boolean isOver;
 
-    public Event() {
-    }
-
-    public Event(CalendarItemName eventName, Enum eventType, LocalDateTime eventStart, LocalDateTime eventEnd) {
+    public Event(CalendarItemName eventName, EventType eventType, LocalDateTime eventStart,
+                 LocalDateTime eventEnd, Module parentModule) {
+        requireAllNonNull(eventName, eventStart, eventEnd);
         this.eventName = eventName;
         this.eventType = eventType;
         this.eventStart = eventStart;
         this.eventEnd = eventEnd;
+        this.parentModule = parentModule;
+        this.isOver = LocalDateTime.now().isAfter(eventEnd);
         this.deadlines = new ArrayList<>();
+        this.deadlines.add(new Deadline(this.eventType.getDefaultDeadlineDescription(), this));
     }
 
-
-    public Event(CalendarItemName eventName,Module module) {
-        this.eventName = eventName;
-        this.parentModule = module;
-        this.deadlines = new ArrayList<>();
-    }
-
-    public Event(CalendarItemName eventName) {
-        this.eventName = eventName;
-    }
-
-
-    /**
-     * Returns true if a given string is a valid name.
-     */
-//    public static boolean isValidEvent(CalendarItemName test) {
-//        return test.matches(VALIDATION_REGEX);
-//    }
-
-
-
-    public Enum getEventType() {
+    public EventType getEventType() {
         return eventType;
-    }
-
-    public void setEventType(Enum eventType) {
-        this.eventType = eventType;
     }
 
     public CalendarItemName getEventName() {
         return eventName;
     }
 
-    public void setEventName(CalendarItemName eventName) {
-        this.eventName = eventName;
-    }
-
     public List<Deadline> getDeadlines() {
         return deadlines;
-    }
-
-    public void setDeadlines(List<Deadline> deadlines) {
-        this.deadlines = deadlines;
     }
 
     public boolean getIsOver() {
         return isOver;
     }
 
-    public void setIsOver(boolean isOver) {
-        isOver = isOver;
-    }
-
     public Module getParentModule() {
         return parentModule;
     }
 
-    public void setParentModule(Module module) {
-        this.parentModule = module;
+    public Event setParentModule(Module newParentModule) {
+        return new Event(eventName, eventType, eventStart, eventEnd, newParentModule);
     }
 
     public LocalDateTime getEventStart() {
         return eventStart;
     }
 
-    public void setEventStart(LocalDateTime eventStart) {
-        this.eventStart = eventStart;
-    }
-
     public LocalDateTime getEventEnd() {
         return eventEnd;
     }
 
-    public void setEventEnd(LocalDateTime eventEnd) {
-        this.eventEnd = eventEnd;
-    }
-
+    /**
+     * Returns true if both events have the same identity.
+     *
+     * @param otherEvent The event to compare to.
+     * @return boolean value denoting whether the two events are the same event.
+     */
     public boolean isSameEvent(Event otherEvent) {
         if (otherEvent == this) {
             return true;
@@ -115,12 +81,19 @@ public class Event extends CalendarItem {
 
         return otherEvent != null
                 && otherEvent.getEventName().equals(getEventName())
-                && (otherEvent.getParentModule().equals(getParentModule()));
+                && otherEvent.getParentModule().equals(getParentModule())
+                && otherEvent.getEventType().equals(getEventType());
     }
 
+    @Override
+    public Module getModule() {
+        return parentModule;
+    }
+
+
     /**
-     * Returns true if both persons have the same identity and data fields.
-     * This defines a stronger notion of equality between two persons.
+     * Returns true if both events have the same identity and data fields.
+     * This defines a stronger notion of equality between two events.
      */
     @Override
     public boolean equals(Object other) {
@@ -128,7 +101,7 @@ public class Event extends CalendarItem {
             return true;
         }
 
-        if (!(other instanceof Person)) {
+        if (!(other instanceof Event)) {
             return false;
         }
 
@@ -141,18 +114,20 @@ public class Event extends CalendarItem {
                 && otherEvent.getIsOver() == getIsOver()
                 && otherEvent.getEventType().equals(getEventType());
     }
-@Override
-public Module getModule() {
-        return parentModule;
-}
+
+    /**
+     * Returns a string for debugging purposes.
+     *
+     * @return String for debugging purposes.
+     */
     public String toDebugString() {
-        return (getModule() == null ? "null" : getModule().getModuleCode()) + " | " + eventType + " | " + eventName + " | " + eventStart + " | " + eventEnd;
-//        getTags().forEach(builder::append);
+        return (getModule() == null ? "null" : getModule().getModuleCode()) + " | "
+                + eventType + " | " + eventName + " | " + eventStart + " | " + eventEnd;
     }
 
     @Override
     public boolean isSameCalendarItem(CalendarItem otherCalendarItem) {
-        System.out.println("COmparing: " + toDebugString() + " **** " + otherCalendarItem.toDebugString());
+        System.out.println("Comparing: " + toDebugString() + " **** " + otherCalendarItem.toDebugString());
         if (otherCalendarItem == this) {
             System.out.println("SAME EVENT");
             return true;
@@ -163,12 +138,9 @@ public Module getModule() {
         }
 
         Event otherEvent = (Event) otherCalendarItem;
-        return otherCalendarItem != null &&
-                this.eventName.equals(otherEvent.getEventName()) &&
-                this.eventType.equals(otherEvent.getEventType()) &&
-                this.eventStart.equals(otherEvent.getEventStart()) &&
-                this.eventEnd.equals(otherEvent.getEventEnd()) &&
-                this.getModule().matchModule(otherEvent.getModule());
+        return this.eventName.equals(otherEvent.getEventName())
+                && this.eventType.equals(otherEvent.getEventType())
+                && this.getModule().matchModule(otherEvent.getModule());
     }
 
     @Override

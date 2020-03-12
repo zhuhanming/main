@@ -1,20 +1,15 @@
 package seedu.address.storage;
 
+import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
-import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.AddressBook;
-import seedu.address.model.Calendar;
-import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.ReadOnlyCalendar;
-import seedu.address.model.entity.CalendarItem;
-import seedu.address.model.person.Person;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.model.Calendar;
+import seedu.address.model.ReadOnlyCalendar;
 
 /**
  * An Immutable AddressBook that is serializable to JSON format.
@@ -22,7 +17,8 @@ import java.util.stream.Collectors;
 @JsonRootName(value = "calendar")
 class JsonSerializableCalendar {
 
-    public static final String MESSAGE_DUPLICATE_CALENDAR_ITEM = "Calendar item list contains duplicate calendar item(s).";
+    public static final String MESSAGE_DUPLICATE_CALENDAR_ITEM = "Calendar item list "
+            + "contains duplicate calendar item(s).";
 
     private final List<JsonAdaptedCalendarItem> calendarItems = new ArrayList<>();
 
@@ -40,7 +36,10 @@ class JsonSerializableCalendar {
      * @param source future changes to this will not affect the created {@code JsonSerializableCalendar}.
      */
     public JsonSerializableCalendar(ReadOnlyCalendar source) {
-        //calendarItems.addAll(source.getCalendarItemList().stream().map(JsonAdaptedCalendarItem::new).collect(Collectors.toList()));
+        //calendarItems.addAll(source.getCalendarItemList()
+        // .stream()
+        // .map(JsonAdaptedCalendarItem::new)
+        // .collect(Collectors.toList()));
     }
 
     /**

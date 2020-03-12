@@ -1,29 +1,30 @@
 package seedu.address.model.entity;
 
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import static java.util.Objects.requireNonNull;
-
+/**
+ * Represents a module in Modulo.
+ * Guarantees: details are present and not null, field values are validated, immutable.
+ */
 public class Module {
 
+    // Identity Fields
     private String moduleCode;
     private LocalDate startDate;
     private LocalDate endDate;
 
-    List<Event> events;
+    // Data fields
+    private List<Event> events;
 
     public Module(String moduleCode, LocalDate startDate, LocalDate endDate) {
+        requireAllNonNull(moduleCode, startDate, endDate);
         this.moduleCode = moduleCode;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.events = new ArrayList<>();
-    }
-
-    public Module(String moduleCode) {
-        this.moduleCode = moduleCode;
         this.events = new ArrayList<>();
     }
 
@@ -31,20 +32,11 @@ public class Module {
         return moduleCode;
     }
 
-    public void setModuleCode(String moduleCode) {
-        this.moduleCode = moduleCode;
-    }
-
-
     public List<Event> getEvents() {
         return events;
     }
 
-    public void setEvents(List<Event> events) {
-        this.events = events;
-    }
-
-    public void addEvents(Event event) {
+    public void addEvent(Event event) {
         events.add(event);
     }
 
@@ -52,31 +44,64 @@ public class Module {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
     public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
-
+    /**
+     * Returns true if both modules have the same identity.
+     *
+     * @param otherModule Other module to compare with.
+     * @return boolean value denoting whether the two modules are equal.
+     */
     public boolean isSameModule(Module otherModule) {
         if (otherModule == this) {
             return true;
         } else {
-            return otherModule.getModuleCode().equals(this.getModuleCode());
+            return otherModule.getModuleCode().equals(this.getModuleCode())
+                    && otherModule.getStartDate().equals(this.getStartDate())
+                    && otherModule.getEndDate().equals(this.getEndDate());
         }
     }
 
+    /**
+     * Matches the module based on the loose criteria of naming.
+     *
+     * @param otherModule Module to compare with
+     * @return boolean value on whether this matches
+     */
     public boolean matchModule(Module otherModule) {
         return this.moduleCode.equals(otherModule.getModuleCode());
     }
 
+    /**
+     * Returns true if both modules have the same identity and data fields.
+     * This defines a stronger notion of equality between two modules.
+     */
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof Module)) {
+            return false;
+        }
+
+        Module otherModule = (Module) other;
+        return otherModule.getModuleCode().equals(getModuleCode())
+                && otherModule.getStartDate().equals(getStartDate())
+                && otherModule.getEndDate().equals(getEndDate())
+                && otherModule.getEvents().equals(getEvents());
+    }
+
+    /**
+     * Returns a string for debugging purposes.
+     *
+     * @return String for debugging purposes.
+     */
     public String toDebugString() {
-        return moduleCode + " | " + (startDate != null ? startDate.toString() : "null") + " | " + (endDate != null ? endDate.toString() : "null");
+        return moduleCode + " | " + (startDate != null ? startDate.toString() : "null") + " | "
+                + (endDate != null ? endDate.toString() : "null");
     }
 }
