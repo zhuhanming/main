@@ -31,7 +31,7 @@ public class AddEventCommand extends Command {
             + PREFIX_REPEAT + "YES/NO \n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_MODULE + "CS2103 "
-            + PREFIX_NAME + "Tutorial  "
+            + PREFIX_NAME + "Tutorial "
             + PREFIX_START_DATETIME + "2020-01-01 15:00 "
             + PREFIX_END_DATETIME + "2020-01-01 16:00 "
             + PREFIX_REPEAT + "YES ";
