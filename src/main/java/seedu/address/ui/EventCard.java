@@ -40,7 +40,7 @@ public class EventCard extends UiPart<Region> {
 
     public EventCard(CalendarItem calendarItem, int displayedIndex) {
         super(FXML);
-        Event event = (Event)calendarItem;
+        Event event = (Event) calendarItem;
         this.event = event;
         id.setText(displayedIndex + ". ");
         name.setText(event.getEventName().fullName);
