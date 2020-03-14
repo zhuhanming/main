@@ -237,7 +237,7 @@ public class ModelManager implements Model {
     @Override
     public String checkCurrentCalendar() {
         List<Module> modules = calendar.getModuleList();
-        List<CalendarItem> calendaritems = calendar.getCalendarItemList();
+        List<CalendarItem> calendarItems = calendar.getCalendarItemList();
         StringBuilder sb = new StringBuilder();
         sb.append("Modules: ");
         sb.append("\n");
@@ -248,7 +248,7 @@ public class ModelManager implements Model {
 
         sb.append("Calendar Items: ");
         sb.append("\n");
-        for (CalendarItem eachCalendarItem : calendaritems) {
+        for (CalendarItem eachCalendarItem : calendarItems) {
             sb.append(eachCalendarItem.toDebugString());
             sb.append("\n");
         }

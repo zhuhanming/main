@@ -11,6 +11,7 @@ import seedu.address.logic.commands.AddEventCommand;
 import seedu.address.logic.commands.AddModuleCommand;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.HelpCommand;
+import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
@@ -42,6 +43,9 @@ public class CalendarParser {
         System.out.println(commandWord);
         System.out.println("arguments " + arguments);
         switch (commandWord) {
+
+        case ListCommand.COMMAND_WORD:
+            return new ListCommand();
 
         case AddDeadlineCommand.COMMAND_WORD:
             return new AddDeadlineCommandParser().parse(arguments);

@@ -33,7 +33,8 @@ public class Event extends CalendarItem {
         this.parentModule = parentModule;
         this.isOver = LocalDateTime.now().isAfter(eventEnd);
         this.deadlines = new ArrayList<>();
-        this.deadlines.add(new Deadline(this.eventType.getDefaultDeadlineDescription(), this));
+        //this.deadlines.add(new Deadline(this.eventType.getDefaultDeadlineDescription(), this));
+        this.deadlines.add(new Deadline(new CalendarItemName(this.eventType.toString()), this));
     }
 
     public EventType getEventType() {
