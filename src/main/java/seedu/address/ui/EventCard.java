@@ -1,7 +1,5 @@
 package seedu.address.ui;
 
-import java.util.Comparator;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
@@ -34,8 +32,6 @@ public class EventCard extends UiPart<Region> {
     @FXML
     private Label id;
     @FXML
-    private Label module;
-    @FXML
     private Label startDate;
     @FXML
     private Label endDate;
@@ -48,14 +44,12 @@ public class EventCard extends UiPart<Region> {
         this.event = event;
         id.setText(displayedIndex + ". ");
         name.setText(event.getEventName().fullName);
-        module.setText(event.getModule().getModuleCode());
         startDate.setText(event.getEventStart().toString());
         endDate.setText(event.getEventEnd().toString());
         tags.getChildren().add(new Label(event.getModule().getModuleCode()));
 
         /*
-        Future extension if want to add additional tags
-
+        Future extension if want to add additional tags:
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));*/
