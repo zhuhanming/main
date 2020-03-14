@@ -1,22 +1,14 @@
 package seedu.address.logic.parser;
 
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_MODULE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_REPEAT;
+import seedu.address.logic.commands.AddDeadlineCommand;
+import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.entity.Module;
+import seedu.address.model.entity.*;
 
 import java.util.stream.Stream;
 
-import seedu.address.logic.commands.AddDeadlineCommand;
-import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.entity.CalendarItemName;
-import seedu.address.model.entity.Deadline;
-import seedu.address.model.entity.Event;
-import seedu.address.model.entity.EventType;
-import seedu.address.model.entity.MatchableEvent;
-import seedu.address.model.entity.MatchableModule;
-import seedu.address.model.entity.Module;
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.*;
 
 /**
  * Parses input arguments and creates a new AddDeadlineCommand object
@@ -44,9 +36,17 @@ public class AddDeadlineCommandParser implements Parser<AddDeadlineCommand> {
         boolean isRepeated = ParserUtil.parseRepeat(argMultimap.getValue(PREFIX_REPEAT).get());
 
         // Todo: need to parse eventName to get eventType
+        EventType eventType;
+        if (eventName.toString().contains("Tutorial")) {
+            eventType = EventType.TUTORIAL;
+        } else if (eventName.toString().contains("Lab")) {
+            eventType = EventType.LAB;
+        } else {
+            eventType = EventType.LECTURE;
+        }
 
         Module module = new MatchableModule(moduleCode);
-        Event event = new MatchableEvent(eventName, EventType.TUTORIAL, module);
+        Event event = new MatchableEvent(eventName, eventType, module);
         Deadline deadline = new Deadline(name, event);
 
         return new AddDeadlineCommand(deadline, isRepeated);

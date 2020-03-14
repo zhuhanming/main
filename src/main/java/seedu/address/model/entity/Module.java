@@ -1,10 +1,10 @@
 package seedu.address.model.entity;
 
-import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 /**
  * Represents a module in Modulo.
@@ -26,6 +26,9 @@ public class Module {
         this.startDate = startDate;
         this.endDate = endDate;
         this.events = new ArrayList<>();
+    }
+
+    public Module() {
     }
 
     public String getModuleCode() {
@@ -63,6 +66,7 @@ public class Module {
                     && otherModule.getEndDate().equals(this.getEndDate());
         }
     }
+
 
     /**
      * Matches the module based on the loose criteria of naming.

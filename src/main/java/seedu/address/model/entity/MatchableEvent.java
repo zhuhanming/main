@@ -2,6 +2,7 @@ package seedu.address.model.entity;
 
 import java.time.LocalDateTime;
 
+
 /**
  * A helper class for deadline creation, where only the event name and {@code MatchableModule}
  * required for initialisation. The object returned will only be used for matching

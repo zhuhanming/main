@@ -1,8 +1,8 @@
 package seedu.address.model.entity;
 
-import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
-
 import java.time.LocalDateTime;
+
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 /**
  * Represents a deadline in Modulo.
@@ -67,6 +67,10 @@ public class Deadline extends CalendarItem {
      */
     public Deadline completeDeadline() {
         return new Deadline(deadlineName, parentEvent, true);
+    }
+
+    public void setCompleted(boolean completed) {
+        isCompleted = completed;
     }
 
     /**

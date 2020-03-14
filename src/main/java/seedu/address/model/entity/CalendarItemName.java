@@ -27,6 +27,7 @@ public class CalendarItemName {
      */
     public CalendarItemName(String name) {
         requireNonNull(name);
+        System.out.println("Calendar item name " + name);
         checkArgument(isValidName(name), MESSAGE_CONSTRAINTS);
         fullName = name;
     }

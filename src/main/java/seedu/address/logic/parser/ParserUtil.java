@@ -1,6 +1,13 @@
 package seedu.address.logic.parser;
 
-import static java.util.Objects.requireNonNull;
+import seedu.address.commons.core.index.Index;
+import seedu.address.commons.util.StringUtil;
+import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.entity.CalendarItemName;
+import seedu.address.model.person.Address;
+import seedu.address.model.person.Email;
+import seedu.address.model.person.Phone;
+import seedu.address.model.tag.Tag;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -10,14 +17,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import seedu.address.commons.core.index.Index;
-import seedu.address.commons.util.StringUtil;
-import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.entity.CalendarItemName;
-import seedu.address.model.person.Address;
-import seedu.address.model.person.Email;
-import seedu.address.model.person.Phone;
-import seedu.address.model.tag.Tag;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Contains utility methods used for parsing strings in the various *Parser classes.
@@ -123,6 +123,7 @@ public class ParserUtil {
     public static CalendarItemName parseName(String name) throws ParseException {
         requireNonNull(name);
         String trimmedName = name.trim();
+        System.out.println(" trimmed " + trimmedName);
         if (!CalendarItemName.isValidName(trimmedName)) {
             throw new ParseException(CalendarItemName.MESSAGE_CONSTRAINTS);
         }
@@ -191,12 +192,12 @@ public class ParserUtil {
      */
     public static boolean parseRepeat(String repeat) throws ParseException {
         switch (repeat.toLowerCase()) {
-        case "yes":
-            return true;
-        case "no":
-            return false;
-        default:
-            throw new ParseException("Please enter valid input for repeat : YES/NO");
+            case "yes":
+                return true;
+            case "no":
+                return false;
+            default:
+                throw new ParseException("Please enter valid input for repeat : YES/NO");
         }
     }
 

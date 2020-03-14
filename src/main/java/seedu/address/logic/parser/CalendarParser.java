@@ -1,18 +1,13 @@
 package seedu.address.logic.parser;
 
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
+import seedu.address.logic.commands.*;
+import seedu.address.logic.parser.exceptions.ParseException;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import seedu.address.logic.commands.AddDeadlineCommand;
-import seedu.address.logic.commands.AddEventCommand;
-import seedu.address.logic.commands.AddModuleCommand;
-import seedu.address.logic.commands.Command;
-import seedu.address.logic.commands.HelpCommand;
-import seedu.address.logic.commands.ListCommand;
-import seedu.address.logic.parser.exceptions.ParseException;
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 
 /**
  * Parses user input.
@@ -44,20 +39,23 @@ public class CalendarParser {
         System.out.println("arguments " + arguments);
         switch (commandWord) {
 
-        case ListCommand.COMMAND_WORD:
-            return new ListCommand();
+            case ListCommand.COMMAND_WORD:
+                return new ListCommand();
 
-        case AddDeadlineCommand.COMMAND_WORD:
-            return new AddDeadlineCommandParser().parse(arguments);
+            case AddDeadlineCommand.COMMAND_WORD:
+                return new AddDeadlineCommandParser().parse(arguments);
 
-        case AddEventCommand.COMMAND_WORD:
-            return new AddEventCommandParser().parse(arguments);
+            case AddEventCommand.COMMAND_WORD:
+                return new AddEventCommandParser().parse(arguments);
 
-        case AddModuleCommand.COMMAND_WORD:
-            return new AddModuleCommandParser().parse(arguments);
+            case AddModuleCommand.COMMAND_WORD:
+                return new AddModuleCommandParser().parse(arguments);
 
-        default:
-            throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
+            case DoneCommand.COMMAND_WORD:
+                return new DoneCommandParser().parse(arguments);
+
+            default:
+                throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
         }
     }
 }
