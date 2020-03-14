@@ -9,7 +9,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.entity.CalendarItem;
-import seedu.address.model.entity.Event;
 
 /**
  * Panel containing the list of persons.
