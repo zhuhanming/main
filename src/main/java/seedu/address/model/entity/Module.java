@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * Represents a module in Modulo.
  * Guarantees: details are present and not null, field values are validated, immutable.
@@ -26,6 +27,9 @@ public class Module {
         this.startDate = startDate;
         this.endDate = endDate;
         this.events = new ArrayList<>();
+    }
+
+    public Module() {
     }
 
     public String getModuleCode() {
@@ -63,6 +67,7 @@ public class Module {
                     && otherModule.getEndDate().equals(this.getEndDate());
         }
     }
+
 
     /**
      * Matches the module based on the loose criteria of naming.

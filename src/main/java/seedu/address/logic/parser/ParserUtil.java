@@ -35,10 +35,12 @@ public class ParserUtil {
      * @throws ParseException if the specified index is invalid (not non-zero unsigned integer).
      */
     public static Index parseIndex(String oneBasedIndex) throws ParseException {
+        System.out.println("index enter " + oneBasedIndex);
         String trimmedIndex = oneBasedIndex.trim();
         if (!StringUtil.isNonZeroUnsignedInteger(trimmedIndex)) {
             throw new ParseException(MESSAGE_INVALID_INDEX);
         }
+        System.out.println("index pass " + oneBasedIndex);
         return Index.fromOneBased(Integer.parseInt(trimmedIndex));
     }
 
@@ -123,6 +125,7 @@ public class ParserUtil {
     public static CalendarItemName parseName(String name) throws ParseException {
         requireNonNull(name);
         String trimmedName = name.trim();
+        System.out.println(" trimmed " + trimmedName);
         if (!CalendarItemName.isValidName(trimmedName)) {
             throw new ParseException(CalendarItemName.MESSAGE_CONSTRAINTS);
         }

@@ -18,6 +18,7 @@ import seedu.address.model.entity.MatchableEvent;
 import seedu.address.model.entity.MatchableModule;
 import seedu.address.model.entity.Module;
 
+
 /**
  * Parses input arguments and creates a new AddDeadlineCommand object
  */
@@ -44,9 +45,17 @@ public class AddDeadlineCommandParser implements Parser<AddDeadlineCommand> {
         boolean isRepeated = ParserUtil.parseRepeat(argMultimap.getValue(PREFIX_REPEAT).get());
 
         // Todo: need to parse eventName to get eventType
+        EventType eventType;
+        if (eventName.toString().contains("Tutorial")) {
+            eventType = EventType.TUTORIAL;
+        } else if (eventName.toString().contains("Lab")) {
+            eventType = EventType.LAB;
+        } else {
+            eventType = EventType.LECTURE;
+        }
 
         Module module = new MatchableModule(moduleCode);
-        Event event = new MatchableEvent(eventName, EventType.TUTORIAL, module);
+        Event event = new MatchableEvent(eventName, eventType, module);
         Deadline deadline = new Deadline(name, event);
 
         return new AddDeadlineCommand(deadline, isRepeated);

@@ -4,6 +4,7 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.time.LocalDateTime;
 
+
 /**
  * Represents a deadline in Modulo.
  * Guarantees: details are present and not null, field values are validated, fields are immutable.
@@ -67,6 +68,10 @@ public class Deadline extends CalendarItem {
      */
     public Deadline completeDeadline() {
         return new Deadline(deadlineName, parentEvent, true);
+    }
+
+    public void setCompleted(boolean completed) {
+        isCompleted = completed;
     }
 
     /**

@@ -19,6 +19,7 @@ import seedu.address.model.entity.EventType;
 import seedu.address.model.entity.MatchableModule;
 import seedu.address.model.entity.Module;
 
+
 /**
  * Parses input arguments and creates a new AddEventCommand object
  */
@@ -30,6 +31,7 @@ public class AddEventCommandParser implements Parser<AddEventCommand> {
      *
      * @throws ParseException if the user input does not conform the expected format
      */
+    @SuppressWarnings("checkstyle:WhitespaceAround")
     public AddEventCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_MODULE, PREFIX_NAME,
                 PREFIX_START_DATETIME, PREFIX_END_DATETIME, PREFIX_REPEAT);
@@ -51,11 +53,17 @@ public class AddEventCommandParser implements Parser<AddEventCommand> {
         //    endRepeatDate = ParserUtil.parseDate(argMultimap.getValue(PREFIX_STOP_REPEAT).get());
         //}
         // todo: Need to parse event name for EventType
-
         // retrieve from module name and check if module already exists
         Module module = new MatchableModule(moduleCode);
-        Event event = new Event(name, EventType.TUTORIAL, startDateTime, endDateTime, module);
-
+        EventType eventType;
+        if (name.toString().contains("Tutorial")) {
+            eventType = EventType.TUTORIAL;
+        } else if (name.toString().contains("Lab")) {
+            eventType = EventType.LAB;
+        } else {
+            eventType = EventType.LECTURE;
+        }
+        Event event = new Event(name, eventType, startDateTime, endDateTime, module);
         return new AddEventCommand(event, isRepeated, endRepeatDate);
     }
 

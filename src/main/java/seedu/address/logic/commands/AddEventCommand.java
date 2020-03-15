@@ -57,9 +57,7 @@ public class AddEventCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        System.out.println("module +++++    " + toAdd.getParentModule().getModuleCode());
         Module module = model.findModule(toAdd.getParentModule());
-        System.out.println("module retrieve " + module);
         Event newToAdd = toAdd.setParentModule(module);
 
         if (module == null) {

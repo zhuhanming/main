@@ -13,6 +13,7 @@ import seedu.address.model.Model;
 import seedu.address.model.entity.Deadline;
 import seedu.address.model.entity.Event;
 
+
 /**
  * Adds a deadline to the address book.
  */
@@ -58,9 +59,7 @@ public class AddDeadlineCommand extends Command {
         if (model.hasCalendarItem(toAdd)) {
             throw new CommandException(MESSAGE_DUPLICATE_DEADLINE);
         }
-        System.out.println(toAdd.getParentEvent().getCalendarItemType());
         List<Event> events = model.findAllEvents(toAdd.getParentEvent());
-        System.out.println(events.size());
         if (events.size() == 0) {
             throw new CommandException(MESSAGE_EVENT_DOESNT_EXIST);
         }
