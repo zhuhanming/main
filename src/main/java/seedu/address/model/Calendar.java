@@ -1,14 +1,14 @@
 package seedu.address.model;
 
+import static java.util.Objects.requireNonNull;
+
+import java.util.List;
+
 import javafx.collections.ObservableList;
 import seedu.address.model.entity.CalendarItem;
 import seedu.address.model.entity.Module;
 import seedu.address.model.entity.UniqueCalendarItemList;
 import seedu.address.model.entity.UniqueModuleList;
-
-import java.util.List;
-
-import static java.util.Objects.requireNonNull;
 
 /**
  * Wraps all data at the calendar level
@@ -64,7 +64,6 @@ public class Calendar implements ReadOnlyCalendar {
      * The person must not already exist in the address book.
      */
     public void addModule(Module module) {
-        System.out.println(" Number 1 ");
         modules.add(module);
     }
 

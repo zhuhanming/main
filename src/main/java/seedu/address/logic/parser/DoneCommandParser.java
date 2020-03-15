@@ -1,14 +1,12 @@
-package seedu.address.logic.parser;//package seedu.address.logic.parser;
-//
-//import seedu.address.logic.commands.AddEventCommand;
-//import seedu.address.logic.commands.DoneCommand;
-//import seedu.address.logic.parser.exceptions.ParseException;
-//import seedu.address.model.entity.MatchableModule;
-//
-//import java.util.stream.Stream;
-//
-//import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+package seedu.address.logic.parser;
 
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_MODULE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+
+import java.util.stream.Stream;
+
+import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.DoneCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.entity.CalendarItemName;
@@ -16,21 +14,34 @@ import seedu.address.model.entity.EventType;
 import seedu.address.model.entity.MatchableEvent;
 import seedu.address.model.entity.MatchableModule;
 
-import java.util.stream.Stream;
-
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.*;
-
+/**
+ * Parser done arguments to set a deadline to be done.
+ */
 public class DoneCommandParser implements Parser<DoneCommand> {
+    /**
+     * @param args
+     * @return a DoneCommand class
+     * @throws ParseException
+     */
     public DoneCommand parse(String args) throws ParseException {
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_INDEX, PREFIX_MODULE, PREFIX_NAME);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_MODULE, PREFIX_NAME);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_INDEX, PREFIX_MODULE, PREFIX_NAME) || !argMultimap.getPreamble().isEmpty()) {
+        Index index;
+
+        try {
+            index = ParserUtil.parseIndex(argMultimap.getPreamble());
+            System.out.println("index " + index.getOneBased());
+        } catch (ParseException pe) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DoneCommand.MESSAGE_USAGE), pe);
+        }
+
+        if (!arePrefixesPresent(argMultimap, PREFIX_MODULE, PREFIX_NAME)) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DoneCommand.MESSAGE_USAGE));
         }
+
         String moduleCode = ParserUtil.parseModuleCode(argMultimap.getValue(PREFIX_MODULE).get());
         CalendarItemName name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
-        String index = argMultimap.getValue(PREFIX_INDEX).get();
+
         MatchableModule module = new MatchableModule(moduleCode);
         EventType eventType;
         if (name.toString().contains("Tutorial")) {

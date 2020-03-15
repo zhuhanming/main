@@ -1,14 +1,23 @@
 package seedu.address.logic.parser;
 
-import seedu.address.logic.commands.AddDeadlineCommand;
-import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.entity.Module;
-import seedu.address.model.entity.*;
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_MODULE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_REPEAT;
 
 import java.util.stream.Stream;
 
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.*;
+import seedu.address.logic.commands.AddDeadlineCommand;
+import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.entity.CalendarItemName;
+import seedu.address.model.entity.Deadline;
+import seedu.address.model.entity.Event;
+import seedu.address.model.entity.EventType;
+import seedu.address.model.entity.MatchableEvent;
+import seedu.address.model.entity.MatchableModule;
+import seedu.address.model.entity.Module;
+
 
 /**
  * Parses input arguments and creates a new AddDeadlineCommand object

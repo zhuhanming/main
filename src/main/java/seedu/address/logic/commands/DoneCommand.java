@@ -1,17 +1,22 @@
 package seedu.address.logic.commands;
 
+import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_INDEX;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_MODULE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+
+import java.util.List;
+
+import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.entity.CalendarItem;
 import seedu.address.model.entity.Deadline;
 import seedu.address.model.entity.Event;
 import seedu.address.model.entity.Module;
 
-import java.util.List;
-
-import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.*;
-
+/**
+ * Set a deadline to be done
+ */
 public class DoneCommand extends Command {
 
     public static final String COMMAND_WORD = "done";
@@ -23,8 +28,7 @@ public class DoneCommand extends Command {
             + PREFIX_MODULE + "MODULE "
             + PREFIX_NAME + "EVENT_NAME"
             + "\n"
-            + "Example: " + COMMAND_WORD + " "
-            + PREFIX_INDEX + "1 "
+            + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_MODULE + "CS2103 "
             + PREFIX_NAME + "Tutorial";
 
@@ -34,11 +38,12 @@ public class DoneCommand extends Command {
     public static final String MESSAGE_DEADLINE_DOESNT_EXIST = "The specified event does not have any deadlines";
     private final Module toCheckModule;
     private final Event toCheckEvent;
-    private String index;
+    private final Index index;
     private boolean isDeadlinesExisted = false;
 
-    public DoneCommand(Module module, Event event, String index) {
+    public DoneCommand(Module module, Event event, Index index) {
         requireNonNull(module);
+        requireNonNull(index);
         toCheckModule = module;
         this.toCheckEvent = event;
         this.index = index;
@@ -63,8 +68,7 @@ public class DoneCommand extends Command {
                     List<Deadline> deadlineList = eventList.get(i).getDeadlines();
                     if (deadlineList.size() > 0) {
                         for (int j = 0; j < deadlineList.size(); j++) {
-                            CalendarItem calendarItem = deadlineList.get(j);
-                            if (Integer.parseInt(index) == j + 1) {
+                            if (index.getOneBased() == j + 1) {
                                 deadlineList.get(j).setCompleted(true);
                                 isDeadlinesExisted = true;
                                 break;
@@ -79,6 +83,7 @@ public class DoneCommand extends Command {
             throw new CommandException(MESSAGE_DEADLINE_DOESNT_EXIST);
         }
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, (toCheckModule.getModuleCode() + " " + toCheckEvent.getEventName())));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, (
+                toCheckModule.getModuleCode() + " " + toCheckEvent.getEventName())));
     }
 }

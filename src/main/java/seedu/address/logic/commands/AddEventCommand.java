@@ -1,15 +1,19 @@
 package seedu.address.logic.commands;
 
-import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.Model;
-import seedu.address.model.entity.Event;
-import seedu.address.model.entity.Module;
+import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_END_DATETIME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_MODULE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_REPEAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_START_DATETIME;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.*;
+import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.Model;
+import seedu.address.model.entity.Event;
+import seedu.address.model.entity.Module;
 
 
 /**
