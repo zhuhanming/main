@@ -1,7 +1,6 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MODULE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 
@@ -24,7 +23,7 @@ public class DoneCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finishing a task "
             + "Parameters: "
-            + PREFIX_INDEX + "INDEX "
+            + "INDEX "
             + PREFIX_MODULE + "MODULE "
             + PREFIX_NAME + "EVENT_NAME"
             + "\n"
