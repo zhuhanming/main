@@ -11,7 +11,9 @@ import java.util.stream.Stream;
 
 import seedu.address.logic.commands.AddModuleCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.entity.Module;
+import seedu.address.model.Name;
+import seedu.address.model.module.Module;
+import seedu.address.model.module.ModuleCode;
 
 /**
  * Parses input arguments and creates a new AddModuleCommand object
@@ -19,8 +21,8 @@ import seedu.address.model.entity.Module;
 public class AddModuleCommandParser implements Parser<AddModuleCommand> {
 
     /**
-     * Parses the given {@code String} of arguments in the context of the AddCommand
-     * and returns an AddCommand object for execution.
+     * Parses the given {@code String} of arguments in the context of the AddCommand and returns an AddCommand object
+     * for execution.
      *
      * @throws ParseException if the user input does not conform the expected format
      */
@@ -33,7 +35,7 @@ public class AddModuleCommandParser implements Parser<AddModuleCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddModuleCommand.MESSAGE_USAGE));
         }
 
-        String moduleCode = ParserUtil.parseModuleCode(argMultimap.getValue(PREFIX_MODULE).get()).toUpperCase();
+        ModuleCode moduleCode = ParserUtil.parseModuleCode(argMultimap.getValue(PREFIX_MODULE).get());
         LocalDate startDate = ParserUtil.parseDate(argMultimap.getValue(PREFIX_START_DATE).get());
         LocalDate endDate = ParserUtil.parseDate(argMultimap.getValue(PREFIX_END_DATE).get());
 
@@ -41,14 +43,14 @@ public class AddModuleCommandParser implements Parser<AddModuleCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_DATE_RANGE, "Start date cannot be after end date!"));
         }
 
-        Module module = new Module(moduleCode, startDate, endDate);
+        Module module = new Module(moduleCode, new Name("Fake Name"), startDate, endDate, "Fake Description");
 
         return new AddModuleCommand(module);
     }
 
     /**
-     * Returns true if none of the prefixes contains empty {@code Optional} values in the given
-     * {@code ArgumentMultimap}.
+     * Returns true if none of the prefixes contains empty {@code Optional} values in the given {@code
+     * ArgumentMultimap}.
      */
     private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
         return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());

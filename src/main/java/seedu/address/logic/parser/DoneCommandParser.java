@@ -9,10 +9,11 @@ import java.util.stream.Stream;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.DoneCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.entity.CalendarItemName;
-import seedu.address.model.entity.EventType;
-import seedu.address.model.entity.MatchableEvent;
-import seedu.address.model.entity.MatchableModule;
+import seedu.address.model.Name;
+import seedu.address.model.event.EventType;
+import seedu.address.model.event.MatchableEvent;
+import seedu.address.model.module.MatchableModule;
+import seedu.address.model.module.ModuleCode;
 
 /**
  * Parser done arguments to set a deadline to be done.
@@ -39,8 +40,8 @@ public class DoneCommandParser implements Parser<DoneCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DoneCommand.MESSAGE_USAGE));
         }
 
-        String moduleCode = ParserUtil.parseModuleCode(argMultimap.getValue(PREFIX_MODULE).get());
-        CalendarItemName name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
+        ModuleCode moduleCode = ParserUtil.parseModuleCode(argMultimap.getValue(PREFIX_MODULE).get());
+        Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
 
         MatchableModule module = new MatchableModule(moduleCode);
         EventType eventType;

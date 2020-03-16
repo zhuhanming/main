@@ -41,7 +41,6 @@ public class CalendarParser {
 
         final String commandWord = matcher.group("commandWord");
         final String arguments = matcher.group("arguments");
-        System.out.println("WEEEEE");
         System.out.println(commandWord);
         System.out.println("arguments " + arguments);
         switch (commandWord) {
