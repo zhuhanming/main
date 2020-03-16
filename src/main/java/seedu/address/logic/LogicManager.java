@@ -11,9 +11,9 @@ import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.CalendarParser;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.Displayable;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyCalendar;
-import seedu.address.model.entity.CalendarItem;
 import seedu.address.storage.Storage;
 
 /**
@@ -36,9 +36,9 @@ public class LogicManager implements Logic {
     @Override
     public CommandResult execute(String commandText) throws CommandException, ParseException {
 
-        for (int i = 0; i < model.getCalendar().getCalendarItemList().size(); i++) {
+        for (int i = 0; i < model.getCalendar().getEventList().size(); i++) {
             System.out.println("Item " + i + ": ");
-            System.out.println(model.getCalendar().getCalendarItemList().get(i));
+            System.out.println(model.getCalendar().getEventList().get(i));
         }
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
@@ -62,8 +62,8 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public ObservableList<CalendarItem> getFilteredCalendarItemList() {
-        return model.getFilteredCalendarItemList();
+    public ObservableList<? extends Displayable> getFilteredFocusedList() {
+        return model.getFilteredFocusedList();
     }
 
     @Override

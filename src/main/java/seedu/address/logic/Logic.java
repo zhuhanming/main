@@ -7,9 +7,9 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.Displayable;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyCalendar;
-import seedu.address.model.entity.CalendarItem;
 
 /**
  * API of the Logic component
@@ -33,9 +33,10 @@ public interface Logic {
     ReadOnlyCalendar getCalendar();
 
     /**
-     * Returns an unmodifiable view of the filtered list of persons
+     * Returns an unmodifiable view of the filtered list of focused items. This can be either {@code Module} or {@code}
+     * Event.
      */
-    ObservableList<CalendarItem> getFilteredCalendarItemList();
+    ObservableList<? extends Displayable> getFilteredFocusedList();
 
     /**
      * Returns the user prefs' address book file path.
