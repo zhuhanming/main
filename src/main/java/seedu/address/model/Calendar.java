@@ -5,18 +5,17 @@ import static java.util.Objects.requireNonNull;
 import java.util.List;
 
 import javafx.collections.ObservableList;
-import seedu.address.model.entity.CalendarItem;
-import seedu.address.model.entity.Module;
-import seedu.address.model.entity.UniqueCalendarItemList;
-import seedu.address.model.entity.UniqueModuleList;
+import seedu.address.model.event.Event;
+import seedu.address.model.event.UniqueEventList;
+import seedu.address.model.module.Module;
+import seedu.address.model.module.UniqueModuleList;
 
 /**
- * Wraps all data at the calendar level
- * Duplicates are not allowed (by .isSameModule comparison)
+ * Wraps all data at the calendar level Duplicates are not allowed (by .isSameModule comparison)
  */
 public class Calendar implements ReadOnlyCalendar {
 
-    private final UniqueCalendarItemList calendarItems;
+    private final UniqueEventList events;
     private final UniqueModuleList modules;
 
     /*
@@ -25,9 +24,8 @@ public class Calendar implements ReadOnlyCalendar {
      *
      *  Note that non-static init blocks are not recommended to use. There are other ways to avoid duplication
      *  among constructors.
-     */
-    {
-        calendarItems = new UniqueCalendarItemList();
+     */ {
+        events = new UniqueEventList();
         modules = new UniqueModuleList();
     }
 
@@ -35,7 +33,7 @@ public class Calendar implements ReadOnlyCalendar {
     }
 
     /**
-     * Creates an AddressBook using the Persons in the {@code toBeCopied}
+     * Creates a Calendar using the items in the {@code toBeCopied}
      */
     public Calendar(ReadOnlyCalendar toBeCopied) {
         this();
@@ -45,12 +43,32 @@ public class Calendar implements ReadOnlyCalendar {
     //// list overwrite operations
 
     /**
-     * Replaces the contents of the person list with {@code persons}.
-     * {@code persons} must not contain duplicate persons.
+     * Replaces the contents of the person list with {@code modules}. {@code modules} must not contain duplicate
+     * modules.
      */
     public void setModules(List<Module> modules) {
         this.modules.setModules(modules);
     }
+
+    /**
+     * Replaces the contents of the person list with {@code persons}. {@code persons} must not contain duplicate
+     * persons.
+     */
+    public void setEvents(List<Event> events) {
+        this.events.setEvents(events);
+    }
+
+    /**
+     * Resets the existing data of this {@code AddressBook} with {@code newData}.
+     */
+    public void resetData(ReadOnlyCalendar newData) {
+        requireNonNull(newData);
+
+        setEvents(newData.getEventList());
+        setModules(newData.getModuleList());
+    }
+
+    // module-level operations
 
     /**
      * Returns true if a person with the same identity as {@code person} exists in the address book.
@@ -61,17 +79,16 @@ public class Calendar implements ReadOnlyCalendar {
     }
 
     /**
-     * Adds a person to the address book.
-     * The person must not already exist in the address book.
+     * Adds a person to the address book. The person must not already exist in the address book.
      */
     public void addModule(Module module) {
         modules.add(module);
     }
 
     /**
-     * Replaces the given person {@code target} in the list with {@code editedPerson}.
-     * {@code target} must exist in the address book.
-     * The person identity of {@code editedPerson} must not be the same as another existing person in the address book.
+     * Replaces the given person {@code target} in the list with {@code editedPerson}. {@code target} must exist in the
+     * address book. The person identity of {@code editedPerson} must not be the same as another existing person in the
+     * address book.
      */
     public void setModule(Module target, Module editedModule) {
         requireNonNull(editedModule);
@@ -80,80 +97,60 @@ public class Calendar implements ReadOnlyCalendar {
     }
 
     /**
-     * Removes {@code key} from this {@code AddressBook}.
-     * {@code key} must exist in the address book.
+     * Removes {@code key} from the {@code Calendar}. {@code key} must exist in the calendar.
      */
     public void removeModule(Module key) {
         modules.remove(key);
     }
 
-    /**
-     * Replaces the contents of the person list with {@code persons}.
-     * {@code persons} must not contain duplicate persons.
-     */
-    public void setCalendarItems(List<CalendarItem> calendarItems) {
-        this.calendarItems.setCalendarItems(calendarItems);
-    }
+
+    // event-level operations
 
     /**
-     * Replaces the given person {@code target} in the list with {@code editedPerson}.
-     * {@code target} must exist in the address book.
-     * The person identity of {@code editedPerson} must not be the same as another existing person in the address book.
+     * Replaces the given person {@code target} in the list with {@code editedPerson}. {@code target} must exist in the
+     * address book. The person identity of {@code editedPerson} must not be the same as another existing person in the
+     * address book.
      */
-    public void setCalendarItems(CalendarItem target, CalendarItem editedCalendarItem) {
-        requireNonNull(editedCalendarItem);
-        calendarItems.setCalendarItem(target, editedCalendarItem);
+    public void setEvent(Event target, Event editedEvent) {
+        requireNonNull(editedEvent);
+        events.setEvent(target, editedEvent);
     }
-
-    /**
-     * Resets the existing data of this {@code AddressBook} with {@code newData}.
-     */
-    public void resetData(ReadOnlyCalendar newData) {
-        requireNonNull(newData);
-
-        setCalendarItems(newData.getCalendarItemList());
-        setModules(newData.getModuleList());
-    }
-
-    //// person-level operations
 
     /**
      * Returns true if a person with the same identity as {@code person} exists in the address book.
      */
-    public boolean hasCalendarItem(CalendarItem calendarItem) {
-        requireNonNull(calendarItem);
+    public boolean hasEvent(Event event) {
+        requireNonNull(event);
         // System.out.println("Calendar item !!!!!!!!!!!!!!!"+ calendarItem);
-        return calendarItems.contains(calendarItem);
+        return events.contains(event);
     }
 
     /**
-     * Adds a person to the address book.
-     * The person must not already exist in the address book.
+     * Adds a person to the address book. The person must not already exist in the address book.
      */
-    public void addCalendarItem(CalendarItem calendarItem) {
-        calendarItems.add(calendarItem);
+    public void addEvent(Event event) {
+        events.add(event);
     }
 
 
     /**
-     * Removes {@code key} from this {@code AddressBook}.
-     * {@code key} must exist in the address book.
+     * Removes {@code key} from this {@code AddressBook}. {@code key} must exist in the address book.
      */
-    public void removeCalendarItem(CalendarItem key) {
-        calendarItems.remove(key);
+    public void removeEvent(Event key) {
+        events.remove(key);
     }
 
     //// util methods
 
     @Override
     public String toString() {
-        return calendarItems.asUnmodifiableObservableList().size() + " calendar items";
+        return events.asUnmodifiableObservableList().size() + " events";
         // TODO: refine later
     }
 
     @Override
-    public ObservableList<CalendarItem> getCalendarItemList() {
-        return calendarItems.asUnmodifiableObservableList();
+    public ObservableList<Event> getEventList() {
+        return events.asUnmodifiableObservableList();
     }
 
     @Override
@@ -165,11 +162,12 @@ public class Calendar implements ReadOnlyCalendar {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof Calendar // instanceof handles nulls
-                && calendarItems.equals(((Calendar) other).calendarItems));
+                && events.equals(((Calendar) other).events))
+                && modules.equals(((Calendar) other).modules);
     }
 
     @Override
     public int hashCode() {
-        return calendarItems.hashCode();
+        return events.hashCode();
     }
 }

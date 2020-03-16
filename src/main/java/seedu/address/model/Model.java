@@ -6,9 +6,8 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
-import seedu.address.model.entity.CalendarItem;
-import seedu.address.model.entity.Event;
-import seedu.address.model.entity.Module;
+import seedu.address.model.event.Event;
+import seedu.address.model.module.Module;
 
 /**
  * The API of the Model component.
@@ -17,7 +16,7 @@ public interface Model {
     /**
      * {@code Predicate} that always evaluate to true
      */
-    Predicate<CalendarItem> PREDICATE_SHOW_ALL_CALENDAR_ITEMS = unused -> true;
+    Predicate<Event> PREDICATE_SHOW_ALL_EVENTS = unused -> true;
     Predicate<Module> PREDICATE_SHOW_ALL_MODULES = unused -> true;
 
     /**
@@ -53,7 +52,7 @@ public interface Model {
     /**
      * Finds reference to existing calendar item
      */
-    CalendarItem findCalendarItem(CalendarItem calendarItem);
+    Event findEvent(Event event);
 
     /**
      * Finds reference to existing calendar item
@@ -73,7 +72,7 @@ public interface Model {
     /**
      * Returns true if a person with the same identity as {@code person} exists in the address book.
      */
-    boolean hasCalendarItem(CalendarItem calendarItem);
+    boolean hasEvent(Event event);
 
     /**
      * Returns true if a person with the same identity as {@code person} exists in the address book.
@@ -81,44 +80,41 @@ public interface Model {
     boolean hasModule(Module module);
 
     /**
-     * Deletes the given person.
-     * The person must exist in the address book.
+     * Deletes the given person. The person must exist in the address book.
      */
-    void deleteCalendarItem(CalendarItem calendarItem);
+    void deleteEvent(Event event);
 
     /**
-     * Deletes the given person.
-     * The person must exist in the address book.
+     * Deletes the given person. The person must exist in the address book.
      */
     void deleteModule(Module module);
 
     /**
-     * Adds the given person.
-     * {@code person} must not already exist in the address book.
+     * Adds the given person. {@code person} must not already exist in the address book.
      */
-    void addCalendarItem(CalendarItem calendarItem);
+    void addEvent(Event event);
 
     void addModule(Module module);
 
 
     /**
-     * Replaces the given person {@code target} with {@code editedPerson}.
-     * {@code target} must exist in the address book.
-     * The person identity of {@code editedPerson} must not be the same as another existing person in the address book.
+     * Replaces the given person {@code target} with {@code editedPerson}. {@code target} must exist in the address
+     * book. The person identity of {@code editedPerson} must not be the same as another existing person in the address
+     * book.
      */
-    void setCalendarItem(CalendarItem target, CalendarItem editedCalendarItem);
+    void setEvent(Event target, Event editedEvent);
 
     /**
-     * Replaces the given person {@code target} with {@code editedPerson}.
-     * {@code target} must exist in the address book.
-     * The person identity of {@code editedPerson} must not be the same as another existing person in the address book.
+     * Replaces the given person {@code target} with {@code editedPerson}. {@code target} must exist in the address
+     * book. The person identity of {@code editedPerson} must not be the same as another existing person in the address
+     * book.
      */
     void setModule(Module target, Module editedModule);
 
     /**
      * Returns an unmodifiable view of the filtered person list
      */
-    ObservableList<CalendarItem> getFilteredCalendarItemList();
+    ObservableList<Event> getFilteredEventList();
 
     /**
      * Returns an unmodifiable view of the filtered person list
@@ -130,7 +126,7 @@ public interface Model {
      *
      * @throws NullPointerException if {@code predicate} is null.
      */
-    void updateFilteredCalendarItemList(Predicate<CalendarItem> predicate);
+    void updateFilteredEventList(Predicate<Event> predicate);
 
     /**
      * Updates the filter of the filtered person list to filter by the given {@code predicate}.
@@ -138,6 +134,27 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredModuleList(Predicate<Module> predicate);
+
+    /**
+     * Returns the filtered list that is in focus.
+     *
+     * @return List in focus.
+     */
+    ObservableList<? extends Displayable> getFilteredFocusedList();
+
+    /**
+     * Set the list in focus.
+     */
+    void setFilteredFocusedList(DisplayableType displayableType);
+
+    /**
+     * Sets the displayable to be focused on.
+     *
+     * @param displayable Displayable to focus on.
+     */
+    void setFocusedDisplayable(Displayable displayable);
+
+    void unsetFocusedDisplayable();
 
     //to be deleted after debugging
     String checkCurrentCalendar();

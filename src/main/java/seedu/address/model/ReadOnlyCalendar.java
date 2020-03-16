@@ -1,8 +1,8 @@
 package seedu.address.model;
 
 import javafx.collections.ObservableList;
-import seedu.address.model.entity.CalendarItem;
-import seedu.address.model.entity.Module;
+import seedu.address.model.event.Event;
+import seedu.address.model.module.Module;
 
 /**
  * Unmodifiable view of a calendar.
@@ -10,10 +10,9 @@ import seedu.address.model.entity.Module;
 public interface ReadOnlyCalendar {
 
     /**
-     * Returns an unmodifiable view of the calendar.
-     * This list will not contain any duplicate calendar items.
+     * Returns an unmodifiable view of the list of events. This list will not contain any duplicate events.
      */
-    ObservableList<CalendarItem> getCalendarItemList();
+    ObservableList<Event> getEventList();
 
     ObservableList<Module> getModuleList();
 
