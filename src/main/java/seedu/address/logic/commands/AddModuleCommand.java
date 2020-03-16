@@ -7,7 +7,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_START_DATE;
 
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.entity.Module;
+import seedu.address.model.module.Module;
 
 /**
  * Adds a module to the address book.
@@ -28,7 +28,6 @@ public class AddModuleCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "New module added: %1$s";
     public static final String MESSAGE_DUPLICATE_MODULE = "This module already exists in the calendar";
-    public static final String MESSAGE_MODULE_DOESNT_EXIST = "The specified module does not exist in the calendar";
 
     private final Module toAdd;
 
