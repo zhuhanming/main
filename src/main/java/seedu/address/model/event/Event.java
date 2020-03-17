@@ -23,6 +23,7 @@ public class Event implements Displayable {
     private LocalDateTime eventStart;
     private LocalDateTime eventEnd;
     private Module parentModule;
+    private Location location = new Location("COM1-B103");
 
     // Data Fields
     private List<Deadline> deadlines;
@@ -82,6 +83,9 @@ public class Event implements Displayable {
         return eventEnd;
     }
 
+    public Location getLocation() {
+        return location;
+    }
     // Data operations
 
     /**
