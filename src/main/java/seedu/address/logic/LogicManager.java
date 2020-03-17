@@ -1,5 +1,6 @@
 package seedu.address.logic;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.logging.Logger;
 
@@ -45,13 +46,13 @@ public class LogicManager implements Logic {
         CommandResult commandResult;
         Command command = calendarParser.parseCommand(commandText);
         commandResult = command.execute(model);
-
-        //try {
         System.out.println("model get calendar " + model.getCalendar());
-        //storage.saveCalendar(model.getCalendar());
-        //} catch (IOException ioe) {
-        //  throw new CommandException(FILE_OPS_ERROR_MESSAGE + ioe, ioe);
-        //}
+
+        try {
+            storage.saveCalendar(model.getCalendar());
+        } catch (IOException ioe) {
+            throw new CommandException(FILE_OPS_ERROR_MESSAGE + ioe, ioe);
+        }
 
         return commandResult;
     }

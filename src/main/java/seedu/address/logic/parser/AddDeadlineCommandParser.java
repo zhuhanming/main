@@ -14,10 +14,10 @@ import seedu.address.model.Name;
 import seedu.address.model.deadline.Deadline;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.EventType;
-import seedu.address.model.event.MatchableEvent;
-import seedu.address.model.module.MatchableModule;
+import seedu.address.model.event.PartialEvent;
 import seedu.address.model.module.Module;
 import seedu.address.model.module.ModuleCode;
+import seedu.address.model.module.PartialModule;
 
 
 /**
@@ -35,7 +35,7 @@ public class AddDeadlineCommandParser implements Parser<AddDeadlineCommand> {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_MODULE, PREFIX_EVENT, PREFIX_NAME, PREFIX_REPEAT);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_MODULE, PREFIX_EVENT, PREFIX_NAME, PREFIX_REPEAT)
+        if (!arePrefixesPresent(argMultimap, PREFIX_MODULE, PREFIX_EVENT, PREFIX_NAME)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddDeadlineCommand.MESSAGE_USAGE));
         }
@@ -43,7 +43,10 @@ public class AddDeadlineCommandParser implements Parser<AddDeadlineCommand> {
         ModuleCode moduleCode = ParserUtil.parseModuleCode(argMultimap.getValue(PREFIX_MODULE).get());
         Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
         Name eventName = ParserUtil.parseName(argMultimap.getValue(PREFIX_EVENT).get());
-        boolean isRepeated = ParserUtil.parseRepeat(argMultimap.getValue(PREFIX_REPEAT).get());
+        boolean isRepeated = false;
+        if (argMultimap.getValue(PREFIX_REPEAT).isPresent()) {
+            isRepeated = ParserUtil.parseRepeat(argMultimap.getValue(PREFIX_REPEAT).get());
+        }
 
         // Todo: need to parse eventName to get eventType
         EventType eventType;
@@ -55,11 +58,11 @@ public class AddDeadlineCommandParser implements Parser<AddDeadlineCommand> {
             eventType = EventType.LECTURE;
         }
 
-        Module module = new MatchableModule(moduleCode);
-        Event event = new MatchableEvent(eventName, eventType, module);
+        Module module = new PartialModule(moduleCode);
+        Event event = new PartialEvent(eventName, eventType, module);
         Deadline deadline = new Deadline(name, event);
 
-        return new AddDeadlineCommand(deadline, isRepeated);
+        return new AddDeadlineCommand(deadline, event, isRepeated);
     }
 
     /**

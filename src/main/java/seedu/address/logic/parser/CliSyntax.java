@@ -21,6 +21,8 @@ public class CliSyntax {
     public static final Prefix PREFIX_MONTH = new Prefix("M/");
     public static final Prefix PREFIX_START_DATE = new Prefix("s/");
     public static final Prefix PREFIX_END_DATE = new Prefix("e/");
+    public static final Prefix PREFIX_ACADEMIC_YEAR = new Prefix("ay/");
+    public static final Prefix PREFIX_SEMESTER = new Prefix("s/");
     public static final Prefix PREFIX_TARGET_DIRECTORY = new Prefix("");
     public static final Prefix PREFIX_FILENAME = new Prefix("");
     public static final Prefix PREFIX_DURATION = new Prefix("D/");
