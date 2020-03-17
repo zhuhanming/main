@@ -49,14 +49,7 @@ public class AddDeadlineCommandParser implements Parser<AddDeadlineCommand> {
         }
 
         // Todo: need to parse eventName to get eventType
-        EventType eventType;
-        if (eventName.toString().contains("Tutorial")) {
-            eventType = EventType.TUTORIAL;
-        } else if (eventName.toString().contains("Lab")) {
-            eventType = EventType.LAB;
-        } else {
-            eventType = EventType.LECTURE;
-        }
+        EventType eventType = ParserUtil.parseEventType(name.toString());
 
         Module module = new PartialModule(moduleCode);
         Event event = new PartialEvent(eventName, eventType, module);

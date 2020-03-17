@@ -38,8 +38,7 @@ public class Event implements Displayable {
         this.parentModule = parentModule;
         this.isOver = LocalDateTime.now().isAfter(eventEnd);
         this.deadlines = new ArrayList<>();
-        //this.deadlines.add(new Deadline(this.eventType.getDefaultDeadlineDescription(), this));
-        this.deadlines.add(new Deadline(new Name(this.eventType.toString()), this));
+        this.deadlines.add(new Deadline(new Name(this.eventType.getDefaultDeadlineDescription()), this));
     }
 
     public Event(Name name, EventType eventType, LocalDateTime eventStart,
@@ -52,8 +51,7 @@ public class Event implements Displayable {
         this.parentModule = parentModule;
         this.isOver = LocalDateTime.now().isAfter(eventEnd);
         this.deadlines = new ArrayList<>();
-        //this.deadlines.add(new Deadline(this.eventType.getDefaultDeadlineDescription(), this));
-        this.deadlines.addAll(deadlines);
+        this.deadlines.add(new Deadline(new Name(this.eventType.getDefaultDeadlineDescription()), this));
     }
 
     public EventType getEventType() {
