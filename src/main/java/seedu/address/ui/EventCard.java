@@ -43,7 +43,7 @@ public class EventCard extends UiPart<Region> {
         name.setText(event.getName().fullName);
         startDate.setText(event.getEventStart().toString());
         endDate.setText(event.getEventEnd().toString());
-        tags.getChildren().add(new Label(event.getModule().getModuleCode().toString()));
+        tags.getChildren().add(new Label(event.getParentModule().getModuleCode().toString()));
 
         /*
         Future extension if want to add additional tags:

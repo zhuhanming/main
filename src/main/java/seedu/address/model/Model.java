@@ -7,7 +7,9 @@ import java.util.function.Predicate;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.event.Event;
+import seedu.address.model.module.AcademicYear;
 import seedu.address.model.module.Module;
+import seedu.address.model.module.ModuleCode;
 
 /**
  * The API of the Model component.
@@ -77,7 +79,7 @@ public interface Model {
     /**
      * Returns true if a person with the same identity as {@code person} exists in the address book.
      */
-    boolean hasModule(Module module);
+    boolean hasModule(ModuleCode moduleCode, AcademicYear academicYear);
 
     /**
      * Deletes the given person. The person must exist in the address book.
@@ -94,8 +96,9 @@ public interface Model {
      */
     void addEvent(Event event);
 
-    void addModule(Module module);
+    Module addModule(ModuleCode moduleCode, AcademicYear academicYear);
 
+    Module getModule(ModuleCode moduleCode, AcademicYear academicYear);
 
     /**
      * Replaces the given person {@code target} with {@code editedPerson}. {@code target} must exist in the address
@@ -160,4 +163,6 @@ public interface Model {
     String checkCurrentCalendar();
 
     List<Event> findAllEvents(Event toFind);
+
+    Event getEvent(Event toFind);
 }
