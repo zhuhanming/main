@@ -47,15 +47,6 @@ public class Deadline {
         return dueTime;
     }
 
-    /**
-     * Returns a new completed Deadline to maintain immutability.
-     *
-     * @return Completed Deadline.
-     */
-    public Deadline completeDeadline() {
-        return new Deadline(name, dueTime, true);
-    }
-
     public void setCompleted(boolean completed) {
         isCompleted = completed;
     }
