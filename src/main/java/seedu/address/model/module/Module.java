@@ -2,7 +2,6 @@ package seedu.address.model.module;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +18,7 @@ public class Module implements Displayable {
     // Identity Fields
     private ModuleCode moduleCode;
     private Name name;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private AcademicYear academicYear;
 
     // Non-identity fields
     private String description;
@@ -28,14 +26,24 @@ public class Module implements Displayable {
     // Data fields
     private List<Event> events;
 
-    public Module(ModuleCode moduleCode, Name name, LocalDate startDate, LocalDate endDate, String description) {
-        requireAllNonNull(moduleCode, name, startDate, endDate, description);
+    public Module(ModuleCode moduleCode, Name name, AcademicYear academicYear, String description) {
+        requireAllNonNull(moduleCode, name, academicYear, description);
         this.moduleCode = moduleCode;
         this.name = name;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.academicYear = academicYear;
         this.description = description;
         this.events = new ArrayList<>();
+    }
+
+    public Module(ModuleCode moduleCode, Name name, AcademicYear academicYear, String description,
+                  List<Event> events) {
+        requireAllNonNull(moduleCode, name, academicYear, description);
+        this.moduleCode = moduleCode;
+        this.name = name;
+        this.academicYear = academicYear;
+        this.description = description;
+        this.events = new ArrayList<>();
+        this.events.addAll(events);
     }
 
     public Module() {
@@ -53,12 +61,8 @@ public class Module implements Displayable {
         return events;
     }
 
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
+    public AcademicYear getAcademicYear() {
+        return academicYear;
     }
 
     public String getDescription() {
@@ -81,14 +85,14 @@ public class Module implements Displayable {
         } else {
             return otherModule.getModuleCode().equals(this.getModuleCode())
                     && otherModule.getName().equals(this.getName())
-                    && otherModule.getStartDate().equals(this.getStartDate())
-                    && otherModule.getEndDate().equals(this.getEndDate());
+                    && otherModule.getAcademicYear().toString().equals(this.getAcademicYear().toString());
         }
     }
 
 
     /**
      * Matches the module based on the loose criteria of naming.
+     * <p>TODO: Add support for academic year matching subsequently.
      *
      * @param otherModule Module to compare with
      * @return boolean value on whether this matches
@@ -114,8 +118,7 @@ public class Module implements Displayable {
         Module otherModule = (Module) other;
         return otherModule.getModuleCode().equals(getModuleCode())
                 && otherModule.getName().equals(getName())
-                && otherModule.getStartDate().equals(getStartDate())
-                && otherModule.getEndDate().equals(getEndDate())
+                && otherModule.getAcademicYear().equals(getAcademicYear())
                 && otherModule.getDescription().equals(getDescription())
                 && otherModule.getEvents().equals(getEvents());
     }
@@ -126,7 +129,13 @@ public class Module implements Displayable {
      * @return String for debugging purposes.
      */
     public String toDebugString() {
-        return moduleCode + " | " + (startDate != null ? startDate.toString() : "null") + " | "
-                + (endDate != null ? endDate.toString() : "null");
+        return moduleCode + " | " + getAcademicYear().getStartDate().toString() + " | "
+                + getAcademicYear().getEndDate().toString();
+    }
+
+    @Override
+    public String toString() {
+        return moduleCode.toString() + " | " + name.toString() + "\n" + academicYear.toString()
+                + "\n" + description;
     }
 }

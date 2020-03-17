@@ -7,6 +7,12 @@ public enum EventType {
     TUTORIAL,
     LECTURE,
     LAB;
+
+    private static final String MESSAGE_CONSTRAINTS = "Your event type is not recognised!";
+
+    public static String getMessageConstraints() {
+        return MESSAGE_CONSTRAINTS;
+    }
 }
 /*
 ** Commented because of NoClassDefFoundError caused when having other stuff in EventType
