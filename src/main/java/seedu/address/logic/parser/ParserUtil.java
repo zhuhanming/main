@@ -14,6 +14,7 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Name;
+import seedu.address.model.event.EventType;
 import seedu.address.model.module.ModuleCode;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
@@ -199,5 +200,22 @@ public class ParserUtil {
         }
     }
 
+
+    /**
+     * Parses the user input for the event type.
+     *
+     * @param eventType String containing event type to parse.
+     * @return Type of the event.
+     * @throws ParseException If the type is not recognised.
+     */
+    public static EventType parseEventType(String eventType) throws ParseException {
+        String cleanedEventType = eventType.toLowerCase().trim();
+        for (EventType e : EventType.values()) {
+            if (e.hasEventType(cleanedEventType)) {
+                return e;
+            }
+        }
+        throw new ParseException("Event type is not recognised!");
+    }
 
 }

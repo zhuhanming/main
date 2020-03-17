@@ -21,6 +21,7 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.ReadOnlyCalendar;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.util.SampleDataUtil;
 import seedu.address.storage.CalendarStorage;
 import seedu.address.storage.JsonCalendarStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
@@ -83,13 +84,10 @@ public class MainApp extends Application {
 
         try {
             calendarOptional = storage.readCalendar();
-            System.out.println("Still working here!");
-
             if (calendarOptional.isEmpty()) {
                 logger.info("Data file not found. Will be starting with a sample Calendar");
             }
-            //initialData = calendarOptional.orElseGet(SampleDataUtil::getSampleAddressBook);
-            initialData = calendarOptional.orElse(new Calendar());
+            initialData = calendarOptional.orElseGet(SampleDataUtil::getSampleCalendar);
         } catch (DataConversionException e) {
             logger.warning("Data file not in the correct format. Will be starting with an empty Calendar");
             initialData = new Calendar();
