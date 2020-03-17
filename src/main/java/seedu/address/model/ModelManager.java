@@ -28,7 +28,7 @@ public class ModelManager implements Model {
     private final UserPrefs userPrefs;
     private final FilteredList<Event> filteredEvents;
     private final FilteredList<Module> filteredModules;
-    private FilteredList<? extends Displayable> filteredListables;
+    private FilteredList<? extends Displayable> focusedFilteredDisplayables;
     private Displayable focusedDisplayable;
 
     /**
@@ -44,7 +44,7 @@ public class ModelManager implements Model {
 
         filteredEvents = new FilteredList<>(this.calendar.getEventList());
         filteredModules = new FilteredList<>(this.calendar.getModuleList());
-        filteredListables = filteredEvents;
+        focusedFilteredDisplayables = filteredEvents;
     }
 
     public ModelManager() {
@@ -174,8 +174,7 @@ public class ModelManager implements Model {
 
     @Override
     public Module getModule(ModuleCode moduleCode, AcademicYear academicYear) {
-        Module module = calendar.getModule(moduleCode, academicYear);
-        return module;
+        return calendar.getModule(moduleCode, academicYear);
     }
 
 
@@ -223,9 +222,9 @@ public class ModelManager implements Model {
     @Override
     public void setFilteredFocusedList(DisplayableType displayableType) {
         if (displayableType == DisplayableType.EVENT) {
-            filteredListables = filteredEvents;
+            focusedFilteredDisplayables = filteredEvents;
         } else if (displayableType == DisplayableType.MODULE) {
-            filteredListables = filteredModules;
+            focusedFilteredDisplayables = filteredModules;
         }
     }
 
@@ -263,7 +262,7 @@ public class ModelManager implements Model {
 
     @Override
     public ObservableList<? extends Displayable> getFilteredFocusedList() {
-        return filteredListables;
+        return focusedFilteredDisplayables;
     }
 
 
