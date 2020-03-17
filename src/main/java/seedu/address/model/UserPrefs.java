@@ -49,10 +49,6 @@ public class UserPrefs implements ReadOnlyUserPrefs {
         this.guiSettings = guiSettings;
     }
 
-    public Path getAddressBookFilePath() {
-        return null;
-    }
-
     public Path getCalendarFilePath() {
         return calendarFilePath;
     }

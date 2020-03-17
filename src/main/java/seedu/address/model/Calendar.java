@@ -1,13 +1,16 @@
 package seedu.address.model;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.List;
 
 import javafx.collections.ObservableList;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.UniqueEventList;
+import seedu.address.model.module.AcademicYear;
 import seedu.address.model.module.Module;
+import seedu.address.model.module.ModuleCode;
 import seedu.address.model.module.UniqueModuleList;
 
 /**
@@ -24,7 +27,8 @@ public class Calendar implements ReadOnlyCalendar {
      *
      *  Note that non-static init blocks are not recommended to use. There are other ways to avoid duplication
      *  among constructors.
-     */ {
+     */
+    {
         events = new UniqueEventList();
         modules = new UniqueModuleList();
     }
@@ -73,16 +77,30 @@ public class Calendar implements ReadOnlyCalendar {
     /**
      * Returns true if a person with the same identity as {@code person} exists in the address book.
      */
-    public boolean hasModule(Module module) {
-        requireNonNull(module);
-        return modules.contains(module);
+    public boolean hasModule(ModuleCode moduleCode, AcademicYear academicYear) {
+        requireAllNonNull(moduleCode, academicYear);
+        return modules.contains(moduleCode, academicYear);
+    }
+
+    public Module addModule(ModuleCode moduleCode, AcademicYear academicYear) {
+        return modules.getModule(moduleCode, academicYear);
+    }
+
+    public Module getModule(ModuleCode moduleCode, AcademicYear academicYear) {
+        return modules.getModule(moduleCode, academicYear);
     }
 
     /**
      * Adds a person to the address book. The person must not already exist in the address book.
      */
-    public void addModule(Module module) {
-        modules.add(module);
+    public void addModuleFromStorage(Module module) {
+        Module actualModule = modules.getModule(module.getModuleCode(), module.getAcademicYear());
+        for (Event event : module.getEvents()) {
+            Event actualEvent = new Event(event.getName(), event.getEventType(), event.getEventStart(),
+                    event.getEventEnd(), actualModule, event.getDeadlines());
+            actualModule.addEvent(actualEvent);
+            addEvent(actualEvent);
+        }
     }
 
     /**
@@ -138,6 +156,10 @@ public class Calendar implements ReadOnlyCalendar {
      */
     public void removeEvent(Event key) {
         events.remove(key);
+    }
+
+    public Event getEvent(Event event) {
+        return events.getEvent(event);
     }
 
     //// util methods

@@ -14,7 +14,9 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.event.Event;
+import seedu.address.model.module.AcademicYear;
 import seedu.address.model.module.Module;
+import seedu.address.model.module.ModuleCode;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -147,9 +149,15 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public boolean hasModule(Module module) {
-        requireNonNull(module);
-        return calendar.hasModule(module);
+    public Event getEvent(Event toFind) {
+        requireNonNull(toFind);
+        return calendar.getEvent(toFind);
+    }
+
+    @Override
+    public boolean hasModule(ModuleCode moduleCode, AcademicYear academicYear) {
+        requireAllNonNull(moduleCode, academicYear);
+        return calendar.hasModule(moduleCode, academicYear);
     }
 
     @Override
@@ -158,9 +166,16 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void addModule(Module module) {
-        calendar.addModule(module);
+    public Module addModule(ModuleCode moduleCode, AcademicYear academicYear) {
+        Module addedModule = calendar.addModule(moduleCode, academicYear);
         updateFilteredModuleList(PREDICATE_SHOW_ALL_MODULES);
+        return addedModule;
+    }
+
+    @Override
+    public Module getModule(ModuleCode moduleCode, AcademicYear academicYear) {
+        Module module = calendar.getModule(moduleCode, academicYear);
+        return module;
     }
 
 
@@ -189,7 +204,8 @@ public class ModelManager implements Model {
     public void setFocusedDisplayable(Displayable displayable) {
         boolean hasDisplayable = false;
         if (displayable instanceof Module) {
-            hasDisplayable = hasModule((Module) displayable);
+            hasDisplayable =
+                    hasModule(((Module) displayable).getModuleCode(), ((Module) displayable).getAcademicYear());
         } else if (displayable instanceof Event) {
             hasDisplayable = hasEvent((Event) displayable);
         }

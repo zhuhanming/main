@@ -9,6 +9,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_START_DATETIME;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.temporal.TemporalAmount;
 import java.util.stream.Stream;
 
 import seedu.address.logic.commands.AddEventCommand;
@@ -16,9 +18,10 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Name;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.EventType;
-import seedu.address.model.module.MatchableModule;
+import seedu.address.model.event.PartialEvent;
 import seedu.address.model.module.Module;
 import seedu.address.model.module.ModuleCode;
+import seedu.address.model.module.PartialModule;
 
 
 /**
@@ -38,7 +41,7 @@ public class AddEventCommandParser implements Parser<AddEventCommand> {
 
 
         if (!arePrefixesPresent(argMultimap, PREFIX_MODULE, PREFIX_NAME, PREFIX_START_DATETIME,
-                PREFIX_END_DATETIME, PREFIX_REPEAT) || !argMultimap.getPreamble().isEmpty()) {
+                PREFIX_END_DATETIME) || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddEventCommand.MESSAGE_USAGE));
         }
 
@@ -47,24 +50,22 @@ public class AddEventCommandParser implements Parser<AddEventCommand> {
         ModuleCode moduleCode = ParserUtil.parseModuleCode(argMultimap.getValue(PREFIX_MODULE).get());
         LocalDateTime startDateTime = ParserUtil.parseDateTime(argMultimap.getValue(PREFIX_START_DATETIME).get());
         LocalDateTime endDateTime = ParserUtil.parseDateTime(argMultimap.getValue(PREFIX_END_DATETIME).get());
-        boolean isRepeated = ParserUtil.parseRepeat(argMultimap.getValue(PREFIX_REPEAT).get());
+        boolean isRepeated = false;
+        if (argMultimap.getValue(PREFIX_REPEAT).isPresent()) {
+            isRepeated = ParserUtil.parseRepeat(argMultimap.getValue(PREFIX_REPEAT).get());
+        }
         LocalDate endRepeatDate = null;
+        EventType eventType = ParserUtil.parseEventType(name.toString());
+
         //if (isRepeated) {
         //    endRepeatDate = ParserUtil.parseDate(argMultimap.getValue(PREFIX_STOP_REPEAT).get());
         //}
         // todo: Need to parse event name for EventType
         // retrieve from module name and check if module already exists
-        Module module = new MatchableModule(moduleCode);
-        EventType eventType;
-        if (name.toString().contains("Tutorial")) {
-            eventType = EventType.TUTORIAL;
-        } else if (name.toString().contains("Lab")) {
-            eventType = EventType.LAB;
-        } else {
-            eventType = EventType.LECTURE;
-        }
-        Event event = new Event(name, eventType, startDateTime, endDateTime, module);
-        return new AddEventCommand(event, isRepeated, endRepeatDate);
+        TemporalAmount frequency = Period.ofDays(7);
+        Module module = new PartialModule(moduleCode);
+        Event event = new PartialEvent(name, eventType, startDateTime, endDateTime, module);
+        return new AddEventCommand(event, isRepeated, endRepeatDate, frequency);
     }
 
     /**

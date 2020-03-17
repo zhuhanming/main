@@ -1,8 +1,8 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MODULE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 
 import java.util.stream.Stream;
 
@@ -11,9 +11,9 @@ import seedu.address.logic.commands.DoneCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Name;
 import seedu.address.model.event.EventType;
-import seedu.address.model.event.MatchableEvent;
-import seedu.address.model.module.MatchableModule;
+import seedu.address.model.event.PartialEvent;
 import seedu.address.model.module.ModuleCode;
+import seedu.address.model.module.PartialModule;
 
 /**
  * Parser done arguments to set a deadline to be done.
@@ -25,7 +25,7 @@ public class DoneCommandParser implements Parser<DoneCommand> {
      * @throws ParseException
      */
     public DoneCommand parse(String args) throws ParseException {
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_MODULE, PREFIX_NAME);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_MODULE, PREFIX_EVENT);
 
         Index index;
 
@@ -36,23 +36,16 @@ public class DoneCommandParser implements Parser<DoneCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DoneCommand.MESSAGE_USAGE), pe);
         }
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_MODULE, PREFIX_NAME)) {
+        if (!arePrefixesPresent(argMultimap, PREFIX_MODULE, PREFIX_EVENT)) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DoneCommand.MESSAGE_USAGE));
         }
 
         ModuleCode moduleCode = ParserUtil.parseModuleCode(argMultimap.getValue(PREFIX_MODULE).get());
-        Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
+        Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_EVENT).get());
 
-        MatchableModule module = new MatchableModule(moduleCode);
-        EventType eventType;
-        if (name.toString().contains("Tutorial")) {
-            eventType = EventType.TUTORIAL;
-        } else if (name.toString().contains("Lab")) {
-            eventType = EventType.LAB;
-        } else {
-            eventType = EventType.LECTURE;
-        }
-        MatchableEvent event = new MatchableEvent(name, eventType, module);
+        PartialModule module = new PartialModule(moduleCode);
+        EventType eventType = ParserUtil.parseEventType(name.toString());
+        PartialEvent event = new PartialEvent(name, eventType, module);
         return new DoneCommand(module, event, index);
     }
 

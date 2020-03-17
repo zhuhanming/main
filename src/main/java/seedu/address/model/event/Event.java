@@ -23,6 +23,7 @@ public class Event implements Displayable {
     private LocalDateTime eventStart;
     private LocalDateTime eventEnd;
     private Module parentModule;
+    private Location location = new Location("COM1-B103");
 
     // Data Fields
     private List<Deadline> deadlines;
@@ -38,8 +39,20 @@ public class Event implements Displayable {
         this.parentModule = parentModule;
         this.isOver = LocalDateTime.now().isAfter(eventEnd);
         this.deadlines = new ArrayList<>();
-        //this.deadlines.add(new Deadline(this.eventType.getDefaultDeadlineDescription(), this));
-        this.deadlines.add(new Deadline(new Name(this.eventType.toString()), this));
+        this.deadlines.add(new Deadline(new Name(this.eventType.getDefaultDeadlineDescription()), this));
+    }
+
+    public Event(Name name, EventType eventType, LocalDateTime eventStart,
+                 LocalDateTime eventEnd, Module parentModule, List<Deadline> deadlines) {
+        requireAllNonNull(name, eventType, eventStart, eventEnd, parentModule, deadlines);
+        this.name = name;
+        this.eventType = eventType;
+        this.eventStart = eventStart;
+        this.eventEnd = eventEnd;
+        this.parentModule = parentModule;
+        this.isOver = LocalDateTime.now().isAfter(eventEnd);
+        this.deadlines = new ArrayList<>();
+        this.deadlines.add(new Deadline(new Name(this.eventType.getDefaultDeadlineDescription()), this));
     }
 
     public EventType getEventType() {
@@ -62,10 +75,6 @@ public class Event implements Displayable {
         return parentModule;
     }
 
-    public Event setParentModule(Module newParentModule) {
-        return new Event(name, eventType, eventStart, eventEnd, newParentModule);
-    }
-
     public LocalDateTime getEventStart() {
         return eventStart;
     }
@@ -74,10 +83,9 @@ public class Event implements Displayable {
         return eventEnd;
     }
 
-    public Module getModule() {
-        return parentModule;
+    public Location getLocation() {
+        return location;
     }
-
     // Data operations
 
     /**
@@ -88,6 +96,17 @@ public class Event implements Displayable {
     public void addDeadline(Deadline deadline) {
         requireNonNull(deadline);
         deadlines.add(deadline);
+    }
+
+    /**
+     * Checks if a deadline has already been added.
+     *
+     * @param deadline Deadline to check.
+     * @return Boolean that represents if the deadline already exists.
+     */
+    public boolean containsDeadline(Deadline deadline) {
+        requireNonNull(deadline);
+        return this.deadlines.stream().anyMatch(d -> d.isSameDeadline(deadline));
     }
 
     /**
@@ -102,11 +121,9 @@ public class Event implements Displayable {
         }
 
         return otherEvent != null
-                && otherEvent.getName().equals(getName())
-                && otherEvent.getParentModule().equals(getParentModule())
-                && otherEvent.getEventType().equals(getEventType())
-                && otherEvent.getEventStart().equals(getEventStart())
-                && otherEvent.getEventEnd().equals(getEventEnd());
+                && otherEvent.getName().toString().toLowerCase().equals(getName().toString().toLowerCase())
+                && otherEvent.getParentModule().getModuleCode().equals(getParentModule().getModuleCode())
+                && otherEvent.getEventType().equals(getEventType());
     }
 
     /**
@@ -121,7 +138,7 @@ public class Event implements Displayable {
         }
 
         return otherEvent.getEventType().equals(getEventType())
-                && otherEvent.getModule().equals(getModule());
+                && otherEvent.getParentModule().equals(getParentModule());
     }
 
     /**
@@ -154,8 +171,13 @@ public class Event implements Displayable {
      * @return String for debugging purposes.
      */
     public String toDebugString() {
-        return (getModule() == null ? "null" : getModule().getModuleCode()) + " | "
+        return (getParentModule() == null ? "null" : getParentModule().getModuleCode()) + " | "
                 + eventType + " | " + name + " | " + eventStart + " | " + eventEnd;
+    }
+
+    @Override
+    public String toString() {
+        return getParentModule().getModuleCode().toString() + " | " + name.toString();
     }
 }
 

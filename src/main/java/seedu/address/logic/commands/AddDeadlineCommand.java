@@ -38,48 +38,52 @@ public class AddDeadlineCommand extends Command {
     public static final String MESSAGE_EVENT_DOESNT_EXIST = "The specified event does not exist in the calendar";
 
     private final Deadline toAdd;
+    private final Event parentEvent;
     private final boolean isRepeated;
 
 
     /**
      * Creates an AddDeadlineCommand to add the specified {@code Deadline}
      */
-    public AddDeadlineCommand(Deadline deadline, boolean isRepeated) {
+    public AddDeadlineCommand(Deadline deadline, Event parentEvent, boolean isRepeated) {
         requireNonNull(deadline);
         this.toAdd = deadline;
+        this.parentEvent = parentEvent;
         this.isRepeated = isRepeated;
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
-        System.out.println(toAdd.getParentEvent().toDebugString());
-
         requireNonNull(model);
 
-        //if (model.hasEvent(toAdd)) {
-        //    throw new CommandException(MESSAGE_DUPLICATE_DEADLINE);
-        //}
-        List<Event> events = model.findAllEvents(toAdd.getParentEvent());
+        System.out.println(model.getCalendar().getEventList());
+        System.out.println(parentEvent);
 
-        if (events.size() == 0) {
+        if (!model.hasEvent(parentEvent)) {
             throw new CommandException(MESSAGE_EVENT_DOESNT_EXIST);
         }
 
+        if (!isRepeated) {
+            Event actualParentEvent = model.findEvent(parentEvent);
+            if (actualParentEvent.containsDeadline(toAdd)) {
+                throw new CommandException(MESSAGE_DUPLICATE_DEADLINE);
+            }
+            Deadline actualDeadline = new Deadline(toAdd.getName(), actualParentEvent);
+            actualParentEvent.addDeadline(actualDeadline);
+            return new CommandResult(String.format(MESSAGE_SUCCESS, actualDeadline));
+        }
+
+        List<Event> events = model.findAllEvents(parentEvent);
         events.sort((event1, event2) -> event1.getEventStart().isBefore(event2.getEventStart())
                 ? -1 : (event2.getEventStart().isBefore(event1.getEventStart()) ? 1 : 0));
 
         for (Event event : events) {
-            if (!event.getIsOver()) {
+            if (!event.getIsOver() && !event.containsDeadline(toAdd)) {
                 Deadline currentToAdd = new Deadline(toAdd.getName(), event);
                 event.addDeadline(currentToAdd);
-                // model.addCalendarItem(currentToAdd);
                 System.out.println("Added: " + toAdd.toDebugString());
-                if (!isRepeated) {
-                    break;
-                }
             }
         }
-
         System.out.println(model.checkCurrentCalendar());
         return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
     }

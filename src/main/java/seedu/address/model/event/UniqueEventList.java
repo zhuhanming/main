@@ -8,6 +8,7 @@ import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import seedu.address.commons.util.CollectionUtil;
 import seedu.address.model.event.exceptions.DuplicateEventException;
 import seedu.address.model.event.exceptions.EventNotFoundException;
 
@@ -33,7 +34,7 @@ public class UniqueEventList implements Iterable<Event> {
      */
     public boolean contains(Event toCheck) {
         requireNonNull(toCheck);
-        // System.out.println("toCheck ins uniqueCalendarList "+ toCheck.);
+        System.out.println("toCheck ins uniqueCalendarList " + toCheck);
         return internalList.stream().anyMatch(toCheck::isSameEvent);
     }
 
@@ -66,6 +67,17 @@ public class UniqueEventList implements Iterable<Event> {
         }
 
         internalList.set(index, editedCalendarItem);
+    }
+
+    /**
+     * Returns an event that matches the given event.
+     *
+     * @param eventToCompare Event to compare against.
+     * @return Event that matches.
+     */
+    public Event getEvent(Event eventToCompare) {
+        return internalList.stream().filter(x -> x.isSameEvent(eventToCompare))
+                .collect(CollectionUtil.toSingleton());
     }
 
     /**

@@ -18,12 +18,15 @@ import seedu.address.logic.LogicManager;
 import seedu.address.model.Calendar;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
-import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyCalendar;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.util.SampleDataUtil;
+import seedu.address.storage.CalendarStorage;
+import seedu.address.storage.JsonCalendarStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
 import seedu.address.storage.Storage;
+import seedu.address.storage.StorageManager;
 import seedu.address.storage.UserPrefsStorage;
 import seedu.address.ui.Ui;
 import seedu.address.ui.UiManager;
@@ -53,12 +56,16 @@ public class MainApp extends Application {
 
         UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(config.getUserPrefsFilePath());
         UserPrefs userPrefs = initPrefs(userPrefsStorage);
-        //CalendarStorage calendarStorage = new JsonAddressBookStorage(userPrefs.getAddressBookFilePath());
-        //storage = new StorageManager(calendarStorage, userPrefsStorage);
+        CalendarStorage calendarStorage = new JsonCalendarStorage(userPrefs.getCalendarFilePath());
+        storage = new StorageManager(calendarStorage, userPrefsStorage);
+
 
         initLogging(config);
 
+
         model = initModelManager(storage, userPrefs);
+
+        System.out.println("Still working here!");
 
         logic = new LogicManager(model, storage);
 
@@ -72,25 +79,24 @@ public class MainApp extends Application {
      */
     private Model initModelManager(Storage storage, ReadOnlyUserPrefs userPrefs) {
         Optional<ReadOnlyCalendar> calendarOptional;
-        ReadOnlyAddressBook initialData;
-        /**
-         try {
-         addressBookOptional = null; //= storage.readAddressBook();
-         if (!addressBookOptional.isPresent()) {
-         logger.info("Data file not found. Will be starting with a sample AddressBook");
-         }
-         initialData = addressBookOptional.orElseGet(SampleDataUtil::getSampleAddressBook);
-         } catch (DataConversionException e) {
-         logger.warning("Data file not in the correct format. Will be starting with an empty AddressBook");
-         initialData = new AddressBook();
-         } catch (IOException e) {
-         logger.warning("Problem while reading from the file. Will be starting with an empty AddressBook");
-         initialData = new AddressBook();
-         }
+        ReadOnlyCalendar initialData;
 
-         return new ModelManager(initialData, userPrefs);
-         **/
-        return new ModelManager(new Calendar(), userPrefs);
+
+        try {
+            calendarOptional = storage.readCalendar();
+            if (calendarOptional.isEmpty()) {
+                logger.info("Data file not found. Will be starting with a sample Calendar");
+            }
+            initialData = calendarOptional.orElseGet(SampleDataUtil::getSampleCalendar);
+        } catch (DataConversionException e) {
+            logger.warning("Data file not in the correct format. Will be starting with an empty Calendar");
+            initialData = new Calendar();
+        } catch (IOException e) {
+            logger.warning("Problem while reading from the file. Will be starting with an empty Calendar");
+            initialData = new Calendar();
+        }
+
+        return new ModelManager(initialData, userPrefs);
     }
 
     private void initLogging(Config config) {

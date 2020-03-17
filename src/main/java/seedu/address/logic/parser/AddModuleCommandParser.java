@@ -1,18 +1,15 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_DATE_RANGE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_END_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ACADEMIC_YEAR;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MODULE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_START_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_SEMESTER;
 
-import java.time.LocalDate;
 import java.util.stream.Stream;
 
 import seedu.address.logic.commands.AddModuleCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.Name;
-import seedu.address.model.module.Module;
+import seedu.address.model.module.AcademicYear;
 import seedu.address.model.module.ModuleCode;
 
 /**
@@ -28,24 +25,29 @@ public class AddModuleCommandParser implements Parser<AddModuleCommand> {
      */
     public AddModuleCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_MODULE, PREFIX_START_DATE, PREFIX_END_DATE);
+                ArgumentTokenizer.tokenize(args, PREFIX_MODULE, PREFIX_ACADEMIC_YEAR, PREFIX_SEMESTER);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_MODULE, PREFIX_START_DATE, PREFIX_END_DATE)
+        if (!arePrefixesPresent(argMultimap, PREFIX_MODULE)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddModuleCommand.MESSAGE_USAGE));
         }
 
         ModuleCode moduleCode = ParserUtil.parseModuleCode(argMultimap.getValue(PREFIX_MODULE).get());
-        LocalDate startDate = ParserUtil.parseDate(argMultimap.getValue(PREFIX_START_DATE).get());
-        LocalDate endDate = ParserUtil.parseDate(argMultimap.getValue(PREFIX_END_DATE).get());
+        AcademicYear academicYear = AcademicYear.now();
 
-        if (endDate.isBefore(startDate)) {
-            throw new ParseException(String.format(MESSAGE_INVALID_DATE_RANGE, "Start date cannot be after end date!"));
+        if (argMultimap.getValue(PREFIX_ACADEMIC_YEAR).isPresent()
+                && argMultimap.getValue(PREFIX_SEMESTER).isPresent()) {
+            academicYear = new AcademicYear(argMultimap.getValue(PREFIX_ACADEMIC_YEAR).get(),
+                    argMultimap.getValue(PREFIX_SEMESTER).get());
+        } else if (argMultimap.getValue(PREFIX_SEMESTER).isPresent()) {
+            academicYear = new AcademicYear(AcademicYear.now().getStartYear(),
+                    Integer.parseInt(argMultimap.getValue(PREFIX_SEMESTER).get()));
+        } else if (argMultimap.getValue(PREFIX_ACADEMIC_YEAR).isPresent()) {
+            academicYear = new AcademicYear(argMultimap.getValue(PREFIX_ACADEMIC_YEAR).get(),
+                    String.valueOf(AcademicYear.now().getSemester()));
         }
 
-        Module module = new Module(moduleCode, new Name("Fake Name"), startDate, endDate, "Fake Description");
-
-        return new AddModuleCommand(module);
+        return new AddModuleCommand(moduleCode, academicYear);
     }
 
     /**

@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 
 import seedu.address.model.Name;
 import seedu.address.model.event.Event;
-import seedu.address.model.module.Module;
 
 
 /**
@@ -18,7 +17,6 @@ public class Deadline {
     // Identity fields
     private Name name;
     private LocalDateTime dueTime;
-    private Event parentEvent;
 
     // Data fields
     private boolean isCompleted;
@@ -26,16 +24,14 @@ public class Deadline {
     public Deadline(Name name, Event parentEvent) {
         requireAllNonNull(name, parentEvent);
         this.name = name;
-        this.parentEvent = parentEvent;
         this.dueTime = parentEvent.getEventStart();
         this.isCompleted = false;
     }
 
-    public Deadline(Name name, Event parentEvent, boolean isCompleted) {
-        requireAllNonNull(name, parentEvent);
+    public Deadline(Name name, LocalDateTime dueTime, boolean isCompleted) {
+        requireAllNonNull(name, dueTime);
         this.name = name;
-        this.parentEvent = parentEvent;
-        this.dueTime = parentEvent.getEventStart();
+        this.dueTime = dueTime;
         this.isCompleted = isCompleted;
     }
 
@@ -43,35 +39,12 @@ public class Deadline {
         return name;
     }
 
-    public Event getParentEvent() {
-        return parentEvent;
-    }
-
     public boolean isCompleted() {
         return isCompleted;
     }
 
-    public Module getModule() {
-        return parentEvent.getParentModule();
-    }
-
-    /**
-     * Returns a new Deadline with the new Event as its parentEvent to maintain immutability.
-     *
-     * @param newParentEvent New event to set as parent.
-     * @return New Deadline.
-     */
-    public Deadline setParentEvent(Event newParentEvent) {
-        return new Deadline(name, newParentEvent, isCompleted);
-    }
-
-    /**
-     * Returns a new completed Deadline to maintain immutability.
-     *
-     * @return Completed Deadline.
-     */
-    public Deadline completeDeadline() {
-        return new Deadline(name, parentEvent, true);
+    public LocalDateTime getDueTime() {
+        return dueTime;
     }
 
     public void setCompleted(boolean completed) {
@@ -84,8 +57,7 @@ public class Deadline {
      * @return String for debugging purposes.
      */
     public String toDebugString() {
-        return getModule().getModuleCode() + " | " + "DEADLINE" + " | "
-                + name + " || " + parentEvent.toDebugString();
+        return " | " + "DEADLINE" + " | " + name + " || ";
     }
 
     /**
@@ -98,9 +70,7 @@ public class Deadline {
         if (otherDeadline == this) {
             return true;
         }
-
-        return otherDeadline.getName().equals(getName())
-                && otherDeadline.getParentEvent().equals(getParentEvent());
+        return otherDeadline.getName().equals(getName());
     }
 
     /**
@@ -119,8 +89,6 @@ public class Deadline {
 
         Deadline otherDeadline = (Deadline) other;
         return otherDeadline.getName().equals(getName())
-                && otherDeadline.getParentEvent().equals(getParentEvent())
-                && otherDeadline.getModule().equals(getModule())
                 && otherDeadline.isCompleted() == isCompleted();
     }
 }
