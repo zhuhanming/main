@@ -53,7 +53,7 @@ public class JsonCalendarStorage implements CalendarStorage {
 
         try {
             return Optional.of(jsonSerializableCalendar.get().toModelType());
-        } catch (IllegalValueException ive) {
+        } catch (IllegalValueException | IOException ive) {
             logger.info("Illegal values found in " + filePath + ": " + ive.getMessage());
             throw new DataConversionException(ive);
         }
