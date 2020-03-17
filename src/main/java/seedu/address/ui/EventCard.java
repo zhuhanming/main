@@ -1,5 +1,7 @@
 package seedu.address.ui;
 
+import java.time.format.DateTimeFormatter;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
@@ -41,8 +43,9 @@ public class EventCard extends UiPart<Region> {
         this.event = event;
         id.setText(displayedIndex + ". ");
         name.setText(event.getName().fullName);
-        startDate.setText(event.getEventStart().toString());
-        endDate.setText(event.getEventEnd().toString());
+        startDate.setText(event.getEventStart().format(DateTimeFormatter.ofPattern("d MMMM yyyy, h a")) + " - "
+                + event.getEventEnd().format(DateTimeFormatter.ofPattern("h a")));
+        endDate.setText(event.getLocation().toString());
         tags.getChildren().add(new Label(event.getParentModule().getModuleCode().toString()));
 
         /*
