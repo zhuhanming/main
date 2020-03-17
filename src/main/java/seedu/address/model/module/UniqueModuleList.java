@@ -3,11 +3,20 @@ package seedu.address.model.module;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.net.URL;
+import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import seedu.address.commons.exceptions.DataConversionException;
+import seedu.address.commons.util.CollectionUtil;
+import seedu.address.commons.util.JsonUtil;
+import seedu.address.model.Name;
 import seedu.address.model.module.exceptions.DuplicateModuleException;
 import seedu.address.model.module.exceptions.ModuleNotFoundException;
 
@@ -38,11 +47,42 @@ public class UniqueModuleList implements Iterable<Module> {
     }
 
     /**
-     * Adds a person to the list. The person must not already exist in the list.
+     * Returns true if the list contains a module with the given module code and academic year.
+     *
+     * @param moduleCode   Code of the module.
+     * @param academicYear Academic year.
+     * @return Boolean denoting whether the list contains this module.
      */
-    public void add(Module toAdd) {
+    public boolean contains(ModuleCode moduleCode, AcademicYear academicYear) {
+        requireAllNonNull(moduleCode, academicYear);
+        return internalList.stream().anyMatch(x -> x.getModuleCode().equals(moduleCode)
+                && x.getAcademicYear().toString().equals(academicYear.toString()));
+    }
+
+    /**
+     * Gets the module from the list. If it does not exist, it is created.
+     *
+     * @param moduleCode   Code of the module required.
+     * @param academicYear Academic year of the module.
+     * @return Module required.
+     */
+    public Module getModule(ModuleCode moduleCode, AcademicYear academicYear) {
+        if (contains(moduleCode, academicYear)) {
+            return internalList.stream().filter(x -> x.getModuleCode().equals(moduleCode)
+                    && x.getAcademicYear().toString().equals(academicYear.toString()))
+                    .collect(CollectionUtil.toSingleton());
+        }
+        Module module = createModule(moduleCode, academicYear);
+        add(module);
+        return module;
+    }
+
+    /**
+     * Adds a module to the list. The module must not already exist in the list.
+     */
+    private void add(Module toAdd) {
         requireNonNull(toAdd);
-        if (contains(toAdd)) {
+        if (contains(toAdd.getModuleCode(), toAdd.getAcademicYear())) {
             throw new DuplicateModuleException();
         }
         internalList.add(toAdd);
@@ -67,9 +107,8 @@ public class UniqueModuleList implements Iterable<Module> {
         internalList.set(index, editedModule);
     }
 
-
     /**
-     * Removes the equivalent person from the list. The person must exist in the list.
+     * Removes the equivalent module from the list. The module must exist in the list.
      */
     public void remove(Module toRemove) {
         requireNonNull(toRemove);
@@ -78,13 +117,16 @@ public class UniqueModuleList implements Iterable<Module> {
         }
     }
 
+    /**
+     * Replaces the contents of this list with {@code modules}.
+     */
     public void setModules(UniqueModuleList replacement) {
         requireNonNull(replacement);
         internalList.setAll(replacement.internalList);
     }
 
     /**
-     * Replaces the contents of this list with {@code persons}. {@code persons} must not contain duplicate persons.
+     * Replaces the contents of this list with {@code modules}. {@code modules} must not contain duplicate persons.
      */
     public void setModules(List<Module> modules) {
         requireAllNonNull(modules);
@@ -132,5 +174,29 @@ public class UniqueModuleList implements Iterable<Module> {
             }
         }
         return true;
+    }
+
+    /**
+     * Creates a module based on the code and academic year given, with data from the module json files.
+     *
+     * @param moduleCode   Code of the module.
+     * @param academicYear AY for the module.
+     * @return New module created from save file.
+     * @throws ModuleNotFoundException Fail to read data from the module.
+     */
+    @SuppressWarnings("unchecked")
+    private static Module createModule(ModuleCode moduleCode, AcademicYear academicYear)
+            throws ModuleNotFoundException {
+        char firstCharacter = moduleCode.toString().charAt(0);
+        try {
+            URL jsonFile = UniqueModuleList.class.getResource("/modules/" + firstCharacter + "Modules.json");
+            HashMap<String, LinkedHashMap<String, String>> map =
+                    JsonUtil.readJsonFile(Path.of(jsonFile.getPath()), HashMap.class).orElseThrow();
+            LinkedHashMap<String, String> moduleNeeded = map.get(moduleCode.toString());
+            Name name = new Name(moduleNeeded.get("title"));
+            return new Module(moduleCode, name, academicYear, moduleNeeded.get("description"));
+        } catch (DataConversionException | NoSuchElementException e) {
+            throw new ModuleNotFoundException();
+        }
     }
 }
