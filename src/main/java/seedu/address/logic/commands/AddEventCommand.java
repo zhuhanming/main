@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_END_DATETIME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MODULE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
@@ -9,6 +10,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_START_DATETIME;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.TemporalAmount;
 
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
@@ -24,11 +26,11 @@ public class AddEventCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a event to the calendar. "
             + "Parameters: "
-            + PREFIX_MODULE + "MODULE "
+            + PREFIX_MODULE + "MODULE CODE "
             + PREFIX_NAME + "EVENT_NAME "
             + PREFIX_START_DATETIME + "EVENT_START_DATETIME "
             + PREFIX_END_DATETIME + "EVENT_END_DATETIME "
-            + PREFIX_REPEAT + "YES/NO \n"
+            + "[" + PREFIX_REPEAT + "YES/NO] \n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_MODULE + "CS2103 "
             + PREFIX_NAME + "Tutorial "
@@ -44,58 +46,68 @@ public class AddEventCommand extends Command {
     private final Event toAdd;
     private final boolean isRepeated;
     private LocalDate endRepeatDate;
+    private final TemporalAmount frequency;
 
 
-    public AddEventCommand(Event event, boolean isRepeated, LocalDate endRepeatDate) {
-        requireNonNull(event);
+    public AddEventCommand(Event event, boolean isRepeated, LocalDate endRepeatDate, TemporalAmount frequency) {
+        requireAllNonNull(event, frequency);
         this.toAdd = event;
         this.endRepeatDate = endRepeatDate;
         this.isRepeated = isRepeated;
+        this.frequency = frequency;
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        Module module = model.findModule(toAdd.getParentModule());
-        Event newToAdd = toAdd.setParentModule(module);
+        Module partialModule = toAdd.getParentModule();
 
-        if (module == null) {
+        if (!model.hasModule(partialModule.getModuleCode(), partialModule.getAcademicYear())) {
             throw new CommandException(MESSAGE_MODULE_DOESNT_EXIST);
         }
 
-        if (model.hasEvent(newToAdd)) {
+        Module actualModule = model.getModule(partialModule.getModuleCode(), partialModule.getAcademicYear());
+        Event actualEvent = new Event(toAdd.getName(), toAdd.getEventType(), toAdd.getEventStart(),
+                toAdd.getEventEnd(), actualModule);
+
+        if (model.hasEvent(actualEvent)) {
             throw new CommandException(MESSAGE_DUPLICATE_EVENT);
         }
 
-        if (newToAdd.getEventStart().toLocalDate().isBefore(module.getStartDate())
-                || newToAdd.getEventStart().toLocalDate().isAfter(module.getEndDate())
-                || newToAdd.getEventEnd().toLocalDate().isBefore(module.getStartDate())
-                || newToAdd.getEventEnd().toLocalDate().isAfter(module.getEndDate())) {
+        if (actualEvent.getEventStart().toLocalDate().isBefore(actualModule.getAcademicYear().getStartDate())
+                || actualEvent.getEventStart().toLocalDate().isAfter(actualModule.getAcademicYear().getEndDate())
+                || actualEvent.getEventEnd().toLocalDate().isBefore(actualModule.getAcademicYear().getStartDate())
+                || actualEvent.getEventEnd().toLocalDate().isAfter(actualModule.getAcademicYear().getEndDate())) {
+            System.out.println(actualModule.getAcademicYear().getStartDate());
+            System.out.println(actualModule.getAcademicYear().getEndDate());
             throw new CommandException(MESSAGE_INVALID_DATE_RANGE);
         }
 
-        if (model.hasEvent(newToAdd) && !isRepeated) {
+        if (model.hasEvent(actualEvent) && !isRepeated) {
             throw new CommandException(MESSAGE_DUPLICATE_EVENT);
         }
 
-        if (endRepeatDate == null || endRepeatDate.isAfter(module.getEndDate())) {
-            endRepeatDate = module.getEndDate();
+        if (endRepeatDate == null || endRepeatDate.isAfter(actualModule.getAcademicYear().getEndDate())) {
+            endRepeatDate = actualModule.getAcademicYear().getEndDate();
         }
         if (isRepeated) {
-            for (LocalDateTime start = newToAdd.getEventStart(), end = toAdd.getEventEnd();
+            for (LocalDateTime start = actualEvent.getEventStart(), end = actualEvent.getEventEnd();
                  !start.toLocalDate().isAfter(endRepeatDate) && !end.toLocalDate().isAfter(endRepeatDate);
-                 start = start.plusDays(7), end = end.plusDays(7)) {
-                Event nextEvent = new Event(newToAdd.getName(), newToAdd.getEventType(), start, end, module);
-                nextEvent.setParentModule(module);
+                 start = start.plus(frequency), end = end.plus(frequency)) {
+                Event nextEvent = new Event(actualEvent.getName(), actualEvent.getEventType(),
+                        start, end, actualModule);
                 if (!model.hasEvent(nextEvent)) {
-                    module.addEvent(nextEvent);
+                    actualModule.addEvent(nextEvent);
                     model.addEvent(nextEvent);
                 }
             }
+        } else {
+            actualModule.addEvent(actualEvent);
+            model.addEvent(actualEvent);
         }
         System.out.println(model.checkCurrentCalendar());
-        return new CommandResult(String.format(MESSAGE_SUCCESS, newToAdd));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, actualEvent));
     }
 
     @Override
