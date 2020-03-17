@@ -1,4 +1,4 @@
-package seedu.address.model.entity;
+package seedu.address.model.module;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
@@ -6,42 +6,51 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import seedu.address.model.Displayable;
+import seedu.address.model.Name;
+import seedu.address.model.event.Event;
+
 
 /**
- * Represents a module in Modulo.
- * Guarantees: details are present and not null, field values are validated, immutable.
+ * Represents a module in Modulo. Guarantees: details are present and not null, field values are validated, immutable.
  */
-public class Module {
+public class Module implements Displayable {
 
     // Identity Fields
-    private String moduleCode;
+    private ModuleCode moduleCode;
+    private Name name;
     private LocalDate startDate;
     private LocalDate endDate;
+
+    // Non-identity fields
+    private String description;
 
     // Data fields
     private List<Event> events;
 
-    public Module(String moduleCode, LocalDate startDate, LocalDate endDate) {
-        requireAllNonNull(moduleCode, startDate, endDate);
+    public Module(ModuleCode moduleCode, Name name, LocalDate startDate, LocalDate endDate, String description) {
+        requireAllNonNull(moduleCode, name, startDate, endDate, description);
         this.moduleCode = moduleCode;
+        this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.description = description;
         this.events = new ArrayList<>();
     }
 
     public Module() {
     }
 
-    public String getModuleCode() {
+    public ModuleCode getModuleCode() {
         return moduleCode;
+    }
+
+    public Name getName() {
+        return name;
     }
 
     public List<Event> getEvents() {
         return events;
-    }
-
-    public void addEvent(Event event) {
-        events.add(event);
     }
 
     public LocalDate getStartDate() {
@@ -50,6 +59,14 @@ public class Module {
 
     public LocalDate getEndDate() {
         return endDate;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void addEvent(Event event) {
+        events.add(event);
     }
 
     /**
@@ -63,6 +80,7 @@ public class Module {
             return true;
         } else {
             return otherModule.getModuleCode().equals(this.getModuleCode())
+                    && otherModule.getName().equals(this.getName())
                     && otherModule.getStartDate().equals(this.getStartDate())
                     && otherModule.getEndDate().equals(this.getEndDate());
         }
@@ -80,8 +98,8 @@ public class Module {
     }
 
     /**
-     * Returns true if both modules have the same identity and data fields.
-     * This defines a stronger notion of equality between two modules.
+     * Returns true if both modules have the same identity and data fields. This defines a stronger notion of equality
+     * between two modules.
      */
     @Override
     public boolean equals(Object other) {
@@ -95,8 +113,10 @@ public class Module {
 
         Module otherModule = (Module) other;
         return otherModule.getModuleCode().equals(getModuleCode())
+                && otherModule.getName().equals(getName())
                 && otherModule.getStartDate().equals(getStartDate())
                 && otherModule.getEndDate().equals(getEndDate())
+                && otherModule.getDescription().equals(getDescription())
                 && otherModule.getEvents().equals(getEvents());
     }
 

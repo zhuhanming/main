@@ -13,11 +13,12 @@ import java.util.stream.Stream;
 
 import seedu.address.logic.commands.AddEventCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.entity.CalendarItemName;
-import seedu.address.model.entity.Event;
-import seedu.address.model.entity.EventType;
-import seedu.address.model.entity.MatchableModule;
-import seedu.address.model.entity.Module;
+import seedu.address.model.Name;
+import seedu.address.model.event.Event;
+import seedu.address.model.event.EventType;
+import seedu.address.model.module.MatchableModule;
+import seedu.address.model.module.Module;
+import seedu.address.model.module.ModuleCode;
 
 
 /**
@@ -31,7 +32,6 @@ public class AddEventCommandParser implements Parser<AddEventCommand> {
      *
      * @throws ParseException if the user input does not conform the expected format
      */
-    @SuppressWarnings("checkstyle:WhitespaceAround")
     public AddEventCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_MODULE, PREFIX_NAME,
                 PREFIX_START_DATETIME, PREFIX_END_DATETIME, PREFIX_REPEAT);
@@ -43,8 +43,8 @@ public class AddEventCommandParser implements Parser<AddEventCommand> {
         }
 
         // Module module = ParserUtil.parseModule(argMultimap.getValue(PREFIX_MODULE).get());
-        CalendarItemName name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
-        String moduleCode = ParserUtil.parseModuleCode(argMultimap.getValue(PREFIX_MODULE).get());
+        Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
+        ModuleCode moduleCode = ParserUtil.parseModuleCode(argMultimap.getValue(PREFIX_MODULE).get());
         LocalDateTime startDateTime = ParserUtil.parseDateTime(argMultimap.getValue(PREFIX_START_DATETIME).get());
         LocalDateTime endDateTime = ParserUtil.parseDateTime(argMultimap.getValue(PREFIX_END_DATETIME).get());
         boolean isRepeated = ParserUtil.parseRepeat(argMultimap.getValue(PREFIX_REPEAT).get());

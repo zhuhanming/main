@@ -9,9 +9,9 @@ import java.util.List;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.entity.Deadline;
-import seedu.address.model.entity.Event;
-import seedu.address.model.entity.Module;
+import seedu.address.model.deadline.Deadline;
+import seedu.address.model.event.Event;
+import seedu.address.model.module.Module;
 
 /**
  * Set a deadline to be done
@@ -83,6 +83,6 @@ public class DoneCommand extends Command {
         }
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, (
-                toCheckModule.getModuleCode() + " " + toCheckEvent.getEventName())));
+                toCheckModule.getModuleCode() + " " + toCheckEvent.getName())));
     }
 }

@@ -5,8 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
-import seedu.address.model.entity.CalendarItem;
-import seedu.address.model.entity.Event;
+import seedu.address.model.event.Event;
 
 /**
  * An UI component that displays information of a {@code Event}.
@@ -16,14 +15,13 @@ public class EventCard extends UiPart<Region> {
     private static final String FXML = "EventListCard.fxml";
 
     /**
-     * Note: Certain keywords such as "location" and "resources" are reserved keywords in JavaFX.
-     * As a consequence, UI elements' variable names cannot be set to such keywords
-     * or an exception will be thrown by JavaFX during runtime.
+     * Note: Certain keywords such as "location" and "resources" are reserved keywords in JavaFX. As a consequence, UI
+     * elements' variable names cannot be set to such keywords or an exception will be thrown by JavaFX during runtime.
      *
      * @see <a href="https://github.com/se-edu/addressbook-level4/issues/336">The issue on AddressBook level 4</a>
      */
 
-    public final CalendarItem event;
+    public final Event event;
 
     @FXML
     private HBox eventCardPane;
@@ -38,21 +36,21 @@ public class EventCard extends UiPart<Region> {
     @FXML
     private FlowPane tags;
 
-    public EventCard(CalendarItem calendarItem, int displayedIndex) {
+    public EventCard(Event event, int displayedIndex) {
         super(FXML);
-        Event event = (Event) calendarItem;
         this.event = event;
         id.setText(displayedIndex + ". ");
-        name.setText(event.getEventName().fullName);
+        name.setText(event.getName().fullName);
         startDate.setText(event.getEventStart().toString());
         endDate.setText(event.getEventEnd().toString());
-        tags.getChildren().add(new Label(event.getModule().getModuleCode()));
+        tags.getChildren().add(new Label(event.getModule().getModuleCode().toString()));
 
         /*
         Future extension if want to add additional tags:
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
-                .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));*/
+                .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+        */
     }
 
     @Override

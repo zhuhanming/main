@@ -13,9 +13,8 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.model.entity.CalendarItem;
-import seedu.address.model.entity.Event;
-import seedu.address.model.entity.Module;
+import seedu.address.model.event.Event;
+import seedu.address.model.module.Module;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -25,8 +24,10 @@ public class ModelManager implements Model {
 
     private final Calendar calendar;
     private final UserPrefs userPrefs;
-    private final FilteredList<CalendarItem> filteredCalendarItems;
+    private final FilteredList<Event> filteredEvents;
     private final FilteredList<Module> filteredModules;
+    private FilteredList<? extends Displayable> filteredListables;
+    private Displayable focusedDisplayable;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -39,8 +40,9 @@ public class ModelManager implements Model {
         this.calendar = new Calendar(calendar);
         this.userPrefs = new UserPrefs(userPrefs);
 
-        filteredCalendarItems = new FilteredList<>(this.calendar.getCalendarItemList());
+        filteredEvents = new FilteredList<>(this.calendar.getEventList());
         filteredModules = new FilteredList<>(this.calendar.getModuleList());
+        filteredListables = filteredEvents;
     }
 
     public ModelManager() {
@@ -82,7 +84,7 @@ public class ModelManager implements Model {
         userPrefs.setCalendarFilePath(calendarFilePath);
     }
 
-    //=========== AddressBook ================================================================================
+    //=========== Modulo ================================================================================
 
     @Override
     public void setCalendar(ReadOnlyCalendar calendar) {
@@ -95,37 +97,36 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public boolean hasCalendarItem(CalendarItem calendarItem) {
-        requireNonNull(calendarItem);
-        return calendar.hasCalendarItem(calendarItem);
+    public boolean hasEvent(Event event) {
+        requireNonNull(event);
+        return calendar.hasEvent(event);
     }
 
     @Override
-    public void deleteCalendarItem(CalendarItem target) {
-        calendar.removeCalendarItem(target);
+    public void deleteEvent(Event target) {
+        calendar.removeEvent(target);
     }
 
     @Override
-    public void addCalendarItem(CalendarItem calendarItem) {
-        calendar.addCalendarItem(calendarItem);
-        updateFilteredCalendarItemList(PREDICATE_SHOW_ALL_CALENDAR_ITEMS);
+    public void addEvent(Event calendarItem) {
+        calendar.addEvent(calendarItem);
+        updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
     }
 
 
     @Override
-    public void setCalendarItem(CalendarItem target, CalendarItem editedCalendarItem) {
+    public void setEvent(Event target, Event editedCalendarItem) {
         requireAllNonNull(target, editedCalendarItem);
-
-        calendar.setCalendarItems(target, editedCalendarItem);
+        calendar.setEvent(target, editedCalendarItem);
     }
 
     @Override
-    public CalendarItem findCalendarItem(CalendarItem toFind) {
+    public Event findEvent(Event toFind) {
         requireNonNull(toFind);
-        List<CalendarItem> calendarItemList = calendar.getCalendarItemList();
-        for (CalendarItem calendarItem : calendarItemList) {
-            if (calendarItem.matchCalendarItem(toFind)) {
-                return calendarItem;
+        List<Event> eventList = calendar.getEventList();
+        for (Event event : eventList) {
+            if (event.isSameEvent(toFind)) {
+                return event;
             }
         }
         return null;
@@ -134,12 +135,12 @@ public class ModelManager implements Model {
     @Override
     public List<Event> findAllEvents(Event toFind) {
         requireNonNull(toFind);
-        List<CalendarItem> calendarItemList = calendar.getCalendarItemList();
+        List<Event> eventList = calendar.getEventList();
         List<Event> result = new ArrayList<>();
-        System.out.println("calendar length: " + calendarItemList.size());
-        for (CalendarItem calendarItem : calendarItemList) {
-            if (calendarItem.matchCalendarItem(toFind)) {
-                result.add((Event) calendarItem);
+        System.out.println("event list length: " + eventList.size());
+        for (Event event : eventList) {
+            if (event.isSameCategoryOfEvents(toFind)) {
+                result.add(event);
             }
         }
         return result;
@@ -182,27 +183,56 @@ public class ModelManager implements Model {
         return null;
     }
 
+    //=========== Setting Focus =============================================================
+
+    @Override
+    public void setFocusedDisplayable(Displayable displayable) {
+        boolean hasDisplayable = false;
+        if (displayable instanceof Module) {
+            hasDisplayable = hasModule((Module) displayable);
+        } else if (displayable instanceof Event) {
+            hasDisplayable = hasEvent((Event) displayable);
+        }
+        if (!hasDisplayable) {
+            return;
+        }
+        focusedDisplayable = displayable;
+    }
+
+    @Override
+    public void unsetFocusedDisplayable() {
+        focusedDisplayable = null;
+    }
+
+    @Override
+    public void setFilteredFocusedList(DisplayableType displayableType) {
+        if (displayableType == DisplayableType.EVENT) {
+            filteredListables = filteredEvents;
+        } else if (displayableType == DisplayableType.MODULE) {
+            filteredListables = filteredModules;
+        }
+    }
 
     //=========== Filtered Person List Accessors =============================================================
 
     /**
-     * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of
-     * {@code versionedAddressBook}
+     * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of {@code
+     * versionedAddressBook}
      */
     @Override
-    public ObservableList<CalendarItem> getFilteredCalendarItemList() {
-        return filteredCalendarItems;
+    public ObservableList<Event> getFilteredEventList() {
+        return filteredEvents;
     }
 
     @Override
-    public void updateFilteredCalendarItemList(Predicate<CalendarItem> predicate) {
+    public void updateFilteredEventList(Predicate<Event> predicate) {
         requireNonNull(predicate);
-        filteredCalendarItems.setPredicate(predicate);
+        filteredEvents.setPredicate(predicate);
     }
 
     /**
-     * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of
-     * {@code versionedAddressBook}
+     * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of {@code
+     * versionedAddressBook}
      */
     @Override
     public ObservableList<Module> getFilteredModuleList() {
@@ -214,6 +244,12 @@ public class ModelManager implements Model {
         requireNonNull(predicate);
         filteredModules.setPredicate(predicate);
     }
+
+    @Override
+    public ObservableList<? extends Displayable> getFilteredFocusedList() {
+        return filteredListables;
+    }
+
 
     @Override
     public boolean equals(Object obj) {
@@ -231,13 +267,14 @@ public class ModelManager implements Model {
         ModelManager other = (ModelManager) obj;
         return calendar.equals(other.calendar)
                 && userPrefs.equals(other.userPrefs)
-                && filteredCalendarItems.equals(other.filteredCalendarItems);
+                && filteredEvents.equals(other.filteredEvents)
+                && filteredModules.equals(other.filteredModules);
     }
 
     @Override
     public String checkCurrentCalendar() {
         List<Module> modules = calendar.getModuleList();
-        List<CalendarItem> calendarItems = calendar.getCalendarItemList();
+        List<Event> events = calendar.getEventList();
         StringBuilder sb = new StringBuilder();
         sb.append("Modules: ");
         sb.append("\n");
@@ -246,10 +283,10 @@ public class ModelManager implements Model {
             sb.append("\n");
         }
 
-        sb.append("Calendar Items: ");
+        sb.append("Events: ");
         sb.append("\n");
-        for (CalendarItem eachCalendarItem : calendarItems) {
-            sb.append(eachCalendarItem.toDebugString());
+        for (Event eachEvent : events) {
+            sb.append(eachEvent.toDebugString());
             sb.append("\n");
         }
         return sb.toString();

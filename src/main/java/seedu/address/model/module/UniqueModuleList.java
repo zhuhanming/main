@@ -1,4 +1,4 @@
-package seedu.address.model.entity;
+package seedu.address.model.module;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
@@ -8,16 +8,15 @@ import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import seedu.address.model.entity.exceptions.DuplicateModuleException;
-import seedu.address.model.entity.exceptions.ModuleNotFoundException;
+import seedu.address.model.module.exceptions.DuplicateModuleException;
+import seedu.address.model.module.exceptions.ModuleNotFoundException;
 
 /**
- * A list of modules that enforces uniqueness between its elements and does not allow nulls.
- * A module is considered unique by comparing using {@code Module#isSameModule(Module)}. As such, adding
- * and updating of modules uses Module#isSameModule(Module) for equality so as to ensure that the module
- * being added or updated is unique in terms of identity in the UniqueModuleList. However, the removal
- * of a module uses Module#equals(Object) so as to ensure that the module with exactly the same
- * fields will be removed.
+ * A list of modules that enforces uniqueness between its elements and does not allow nulls. A module is considered
+ * unique by comparing using {@code Module#isSameModule(Module)}. As such, adding and updating of modules uses
+ * Module#isSameModule(Module) for equality so as to ensure that the module being added or updated is unique in terms of
+ * identity in the UniqueModuleList. However, the removal of a module uses Module#equals(Object) so as to ensure that
+ * the module with exactly the same fields will be removed.
  * <p>
  * Supports a minimal set of list operations.
  *
@@ -39,8 +38,7 @@ public class UniqueModuleList implements Iterable<Module> {
     }
 
     /**
-     * Adds a person to the list.
-     * The person must not already exist in the list.
+     * Adds a person to the list. The person must not already exist in the list.
      */
     public void add(Module toAdd) {
         requireNonNull(toAdd);
@@ -51,8 +49,7 @@ public class UniqueModuleList implements Iterable<Module> {
     }
 
     /**
-     * Replaces the person {@code target} in the list with {@code editedPerson}.
-     * {@code target} must exist in the list.
+     * Replaces the person {@code target} in the list with {@code editedPerson}. {@code target} must exist in the list.
      * The person identity of {@code editedPerson} must not be the same as another existing person in the list.
      */
     public void setModule(Module target, Module editedModule) {
@@ -72,8 +69,7 @@ public class UniqueModuleList implements Iterable<Module> {
 
 
     /**
-     * Removes the equivalent person from the list.
-     * The person must exist in the list.
+     * Removes the equivalent person from the list. The person must exist in the list.
      */
     public void remove(Module toRemove) {
         requireNonNull(toRemove);
@@ -88,8 +84,7 @@ public class UniqueModuleList implements Iterable<Module> {
     }
 
     /**
-     * Replaces the contents of this list with {@code persons}.
-     * {@code persons} must not contain duplicate persons.
+     * Replaces the contents of this list with {@code persons}. {@code persons} must not contain duplicate persons.
      */
     public void setModules(List<Module> modules) {
         requireAllNonNull(modules);

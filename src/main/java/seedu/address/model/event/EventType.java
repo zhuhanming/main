@@ -1,4 +1,4 @@
-package seedu.address.model.entity;
+package seedu.address.model.event;
 
 /**
  * Types of events allowed.

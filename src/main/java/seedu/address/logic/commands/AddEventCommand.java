@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.entity.Event;
-import seedu.address.model.entity.Module;
+import seedu.address.model.event.Event;
+import seedu.address.model.module.Module;
 
 
 /**
@@ -37,7 +37,7 @@ public class AddEventCommand extends Command {
             + PREFIX_REPEAT + "YES ";
 
     public static final String MESSAGE_SUCCESS = "New event added: %1$s";
-    public static final String MESSAGE_DUPLICATE_EVENT = "This event in this module is already exists in the calendar";
+    public static final String MESSAGE_DUPLICATE_EVENT = "This event already exists for this module!";
     public static final String MESSAGE_INVALID_DATE_RANGE = "The specified date range is invalid!";
     public static final String MESSAGE_MODULE_DOESNT_EXIST = "The specified module does not exist in the calendar";
 
@@ -64,6 +64,10 @@ public class AddEventCommand extends Command {
             throw new CommandException(MESSAGE_MODULE_DOESNT_EXIST);
         }
 
+        if (model.hasEvent(newToAdd)) {
+            throw new CommandException(MESSAGE_DUPLICATE_EVENT);
+        }
+
         if (newToAdd.getEventStart().toLocalDate().isBefore(module.getStartDate())
                 || newToAdd.getEventStart().toLocalDate().isAfter(module.getEndDate())
                 || newToAdd.getEventEnd().toLocalDate().isBefore(module.getStartDate())
@@ -71,7 +75,7 @@ public class AddEventCommand extends Command {
             throw new CommandException(MESSAGE_INVALID_DATE_RANGE);
         }
 
-        if (model.hasCalendarItem(newToAdd) && !isRepeated) {
+        if (model.hasEvent(newToAdd) && !isRepeated) {
             throw new CommandException(MESSAGE_DUPLICATE_EVENT);
         }
 
@@ -82,15 +86,13 @@ public class AddEventCommand extends Command {
             for (LocalDateTime start = newToAdd.getEventStart(), end = toAdd.getEventEnd();
                  !start.toLocalDate().isAfter(endRepeatDate) && !end.toLocalDate().isAfter(endRepeatDate);
                  start = start.plusDays(7), end = end.plusDays(7)) {
-                Event nextEvent = new Event(newToAdd.getEventName(), newToAdd.getEventType(), start, end, module);
+                Event nextEvent = new Event(newToAdd.getName(), newToAdd.getEventType(), start, end, module);
                 nextEvent.setParentModule(module);
-                if (!model.hasCalendarItem(nextEvent)) {
+                if (!model.hasEvent(nextEvent)) {
                     module.addEvent(nextEvent);
-                    model.addCalendarItem(nextEvent);
+                    model.addEvent(nextEvent);
                 }
-
             }
-
         }
         System.out.println(model.checkCurrentCalendar());
         return new CommandResult(String.format(MESSAGE_SUCCESS, newToAdd));

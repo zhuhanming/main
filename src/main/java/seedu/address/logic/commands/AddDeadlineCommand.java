@@ -10,8 +10,8 @@ import java.util.List;
 
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.entity.Deadline;
-import seedu.address.model.entity.Event;
+import seedu.address.model.deadline.Deadline;
+import seedu.address.model.event.Event;
 
 
 /**
@@ -56,10 +56,11 @@ public class AddDeadlineCommand extends Command {
 
         requireNonNull(model);
 
-        if (model.hasCalendarItem(toAdd)) {
-            throw new CommandException(MESSAGE_DUPLICATE_DEADLINE);
-        }
+        //if (model.hasEvent(toAdd)) {
+        //    throw new CommandException(MESSAGE_DUPLICATE_DEADLINE);
+        //}
         List<Event> events = model.findAllEvents(toAdd.getParentEvent());
+
         if (events.size() == 0) {
             throw new CommandException(MESSAGE_EVENT_DOESNT_EXIST);
         }
@@ -69,8 +70,9 @@ public class AddDeadlineCommand extends Command {
 
         for (Event event : events) {
             if (!event.getIsOver()) {
-                Deadline currentToAdd = new Deadline(toAdd.getDeadlineName(), event);
-                model.addCalendarItem(currentToAdd);
+                Deadline currentToAdd = new Deadline(toAdd.getName(), event);
+                event.addDeadline(currentToAdd);
+                // model.addCalendarItem(currentToAdd);
                 System.out.println("Added: " + toAdd.toDebugString());
                 if (!isRepeated) {
                     break;

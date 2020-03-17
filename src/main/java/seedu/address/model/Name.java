@@ -1,13 +1,12 @@
-package seedu.address.model.entity;
+package seedu.address.model;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
 /**
- * Represents a Deadline/Event/Module name in the calendar.
- * Guarantees: immutable; is valid as declared in {@link #isValidName(String)}
+ * Represents a name in the address book. Guarantees: immutable; is valid as declared in {@link #isValidName(String)}
  */
-public class CalendarItemName {
+public class Name {
 
     public static final String MESSAGE_CONSTRAINTS =
             "Names should only contain alphanumeric characters and spaces, and it should not be blank";
@@ -21,13 +20,12 @@ public class CalendarItemName {
     public final String fullName;
 
     /**
-     * Constructs a {@code CalendarItemName}.
+     * Constructs a {@code Name}.
      *
      * @param name A valid name.
      */
-    public CalendarItemName(String name) {
+    public Name(String name) {
         requireNonNull(name);
-        System.out.println("Calendar item name " + name);
         checkArgument(isValidName(name), MESSAGE_CONSTRAINTS);
         fullName = name;
     }
@@ -48,8 +46,8 @@ public class CalendarItemName {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof CalendarItemName // instanceof handles nulls
-                && fullName.equals(((CalendarItemName) other).fullName)); // state check
+                || (other instanceof Name // instanceof handles nulls
+                && fullName.equals(((Name) other).fullName)); // state check
     }
 
     @Override
