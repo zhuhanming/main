@@ -242,6 +242,11 @@ public class ModelManager implements Model {
 
     //=========== Filtered Person List Accessors =============================================================
 
+    @Override
+    public void updateFilteredDisplayableList(Predicate<Displayable> predicate) {
+        requireNonNull(predicate);
+        focusedFilteredDisplayables.setPredicate(predicate);
+    }
     /**
      * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of {@code
      * versionedAddressBook}
