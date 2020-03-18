@@ -46,8 +46,8 @@ public class ModelManager implements Model {
         filteredEvents = new FilteredList<>(this.calendar.getEventList());
         filteredModules = new FilteredList<>(this.calendar.getModuleList());
         // TODO: Find out how to display events and modules
-        //focusedFilteredDisplayables = filteredEvents;
-        focusedFilteredDisplayables = filteredModules;
+        focusedFilteredDisplayables = filteredEvents;
+        //focusedFilteredDisplayables = filteredModules;
     }
 
     public ModelManager() {
