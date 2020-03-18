@@ -1,0 +1,25 @@
+{
+  "authors":
+  [
+    {
+      "githubId": "zhuhanming",
+      "displayName": "ZHU ..MING",
+      "authorNames": ["Zhu Hanming", "Hanming Zhu", "zhuhanming"]
+    },
+    {
+      "githubId": "seanlowcy77",
+      "displayName": "LOW ..SEAN",
+      "authorNames": ["Sean Low", "seanlowcy77"]
+    },
+    {
+      "githubId": "JingYuOng",
+      "displayName": "ONG ..G YU",
+      "authorNames": ["Jy47", "JingYuOng", "OngJingYu"]
+    },
+    {
+      "githubId": "ErnTekTeoh",
+      "displayName": "TEOH.. TEK",
+      "authorNames": ["Ern Tek Teoh", "ErnTekTeoh"]
+    }
+  ]
+}
