@@ -13,6 +13,7 @@ import java.util.Set;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.DisplayableType;
 import seedu.address.model.Name;
 import seedu.address.model.event.EventType;
 import seedu.address.model.module.ModuleCode;
@@ -216,6 +217,17 @@ public class ParserUtil {
             }
         }
         throw new ParseException("Event type is not recognised!");
+    }
+
+    //Documentation
+    public static DisplayableType parseDisplayableType(String displayableType) throws ParseException {
+        String cleanedDisplayableType = displayableType.toLowerCase().trim();
+        if (cleanedDisplayableType.equals("m") || cleanedDisplayableType.equals("module")) {
+            return DisplayableType.MODULE;
+        } else if (cleanedDisplayableType.equals("e") || cleanedDisplayableType.equals("event")) {
+            return DisplayableType.EVENT;
+        }
+        throw new ParseException("Displayable type is not recognised!");
     }
 
 }
