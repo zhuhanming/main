@@ -10,6 +10,7 @@ import javafx.scene.layout.Region;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.Displayable;
 import seedu.address.model.event.Event;
+import seedu.address.model.module.Module;
 
 /**
  * Panel containing the list of focused items.
@@ -22,9 +23,9 @@ public class ListPanel extends UiPart<Region> {
     private ListView<Displayable> listView;
 
     @SuppressWarnings("unchecked")
-    public ListPanel(ObservableList<? extends Displayable> eventList) {
+    public ListPanel(ObservableList<? extends Displayable> DisplayableList) {
         super(FXML);
-        listView.setItems((ObservableList<Displayable>) eventList);
+        listView.setItems((ObservableList<Displayable>) DisplayableList);
         listView.setCellFactory(listView -> new ListViewCell());
     }
 
@@ -41,6 +42,8 @@ public class ListPanel extends UiPart<Region> {
                 setText(null);
             } else if (listItem instanceof Event) {
                 setGraphic(new EventCard((Event) listItem, getIndex() + 1).getRoot());
+            } else if (listItem instanceof Module) {
+                setGraphic(new ModuleCard((Module) listItem, getIndex() + 1).getRoot());
             }
         }
     }
