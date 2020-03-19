@@ -46,8 +46,8 @@ public class ModelManager implements Model {
         filteredEvents = new FilteredList<>(this.calendar.getEventList());
         filteredModules = new FilteredList<>(this.calendar.getModuleList());
         // TODO: Find out how to display events and modules
-        focusedFilteredDisplayables = filteredEvents;
-        //focusedFilteredDisplayables = filteredModules;
+        //focusedFilteredDisplayables = filteredEvents;
+        focusedFilteredDisplayables = filteredModules;
     }
 
     public ModelManager() {
@@ -238,8 +238,6 @@ public class ModelManager implements Model {
     }
 
 
-
-
     //=========== Filtered Person List Accessors =============================================================
 
     @Override
@@ -247,6 +245,7 @@ public class ModelManager implements Model {
         requireNonNull(predicate);
         focusedFilteredDisplayables.setPredicate(predicate);
     }
+
     /**
      * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of {@code
      * versionedAddressBook}

@@ -2,17 +2,15 @@ package seedu.address.logic.parser;
 
 import java.util.stream.Stream;
 
-import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.logic.commands.ViewCommand;
 import seedu.address.commons.core.index.Index;
+import seedu.address.logic.commands.ViewCommand;
+import seedu.address.logic.parser.exceptions.ParseException;
 
 
 /**
  * Parses input arguments and creates a new ListCommand object
  */
 public class ViewCommandParser implements Parser<ViewCommand> {
-
-
     /**
      * Parses the given {@code String} of arguments in the context of the AddCommand and returns an AddCommand object
      * for execution.

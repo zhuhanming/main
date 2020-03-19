@@ -91,7 +91,7 @@ public class AcademicYear {
     }
 
     public String toModuleCardFormat() {
-        return "AY " +  getStartYear() + "/" + getEndYear() + " Sem " + getSemester();
+        return "AY " + getStartYear() + "/" + getEndYear() + " Sem " + getSemester();
     }
 
     @Override

@@ -219,7 +219,13 @@ public class ParserUtil {
         throw new ParseException("Event type is not recognised!");
     }
 
-    //Documentation
+    /**
+     * Parses the user input for the displayable type.
+     *
+     * @param displayableType String containing the displayable type to parse.
+     * @return Type of displayable.
+     * @throws ParseException If the type is not recognised.
+     */
     public static DisplayableType parseDisplayableType(String displayableType) throws ParseException {
         String cleanedDisplayableType = displayableType.toLowerCase().trim();
         if (cleanedDisplayableType.equals("m") || cleanedDisplayableType.equals("module")) {
