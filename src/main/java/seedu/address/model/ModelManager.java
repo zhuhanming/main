@@ -42,9 +42,12 @@ public class ModelManager implements Model {
         this.calendar = new Calendar(calendar);
         this.userPrefs = new UserPrefs(userPrefs);
 
+
         filteredEvents = new FilteredList<>(this.calendar.getEventList());
         filteredModules = new FilteredList<>(this.calendar.getModuleList());
+        // TODO: Find out how to display events and modules
         focusedFilteredDisplayables = filteredEvents;
+        //focusedFilteredDisplayables = filteredModules;
     }
 
     public ModelManager() {
@@ -219,17 +222,31 @@ public class ModelManager implements Model {
         focusedDisplayable = null;
     }
 
+
     @Override
     public void setFilteredFocusedList(DisplayableType displayableType) {
         if (displayableType == DisplayableType.EVENT) {
+            updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
             focusedFilteredDisplayables = filteredEvents;
+
         } else if (displayableType == DisplayableType.MODULE) {
+            updateFilteredModuleList(PREDICATE_SHOW_ALL_MODULES);
             focusedFilteredDisplayables = filteredModules;
+
         }
+
     }
+
+
+
 
     //=========== Filtered Person List Accessors =============================================================
 
+    @Override
+    public void updateFilteredDisplayableList(Predicate<Displayable> predicate) {
+        requireNonNull(predicate);
+        focusedFilteredDisplayables.setPredicate(predicate);
+    }
     /**
      * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of {@code
      * versionedAddressBook}

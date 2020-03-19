@@ -157,6 +157,8 @@ public interface Model {
      */
     void setFocusedDisplayable(Displayable displayable);
 
+    void updateFilteredDisplayableList(Predicate<Displayable> predicate);
+
     void unsetFocusedDisplayable();
 
     //to be deleted after debugging

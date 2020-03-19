@@ -90,6 +90,10 @@ public class AcademicYear {
         return new AcademicYear(split[0], split[1]);
     }
 
+    public String toModuleCardFormat() {
+        return "AY " +  getStartYear() + "/" + getEndYear() + " Sem " + getSemester();
+    }
+
     @Override
     public String toString() {
         return getStartYear() + "/" + getEndYear() + "+" + getSemester();
