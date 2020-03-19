@@ -23,9 +23,9 @@ public class ListPanel extends UiPart<Region> {
     private ListView<Displayable> listView;
 
     @SuppressWarnings("unchecked")
-    public ListPanel(ObservableList<? extends Displayable> DisplayableList) {
+    public ListPanel(ObservableList<? extends Displayable> displayableList) {
         super(FXML);
-        listView.setItems((ObservableList<Displayable>) DisplayableList);
+        listView.setItems((ObservableList<Displayable>) displayableList);
         listView.setCellFactory(listView -> new ListViewCell());
     }
 
