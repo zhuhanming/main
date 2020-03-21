@@ -219,11 +219,12 @@ public class ParserUtil {
         throw new ParseException("Event type is not recognised!");
     }
 
+
     /**
-     * Parses the user input to find the type to be displayed.
+     * Parses the user input for the displayable type.
      *
      * @param displayableType String containing the displayable type to parse.
-     * @return the DisplayableType of the String.
+     * @return Type of displayable.
      * @throws ParseException If the type is not recognised.
      */
     public static DisplayableType parseDisplayableType(String displayableType) throws ParseException {

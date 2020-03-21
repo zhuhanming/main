@@ -11,8 +11,6 @@ import seedu.address.logic.parser.exceptions.ParseException;
  * Parses input arguments and creates a new ListCommand object
  */
 public class ViewCommandParser implements Parser<ViewCommand> {
-
-
     /**
      * Parses the given {@code String} of arguments in the context of the AddCommand and returns an AddCommand object
      * for execution.

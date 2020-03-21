@@ -1,0 +1,25 @@
+{
+  "authors":
+  [
+    {
+      "githubId": "zhuhanming",
+      "displayName": "CS2103-T09-1 ZHU ..MING",
+      "authorNames": ["Zhu Hanming", "Hanming Zhu", "zhuhanming"]
+    },
+    {
+      "githubId": "seanlowcy77",
+      "displayName": "CS2103-T09-1 LOW ..SEAN",
+      "authorNames": ["Sean Low", "seanlowcy77"]
+    },
+    {
+      "githubId": "JingYuOng",
+      "displayName": "CS2103-T09-1 ONG ..G YU",
+      "authorNames": ["Jy47", "JingYuOng", "OngJingYu"]
+    },
+    {
+      "githubId": "ErnTekTeoh",
+      "displayName": "CS2103-T09-1 TEOH.. TEK",
+      "authorNames": ["Ern Tek Teoh", "ErnTekTeoh"]
+    }
+  ]
+}
