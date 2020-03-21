@@ -166,7 +166,8 @@ public class Calendar implements ReadOnlyCalendar {
 
     @Override
     public String toString() {
-        return events.asUnmodifiableObservableList().size() + " events " + modules.asUnmodifiableObservableList().size() + " modules";
+        return events.asUnmodifiableObservableList().size() + " events "
+                + modules.asUnmodifiableObservableList().size() + " modules";
         // TODO: refine later
     }
 
