@@ -17,9 +17,10 @@ public class SameItemPredicate implements Predicate<Displayable> {
 
     @Override
     public boolean test(Displayable event) {
-        //return keywords.stream().anyMatch(keyword -> StringUtil.containsWordIgnoreCase(event.toString().trim(), keyword));
+        //return keywords
+        // .stream().anyMatch(keyword -> StringUtil.containsWordIgnoreCase(event.toString().trim(), keyword));
 
-        if((event.toString()).trim().equals(keywords.get(0))) {
+        if ((event.toString()).trim().equals(keywords.get(0))) {
             return true;
         }
         return false;
