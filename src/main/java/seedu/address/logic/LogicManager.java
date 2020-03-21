@@ -46,7 +46,6 @@ public class LogicManager implements Logic {
         CommandResult commandResult;
         Command command = calendarParser.parseCommand(commandText);
         commandResult = command.execute(model);
-        System.out.println("model get calendar " + model.getCalendar());
 
         try {
             storage.saveCalendar(model.getCalendar());
