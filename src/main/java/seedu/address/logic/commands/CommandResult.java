@@ -22,12 +22,25 @@ public class CommandResult {
     private final boolean exit;
 
     /**
+     * Application should display a list of module events.
+     */
+    private final boolean showsEventList;
+
+    /**
+     * Application should display a list of modules.
+     */
+    private final boolean showsModuleList;
+
+    /**
      * Constructs a {@code CommandResult} with the specified fields.
      */
-    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit) {
+    public CommandResult(String feedbackToUser,
+                         boolean showHelp, boolean exit, boolean showsEventList, boolean showsModuleList) {
         this.feedbackToUser = requireNonNull(feedbackToUser);
         this.showHelp = showHelp;
         this.exit = exit;
+        this.showsEventList = showsEventList;
+        this.showsModuleList = showsModuleList;
     }
 
     /**
@@ -35,7 +48,7 @@ public class CommandResult {
      * and other fields set to their default value.
      */
     public CommandResult(String feedbackToUser) {
-        this(feedbackToUser, false, false);
+        this(feedbackToUser, false, false, false, false);
     }
 
     public String getFeedbackToUser() {
@@ -48,6 +61,14 @@ public class CommandResult {
 
     public boolean isExit() {
         return exit;
+    }
+
+    public boolean isEventList() {
+        return showsEventList;
+    }
+
+    public boolean isModuleList() {
+        return showsModuleList;
     }
 
     @Override
