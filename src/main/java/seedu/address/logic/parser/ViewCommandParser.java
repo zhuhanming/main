@@ -2,9 +2,9 @@ package seedu.address.logic.parser;
 
 import java.util.stream.Stream;
 
-import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.logic.commands.ViewCommand;
 import seedu.address.commons.core.index.Index;
+import seedu.address.logic.commands.ViewCommand;
+import seedu.address.logic.parser.exceptions.ParseException;
 
 
 /**
