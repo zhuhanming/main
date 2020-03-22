@@ -45,9 +45,8 @@ public class ModelManager implements Model {
 
         filteredEvents = new FilteredList<>(this.calendar.getEventList());
         filteredModules = new FilteredList<>(this.calendar.getModuleList());
-        // TODO: Find out how to display events and modules
-        //focusedFilteredDisplayables = filteredEvents;
-        focusedFilteredDisplayables = filteredModules;
+        focusedFilteredDisplayables = filteredEvents;
+        //focusedFilteredDisplayables = filteredModules;
     }
 
     public ModelManager() {
@@ -228,13 +227,10 @@ public class ModelManager implements Model {
         if (displayableType == DisplayableType.EVENT) {
             updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
             focusedFilteredDisplayables = filteredEvents;
-
         } else if (displayableType == DisplayableType.MODULE) {
             updateFilteredModuleList(PREDICATE_SHOW_ALL_MODULES);
             focusedFilteredDisplayables = filteredModules;
-
         }
-
     }
 
 

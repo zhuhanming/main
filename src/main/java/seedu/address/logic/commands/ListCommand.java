@@ -11,8 +11,9 @@ import seedu.address.model.Model;
 public class ListCommand extends Command {
 
     public static final String COMMAND_WORD = "list";
-    public static final String MESSAGE_SUCCESS = "Listed all Module Events";
-
+    public static final String MODULE_MESSAGE_SUCCESS = "Listed all Modules";
+    public static final String EVENT_MESSAGE_SUCCESS = "Listed all Module Events";
+    public static final String MESSAGE_SUCCESS = "Lists";
     private DisplayableType displayableType;
 
     public ListCommand(DisplayableType displayableType) {
@@ -22,10 +23,23 @@ public class ListCommand extends Command {
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
-
-        System.out.println(displayableType.toString());
         model.setFilteredFocusedList(displayableType);
-        //model.updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
-        return new CommandResult(MESSAGE_SUCCESS);
+        CommandResult commandResult = returnCommResultBasedOnType(displayableType);
+        return commandResult;
+    }
+
+    /**
+     * Returns a CommandResult based on the displayable type.
+     * @param displayableType the displayable type of the object.
+     * @return a CommandResult based on the displayable type.
+     */
+    private CommandResult returnCommResultBasedOnType(DisplayableType displayableType) {
+        if (displayableType == DisplayableType.EVENT) {
+            return new CommandResult(EVENT_MESSAGE_SUCCESS, false, false, true, false);
+        } else if (displayableType == DisplayableType.MODULE) {
+            return new CommandResult(MODULE_MESSAGE_SUCCESS, false, false, false, true);
+        } else {
+            return new CommandResult(MESSAGE_SUCCESS);
+        }
     }
 }

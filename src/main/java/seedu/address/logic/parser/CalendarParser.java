@@ -64,7 +64,6 @@ public class CalendarParser {
         case DoneCommand.COMMAND_WORD:
             return new DoneCommandParser().parse(arguments);
 
-
         default:
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
         }

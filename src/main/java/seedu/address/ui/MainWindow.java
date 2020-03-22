@@ -107,7 +107,7 @@ public class MainWindow extends UiPart<Stage> {
     /**
      * Fills up all the placeholders of this window.
      */
-    void fillInnerParts() {
+    public void fillInnerParts() {
         listPanel = new ListPanel(logic.getFilteredFocusedList());
         listPanelPlaceholder.getChildren().add(listPanel.getRoot());
 
@@ -173,15 +173,16 @@ public class MainWindow extends UiPart<Stage> {
     private CommandResult executeCommand(String commandText) throws CommandException, ParseException {
         try {
             CommandResult commandResult = logic.execute(commandText);
-            // TODO: 19/3/20 Create change of view here
             logger.info("Result: " + commandResult.getFeedbackToUser());
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
 
-            if (commandResult.isShowHelp()) {
+            if (commandResult.isEventList()) {
+                showEventList();
+            } else if (commandResult.isModuleList()) {
+                showModuleList();
+            } else if (commandResult.isShowHelp()) {
                 handleHelp();
-            }
-
-            if (commandResult.isExit()) {
+            } else if (commandResult.isExit()) {
                 handleExit();
             }
 
@@ -192,4 +193,23 @@ public class MainWindow extends UiPart<Stage> {
             throw e;
         }
     }
+
+
+    /**
+     * Shows the list of module events on the application.
+     */
+    public void showEventList() {
+        listPanel = new ListPanel(logic.getFilteredFocusedList());
+        listPanelPlaceholder.getChildren().clear();
+        listPanelPlaceholder.getChildren().add(listPanel.getRoot());
+    }
+    /**
+     * Shows the list of modules on the application.
+     */
+    public void showModuleList() {
+        listPanel = new ListPanel(logic.getFilteredFocusedList());
+        listPanelPlaceholder.getChildren().clear();
+        listPanelPlaceholder.getChildren().add(listPanel.getRoot());
+    }
+
 }

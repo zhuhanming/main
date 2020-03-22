@@ -219,6 +219,7 @@ public class ParserUtil {
         throw new ParseException("Event type is not recognised!");
     }
 
+
     /**
      * Parses the user input for the displayable type.
      *
