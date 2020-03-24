@@ -16,6 +16,7 @@ import seedu.address.logic.Logic;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.event.Event;
 
 /**
  * The Main Window. Provides the basic application layout containing a menu bar and space where other JavaFX elements
@@ -34,6 +35,8 @@ public class MainWindow extends UiPart<Stage> {
     private ListPanel listPanel;
     private ResultDisplay resultDisplay;
     private HelpWindow helpWindow;
+    private SlideWindowDeadlineList slideWindowDeadlineList;
+    private SlideWindowEvent slideWindowEvent;
 
     @FXML
     private StackPane commandBoxPlaceholder;
@@ -48,7 +51,14 @@ public class MainWindow extends UiPart<Stage> {
     private StackPane resultDisplayPlaceholder;
 
     @FXML
+    private StackPane slideWindowListPlaceholder;
+
+    @FXML
     private StackPane statusbarPlaceholder;
+
+    @FXML
+    private StackPane slideWindowEventPlaceHolder;
+
 
     public MainWindow(Stage primaryStage, Logic logic) {
         super(FXML, primaryStage);
@@ -107,15 +117,24 @@ public class MainWindow extends UiPart<Stage> {
     /**
      * Fills up all the placeholders of this window.
      */
-    public void fillInnerParts() {
+    public void fillInnerParts() throws ParseException {
+        //retrieve the filtered list of module or event.
         listPanel = new ListPanel(logic.getFilteredFocusedList());
         listPanelPlaceholder.getChildren().add(listPanel.getRoot());
 
         resultDisplay = new ResultDisplay();
+
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
 
         //StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getAddressBookFilePath());
         //statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
+        // try to add the event entity here to show the design.
+        Event eventIndexZero = (Event) logic.getFilteredFocusedList().get(0);
+
+        slideWindowEvent = new SlideWindowEvent(eventIndexZero, 0);
+
+        slideWindowDeadlineList = new SlideWindowDeadlineList(logic.getFilteredFocusedList(), slideWindowEvent);
+        slideWindowListPlaceholder.getChildren().add(slideWindowDeadlineList.getRoot());
 
         CommandBox commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
@@ -203,6 +222,7 @@ public class MainWindow extends UiPart<Stage> {
         listPanelPlaceholder.getChildren().clear();
         listPanelPlaceholder.getChildren().add(listPanel.getRoot());
     }
+
     /**
      * Shows the list of modules on the application.
      */
