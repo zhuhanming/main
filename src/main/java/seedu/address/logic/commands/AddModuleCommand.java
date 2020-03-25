@@ -6,11 +6,15 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_ACADEMIC_YEAR;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MODULE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SEMESTER;
 
+import java.util.List;
+
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.event.EventType;
 import seedu.address.model.module.AcademicYear;
 import seedu.address.model.module.Module;
 import seedu.address.model.module.ModuleCode;
+import seedu.address.model.module.ModuleLibrary;
 
 /**
  * Adds a module to the address book.
@@ -49,9 +53,17 @@ public class AddModuleCommand extends Command {
             throw new CommandException(MESSAGE_DUPLICATE_MODULE);
         }
 
-        Module addedModule = model.addModule(moduleCode, academicYear);
+        model.addModule(moduleCode, academicYear);
+        Module addedModule = model.getModule(moduleCode, academicYear).get();
         System.out.println(model.checkCurrentCalendar());
-        return new CommandResult(String.format(MESSAGE_SUCCESS, addedModule));
+        List<EventType> eventTypeList = ModuleLibrary.getEventTypesOfModule(addedModule);
+        String feedbackToUser = String.format(MESSAGE_SUCCESS, addedModule);
+        if (eventTypeList.size() > 0) {
+            EventType firstEventType = eventTypeList.get(0);
+            feedbackToUser += "\nEnter slot for " + addedModule.getModuleCode().toString()
+                    + " " + firstEventType.toString() + ".";
+        }
+        return new AddModuleCommandResult(feedbackToUser, addedModule, eventTypeList);
     }
 
     @Override
