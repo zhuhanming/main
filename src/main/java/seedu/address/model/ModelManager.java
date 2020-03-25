@@ -6,6 +6,7 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -169,13 +170,14 @@ public class ModelManager implements Model {
 
     @Override
     public Module addModule(ModuleCode moduleCode, AcademicYear academicYear) {
-        Module addedModule = calendar.addModule(moduleCode, academicYear);
+        calendar.addModule(moduleCode, academicYear);
+        Module addedModule = calendar.getModule(moduleCode, academicYear).get();
         updateFilteredModuleList(PREDICATE_SHOW_ALL_MODULES);
         return addedModule;
     }
 
     @Override
-    public Module getModule(ModuleCode moduleCode, AcademicYear academicYear) {
+    public Optional<Module> getModule(ModuleCode moduleCode, AcademicYear academicYear) {
         return calendar.getModule(moduleCode, academicYear);
     }
 
