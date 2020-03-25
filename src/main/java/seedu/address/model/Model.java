@@ -97,7 +97,7 @@ public interface Model {
      */
     void addEvent(Event event);
 
-    Module addModule(ModuleCode moduleCode, AcademicYear academicYear);
+    void addModule(ModuleCode moduleCode, AcademicYear academicYear);
 
     Optional<Module> getModule(ModuleCode moduleCode, AcademicYear academicYear);
 

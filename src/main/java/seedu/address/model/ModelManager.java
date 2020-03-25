@@ -169,11 +169,10 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public Module addModule(ModuleCode moduleCode, AcademicYear academicYear) {
+    public void addModule(ModuleCode moduleCode, AcademicYear academicYear) {
         calendar.addModule(moduleCode, academicYear);
         Module addedModule = calendar.getModule(moduleCode, academicYear).get();
         updateFilteredModuleList(PREDICATE_SHOW_ALL_MODULES);
-        return addedModule;
     }
 
     @Override
