@@ -117,7 +117,7 @@ public class MainWindow extends UiPart<Stage> {
     /**
      * Fills up all the placeholders of this window.
      */
-    public void fillInnerParts() throws ParseException {
+    public void fillInnerParts() {
         //retrieve the filtered list of module or event.
         listPanel = new ListPanel(logic.getFilteredFocusedList());
         listPanelPlaceholder.getChildren().add(listPanel.getRoot());
@@ -126,8 +126,8 @@ public class MainWindow extends UiPart<Stage> {
 
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
 
-        //StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getAddressBookFilePath());
-        //statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
+        StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getCalendarFilePath());
+        statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
         // try to add the event entity here to show the design.
         Event eventIndexZero = (Event) logic.getFilteredFocusedList().get(0);
 

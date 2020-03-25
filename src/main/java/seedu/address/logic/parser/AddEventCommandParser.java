@@ -60,8 +60,6 @@ public class AddEventCommandParser implements Parser<AddEventCommand> {
         //if (isRepeated) {
         //    endRepeatDate = ParserUtil.parseDate(argMultimap.getValue(PREFIX_STOP_REPEAT).get());
         //}
-        // todo: Need to parse event name for EventType
-        // retrieve from module name and check if module already exists
         TemporalAmount frequency = Period.ofDays(7);
         Module module = new PartialModule(moduleCode);
         Event event = new PartialEvent(name, eventType, startDateTime, endDateTime, module);
