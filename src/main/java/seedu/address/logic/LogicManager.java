@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.logic.commands.AddModuleCommandResult;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -27,11 +28,13 @@ public class LogicManager implements Logic {
     private final Model model;
     private final Storage storage;
     private final CalendarParser calendarParser;
+    private final AddModuleStatefulLogicManager addModuleStatefulLogicManager;
 
     public LogicManager(Model model, Storage storage) {
         this.model = model;
         this.storage = storage;
         calendarParser = new CalendarParser();
+        addModuleStatefulLogicManager = new AddModuleStatefulLogicManager(model);
     }
 
     @Override
@@ -44,8 +47,20 @@ public class LogicManager implements Logic {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
         CommandResult commandResult;
-        Command command = calendarParser.parseCommand(commandText);
-        commandResult = command.execute(model);
+
+        if (addModuleStatefulLogicManager.hasState()) {
+            commandResult = addModuleStatefulLogicManager.execute(commandText);
+        } else {
+            Command command = calendarParser.parseCommand(commandText);
+            commandResult = command.execute(model);
+            System.out.println("Command Result " + (commandResult instanceof AddModuleCommandResult));
+            if (commandResult instanceof AddModuleCommandResult) {
+                AddModuleCommandResult castedCommandResult = (AddModuleCommandResult) commandResult;
+                this.addModuleStatefulLogicManager.setState(castedCommandResult.getModule(),
+                        castedCommandResult.getEventTypes());
+                System.out.println(castedCommandResult.getEventTypes());
+            }
+        }
 
         try {
             storage.saveCalendar(model.getCalendar());
