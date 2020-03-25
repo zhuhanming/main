@@ -7,6 +7,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_MODULE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_REPEAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_START_DATETIME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_VENUE;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -37,6 +38,7 @@ public class AddEventCommand extends Command {
             + PREFIX_NAME + "Tutorial "
             + PREFIX_START_DATETIME + "2020-01-01 15:00 "
             + PREFIX_END_DATETIME + "2020-01-01 16:00 "
+            + PREFIX_VENUE + "COM1-B103 "
             + PREFIX_REPEAT + "YES ";
 
     public static final String MESSAGE_SUCCESS = "New event added: %1$s";
@@ -68,7 +70,7 @@ public class AddEventCommand extends Command {
                 .orElseThrow(() -> new CommandException(MESSAGE_MODULE_DOESNT_EXIST));
 
         Event actualEvent = new Event(toAdd.getName(), toAdd.getEventType(), toAdd.getEventStart(),
-                toAdd.getEventEnd(), actualModule);
+                toAdd.getEventEnd(), actualModule, toAdd.getLocation());
 
         if (model.hasEvent(actualEvent)) {
             throw new CommandException(MESSAGE_DUPLICATE_EVENT);
@@ -94,7 +96,7 @@ public class AddEventCommand extends Command {
                  !start.toLocalDate().isAfter(endRepeatDate) && !end.toLocalDate().isAfter(endRepeatDate);
                  start = start.plus(frequency), end = end.plus(frequency)) {
                 Event nextEvent = new Event(new Name(actualEvent.getName().toString() + " " + eventNumber),
-                        actualEvent.getEventType(), start, end, actualModule);
+                        actualEvent.getEventType(), start, end, actualModule, actualEvent.getLocation());
                 if (!model.hasEvent(nextEvent)) {
                     actualModule.addEvent(nextEvent);
                     model.addEvent(nextEvent);

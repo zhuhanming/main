@@ -28,7 +28,8 @@ public class Calendar implements ReadOnlyCalendar {
      *
      *  Note that non-static init blocks are not recommended to use. There are other ways to avoid duplication
      *  among constructors.
-     */ {
+     */
+    {
         events = new UniqueEventList();
         modules = new UniqueModuleList();
     }
@@ -98,7 +99,7 @@ public class Calendar implements ReadOnlyCalendar {
         Module actualModule = modules.getModule(module.getModuleCode(), module.getAcademicYear()).get();
         for (Event event : module.getEvents()) {
             Event actualEvent = new Event(event.getName(), event.getEventType(), event.getEventStart(),
-                    event.getEventEnd(), actualModule, event.getDeadlines());
+                    event.getEventEnd(), actualModule, event.getLocation(), event.getDeadlines());
             actualModule.addEvent(actualEvent);
             addEvent(actualEvent);
         }
