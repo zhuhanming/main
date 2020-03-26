@@ -175,6 +175,10 @@ public class Event implements Displayable {
                 + eventType + " | " + name + " | " + eventStart + " | " + eventEnd;
     }
 
+    public String findCommandString() {
+        return toString();
+    }
+
     @Override
     public String toString() {
         return getParentModule().getModuleCode().toString() + " | " + name.toString();
