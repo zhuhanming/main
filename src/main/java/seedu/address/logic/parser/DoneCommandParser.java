@@ -11,6 +11,7 @@ import seedu.address.logic.commands.DoneCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Name;
 import seedu.address.model.event.EventType;
+import seedu.address.model.event.Location;
 import seedu.address.model.event.PartialEvent;
 import seedu.address.model.module.ModuleCode;
 import seedu.address.model.module.PartialModule;
@@ -45,7 +46,7 @@ public class DoneCommandParser implements Parser<DoneCommand> {
 
         PartialModule module = new PartialModule(moduleCode);
         EventType eventType = ParserUtil.parseEventType(name.toString());
-        PartialEvent event = new PartialEvent(name, eventType, module);
+        PartialEvent event = new PartialEvent(name, eventType, module, new Location("Arbitrary Location"));
         return new DoneCommand(module, event, index);
     }
 

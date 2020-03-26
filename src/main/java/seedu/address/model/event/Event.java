@@ -30,7 +30,7 @@ public class Event implements Displayable {
     private boolean isOver;
 
     public Event(Name name, EventType eventType, LocalDateTime eventStart,
-                 LocalDateTime eventEnd, Module parentModule) {
+                 LocalDateTime eventEnd, Module parentModule, Location location) {
         requireAllNonNull(name, eventType, eventStart, eventEnd, parentModule);
         this.name = name;
         this.eventType = eventType;
@@ -38,12 +38,13 @@ public class Event implements Displayable {
         this.eventEnd = eventEnd;
         this.parentModule = parentModule;
         this.isOver = LocalDateTime.now().isAfter(eventEnd);
+        this.location = location;
         this.deadlines = new ArrayList<>();
         this.deadlines.add(new Deadline(new Name(this.eventType.getDefaultDeadlineDescription()), this));
     }
 
     public Event(Name name, EventType eventType, LocalDateTime eventStart,
-                 LocalDateTime eventEnd, Module parentModule, List<Deadline> deadlines) {
+                 LocalDateTime eventEnd, Module parentModule, Location location, List<Deadline> deadlines) {
         requireAllNonNull(name, eventType, eventStart, eventEnd, parentModule, deadlines);
         this.name = name;
         this.eventType = eventType;
@@ -51,6 +52,7 @@ public class Event implements Displayable {
         this.eventEnd = eventEnd;
         this.parentModule = parentModule;
         this.isOver = LocalDateTime.now().isAfter(eventEnd);
+        this.location = location;
         this.deadlines = new ArrayList<>();
         this.deadlines.add(new Deadline(new Name(this.eventType.getDefaultDeadlineDescription()), this));
     }
