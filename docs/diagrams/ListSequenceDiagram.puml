@@ -1,0 +1,69 @@
+@startuml
+!include style.puml
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":CalendarParser" as CalendarParser LOGIC_COLOR
+participant ":ListCommandParser" as ListCommandParser LOGIC_COLOR
+participant ":ListCommand" as ListCommand LOGIC_COLOR
+participant ":CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant ":Model" as Model MODEL_COLOR
+end box
+
+[-> LogicManager : execute("list events / modules")
+activate LogicManager
+
+LogicManager -> CalendarParser : parseCommand("list events / modules")
+activate CalendarParser
+
+create ListCommandParser
+CalendarParser -> ListCommandParser
+activate ListCommandParser
+
+ListCommandParser --> CalendarParser
+deactivate ListCommandParser
+
+CalendarParser -> ListCommandParser : parse("events / modules")
+activate ListCommandParser
+
+create ListCommand
+ListCommandParser -> ListCommand
+activate ListCommand
+
+ListCommand --> ListCommandParser :
+deactivate ListCommand
+
+ListCommandParser --> CalendarParser :
+deactivate ListCommandParser
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+ListCommandParser -[hidden]-> CalendarParser
+destroy ListCommandParser
+
+CalendarParser --> LogicManager :
+deactivate CalendarParser
+
+LogicManager -> ListCommand : execute()
+activate ListCommand
+
+ListCommand -> Model : setFilteredFocusedList(DisplayableType.EVENT / DisplayableType.MODULE)
+activate Model
+
+Model --> ListCommand
+deactivate Model
+
+create CommandResult
+ListCommand -> CommandResult
+activate CommandResult
+
+CommandResult --> ListCommand
+deactivate CommandResult
+
+ListCommand --> LogicManager : CommandResult depending on DisplayableType - EVENT / MODULE
+deactivate ListCommand
+
+[<--LogicManager
+deactivate LogicManager
+@enduml
