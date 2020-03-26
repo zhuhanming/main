@@ -2,8 +2,10 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import seedu.address.model.DisplayableType;
 import seedu.address.model.Model;
-import seedu.address.model.person.NameContainsKeywordsPredicate;
+import seedu.address.model.predicate.NameContainsKeywordsPredicate;
+import seedu.address.commons.core.Messages;
 
 /**
  * Finds and lists all persons in address book whose name contains any of the argument keywords.
@@ -12,11 +14,10 @@ import seedu.address.model.person.NameContainsKeywordsPredicate;
 public class FindCommand extends Command {
 
     public static final String COMMAND_WORD = "find";
-    public static final String MESSAGE_SUCCESS = "Found";
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose names contain any of "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all modules / event whose names contain any of "
             + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
             + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
-            + "Example: " + COMMAND_WORD + " alice bob charlie";
+            + "Example: " + COMMAND_WORD + " CS";
 
     private final NameContainsKeywordsPredicate predicate;
 
@@ -24,12 +25,22 @@ public class FindCommand extends Command {
         this.predicate = predicate;
     }
 
+
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
         model.updateFilteredDisplayableList(predicate);
-        return new CommandResult(
-               String.format(MESSAGE_SUCCESS, model.getFilteredFocusedList().size()));
+
+        if (model.getCurrentDisplayableType() == DisplayableType.EVENT) {
+            return new CommandResult(
+                    String.format(Messages.MESSAGE_EVENT_LISTED_OVERVIEW, model.getFilteredFocusedList().size()));
+        } else if (model.getCurrentDisplayableType() == DisplayableType.MODULE) {
+            return new CommandResult(
+                    String.format(Messages.MESSAGE_MODULE_LISTED_OVERVIEW, model.getFilteredFocusedList().size()));
+        } else {
+            return new CommandResult(
+                    String.format(Messages.MESSAGE_ITEM_LISTED_OVERVIEW, model.getFilteredFocusedList().size()));
+        }
     }
 
     @Override
