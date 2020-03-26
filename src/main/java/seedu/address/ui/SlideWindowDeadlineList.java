@@ -26,15 +26,21 @@ public class SlideWindowDeadlineList extends UiPart<Region> {
     private ListView<Displayable> deadlineListView;
     @FXML
     private VBox slideEventCard;
+    private SlideWindowEvent slideWindowEvent;
 
 
     @SuppressWarnings("unchecked")
-    public SlideWindowDeadlineList(ObservableList<? extends Displayable> displayableList,
-                                   SlideWindowEvent slideWindowEvent) {
+    public SlideWindowDeadlineList(ObservableList<? extends Displayable> displayableList, SlideWindowEvent slideWindowEvent) {
         super(FXML);
         deadlineListView.setItems((ObservableList<Displayable>) displayableList);
         deadlineListView.setCellFactory(listView -> new ListViewCell());
-        slideEventCard.getChildren().setAll(slideWindowEvent.getRoot());
+        if (slideWindowEvent != null) {
+            slideEventCard.getChildren().setAll(slideWindowEvent.getRoot());
+        }
+    }
+
+    public Region getSlideEventCard() {
+        return slideWindowEvent.getRoot();
     }
 
     /**
@@ -45,6 +51,9 @@ public class SlideWindowDeadlineList extends UiPart<Region> {
         protected void updateItem(Displayable listItem, boolean empty) {
             super.updateItem(listItem, empty);
             if (empty || listItem == null) {
+                Deadline deadline = new Deadline(new Name("Read lecture 8 and do tutorial "),
+                        LocalDateTime.now().withNano(0), true);
+                setGraphic(new DeadlineCard(deadline, 0).getRoot());
                 setGraphic(null);
                 setText(null);
             } else if (listItem instanceof Event) {

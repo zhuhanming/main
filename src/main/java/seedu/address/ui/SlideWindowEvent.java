@@ -32,13 +32,22 @@ public class SlideWindowEvent extends UiPart<Region> {
 
     public SlideWindowEvent(Event event, int displayedIndex) {
         super(FXML);
-        this.event = event;
-        name.setText((event.getName().fullName));
-        startDate.setText(event.getEventStart().format(DateTimeFormatter.ofPattern("d MMMM yyyy, h a")) + " - "
-                + event.getEventEnd().format(DateTimeFormatter.ofPattern("h a")));
-        module.setText(event.getParentModule().getModuleCode().moduleCode);
-        venue.setText(event.getLocation().toString());
-        eventTypeDescription.setText(event.getEventType().getDefaultDeadlineDescription());
+        if (event != null) {
+            this.event = event;
+            name.setText((event.getName().fullName));
+            startDate.setText(event.getEventStart().format(DateTimeFormatter.ofPattern("d MMMM yyyy, h a")) + " - "
+                    + event.getEventEnd().format(DateTimeFormatter.ofPattern("h a")));
+            module.setText(event.getParentModule().getModuleCode().moduleCode);
+            venue.setText(event.getLocation().toString());
+            eventTypeDescription.setText(event.getEventType().getDefaultDeadlineDescription());
+        } else {
+            this.event = null;
+            name.setText("");
+            startDate.setText("");
+            module.setText("");
+            venue.setText("");
+            eventTypeDescription.setText("");
+        }
     }
 
     Label getStartDate() {
