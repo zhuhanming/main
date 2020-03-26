@@ -150,6 +150,10 @@
      -fx-background-color: derive(#1d1d1d, 20%);
 }
 
+.anchor-pane {
+    -fx-background-color: #656565;
+}
+
 .pane-with-border {
      -fx-background-color: derive(#1d1d1d, 20%);
      -fx-border-color: derive(#1d1d1d, 10%);
@@ -163,6 +167,8 @@
          -fx-border-radius: 2;
          -fx-background-radius: 2;
          -fx-font-size: 16;
+
+
 }
 
 .status-bar {

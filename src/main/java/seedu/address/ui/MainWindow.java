@@ -16,7 +16,6 @@ import seedu.address.logic.Logic;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.event.Event;
 
 /**
  * The Main Window. Provides the basic application layout containing a menu bar and space where other JavaFX elements
@@ -57,7 +56,7 @@ public class MainWindow extends UiPart<Stage> {
     private StackPane statusbarPlaceholder;
 
     @FXML
-    private StackPane slideWindowEventPlaceHolder;
+    private StackPane slideWindowEventPlaceholder;
 
 
     public MainWindow(Stage primaryStage, Logic logic) {
@@ -117,22 +116,26 @@ public class MainWindow extends UiPart<Stage> {
     /**
      * Fills up all the placeholders of this window.
      */
-    public void fillInnerParts() {
+    public void fillInnerParts() throws ParseException {
         //retrieve the filtered list of module or event.
         listPanel = new ListPanel(logic.getFilteredFocusedList());
         listPanelPlaceholder.getChildren().add(listPanel.getRoot());
 
         resultDisplay = new ResultDisplay();
-
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
 
         StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getCalendarFilePath());
         statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
-        // try to add the event entity here to show the design.
-        Event eventIndexZero = (Event) logic.getFilteredFocusedList().get(0);
-
-        slideWindowEvent = new SlideWindowEvent(eventIndexZero, 0);
-
+        /** try to add the event entity here to show the design.
+         Module module = new Module(new ModuleCode("CS2103"), new Name("Software Engineering"), new AcademicYear(19, 2),
+         "This module introduces the necessary conceptual and analytical tools for systematic and rigorous development of software systems");
+         Event eventIndexZero = new Event(new Name("CS2103"), EventType.TUTORIAL, LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0),
+         module, new Location("COM1-B103")); */
+        SlideWindowEvent slideWindowEvent = new SlideWindowEvent(null, 0);
+        if (logic.getFilteredFocusedList().size() > 0) {
+            System.out.println(" logic.getFilteredFocusedList() in the if statement is " + logic.getFilteredFocusedList().toString());
+            slideWindowEvent = (SlideWindowEvent) logic.getFilteredFocusedList().get(0);
+        }
         slideWindowDeadlineList = new SlideWindowDeadlineList(logic.getFilteredFocusedList(), slideWindowEvent);
         slideWindowListPlaceholder.getChildren().add(slideWindowDeadlineList.getRoot());
 
