@@ -30,6 +30,7 @@ public class ModelManager implements Model {
     private final FilteredList<Module> filteredModules;
     private FilteredList<? extends Displayable> focusedFilteredDisplayables;
     private Displayable focusedDisplayable;
+    private DisplayableType currentDisplayableType;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -45,8 +46,7 @@ public class ModelManager implements Model {
 
         filteredEvents = new FilteredList<>(this.calendar.getEventList());
         filteredModules = new FilteredList<>(this.calendar.getModuleList());
-        focusedFilteredDisplayables = filteredEvents;
-        //focusedFilteredDisplayables = filteredModules;
+        setFilteredFocusedList(DisplayableType.EVENT);
     }
 
     public ModelManager() {
@@ -199,6 +199,11 @@ public class ModelManager implements Model {
         return null;
     }
 
+    @Override
+    public DisplayableType getCurrentDisplayableType() {
+        return currentDisplayableType;
+    }
+
     //=========== Setting Focus =============================================================
 
     @Override
@@ -255,6 +260,7 @@ public class ModelManager implements Model {
     public void updateFilteredEventList(Predicate<Event> predicate) {
         requireNonNull(predicate);
         filteredEvents.setPredicate(predicate);
+        currentDisplayableType = DisplayableType.EVENT;
     }
 
     /**
@@ -270,6 +276,7 @@ public class ModelManager implements Model {
     public void updateFilteredModuleList(Predicate<Module> predicate) {
         requireNonNull(predicate);
         filteredModules.setPredicate(predicate);
+        currentDisplayableType = DisplayableType.MODULE;
     }
 
     @Override
