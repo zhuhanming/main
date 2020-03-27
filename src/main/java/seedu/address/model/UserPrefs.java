@@ -16,6 +16,7 @@ public class UserPrefs implements ReadOnlyUserPrefs {
 
     private GuiSettings guiSettings = new GuiSettings();
     private Path calendarFilePath = Paths.get("data", "calendar.json");
+    private Path icsFilePath = Paths.get("data");
 
     /**
      * Creates a {@code UserPrefs} with default values.
@@ -38,6 +39,7 @@ public class UserPrefs implements ReadOnlyUserPrefs {
         requireNonNull(newUserPrefs);
         setGuiSettings(newUserPrefs.getGuiSettings());
         setCalendarFilePath(newUserPrefs.getCalendarFilePath());
+        setIcsFilePath(newUserPrefs.getIcsFilePath());
     }
 
     public GuiSettings getGuiSettings() {
@@ -56,6 +58,15 @@ public class UserPrefs implements ReadOnlyUserPrefs {
     public void setCalendarFilePath(Path calendarFilePath) {
         requireNonNull(calendarFilePath);
         this.calendarFilePath = calendarFilePath;
+    }
+
+    public Path getIcsFilePath() {
+        return icsFilePath;
+    }
+
+    public void setIcsFilePath(Path icsFilePath) {
+        requireNonNull(icsFilePath);
+        this.icsFilePath = icsFilePath;
     }
 
     @Override
