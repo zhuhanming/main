@@ -13,17 +13,17 @@ import seedu.address.model.module.Module;
  * initialisation. The object returned will only be used for matching with actually created events subsequently.
  */
 public class PartialEvent extends Event {
-    public PartialEvent(Name eventName, EventType eventType, Module parentModule) {
-        super(eventName, eventType, LocalDateTime.now(), LocalDateTime.now(), parentModule);
+    public PartialEvent(Name eventName, EventType eventType, Module parentModule, Location location) {
+        super(eventName, eventType, LocalDateTime.now(), LocalDateTime.now(), parentModule, location);
+    }
+
+    public PartialEvent(Name eventName, EventType eventType, LocalDateTime eventStart, LocalDateTime eventEnd,
+                        Module parentModule, Location location, List<Deadline> deadlines) {
+        super(eventName, eventType, eventStart, eventEnd, parentModule, location, deadlines);
     }
 
     public PartialEvent(Name eventName, EventType eventType, LocalDateTime eventStart,
-                        LocalDateTime eventEnd, Module parentModule, List<Deadline> deadlines) {
-        super(eventName, eventType, eventStart, eventEnd, parentModule, deadlines);
-    }
-
-    public PartialEvent(Name eventName, EventType eventType, LocalDateTime eventStart,
-                        LocalDateTime eventEnd, Module parentModule) {
-        super(eventName, eventType, eventStart, eventEnd, parentModule);
+                        LocalDateTime eventEnd, Location location, Module parentModule) {
+        super(eventName, eventType, eventStart, eventEnd, parentModule, location);
     }
 }

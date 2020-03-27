@@ -2,6 +2,7 @@ package seedu.address.model;
 
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
@@ -96,9 +97,9 @@ public interface Model {
      */
     void addEvent(Event event);
 
-    Module addModule(ModuleCode moduleCode, AcademicYear academicYear);
+    void addModule(ModuleCode moduleCode, AcademicYear academicYear);
 
-    Module getModule(ModuleCode moduleCode, AcademicYear academicYear);
+    Optional<Module> getModule(ModuleCode moduleCode, AcademicYear academicYear);
 
     /**
      * Replaces the given person {@code target} with {@code editedPerson}. {@code target} must exist in the address

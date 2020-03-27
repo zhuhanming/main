@@ -1,6 +1,5 @@
 package seedu.address.storage;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,12 +8,12 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.Name;
 import seedu.address.model.deadline.Deadline;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.EventType;
+import seedu.address.model.event.Location;
 import seedu.address.model.event.PartialEvent;
 import seedu.address.model.module.AcademicYear;
 import seedu.address.model.module.Module;
@@ -34,6 +33,7 @@ class JsonAdaptedEvent {
     private final String eventEnd;
     private final String parentModuleCode;
     private final String academicYear;
+    private final String location;
     private final List<JsonAdaptedDeadline> deadlines = new ArrayList<>();
 
     /**
@@ -45,6 +45,7 @@ class JsonAdaptedEvent {
                             @JsonProperty("eventEnd") String eventEnd,
                             @JsonProperty("parentModuleCode") String parentModuleCode,
                             @JsonProperty("academicYear") String academicYear,
+                            @JsonProperty("location") String location,
                             @JsonProperty("deadlines") List<JsonAdaptedDeadline> deadlines) {
         this.name = name;
         this.eventType = eventType;
@@ -52,6 +53,7 @@ class JsonAdaptedEvent {
         this.eventEnd = eventEnd;
         this.parentModuleCode = parentModuleCode;
         this.academicYear = academicYear;
+        this.location = location;
         if (deadlines != null) {
             this.deadlines.addAll(deadlines);
         }
@@ -67,6 +69,7 @@ class JsonAdaptedEvent {
         eventEnd = source.getEventEnd().toString();
         parentModuleCode = source.getParentModule().getModuleCode().toString();
         academicYear = source.getParentModule().getAcademicYear().toString();
+        location = source.getLocation().toString();
         deadlines.addAll(source.getDeadlines().stream()
                 .map(JsonAdaptedDeadline::new)
                 .collect(Collectors.toList()));
@@ -77,7 +80,7 @@ class JsonAdaptedEvent {
      *
      * @throws IllegalValueException if there were any data constraints violated in the adapted person.
      */
-    public Event toModelType() throws IllegalValueException, IOException, DataConversionException {
+    public Event toModelType() throws IllegalValueException {
         final List<Deadline> eventDeadlines = new ArrayList<>();
         for (JsonAdaptedDeadline deadline : deadlines) {
             eventDeadlines.add(deadline.toModelType());
@@ -120,6 +123,12 @@ class JsonAdaptedEvent {
         }
         final ModuleCode modelModuleCode = new ModuleCode(parentModuleCode);
 
+        if (location == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    Location.class.getSimpleName()));
+        }
+        final Location modelLocation = new Location(location);
+
         if (academicYear == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
                     AcademicYear.class.getSimpleName()));
@@ -129,7 +138,7 @@ class JsonAdaptedEvent {
         Module modelParentModule = new PartialModule(modelModuleCode, modelAcademicYear);
 
         return new PartialEvent(modelName, modelEventType, modelEventStart, modelEventEnd, modelParentModule,
-                eventDeadlines);
+                modelLocation, eventDeadlines);
     }
 
 }

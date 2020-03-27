@@ -18,6 +18,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.DisplayableType;
 import seedu.address.model.Name;
 import seedu.address.model.event.EventType;
+import seedu.address.model.event.Location;
 import seedu.address.model.module.ModuleCode;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
@@ -212,13 +213,11 @@ public class ParserUtil {
      * @throws ParseException If the type is not recognised.
      */
     public static EventType parseEventType(String eventType) throws ParseException {
-        String cleanedEventType = eventType.toLowerCase().trim();
-        for (EventType e : EventType.values()) {
-            if (e.hasEventType(cleanedEventType)) {
-                return e;
-            }
+        EventType result = EventType.parseEventType(eventType);
+        if (result == null) {
+            throw new ParseException("Event type is not recognised!");
         }
-        throw new ParseException("Event type is not recognised!");
+        return result;
     }
 
 
@@ -255,5 +254,18 @@ public class ParserUtil {
             throw new ParseException("Please enter a valid date in the format: yyyy-MM-dd");
         }
         return path;
+
+    /**
+     * Parses a {@code String location} into a {@code Location}. Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code location} is invalid.
+     */
+    public static Location parseLocation(String location) throws ParseException {
+        requireNonNull(location);
+        String trimmedLocation = location.trim();
+        if (!Location.isValidLocation(location)) {
+            throw new ParseException(Location.MESSAGE_CONSTRAINTS);
+        }
+        return new Location(trimmedLocation);
     }
 }
