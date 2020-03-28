@@ -14,6 +14,7 @@ import seedu.address.model.Name;
 import seedu.address.model.deadline.Deadline;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.EventType;
+import seedu.address.model.event.Location;
 import seedu.address.model.event.PartialEvent;
 import seedu.address.model.module.Module;
 import seedu.address.model.module.ModuleCode;
@@ -52,7 +53,7 @@ public class AddDeadlineCommandParser implements Parser<AddDeadlineCommand> {
         EventType eventType = ParserUtil.parseEventType(name.toString());
 
         Module module = new PartialModule(moduleCode);
-        Event event = new PartialEvent(eventName, eventType, module);
+        Event event = new PartialEvent(eventName, eventType, module, new Location("Arbitrary Location"));
         Deadline deadline = new Deadline(name, event);
 
         return new AddDeadlineCommand(deadline, event, isRepeated);

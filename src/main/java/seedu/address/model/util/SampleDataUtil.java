@@ -5,6 +5,7 @@ import seedu.address.model.Calendar;
 import seedu.address.model.Name;
 import seedu.address.model.ReadOnlyCalendar;
 import seedu.address.model.event.EventType;
+import seedu.address.model.event.Location;
 import seedu.address.model.event.PartialEvent;
 import seedu.address.model.module.AcademicYear;
 import seedu.address.model.module.Module;
@@ -19,9 +20,11 @@ public class SampleDataUtil {
         Module cs2103 = new PartialModule(new ModuleCode("CS2103"), AcademicYear.now());
         Module ger1000 = new PartialModule(new ModuleCode("GER1000"), AcademicYear.now());
 
-        cs2103.addEvent(new PartialEvent(new Name("Tutorial 8"), EventType.TUTORIAL, cs2103));
-        cs2103.addEvent(new PartialEvent(new Name("Lecture"), EventType.LECTURE, cs2103));
-        ger1000.addEvent(new PartialEvent(new Name("Tutorial 4"), EventType.TUTORIAL, ger1000));
+        cs2103.addEvent(new PartialEvent(new Name("Tutorial 8"), EventType.TUTORIAL, cs2103,
+                new Location("COM1-B103")));
+        cs2103.addEvent(new PartialEvent(new Name("Lecture"), EventType.LECTURE, cs2103, new Location("I3-AUD")));
+        ger1000.addEvent(new PartialEvent(new Name("Tutorial 4"), EventType.TUTORIAL, ger1000,
+                new Location("TP-SR7")));
 
         return new Module[]{cs2103, ger1000};
     }

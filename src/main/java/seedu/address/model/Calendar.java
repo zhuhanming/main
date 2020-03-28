@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.List;
+import java.util.Optional;
 
 import javafx.collections.ObservableList;
 import seedu.address.model.event.Event;
@@ -82,22 +83,23 @@ public class Calendar implements ReadOnlyCalendar {
         return modules.contains(moduleCode, academicYear);
     }
 
-    public Module addModule(ModuleCode moduleCode, AcademicYear academicYear) {
-        return modules.getModule(moduleCode, academicYear);
+    public void addModule(ModuleCode moduleCode, AcademicYear academicYear) {
+        modules.addModule(moduleCode, academicYear);
     }
 
-    public Module getModule(ModuleCode moduleCode, AcademicYear academicYear) {
+    public Optional<Module> getModule(ModuleCode moduleCode, AcademicYear academicYear) {
         return modules.getModule(moduleCode, academicYear);
     }
 
     /**
-     * Adds a person to the address book. The person must not already exist in the address book.
+     * Adds a module to the calendar. The person must not already exist in the calendar.
      */
     public void addModuleFromStorage(Module module) {
-        Module actualModule = modules.getModule(module.getModuleCode(), module.getAcademicYear());
+        modules.addModule(module.getModuleCode(), module.getAcademicYear());
+        Module actualModule = modules.getModule(module.getModuleCode(), module.getAcademicYear()).get();
         for (Event event : module.getEvents()) {
             Event actualEvent = new Event(event.getName(), event.getEventType(), event.getEventStart(),
-                    event.getEventEnd(), actualModule, event.getDeadlines());
+                    event.getEventEnd(), actualModule, event.getLocation(), event.getDeadlines());
             actualModule.addEvent(actualEvent);
             addEvent(actualEvent);
         }

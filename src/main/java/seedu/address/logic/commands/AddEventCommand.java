@@ -7,6 +7,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_MODULE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_REPEAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_START_DATETIME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_VENUE;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ import java.time.temporal.TemporalAmount;
 
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.Name;
 import seedu.address.model.event.Event;
 import seedu.address.model.module.Module;
 
@@ -36,6 +38,7 @@ public class AddEventCommand extends Command {
             + PREFIX_NAME + "Tutorial "
             + PREFIX_START_DATETIME + "2020-01-01 15:00 "
             + PREFIX_END_DATETIME + "2020-01-01 16:00 "
+            + PREFIX_VENUE + "COM1-B103 "
             + PREFIX_REPEAT + "YES ";
 
     public static final String MESSAGE_SUCCESS = "New event added: %1$s";
@@ -63,13 +66,11 @@ public class AddEventCommand extends Command {
 
         Module partialModule = toAdd.getParentModule();
 
-        if (!model.hasModule(partialModule.getModuleCode(), partialModule.getAcademicYear())) {
-            throw new CommandException(MESSAGE_MODULE_DOESNT_EXIST);
-        }
+        Module actualModule = model.getModule(partialModule.getModuleCode(), partialModule.getAcademicYear())
+                .orElseThrow(() -> new CommandException(MESSAGE_MODULE_DOESNT_EXIST));
 
-        Module actualModule = model.getModule(partialModule.getModuleCode(), partialModule.getAcademicYear());
         Event actualEvent = new Event(toAdd.getName(), toAdd.getEventType(), toAdd.getEventStart(),
-                toAdd.getEventEnd(), actualModule);
+                toAdd.getEventEnd(), actualModule, toAdd.getLocation());
 
         if (model.hasEvent(actualEvent)) {
             throw new CommandException(MESSAGE_DUPLICATE_EVENT);
@@ -79,8 +80,6 @@ public class AddEventCommand extends Command {
                 || actualEvent.getEventStart().toLocalDate().isAfter(actualModule.getAcademicYear().getEndDate())
                 || actualEvent.getEventEnd().toLocalDate().isBefore(actualModule.getAcademicYear().getStartDate())
                 || actualEvent.getEventEnd().toLocalDate().isAfter(actualModule.getAcademicYear().getEndDate())) {
-            System.out.println(actualModule.getAcademicYear().getStartDate());
-            System.out.println(actualModule.getAcademicYear().getEndDate());
             throw new CommandException(MESSAGE_INVALID_DATE_RANGE);
         }
 
@@ -92,15 +91,17 @@ public class AddEventCommand extends Command {
             endRepeatDate = actualModule.getAcademicYear().getEndDate();
         }
         if (isRepeated) {
+            int eventNumber = 1;
             for (LocalDateTime start = actualEvent.getEventStart(), end = actualEvent.getEventEnd();
                  !start.toLocalDate().isAfter(endRepeatDate) && !end.toLocalDate().isAfter(endRepeatDate);
                  start = start.plus(frequency), end = end.plus(frequency)) {
-                Event nextEvent = new Event(actualEvent.getName(), actualEvent.getEventType(),
-                        start, end, actualModule);
+                Event nextEvent = new Event(new Name(actualEvent.getName().toString() + " " + eventNumber),
+                        actualEvent.getEventType(), start, end, actualModule, actualEvent.getLocation());
                 if (!model.hasEvent(nextEvent)) {
                     actualModule.addEvent(nextEvent);
                     model.addEvent(nextEvent);
                 }
+                eventNumber += 1;
             }
         } else {
             actualModule.addEvent(actualEvent);

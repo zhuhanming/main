@@ -141,7 +141,6 @@ public class Module implements Displayable {
 
     @Override
     public String toString() {
-        return moduleCode.toString() + " | " + name.toString() + "\n" + academicYear.toString()
-                + "\n" + description;
+        return moduleCode.toString() + " | " + name.toString() + "\n" + academicYear.toString();
     }
 }
