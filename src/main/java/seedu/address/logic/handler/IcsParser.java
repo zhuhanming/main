@@ -1,15 +1,24 @@
 package seedu.address.logic.handler;
 
-import seedu.address.model.event.Event;
-import seedu.address.model.ics.IcsEvent;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
+import seedu.address.model.event.Event;
+import seedu.address.model.ics.IcsEvent;
 
+/**
+ * todo
+ */
 public class IcsParser {
 
+    /**
+     * todo
+     * @param exportDirectory
+     * @param eventList
+     * @throws IOException
+     */
     public static void generateIcsFile(Path exportDirectory, List<Event> eventList) throws IOException {
         System.out.println("ICS PARSER START");
         FileWriter fw = new FileWriter(exportDirectory.toString() + "\\calendar.ics");

@@ -1,15 +1,19 @@
 package seedu.address.model.ics;
 
-import seedu.address.model.event.Event;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import seedu.address.model.event.Event;
+
+/**
+ * todo
+ */
 public class IcsEvent {
 
-    private final String ICS_ITEM_TYPE = "VEVENT";
+    private static final String ICS_ITEM_TYPE = "VEVENT";
     private Event originalEvent;
     private String uid;
     private String dtstart;
@@ -34,25 +38,33 @@ public class IcsEvent {
         System.out.println(event.getEventStart().toString() + dtstart);
         dtend = event.getEventEnd().format(DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'"));
         System.out.println(event.getEventEnd().toString() + dtend);
-        icsRRule = new IcsRRule("WEEKLY", 1, event.getEventStart().getDayOfWeek().toString().substring(0,2));
+        icsRRule = new IcsRRule("WEEKLY", 1, event.getEventStart().getDayOfWeek().toString()
+                .substring(0, 2));
         summary = event.getName().fullName;
         location = event.getLocation().value;
         StringBuilder descriptionString = new StringBuilder();
         deadlineList = event.getDeadlines().stream()
                 .map(deadline -> {
-                    descriptionString.append(deadline.getDueTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + " - " + deadline.getName() + "\n");
+                    descriptionString.append(deadline.getDueTime()
+                            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + " - "
+                            + deadline.getName() + "\n");
                     return new IcsDeadline(deadline);
-                        }
+                }
                 ).collect(Collectors.toList());
         this.description = descriptionString.toString();
     }
 
+    /**
+     * todo
+     * @return
+     */
     public String toIcsString() {
         StringBuilder output = new StringBuilder();
         output.append("BEGIN:" + ICS_ITEM_TYPE + System.lineSeparator());
         output.append("UID:" + uid + System.lineSeparator());
         output.append("SEQUENCE:" + 0 + System.lineSeparator());
-        output.append("DTSTAMP:" + (LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'"))) + System.lineSeparator());
+        output.append("DTSTAMP:" + (LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'")))
+                + System.lineSeparator());
         output.append("DTSTART;TZID=Asia/Singapore:" + dtstart + System.lineSeparator());
         output.append("DTEND;TZID=Asia/Singapore:" + dtend + System.lineSeparator());
         output.append("RRULE:" + icsRRule.toString() + System.lineSeparator());
@@ -66,7 +78,7 @@ public class IcsEvent {
         return output.toString();
     }
 
-    public String getICS_ITEM_TYPE() {
+    public String getIcsItemType() {
         return ICS_ITEM_TYPE;
     }
 

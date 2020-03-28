@@ -1,13 +1,16 @@
 package seedu.address.model.ics;
 
-import seedu.address.model.deadline.Deadline;
-
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
+import seedu.address.model.deadline.Deadline;
+
+/**
+ * todo
+ */
 public class IcsDeadline {
 
-    private final String ICS_ITEM_TYPE = "VTODO";
+    private static final String ICS_ITEM_TYPE = "VTODO";
     private Deadline originalDeadline;
     private String uid;
     private String due;
@@ -27,6 +30,10 @@ public class IcsDeadline {
 
     }
 
+    /**
+     * todo
+     * @return
+     */
     public String toIcsString() {
         StringBuilder output = new StringBuilder();
         output.append("BEGIN:" + ICS_ITEM_TYPE + System.lineSeparator());
@@ -37,7 +44,7 @@ public class IcsDeadline {
         return output.toString();
     }
 
-    public String getICS_ITEM_TYPE() {
+    public String getIcsItemType() {
         return ICS_ITEM_TYPE;
     }
 

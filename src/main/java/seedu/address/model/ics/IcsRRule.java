@@ -1,5 +1,8 @@
 package seedu.address.model.ics;
 
+/**
+ * todo
+ */
 public class IcsRRule {
     private String freq;
     private int count;
@@ -35,6 +38,7 @@ public class IcsRRule {
         this.byDay = byDay;
     }
 
+    @Override
     public String toString() {
         return "FREQ=" + freq + ";"
                 + "COUNT=" + count + ";"

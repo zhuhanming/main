@@ -1,12 +1,11 @@
 package seedu.address.logic.commands;
 
+import java.io.IOException;
+import java.nio.file.Path;
+
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.handler.IcsParser;
 import seedu.address.model.Model;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 
 /**
  * Exports current calendar to ics file
