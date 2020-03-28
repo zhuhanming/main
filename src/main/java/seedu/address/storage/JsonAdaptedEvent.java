@@ -101,7 +101,7 @@ class JsonAdaptedEvent {
 
         EventType parsedEventType;
         try {
-            parsedEventType = EventType.valueOf(eventType);
+            parsedEventType = EventType.parseEventType(eventType);
         } catch (IllegalArgumentException e) {
             throw new IllegalValueException(EventType.getMessageConstraints());
         }
