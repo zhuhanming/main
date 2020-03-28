@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +16,8 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.event.Event;
+import seedu.address.model.event.EventType;
+import seedu.address.model.event.Location;
 import seedu.address.model.module.AcademicYear;
 import seedu.address.model.module.Module;
 import seedu.address.model.module.ModuleCode;
@@ -30,6 +33,9 @@ public class ModelManager implements Model {
     private final FilteredList<Event> filteredEvents;
     private final FilteredList<Module> filteredModules;
     private FilteredList<? extends Displayable> focusedFilteredDisplayables;
+
+    private FilteredList<? extends Displayable> focusedEventDisplayable;
+    // event for display ;
     private Displayable focusedDisplayable;
 
     /**
@@ -43,10 +49,11 @@ public class ModelManager implements Model {
         this.calendar = new Calendar(calendar);
         this.userPrefs = new UserPrefs(userPrefs);
 
-
         filteredEvents = new FilteredList<>(this.calendar.getEventList());
         filteredModules = new FilteredList<>(this.calendar.getModuleList());
+        // create a filtered Deadline = calendar;
         focusedFilteredDisplayables = filteredEvents;
+        focusedDisplayable = new Event(new Name("knnccb"), EventType.TUTORIAL, LocalDateTime.now(), LocalDateTime.now(), new Module(), new Location("your mom"));
         //focusedFilteredDisplayables = filteredModules;
     }
 
@@ -215,6 +222,7 @@ public class ModelManager implements Model {
             return;
         }
         focusedDisplayable = displayable;
+        System.out.println("Selected focused display " + focusedDisplayable);
     }
 
     @Override
@@ -225,6 +233,7 @@ public class ModelManager implements Model {
 
     @Override
     public void setFilteredFocusedList(DisplayableType displayableType) {
+        System.out.println("set Predicate in the list commadn ");
         if (displayableType == DisplayableType.EVENT) {
             updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
             focusedFilteredDisplayables = filteredEvents;
@@ -234,13 +243,35 @@ public class ModelManager implements Model {
         }
     }
 
-
     //=========== Filtered Person List Accessors =============================================================
-
     @Override
     public void updateFilteredDisplayableList(Predicate<Displayable> predicate) {
         requireNonNull(predicate);
+        System.out.println("in update Filtered Displayable list " + focusedFilteredDisplayables.get(0).toString());
+        System.out.println("in update Predicate " + predicate.toString());
         focusedFilteredDisplayables.setPredicate(predicate);
+    }
+
+
+    /**
+     * retrieve selected event (but the method is not called here )
+     *
+     * @return
+     */
+    @Override
+    public Displayable getFilteredEvent() {
+        return focusedDisplayable;
+    }
+
+    /**
+     * updated selected event
+     *
+     * @param predicate
+     */
+    @Override
+    public void updatedFilteredEventDisplayable(Predicate<Displayable> predicate) {
+        requireNonNull(predicate);
+        focusedEventDisplayable.setPredicate(predicate);
     }
 
     /**

@@ -1,6 +1,5 @@
 package seedu.address.ui;
 
-import java.time.LocalDateTime;
 import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
@@ -17,13 +16,6 @@ import seedu.address.logic.Logic;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.Name;
-import seedu.address.model.event.Event;
-import seedu.address.model.event.EventType;
-import seedu.address.model.event.Location;
-import seedu.address.model.module.AcademicYear;
-import seedu.address.model.module.Module;
-import seedu.address.model.module.ModuleCode;
 
 /**
  * The Main Window. Provides the basic application layout containing a menu bar and space where other JavaFX elements
@@ -43,7 +35,7 @@ public class MainWindow extends UiPart<Stage> {
     private ResultDisplay resultDisplay;
     private HelpWindow helpWindow;
     private SlideWindowDeadlineList slideWindowDeadlineList;
-    private SlideWindowEvent slideWindowEvent;
+    //private SlideWindowEvent slideWindowEvent;
 
     @FXML
     private StackPane commandBoxPlaceholder;
@@ -134,16 +126,14 @@ public class MainWindow extends UiPart<Stage> {
 
         StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getCalendarFilePath());
         statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
-        // try to add the event entity here to show the design.
 
-        Module module = new Module(new ModuleCode("CS2103"), new Name("Software Engineering"), new AcademicYear(19, 2),
-                "This module introduces the necessary conceptual and analytical tools "
-                        + "for systematic and rigorous development of software systems");
-        Event eventIndexZero = new Event(new Name("Tutorial 10 "), EventType.TUTORIAL, LocalDateTime.now().withNano(0),
-                LocalDateTime.now().withNano(0), module, new Location("COM1-B103"));
+        /** Module module = new Module(new ModuleCode("CS2103"), new Name("Software Engineering"), new AcademicYear(19, 2),
+         "This module introduces the necessary conceptual and analytical tools "
+         + "for systematic and rigorous development of software systems");
+         Event eventIndexZero = new Event(new Name("Tutorial 10 "), EventType.TUTORIAL, LocalDateTime.now().withNano(0),
+         LocalDateTime.now().withNano(0), module, new Location("COM1-B103"));*/
 
-        SlideWindowEvent slideWindowEvent = new SlideWindowEvent(eventIndexZero, 0);
-        slideWindowDeadlineList = new SlideWindowDeadlineList(logic.getFilteredFocusedList(), slideWindowEvent);
+        slideWindowDeadlineList = new SlideWindowDeadlineList(logic.getFilteredEvent());
         slideWindowListPlaceholder.getChildren().add(slideWindowDeadlineList.getRoot());
 
         CommandBox commandBox = new CommandBox(this::executeCommand);

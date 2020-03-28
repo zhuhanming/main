@@ -38,6 +38,8 @@ public interface Logic {
      */
     ObservableList<? extends Displayable> getFilteredFocusedList();
 
+    Displayable getFilteredEvent();
+
     /**
      * Returns the user prefs' address book file path.
      */

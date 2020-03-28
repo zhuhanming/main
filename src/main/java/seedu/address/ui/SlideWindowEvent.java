@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import seedu.address.model.Displayable;
 import seedu.address.model.event.Event;
 
 /**
@@ -30,16 +31,17 @@ public class SlideWindowEvent extends UiPart<Region> {
     private Label eventTypeDescription;
 
 
-    public SlideWindowEvent(Event event, int displayedIndex) {
+    public SlideWindowEvent(Displayable event) {
         super(FXML);
         if (event != null) {
-            this.event = event;
-            name.setText((event.getName().fullName));
-            startDate.setText(event.getEventStart().format(DateTimeFormatter.ofPattern("d MMMM yyyy, h a")) + " - "
-                    + event.getEventEnd().format(DateTimeFormatter.ofPattern("h a")));
-            module.setText(event.getParentModule().getModuleCode().moduleCode);
-            venue.setText(event.getLocation().toString());
-            eventTypeDescription.setText(event.getEventType().getDefaultDeadlineDescription());
+            this.event = (Event) event;
+            name.setText((this.event.getName().fullName));
+            startDate.setText(this.event.getEventStart().format(DateTimeFormatter.ofPattern("d MMMM yyyy, h a")) + " - "
+                    + this.event.getEventEnd().format(DateTimeFormatter.ofPattern("h a")));
+            module.setText(this.event.getParentModule() != null && this.event.getParentModule().getModuleCode() != null ? this.event.getParentModule().getModuleCode().moduleCode : "DEFAULT123");
+            venue.setText(this.event.getLocation().toString());
+            eventTypeDescription.setText(this.event.getEventType().getDefaultDeadlineDescription());
+            System.out.println("displayable event in event entity is " + ((Event) event).getName().fullName);
         } else {
             this.event = null;
             name.setText("");
