@@ -4,6 +4,7 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.time.LocalDateTime;
 
+import seedu.address.model.Displayable;
 import seedu.address.model.Name;
 import seedu.address.model.event.Event;
 
@@ -12,7 +13,7 @@ import seedu.address.model.event.Event;
  * Represents a deadline in Modulo. Guarantees: details are present and not null, field values are validated, fields are
  * immutable.
  */
-public class Deadline {
+public class Deadline implements Displayable {
 
     // Identity fields
     private Name name;
@@ -91,4 +92,6 @@ public class Deadline {
         return otherDeadline.getName().equals(getName())
                 && otherDeadline.isCompleted() == isCompleted();
     }
+
+
 }

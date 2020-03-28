@@ -86,6 +86,7 @@ public class MainApp extends Application {
                 logger.info("Data file not found. Will be starting with a sample Calendar");
             }
             initialData = calendarOptional.orElseGet(SampleDataUtil::getSampleCalendar);
+            System.out.println("initial data is " + initialData);
         } catch (DataConversionException e) {
             logger.warning("Data file not in the correct format. Will be starting with an empty Calendar");
             initialData = new Calendar();

@@ -121,6 +121,7 @@ public class Module implements Displayable {
                 && otherModule.getAcademicYear().equals(getAcademicYear())
                 && otherModule.getDescription().equals(getDescription())
                 && otherModule.getEvents().equals(getEvents());
+
     }
 
     /**
@@ -131,6 +132,11 @@ public class Module implements Displayable {
     public String toDebugString() {
         return moduleCode + " | " + getAcademicYear().getStartDate().toString() + " | "
                 + getAcademicYear().getEndDate().toString();
+    }
+
+    // TODO: 26/3/20 Refine the returning string for the FindCommand
+    public String findCommandString() {
+        return moduleCode + " | " + name.toString();
     }
 
     @Override

@@ -35,7 +35,7 @@ public class SlideWindowEvent extends UiPart<Region> {
         super(FXML);
         if (event != null) {
             this.event = (Event) event;
-            name.setText((this.event.getName().fullName));
+            name.setText((this.event.getEventType()).toString());
             startDate.setText(this.event.getEventStart().format(DateTimeFormatter.ofPattern("d MMMM yyyy, h a")) + " - "
                     + this.event.getEventEnd().format(DateTimeFormatter.ofPattern("h a")));
             module.setText(this.event.getParentModule() != null && this.event.getParentModule().getModuleCode() != null ? this.event.getParentModule().getModuleCode().moduleCode : "DEFAULT123");

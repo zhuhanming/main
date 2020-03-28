@@ -1,6 +1,9 @@
 package seedu.address.ui;
 
+import java.util.List;
+
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -17,6 +20,8 @@ import seedu.address.model.event.Event;
 public class SlideWindowDeadlineList extends UiPart<Region> {
 
     private static final String FXML = "SlideWindowDeadlineList.fxml";
+    private ObservableList<Event> eventList;
+
 
     @FXML
     private ListView<Displayable> deadlineListView;
@@ -25,15 +30,14 @@ public class SlideWindowDeadlineList extends UiPart<Region> {
 
     private SlideWindowEvent slideWindowEvent;
 
-
     @SuppressWarnings({"unchecked", "checkstyle:CommentsIndentation"})
-    public SlideWindowDeadlineList(Displayable displayableEvent) {
+    public SlideWindowDeadlineList(Displayable displayableEvent, List<Deadline> deadlines) {
         super(FXML);
         slideWindowEvent = new SlideWindowEvent(displayableEvent);
         slideEventCard.getChildren().setAll(slideWindowEvent.getRoot());
         Event e = (Event) displayableEvent;
         if (e != null) {
-            deadlineListView.setItems(FXCollections.observableArrayList(e.getDeadlines()));
+            deadlineListView.setItems(FXCollections.observableArrayList(deadlines));
             deadlineListView.setCellFactory(listView -> new ListViewCell());
         }
     }
@@ -49,10 +53,6 @@ public class SlideWindowDeadlineList extends UiPart<Region> {
                 setGraphic(null);
                 setText(null);
             } else if (listItem instanceof Deadline) {
-                /** Deadline deadline = new Deadline(new Name("Read lecture 8 and do tutorial "),
-                 LocalDateTime.now().withNano(0), true);
-                 setGraphic(new DeadlineCard(deadline, 0).getRoot());*/
-                System.out.println("%%%%%%%%%%%%%%%%%555555555555");
                 setGraphic(new DeadlineCard((Deadline) listItem, getIndex() + 1).getRoot());
             }
         }

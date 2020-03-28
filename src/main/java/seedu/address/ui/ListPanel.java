@@ -25,6 +25,7 @@ public class ListPanel extends UiPart<Region> {
     @SuppressWarnings("unchecked")
     public ListPanel(ObservableList<? extends Displayable> displayableList) {
         super(FXML);
+        System.out.println("List Panel running here is " + displayableList.toString());
         listView.setItems((ObservableList<Displayable>) displayableList);
         listView.setCellFactory(listView -> new ListViewCell());
     }
@@ -41,6 +42,7 @@ public class ListPanel extends UiPart<Region> {
                 setGraphic(null);
                 setText(null);
             } else if (listItem instanceof Event) {
+                System.out.println("listItem is " + ((Event) listItem).getName());
                 setGraphic(new EventCard((Event) listItem, getIndex() + 1).getRoot());
             } else if (listItem instanceof Module) {
                 setGraphic(new ModuleCard((Module) listItem, getIndex() + 1).getRoot());

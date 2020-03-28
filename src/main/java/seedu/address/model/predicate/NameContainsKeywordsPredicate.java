@@ -1,14 +1,14 @@
-package seedu.address.model.person;
+package seedu.address.model.predicate;
 
 import java.util.List;
 import java.util.function.Predicate;
 
-import seedu.address.commons.util.StringUtil;
+import seedu.address.model.Displayable;
 
 /**
  * Tests that a {@code Person}'s {@code CalendarItemName} matches any of the keywords given.
  */
-public class NameContainsKeywordsPredicate implements Predicate<Person> {
+public class NameContainsKeywordsPredicate implements Predicate<Displayable> {
     private final List<String> keywords;
 
     public NameContainsKeywordsPredicate(List<String> keywords) {
@@ -16,9 +16,13 @@ public class NameContainsKeywordsPredicate implements Predicate<Person> {
     }
 
     @Override
-    public boolean test(Person person) {
-        return keywords.stream()
-                .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(person.getName().fullName, keyword));
+    public boolean test(Displayable displayable) {
+        for (String keyword : keywords) {
+            if (!displayable.findCommandString().trim().toLowerCase().contains(keyword)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -27,5 +31,4 @@ public class NameContainsKeywordsPredicate implements Predicate<Person> {
                 || (other instanceof NameContainsKeywordsPredicate // instanceof handles nulls
                 && keywords.equals(((NameContainsKeywordsPredicate) other).keywords)); // state check
     }
-
 }

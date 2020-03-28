@@ -1,5 +1,6 @@
 package seedu.address.ui;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
@@ -16,6 +17,8 @@ import seedu.address.logic.Logic;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.deadline.Deadline;
+import seedu.address.model.event.Event;
 
 /**
  * The Main Window. Provides the basic application layout containing a menu bar and space where other JavaFX elements
@@ -133,7 +136,7 @@ public class MainWindow extends UiPart<Stage> {
          Event eventIndexZero = new Event(new Name("Tutorial 10 "), EventType.TUTORIAL, LocalDateTime.now().withNano(0),
          LocalDateTime.now().withNano(0), module, new Location("COM1-B103"));*/
 
-        slideWindowDeadlineList = new SlideWindowDeadlineList(logic.getFilteredEvent());
+        slideWindowDeadlineList = new SlideWindowDeadlineList(logic.getFilteredEvent(), null);
         slideWindowListPlaceholder.getChildren().add(slideWindowDeadlineList.getRoot());
 
         CommandBox commandBox = new CommandBox(this::executeCommand);
@@ -194,17 +197,22 @@ public class MainWindow extends UiPart<Stage> {
             CommandResult commandResult = logic.execute(commandText);
             logger.info("Result: " + commandResult.getFeedbackToUser());
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
-
-            if (commandResult.isEventList()) {
+            if (commandResult.isEventList() && commandResult.getSlideWindowEvent() == null) {
                 showEventList();
-            } else if (commandResult.isModuleList()) {
+            } else if (commandResult.isModuleList() && commandResult.getSlideWindowEvent() == null) {
                 showModuleList();
             } else if (commandResult.isShowHelp()) {
                 handleHelp();
             } else if (commandResult.isExit()) {
                 handleExit();
-            }
+            } else if (commandResult.getSlideWindowEvent() != null) {
+                if (commandResult.getSlideWindowDeadlineList() != null && commandResult.getSlideWindowEventList() == null) {
+                    showRightPanelEvent(commandResult.getSlideWindowDeadlineList());
+                } else if (commandResult.getSlideWindowEventList() != null && commandResult.getSlideWindowDeadlineList() == null) {
+                    showRightPanelModule(commandResult.getSlideWindowEventList());
+                }
 
+            }
             return commandResult;
         } catch (CommandException | ParseException e) {
             logger.info("Invalid command: " + commandText);
@@ -230,6 +238,26 @@ public class MainWindow extends UiPart<Stage> {
         listPanel = new ListPanel(logic.getFilteredFocusedList());
         listPanelPlaceholder.getChildren().clear();
         listPanelPlaceholder.getChildren().add(listPanel.getRoot());
+    }
+
+    /**
+     *
+     */
+    public void showRightPanelEvent(List<Deadline> deadlineList) {
+        System.out.println(" showRightPanelEvent  ....");
+        slideWindowDeadlineList = new SlideWindowDeadlineList(logic.getFilteredEvent(), deadlineList);
+        slideWindowListPlaceholder.getChildren().clear();
+        slideWindowListPlaceholder.getChildren().add(slideWindowDeadlineList.getRoot());
+    }
+
+    /**
+     * @param eventsList
+     */
+    public void showRightPanelModule(List<Event> eventsList) {
+        System.out.println(" showRightPanelEvent  ....");
+        slideWindowDeadlineList = new SlideWindowDeadlineList(logic.getFilteredEvent(), null);
+        slideWindowListPlaceholder.getChildren().clear();
+        slideWindowListPlaceholder.getChildren().add(slideWindowDeadlineList.getRoot());
     }
 
 }

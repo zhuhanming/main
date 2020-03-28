@@ -2,6 +2,8 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -234,6 +236,24 @@ public class ParserUtil {
             return DisplayableType.EVENT;
         }
         throw new ParseException("Displayable type is not recognised!");
+    }
+
+    /**
+     * Parses the user input directory.
+     *
+     * @param pathString String provided by user.
+     * @return Path from the string provided.
+     * @throws ParseException If path format is not recognised.
+     */
+    public static Path parseDirectory(String pathString) throws ParseException {
+        requireNonNull(pathString);
+        String trimmedPath = pathString.trim();
+
+        Path path = Paths.get(pathString);
+        if (path == null) {
+            throw new ParseException("Please enter a valid date in the format: yyyy-MM-dd");
+        }
+        return path;
     }
 
     /**
