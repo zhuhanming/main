@@ -101,7 +101,6 @@ class JsonAdaptedEvent {
         }
 
         EventType parsedEventType;
-//        System.out.println("evevnt Type is " + EventType.valueOf(eventType));
         try {
             parsedEventType = EventType.parseEventType(eventType);
         } catch (IllegalArgumentException e) {
