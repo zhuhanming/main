@@ -254,6 +254,7 @@ public class ParserUtil {
             throw new ParseException("Please enter a valid date in the format: yyyy-MM-dd");
         }
         return path;
+    }
 
     /**
      * Parses a {@code String location} into a {@code Location}. Leading and trailing whitespaces will be trimmed.

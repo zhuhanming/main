@@ -158,6 +158,11 @@ public interface Model {
      */
     void setFocusedDisplayable(Displayable displayable);
 
+    /**
+     * Returns the DisplayableType of the list that is currently displayed.
+     */
+    DisplayableType getCurrentDisplayableType();
+
     void updateFilteredDisplayableList(Predicate<Displayable> predicate);
 
     void unsetFocusedDisplayable();

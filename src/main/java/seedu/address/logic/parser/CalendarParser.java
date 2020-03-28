@@ -11,10 +11,11 @@ import seedu.address.logic.commands.AddEventCommand;
 import seedu.address.logic.commands.AddModuleCommand;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.DoneCommand;
+import seedu.address.logic.commands.ExportCommand;
+import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.ViewCommand;
-import seedu.address.logic.commands.ExportCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
@@ -63,6 +64,9 @@ public class CalendarParser {
 
         case DoneCommand.COMMAND_WORD:
             return new DoneCommandParser().parse(arguments);
+
+        case FindCommand.COMMAND_WORD:
+            return new FindCommandParser().parse(arguments);
 
         case ExportCommand.COMMAND_WORD:
             return new ExportCommandParser().parse(arguments);
