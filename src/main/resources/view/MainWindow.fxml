@@ -26,23 +26,20 @@
                 <HBox fx:id="menuBar" VBox.vgrow="NEVER">
                     <HBox HBox.hgrow="NEVER">
                         <Button fx:id="moduleButton" mnemonicParsing="false" styleClass="menuBarButton"
-                                text="Modules">
+                                onAction="#handleModuleButton" text="Modules">
                             <HBox.margin>
-                                <Insets left="10.0" bottom="10.0" right="10.0" top="10.0"/>
+                                <Insets left="10.0" right="10.0"/>
                             </HBox.margin>
                         </Button>
                         <Button fx:id="eventButton" mnemonicParsing="false" styleClass="menuBarButton"
-                                text="Events">
-                            <HBox.margin>
-                                <Insets bottom="10.0" top="10.0"/>
-                            </HBox.margin>
+                                onAction="#handleEventButton" text="Events">
                         </Button>
                     </HBox>
                     <Region HBox.hgrow="ALWAYS"/>
                     <Button fx:id="helpButton" mnemonicParsing="false" styleClass="menuBarButton"
-                            text="Help">
+                            onAction="#handleHelp" text="Help">
                         <HBox.margin>
-                            <Insets bottom="10.0" right="10.0" top="10.0"/>
+                            <Insets right="10.0"/>
                         </HBox.margin>
                     </Button>
                 </HBox>

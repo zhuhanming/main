@@ -4,7 +4,8 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import seedu.address.commons.core.GuiSettings;
@@ -40,7 +41,16 @@ public class MainWindow extends UiPart<Stage> {
     private StackPane commandBoxPlaceholder;
 
     @FXML
-    private MenuItem helpMenuItem;
+    private HBox menuBar;
+
+    @FXML
+    private Button moduleButton;
+
+    @FXML
+    private Button eventButton;
+
+    @FXML
+    private Button helpButton;
 
     @FXML
     private StackPane listPanelPlaceholder;
@@ -115,10 +125,16 @@ public class MainWindow extends UiPart<Stage> {
     /**
      * Fills up all the placeholders of this window.
      */
-    public void fillInnerParts() throws ParseException {
+    public void fillInnerParts() {
         //retrieve the filtered list of module or event.
         listPanel = new ListPanel(logic.getFilteredFocusedList());
         listPanelPlaceholder.getChildren().add(listPanel.getRoot());
+
+        if (logic.getFilteredFocusedList().get(0) instanceof Event) {
+            eventButton.getStyleClass().add("active");
+        } else {
+            moduleButton.getStyleClass().add("active");
+        }
 
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
@@ -213,6 +229,27 @@ public class MainWindow extends UiPart<Stage> {
         }
     }
 
+    /**
+     * Shows event list as callback from EventButton.
+     *
+     * @throws CommandException If command is not recognised, which should not happen.
+     * @throws ParseException   If the command cannot be parsed, which should not happen.
+     */
+    public void handleEventButton() throws CommandException, ParseException {
+        this.executeCommand("list e");
+        this.showEventList();
+    }
+
+    /**
+     * Shows module list as callback from ModuleButton.
+     *
+     * @throws CommandException If command is not recognised, which should not happen.
+     * @throws ParseException   If the command cannot be parsed, which should not happen.
+     */
+    public void handleModuleButton() throws CommandException, ParseException {
+        this.executeCommand("list m");
+        this.showModuleList();
+    }
 
     /**
      * Shows the list of module events on the application.
@@ -221,6 +258,10 @@ public class MainWindow extends UiPart<Stage> {
         listPanel = new ListPanel(logic.getFilteredFocusedList());
         listPanelPlaceholder.getChildren().clear();
         listPanelPlaceholder.getChildren().add(listPanel.getRoot());
+        moduleButton.getStyleClass().clear();
+        moduleButton.getStyleClass().add("menuBarButton");
+        eventButton.getStyleClass().clear();
+        eventButton.getStyleClass().addAll("menuBarButton", "active");
     }
 
     /**
@@ -230,10 +271,16 @@ public class MainWindow extends UiPart<Stage> {
         listPanel = new ListPanel(logic.getFilteredFocusedList());
         listPanelPlaceholder.getChildren().clear();
         listPanelPlaceholder.getChildren().add(listPanel.getRoot());
+        eventButton.getStyleClass().clear();
+        eventButton.getStyleClass().add("menuBarButton");
+        moduleButton.getStyleClass().clear();
+        moduleButton.getStyleClass().addAll("menuBarButton", "active");
     }
 
     /**
+     * Shows the deadline list on the right panel.
      *
+     * @param deadlineList Deadline list to show.
      */
     public void showRightPanelEvent(List<Deadline> deadlineList) {
         slideWindowDeadlineList = new SlideWindowDeadlineList(logic.getFilteredEvent(), deadlineList, null);
@@ -242,7 +289,9 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
-     * @param eventsList
+     * Shows the event list on the right panel.
+     *
+     * @param eventsList Event list to show.
      */
     public void showRightPanelModule(List<Event> eventsList) {
         slideWindowDeadlineList = new SlideWindowDeadlineList(logic.getFilteredEvent(), null, eventsList);

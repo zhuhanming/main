@@ -2,7 +2,34 @@
 .background {
     -fx-background-color: #FAF9FA;
     background-color: #FAF9FA;
-    -fx-color: #211551;
+    -fx-text-fill: #211551;
+}
+
+/** Menu Bar **/
+#menuBar {
+    -fx-background-color: transparent;
+    -fx-border-width: 0 0 3 0;
+    -fx-border-color: transparent transparent #EBEAEE transparent;
+    -fx-border-insets: 0 0 -3 0;
+}
+
+.menuBarButton {
+    -fx-font-weight: bold;
+    -fx-font-size: 13pt;
+    -fx-padding: 10 0 10 0;
+    -fx-background-color: transparent;
+    -fx-text-fill: #B8B7C5;
+}
+
+.menuBarButton:hover {
+    -fx-text-fill: #211551;
+    -fx-cursor: hand;
+}
+
+.menuBarButton.active {
+    -fx-text-fill: #6842E4;
+    -fx-border-width: 0 0 3 0;
+    -fx-border-color: transparent transparent #6842E4 transparent;
 }
 
 /** User Input Box **/
