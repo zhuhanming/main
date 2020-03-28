@@ -93,5 +93,9 @@ public class Deadline implements Displayable {
                 && otherDeadline.isCompleted() == isCompleted();
     }
 
+    public String findCommandString() {
+        return toString();
+    }
+
 
 }

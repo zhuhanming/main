@@ -146,7 +146,6 @@ public interface Model {
      */
     ObservableList<? extends Displayable> getFilteredFocusedList();
 
-    void updatedFilteredEventDisplayable(Predicate<Displayable> predicate);
 
     Displayable getFilteredEvent();
 

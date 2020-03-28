@@ -3,7 +3,6 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javafx.collections.transformation.FilteredList;
@@ -17,7 +16,6 @@ import seedu.address.model.Model;
 import seedu.address.model.deadline.Deadline;
 import seedu.address.model.event.Event;
 import seedu.address.model.module.Module;
-import seedu.address.model.predicate.SameItemPredicate;
 import seedu.address.ui.SlideWindowDeadlineList;
 import seedu.address.ui.SlideWindowEvent;
 
@@ -51,10 +49,10 @@ public class ViewCommand extends Command {
 
         String itemToViewString = itemToView.toString();
         System.out.println("item to view " + itemToViewString);
-        SameItemPredicate sameItemPredicate = new SameItemPredicate(
-                Arrays.asList(itemToViewString.trim()));
+        /**SameItemPredicate sameItemPredicate = new SameItemPredicate(
+         Arrays.asList(itemToViewString.trim())); */
         model.setFocusedDisplayable(itemToView);
-        model.updateFilteredDisplayableList(sameItemPredicate);
+        /** model.updateFilteredDisplayableList(sameItemPredicate); */
 
         CommandResult commandResult;
         // start of view for right panel ;
@@ -80,8 +78,10 @@ public class ViewCommand extends Command {
     }
 
     /**
+     * Method that for right panel return commandResult with deadlist attached to eventType
+     *
      * @param displayable
-     * @return
+     * @return commmand Result
      */
     private CommandResult returnCommResultBasedOnEventSelected(Displayable displayable, List<Deadline> deadlineList) {
         if (displayable != null) {
@@ -92,6 +92,13 @@ public class ViewCommand extends Command {
         }
     }
 
+    /**
+     * Method that for right panel return commandResult with eventlist attached to module
+     *
+     * @param displayable
+     * @param eventList
+     * @return commmand Result
+     */
     private CommandResult returnCommResultBasedOnModuleSelected(Displayable displayable, List<Event> eventList) {
         if (displayable != null) {
             System.out.println("displayable is in return ... " + displayable.toString());

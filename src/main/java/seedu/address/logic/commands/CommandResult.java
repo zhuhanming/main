@@ -46,7 +46,8 @@ public class CommandResult {
      * Constructs a {@code CommandResult} with the specified fields.
      */
     public CommandResult(String feedbackToUser,
-                         boolean showHelp, boolean exit, boolean showsEventList, boolean showsModuleList, Displayable slideWindowEvent, List<Deadline> deadlineList, List<Event> eventList) {
+                         boolean showHelp, boolean exit, boolean showsEventList, boolean showsModuleList,
+                         Displayable slideWindowEvent, List<Deadline> deadlineList, List<Event> eventList) {
         this.feedbackToUser = requireNonNull(feedbackToUser);
         this.showHelp = showHelp;
         this.exit = exit;
@@ -96,8 +97,6 @@ public class CommandResult {
     public List<Event> getSlideWindowEventList() {
         return eventList;
     }
-
-    ;
 
     @Override
     public boolean equals(Object other) {

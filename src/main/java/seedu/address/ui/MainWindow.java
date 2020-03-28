@@ -130,13 +130,7 @@ public class MainWindow extends UiPart<Stage> {
         StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getCalendarFilePath());
         statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
 
-        /** Module module = new Module(new ModuleCode("CS2103"), new Name("Software Engineering"), new AcademicYear(19, 2),
-         "This module introduces the necessary conceptual and analytical tools "
-         + "for systematic and rigorous development of software systems");
-         Event eventIndexZero = new Event(new Name("Tutorial 10 "), EventType.TUTORIAL, LocalDateTime.now().withNano(0),
-         LocalDateTime.now().withNano(0), module, new Location("COM1-B103"));*/
-
-        slideWindowDeadlineList = new SlideWindowDeadlineList(logic.getFilteredEvent(), null);
+        slideWindowDeadlineList = new SlideWindowDeadlineList(logic.getFilteredEvent(), null, null);
         slideWindowListPlaceholder.getChildren().add(slideWindowDeadlineList.getRoot());
 
         CommandBox commandBox = new CommandBox(this::executeCommand);
@@ -206,9 +200,11 @@ public class MainWindow extends UiPart<Stage> {
             } else if (commandResult.isExit()) {
                 handleExit();
             } else if (commandResult.getSlideWindowEvent() != null) {
-                if (commandResult.getSlideWindowDeadlineList() != null && commandResult.getSlideWindowEventList() == null) {
+                if (commandResult.getSlideWindowDeadlineList() != null
+                        && commandResult.getSlideWindowEventList() == null) {
                     showRightPanelEvent(commandResult.getSlideWindowDeadlineList());
-                } else if (commandResult.getSlideWindowEventList() != null && commandResult.getSlideWindowDeadlineList() == null) {
+                } else if (commandResult.getSlideWindowEventList() != null
+                        && commandResult.getSlideWindowDeadlineList() == null) {
                     showRightPanelModule(commandResult.getSlideWindowEventList());
                 }
 
@@ -244,8 +240,7 @@ public class MainWindow extends UiPart<Stage> {
      *
      */
     public void showRightPanelEvent(List<Deadline> deadlineList) {
-        System.out.println(" showRightPanelEvent  ....");
-        slideWindowDeadlineList = new SlideWindowDeadlineList(logic.getFilteredEvent(), deadlineList);
+        slideWindowDeadlineList = new SlideWindowDeadlineList(logic.getFilteredEvent(), deadlineList, null);
         slideWindowListPlaceholder.getChildren().clear();
         slideWindowListPlaceholder.getChildren().add(slideWindowDeadlineList.getRoot());
     }
@@ -254,8 +249,7 @@ public class MainWindow extends UiPart<Stage> {
      * @param eventsList
      */
     public void showRightPanelModule(List<Event> eventsList) {
-        System.out.println(" showRightPanelEvent  ....");
-        slideWindowDeadlineList = new SlideWindowDeadlineList(logic.getFilteredEvent(), null);
+        slideWindowDeadlineList = new SlideWindowDeadlineList(logic.getFilteredEvent(), null, eventsList);
         slideWindowListPlaceholder.getChildren().clear();
         slideWindowListPlaceholder.getChildren().add(slideWindowDeadlineList.getRoot());
     }
