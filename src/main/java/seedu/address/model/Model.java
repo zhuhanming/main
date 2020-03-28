@@ -146,6 +146,9 @@ public interface Model {
      */
     ObservableList<? extends Displayable> getFilteredFocusedList();
 
+
+    Displayable getFilteredEvent();
+
     /**
      * Set the list in focus.
      */

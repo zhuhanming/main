@@ -1,9 +1,10 @@
 package seedu.address.model.module;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -44,7 +45,7 @@ public class ModuleLibrary {
             Name name = new Name(moduleNeeded.get("title").getAsString());
             String description = moduleNeeded.get("description").getAsString();
             return new Module(moduleCode, name, academicYear, description);
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             throw new ModuleNotFoundException();
         }
     }
@@ -69,7 +70,7 @@ public class ModuleLibrary {
                 }
             }
             return eventTypes;
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             throw new ModuleNotFoundException();
         }
     }
@@ -116,7 +117,7 @@ public class ModuleLibrary {
             Event eventToAdd = new Event(new Name(eventType.toString()), eventType,
                     eventStart, eventEnd, module, new Location(location));
             return new AddEventCommand(eventToAdd, isRepeated, endRepeatDate, frequency);
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             throw new EventNotFoundException();
         }
     }
@@ -128,15 +129,15 @@ public class ModuleLibrary {
         return Integer.parseInt(classNumber);
     }
 
-    private static JsonObject getModule(ModuleCode moduleCode) throws IOException {
+    private static JsonObject getModule(ModuleCode moduleCode) throws IOException, URISyntaxException {
         char firstCharacter = moduleCode.toString().charAt(0);
         URL jsonFile = ModuleLibrary.class.getResource("/modules/" + firstCharacter + "Modules.json");
-        JsonObject jsonObject = JsonParser.parseString(Files.readString(Path.of(jsonFile.getPath())))
+        JsonObject jsonObject = JsonParser.parseString(Files.readString(Paths.get(jsonFile.toURI())))
                 .getAsJsonObject();
         return jsonObject.get(moduleCode.toString()).getAsJsonObject();
     }
 
-    private static JsonArray getTimetable(Module module) throws IOException {
+    private static JsonArray getTimetable(Module module) throws IOException, URISyntaxException {
         AcademicYear academicYear = module.getAcademicYear();
         JsonObject moduleNeeded = getModule(module.getModuleCode());
         JsonArray semesterData = moduleNeeded.getAsJsonArray("semesterData");

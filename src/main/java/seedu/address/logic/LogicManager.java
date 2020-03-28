@@ -82,6 +82,11 @@ public class LogicManager implements Logic {
     }
 
     @Override
+    public Displayable getFilteredEvent() {
+        return model.getFilteredEvent();
+    }
+
+    @Override
     public Path getCalendarFilePath() {
         return model.getCalendarFilePath();
     }

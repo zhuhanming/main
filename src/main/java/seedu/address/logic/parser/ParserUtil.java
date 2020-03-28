@@ -239,6 +239,23 @@ public class ParserUtil {
     }
 
     /**
+     * Parses the view index for the displayable type.
+     *
+     * @param displayableType
+     * @return
+     * @throws ParseException
+     */
+    public static DisplayableType parseDisplayableTypeRightPanel(String displayableType) {
+        String cleanedDisplayableType = displayableType.toLowerCase().substring(9);
+        if (cleanedDisplayableType.contains("lab") || cleanedDisplayableType.contains("tutorial")
+                || cleanedDisplayableType.contains("lecture")) {
+            return DisplayableType.EVENT;
+        } else {
+            return DisplayableType.MODULE;
+        }
+    }
+
+    /**
      * Parses the user input directory.
      *
      * @param pathString String provided by user.
