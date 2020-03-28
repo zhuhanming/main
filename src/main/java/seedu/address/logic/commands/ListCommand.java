@@ -30,14 +30,15 @@ public class ListCommand extends Command {
 
     /**
      * Returns a CommandResult based on the displayable type.
+     *
      * @param displayableType the displayable type of the object.
      * @return a CommandResult based on the displayable type.
      */
     private CommandResult returnCommResultBasedOnType(DisplayableType displayableType) {
         if (displayableType == DisplayableType.EVENT) {
-            return new CommandResult(EVENT_MESSAGE_SUCCESS, false, false, true, false);
+            return new CommandResult(EVENT_MESSAGE_SUCCESS, false, false, true, false, null, null, null);
         } else if (displayableType == DisplayableType.MODULE) {
-            return new CommandResult(MODULE_MESSAGE_SUCCESS, false, false, false, true);
+            return new CommandResult(MODULE_MESSAGE_SUCCESS, false, false, false, true, null, null, null);
         } else {
             return new CommandResult(MESSAGE_SUCCESS);
         }

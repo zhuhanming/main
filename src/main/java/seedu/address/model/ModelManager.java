@@ -257,6 +257,16 @@ public class ModelManager implements Model {
         return filteredEvents;
     }
 
+    /**
+     * retrieve selected event (but the method is not called here )
+     *
+     * @return
+     */
+    @Override
+    public Displayable getFilteredEvent() {
+        return focusedDisplayable;
+    }
+
     @Override
     public void updateFilteredEventList(Predicate<Event> predicate) {
         requireNonNull(predicate);

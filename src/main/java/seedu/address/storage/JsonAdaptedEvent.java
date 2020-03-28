@@ -65,6 +65,7 @@ class JsonAdaptedEvent {
     public JsonAdaptedEvent(Event source) {
         name = source.getName().toString();
         eventType = source.getEventType().toString();
+        System.out.println("Event Type is " + eventType);
         eventStart = source.getEventStart().toString();
         eventEnd = source.getEventEnd().toString();
         parentModuleCode = source.getParentModule().getModuleCode().toString();
