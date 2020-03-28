@@ -15,8 +15,8 @@ import seedu.address.model.event.Event;
 import seedu.address.model.module.Module;
 
 /**
- * An UI component that displays information of selected {@code Event} and its deadline list
- * update of children node of slideWindowEvent happened here.
+ * An UI component that displays information of selected {@code Event} and its deadline list update of children node of
+ * slideWindowEvent happened here.
  */
 public class SlideWindowDeadlineList extends UiPart<Region> {
 
@@ -67,5 +67,4 @@ public class SlideWindowDeadlineList extends UiPart<Region> {
             }
         }
     }
-
 }

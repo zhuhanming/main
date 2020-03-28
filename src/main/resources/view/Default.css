@@ -1,0 +1,30 @@
+/** Overall Theme **/
+.background {
+    -fx-background-color: #FAF9FA;
+    background-color: #FAF9FA;
+    -fx-color: #211551;
+}
+
+/** User Input Box **/
+#commandTextField {
+    -fx-background-color: #EDEDED;
+    -fx-font-weight: 100;
+    -fx-padding: 12 10 12 10;
+    -fx-font-family: "Courier";
+    -fx-font-size: 13pt;
+    -fx-text-fill: #6842E4;
+    -fx-prompt-text-fill: #6842E4;
+    -fx-margin: 10 0 0 0;
+}
+
+/** Result Box **/
+#resultDisplay {
+    -fx-background-color: transparent;
+    -fx-border-width: 0 0 3 0;
+    -fx-border-color: transparent transparent #EBEAEE transparent;
+    -fx-font-size: 12pt;
+}
+
+#resultDisplay .content {
+    -fx-background-color: transparent;
+}
