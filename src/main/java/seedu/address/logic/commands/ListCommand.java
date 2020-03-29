@@ -23,22 +23,7 @@ public class ListCommand extends Command {
     public CommandResult execute(Model model) {
         requireNonNull(model);
         model.setFilteredFocusedList(displayableType);
-        CommandResult commandResult = returnCommResultBasedOnType(displayableType);
-        return commandResult;
-    }
-
-    /**
-     * Returns a CommandResult based on the displayable type.
-     *
-     * @param displayableType the displayable type of the object.
-     * @return a CommandResult based on the displayable type.
-     */
-    private CommandResult returnCommResultBasedOnType(DisplayableType displayableType) {
-        if (displayableType == DisplayableType.EVENT) {
-            return new CommandResult(EVENT_MESSAGE_SUCCESS, true, false);
-        } else {
-            assert displayableType == DisplayableType.MODULE;
-            return new CommandResult(MODULE_MESSAGE_SUCCESS, false, true);
-        }
+        return new CommandResult(displayableType == DisplayableType.MODULE ? MODULE_MESSAGE_SUCCESS
+                : EVENT_MESSAGE_SUCCESS, false, false, true, false, null);
     }
 }
