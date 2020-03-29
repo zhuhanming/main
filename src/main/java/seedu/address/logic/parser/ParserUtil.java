@@ -239,38 +239,15 @@ public class ParserUtil {
     }
 
     /**
-     * Parses the view index for the displayable type.
-     *
-     * @param displayableType
-     * @return
-     * @throws ParseException
-     */
-    public static DisplayableType parseDisplayableTypeRightPanel(String displayableType) {
-        String cleanedDisplayableType = displayableType.toLowerCase().substring(9);
-        if (cleanedDisplayableType.contains("lab") || cleanedDisplayableType.contains("tutorial")
-                || cleanedDisplayableType.contains("lecture")) {
-            return DisplayableType.EVENT;
-        } else {
-            return DisplayableType.MODULE;
-        }
-    }
-
-    /**
      * Parses the user input directory.
      *
      * @param pathString String provided by user.
      * @return Path from the string provided.
-     * @throws ParseException If path format is not recognised.
      */
-    public static Path parseDirectory(String pathString) throws ParseException {
+    public static Path parseDirectory(String pathString) {
         requireNonNull(pathString);
         String trimmedPath = pathString.trim();
-
-        Path path = Paths.get(pathString);
-        if (path == null) {
-            throw new ParseException("Please enter a valid date in the format: yyyy-MM-dd");
-        }
-        return path;
+        return Paths.get(trimmedPath);
     }
 
     /**
