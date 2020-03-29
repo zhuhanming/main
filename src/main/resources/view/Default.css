@@ -120,7 +120,7 @@
 }
 
 
-.list-cell:selected .eventName, .eventId, .moduleName, .moduleId{
+.list-cell:selected .eventName, .eventId, .moduleName, .moduleId, .deadlineName{
     -fx-text-fill: #211551;
 }
 
@@ -139,6 +139,8 @@
 }
 
 .moduleCode {
+    -fx-hgap: 7;
+    -fx-vgap: 3;
     -fx-text-fill: white;
     -fx-background-color: #6842E4;
     -fx-padding: 1 3 1 3;
@@ -153,6 +155,31 @@
 
 .eventLocation, .eventDuration, .moduleAcadYear {
     -fx-text-fill: #ADABBC;
+}
+
+/** Right Panel **/
+/** Details **/
+#slideEventCard {
+    -fx-font-size: 12pt;
+    -fx-padding: 0 0 0 10;
+}
+
+.slideEventCardName {
+    -fx-font-size: 18pt;
+    -fx-font-family: 'Poppins Bold';
+}
+
+.slideEventVenue, .slideEventDuration {
+    -fx-font-family: 'Poppins Light';
+}
+
+.slideEventDescription {
+    -fx-font-family: 'Poppins Medium';
+}
+
+/** Right Panel List **/
+#deadlineListView {
+    -fx-background-color: transparent;
 }
 
 /** Scroll Bar **/
