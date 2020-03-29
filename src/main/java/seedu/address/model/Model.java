@@ -168,6 +168,8 @@ public interface Model {
 
     void updateFilteredDisplayableList(Predicate<Displayable> predicate);
 
+    Object[] getFilteredDisplayableList(Predicate<Displayable> predicate);
+
     void unsetFocusedDisplayable();
 
     //to be deleted after debugging
