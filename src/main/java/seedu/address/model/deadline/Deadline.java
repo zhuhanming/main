@@ -97,5 +97,8 @@ public class Deadline implements Displayable {
         return toString();
     }
 
-
+    @Override
+    public String toString() {
+        return this.name.toString();
+    }
 }
