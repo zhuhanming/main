@@ -14,6 +14,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.CalendarParser;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Displayable;
+import seedu.address.model.DisplayableType;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyCalendar;
 import seedu.address.storage.Storage;
@@ -82,6 +83,11 @@ public class LogicManager implements Logic {
     @Override
     public Displayable getFocusedDisplayable() {
         return model.getFocusedDisplayable();
+    }
+
+    @Override
+    public DisplayableType getCurrentDisplayableType() {
+        return model.getCurrentDisplayableType();
     }
 
     @Override

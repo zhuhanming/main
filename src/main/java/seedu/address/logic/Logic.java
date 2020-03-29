@@ -8,6 +8,7 @@ import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Displayable;
+import seedu.address.model.DisplayableType;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyCalendar;
 
@@ -39,6 +40,11 @@ public interface Logic {
     ObservableList<? extends Displayable> getFilteredFocusedList();
 
     Displayable getFocusedDisplayable();
+
+    /**
+     * Returns the DisplayableType of the list that is currently displayed.
+     */
+    DisplayableType getCurrentDisplayableType();
 
     /**
      * Returns the user prefs' address book file path.
