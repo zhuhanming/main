@@ -29,6 +29,11 @@
                             <children>
                                 <Label fx:id="module" styleClass="moduleCode, slideEventModuleCode, hidden"
                                        VBox.vgrow="ALWAYS">
+                                    <HBox.margin>
+                                        <Insets>
+                                            <right>5</right>
+                                        </Insets>
+                                    </HBox.margin>
                                 </Label>
                                 <Label fx:id="completionStatus"
                                        styleClass="completionStatus, slideEventCompletionStatus, hidden"
