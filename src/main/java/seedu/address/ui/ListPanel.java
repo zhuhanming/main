@@ -26,13 +26,9 @@ public class ListPanel extends UiPart<Region> {
     @FXML
     private ListView<Displayable> listView;
 
-    @FXML
-    private MainWindow mainWindow;
-
     @SuppressWarnings("unchecked")
     public ListPanel(ObservableList<? extends Displayable> displayableList, MainWindow mainWindow) {
         super(FXML);
-        this.mainWindow = mainWindow;
         System.out.println("List Panel running here is " + displayableList.toString());
         ObservableList<Displayable> listViewList;
         if (!displayableList.isEmpty() && displayableList.get(0) instanceof Event) {
@@ -41,35 +37,7 @@ public class ListPanel extends UiPart<Region> {
             listViewList = (ObservableList<Displayable>) displayableList;
         }
         listView.setItems(listViewList);
-        listView.setCellFactory(listView -> {
-            return (ListCell) new ListCell<Displayable>() {
-                @Override
-                protected void updateItem(Displayable listItem, boolean empty) {
-                    super.updateItem(listItem, empty);
-                    if (empty || listItem == null) {
-                        setGraphic(null);
-                        setText(null);
-                    } else if (listItem instanceof DisplayablePair) {
-                        setGraphic(new EventCard((Event) ((DisplayablePair) listItem).getFirst(),
-                                (Integer) ((DisplayablePair) listItem).getSecond() + 1).getRoot());
-
-                        setOnMouseClicked(event -> {
-                            mainWindow.handleListClick((Integer) ((DisplayablePair) listItem).getSecond());
-                        });
-                        setDisable(false);
-                    } else if (listItem instanceof Module) {
-                        setGraphic(new ModuleCard((Module) listItem, getIndex() + 1).getRoot());
-                        setOnMouseClicked(event -> {
-                            mainWindow.handleListClick(getIndex());
-                        });
-                        setDisable(false);
-                    } else if (listItem instanceof Title) {
-                        setGraphic(new TitleCard((Title) listItem).getRoot());
-                        setDisable(true);
-                    }
-                }
-            };
-        });
+        listView.setCellFactory(listView -> new ListViewCell(mainWindow));
     }
 
     /**
@@ -113,5 +81,38 @@ public class ListPanel extends UiPart<Region> {
             }
         }
         this.listView.getSelectionModel().select(actualSelectionIndex);
+    }
+
+    /**
+     * Custom {@code ListCell} that displays the graphics of a {@code event} using a {@code eventCard}.
+     */
+    static class ListViewCell extends ListCell<Displayable> {
+        private MainWindow mainWindow;
+
+        public ListViewCell(MainWindow mainWindow) {
+            this.mainWindow = mainWindow;
+        }
+
+        @Override
+        protected void updateItem(Displayable listItem, boolean empty) {
+            super.updateItem(listItem, empty);
+            if (empty || listItem == null) {
+                setGraphic(null);
+                setText(null);
+            } else if (listItem instanceof DisplayablePair) {
+                @SuppressWarnings("unchecked")
+                DisplayablePair<Event, Integer> item = (DisplayablePair<Event, Integer>) listItem;
+                setGraphic(new EventCard(item.getFirst(), item.getSecond() + 1).getRoot());
+                setOnMouseClicked(event -> mainWindow.handleListClick(item.getSecond()));
+                setDisable(false);
+            } else if (listItem instanceof Module) {
+                setGraphic(new ModuleCard((Module) listItem, getIndex() + 1).getRoot());
+                setOnMouseClicked(event -> mainWindow.handleListClick(getIndex()));
+                setDisable(false);
+            } else if (listItem instanceof Title) {
+                setGraphic(new TitleCard((Title) listItem).getRoot());
+                setDisable(true);
+            }
+        }
     }
 }
