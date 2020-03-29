@@ -168,7 +168,11 @@ public interface Model {
      */
     DisplayableType getCurrentDisplayableType();
 
+    boolean isSameFocusedDisplayable(Displayable displayable);
+
     void updateFilteredDisplayableList(Predicate<Displayable> predicate);
+
+    Object[] getFilteredDisplayableList(Predicate<Displayable> predicate);
 
     void unsetFocusedDisplayable();
 

@@ -9,6 +9,7 @@ import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.ParserUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.DisplayableType;
 import seedu.address.model.Model;
 import seedu.address.model.event.EventType;
 import seedu.address.model.module.Module;
@@ -51,7 +52,8 @@ public class AddModuleStatefulLogicManager implements StatefulLogic {
                     + " " + this.eventTypes.get(0).toString() + ".");
         }
         clearState();
-        return new CommandResult(MESSAGE_ALL_EVENTS_ADDED);
+        model.setFilteredFocusedList(DisplayableType.MODULE);
+        return new CommandResult(MESSAGE_ALL_EVENTS_ADDED, false, false, true, true, null);
     }
 
     /**

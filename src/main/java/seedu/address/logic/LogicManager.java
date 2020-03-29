@@ -58,6 +58,7 @@ public class LogicManager implements Logic {
                 AddModuleCommandResult castedCommandResult = (AddModuleCommandResult) commandResult;
                 this.addModuleStatefulLogicManager.setState(castedCommandResult.getModule(),
                         castedCommandResult.getEventTypes());
+                model.setFocusedDisplayable(castedCommandResult.getModule());
             }
         }
 
