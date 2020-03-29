@@ -104,7 +104,7 @@
     -fx-border-color: transparent transparent transparent transparent;
 }
 
-.list-cell:hover {
+.list-cell:filled:hover {
     -fx-cursor: hand;
     -fx-border-color: transparent transparent #EBEAEE transparent;
 }
@@ -113,6 +113,12 @@
     -fx-font-family: 'Poppins Medium';
     -fx-border-color: transparent transparent #6842E4 transparent;
 }
+
+.list-cell:selected:filled:hover {
+    -fx-font-family: 'Poppins Medium';
+    -fx-border-color: transparent transparent #6842E4 transparent;
+}
+
 
 .list-cell:selected .eventName, .eventId, .moduleName, .moduleId{
     -fx-text-fill: #211551;
