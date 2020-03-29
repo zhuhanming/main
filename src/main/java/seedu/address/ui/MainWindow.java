@@ -127,14 +127,8 @@ public class MainWindow extends UiPart<Stage> {
      */
     public void fillInnerParts() {
         //retrieve the filtered list of module or event.
-        listPanel = new ListPanel(logic.getFilteredFocusedList());
+        listPanel = new ListPanel(logic.getFilteredFocusedList(), this);
         listPanelPlaceholder.getChildren().add(listPanel.getRoot());
-
-        if (logic.getFilteredFocusedList().get(0) instanceof Event) {
-            eventButton.getStyleClass().add("active");
-        } else {
-            moduleButton.getStyleClass().add("active");
-        }
 
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
@@ -147,6 +141,16 @@ public class MainWindow extends UiPart<Stage> {
 
         CommandBox commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
+
+        if (logic.getFilteredFocusedList().size() == 0) {
+            moduleButton.getStyleClass().add("active");
+            resultDisplay.setFeedbackToUser("Use the module command to get started!");
+        } else if (logic.getFilteredFocusedList().get(0) instanceof Event) {
+            eventButton.getStyleClass().add("active");
+        } else {
+            moduleButton.getStyleClass().add("active");
+        }
+
     }
 
     /**
@@ -198,7 +202,7 @@ public class MainWindow extends UiPart<Stage> {
      *
      * @see seedu.address.logic.Logic#execute(String)
      */
-    private CommandResult executeCommand(String commandText) throws CommandException, ParseException {
+    public CommandResult executeCommand(String commandText) throws CommandException, ParseException {
         try {
             CommandResult commandResult = logic.execute(commandText);
             logger.info("Result: " + commandResult.getFeedbackToUser());
@@ -219,7 +223,7 @@ public class MainWindow extends UiPart<Stage> {
                         && commandResult.getSlideWindowDeadlineList() == null) {
                     showRightPanelModule(commandResult.getSlideWindowEventList());
                 }
-
+                listPanel.selectDisplayable(commandResult.getIndexToShow());
             }
             return commandResult;
         } catch (CommandException | ParseException e) {
@@ -255,7 +259,7 @@ public class MainWindow extends UiPart<Stage> {
      * Shows the list of module events on the application.
      */
     public void showEventList() {
-        listPanel = new ListPanel(logic.getFilteredFocusedList());
+        listPanel = new ListPanel(logic.getFilteredFocusedList(), this);
         listPanelPlaceholder.getChildren().clear();
         listPanelPlaceholder.getChildren().add(listPanel.getRoot());
         moduleButton.getStyleClass().clear();
@@ -268,7 +272,7 @@ public class MainWindow extends UiPart<Stage> {
      * Shows the list of modules on the application.
      */
     public void showModuleList() {
-        listPanel = new ListPanel(logic.getFilteredFocusedList());
+        listPanel = new ListPanel(logic.getFilteredFocusedList(), this);
         listPanelPlaceholder.getChildren().clear();
         listPanelPlaceholder.getChildren().add(listPanel.getRoot());
         eventButton.getStyleClass().clear();
@@ -299,4 +303,17 @@ public class MainWindow extends UiPart<Stage> {
         slideWindowListPlaceholder.getChildren().add(slideWindowDeadlineList.getRoot());
     }
 
+    /**
+     * Shows the displayable at given index on the right panel.
+     *
+     * @param index Index of displayable to display.
+     */
+    public void handleListClick(int index) {
+        try {
+            this.executeCommand("view " + (index + 1));
+        } catch (CommandException | ParseException e) {
+            logger.info("Invalid command: view" + (index + 1));
+            resultDisplay.setFeedbackToUser(e.getMessage());
+        }
+    }
 }
