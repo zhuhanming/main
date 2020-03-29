@@ -277,6 +277,11 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public boolean isSameFocusedDisplayable(Displayable displayable) {
+        return this.focusedDisplayable.equals(displayable);
+    }
+
+    @Override
     public void updateFilteredEventList(Predicate<Event> predicate) {
         requireNonNull(predicate);
         filteredEvents.setPredicate(predicate);
