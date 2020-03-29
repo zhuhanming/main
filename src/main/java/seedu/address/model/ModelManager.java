@@ -47,7 +47,7 @@ public class ModelManager implements Model {
 
         filteredEvents = new FilteredList<>(this.calendar.getEventList());
         filteredModules = new FilteredList<>(this.calendar.getModuleList());
-        setFilteredFocusedList(DisplayableType.EVENT);
+        setFilteredFocusedList(DisplayableType.MODULE);
     }
 
     public ModelManager() {
@@ -115,7 +115,7 @@ public class ModelManager implements Model {
     @Override
     public void addEvent(Event calendarItem) {
         calendar.addEvent(calendarItem);
-        updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
+        updateFilteredEventList(PREDICATE_SHOW_UPCOMING_EVENTS);
     }
 
 
@@ -231,7 +231,7 @@ public class ModelManager implements Model {
     @Override
     public void setFilteredFocusedList(DisplayableType displayableType) {
         if (displayableType == DisplayableType.EVENT) {
-            updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
+            updateFilteredEventList(PREDICATE_SHOW_UPCOMING_EVENTS);
             focusedFilteredDisplayables = filteredEvents;
         } else if (displayableType == DisplayableType.MODULE) {
             updateFilteredModuleList(PREDICATE_SHOW_ALL_MODULES);
