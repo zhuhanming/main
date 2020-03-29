@@ -18,7 +18,7 @@ import seedu.address.model.module.ModuleLibrary;
  * The {@code AddModuleStatefulLogic} handles the processing of commands related to module creation.
  */
 public class AddModuleStatefulLogicManager implements StatefulLogic {
-    public static final String MESSAGE_INVALID_SLOT_NUMBER = "Slot number is not a non-zero unsigned integer.";
+    public static final String MESSAGE_INVALID_SLOT_NUMBER = "Please enter a proper %1$s slot!";
     public static final String MESSAGE_ALL_EVENTS_ADDED = "All events added!";
     private final Model model;
 
@@ -39,7 +39,7 @@ public class AddModuleStatefulLogicManager implements StatefulLogic {
         try {
             eventSlot = ParserUtil.parseIndex(commandText);
         } catch (ParseException e) {
-            throw new ParseException(MESSAGE_INVALID_SLOT_NUMBER);
+            throw new ParseException(String.format(MESSAGE_INVALID_SLOT_NUMBER, this.eventTypes.get(0).toString()));
         }
 
         EventType eventType = this.eventTypes.remove(0);
@@ -56,6 +56,7 @@ public class AddModuleStatefulLogicManager implements StatefulLogic {
 
     /**
      * Returns true if this stateful logic manager has state.
+     *
      * @return A boolean value.
      */
     @Override
@@ -65,7 +66,8 @@ public class AddModuleStatefulLogicManager implements StatefulLogic {
 
     /**
      * Sets the state of the stateful logic manager.
-     * @param module Module to reference.
+     *
+     * @param module     Module to reference.
      * @param eventTypes List of EventTypes to go through.
      */
     public void setState(Module module, List<EventType> eventTypes) {
