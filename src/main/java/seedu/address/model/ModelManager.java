@@ -263,7 +263,7 @@ public class ModelManager implements Model {
      * @return
      */
     @Override
-    public Displayable getFilteredEvent() {
+    public Displayable getFocusedDisplayable() {
         return focusedDisplayable;
     }
 

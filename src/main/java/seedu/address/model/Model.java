@@ -118,12 +118,12 @@ public interface Model {
     void setModule(Module target, Module editedModule);
 
     /**
-     * Returns an unmodifiable view of the filtered person list
+     * Returns an unmodifiable view of the filtered event list
      */
     ObservableList<Event> getFilteredEventList();
 
     /**
-     * Returns an unmodifiable view of the filtered person list
+     * Returns an unmodifiable view of the filtered module list
      */
     ObservableList<Module> getFilteredModuleList();
 
@@ -149,7 +149,7 @@ public interface Model {
     ObservableList<? extends Displayable> getFilteredFocusedList();
 
 
-    Displayable getFilteredEvent();
+    Displayable getFocusedDisplayable();
 
     /**
      * Set the list in focus.
