@@ -20,7 +20,7 @@ import seedu.address.model.predicate.NameContainsKeywordsPredicate;
 public class DeleteCommand extends Command {
 
     public static final String COMMAND_WORD = "delete";
-    private static final String predicateStringForDeleteAll = "[]";
+    private static final String predicateStringForDeleteAll = "\"\"";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deletes the person identified by the index number used in the displayed person list.\n"
@@ -52,43 +52,58 @@ public class DeleteCommand extends Command {
             if (targetIndex.getZeroBased() >= lastShownList.size()) {
                 throw new CommandException(Messages.MESSAGE_INVALID_VIEW_DISPLAYED_INDEX);
             }
+
             Displayable itemToDelete = lastShownList.get(targetIndex.getZeroBased());
+            unsetFocusDisplayableIfEqual(model, itemToDelete);
+
             if (displayableType == DisplayableType.EVENT) {
                 Event event = (Event)itemToDelete;
                 model.deleteEvent(event);
-                return new CommandResult(String.format(Messages.MESSAGE_SINGLE_EVENT_DELETE_SUCCESS, itemToDelete));
+                return new CommandResult(String.format(Messages.MESSAGE_SINGLE_EVENT_DELETE_SUCCESS, itemToDelete),
+                        false, false, true, true, null);
             } else if (displayableType == DisplayableType.MODULE) {
                 Module module = (Module)itemToDelete;
                 deleteEventsOfModule(model, module);
                 model.deleteModule((Module)itemToDelete);
-                return new CommandResult(String.format(Messages.MESSAGE_SINGLE_MODULE_DELETE_SUCCESS, itemToDelete));
+                return new CommandResult(String.format(Messages.MESSAGE_SINGLE_MODULE_DELETE_SUCCESS, itemToDelete),
+                        false, false, true, true, null);
             }
         } else {
+
             Object[] list = model.getFilteredDisplayableList(predicate);
             int numberOfItemsDeleted = 0;
             if (displayableType == DisplayableType.EVENT) {
                 for (Object eventObject : list) {
+                    unsetFocusDisplayableIfEqual(model, (Displayable)eventObject);
                     numberOfItemsDeleted++;
                     model.deleteEvent((Event)eventObject);
                 }
+
                 if (predicate.toString().equals(predicateStringForDeleteAll)) {
-                    return new CommandResult(String.format(Messages.MESSAGE_DELETE_ALL_EVENTS_SUCCESS, numberOfItemsDeleted));
+                    return new CommandResult(String.format(Messages.MESSAGE_DELETE_ALL_EVENTS_SUCCESS, numberOfItemsDeleted),
+                            false, false, true, true, null);
+                } else {
+                    return new CommandResult(String.format(
+                            Messages.MESSAGE_MUTIPLE_EVENTS_DELETE_SUCCESS, numberOfItemsDeleted, predicate.toString()),
+                            false, false, true, true, null);
                 }
-                return new CommandResult(String.format(
-                        Messages.MESSAGE_MUTIPLE_EVENTS_DELETE_SUCCESS, numberOfItemsDeleted, predicate.toString()));
 
             } else if (displayableType == DisplayableType.MODULE) {
                 for (Object moduleObject : list) {
+                    unsetFocusDisplayableIfEqual(model, (Displayable)moduleObject);
                     numberOfItemsDeleted++;
                     Module module = (Module)moduleObject;
                     deleteEventsOfModule(model, module);
                     model.deleteModule(module);
                 }
                 if (predicate.toString().equals(predicateStringForDeleteAll)) {
-                    return new CommandResult(String.format(Messages.MESSAGE_DELETE_ALL_MODULES_SUCCESS, numberOfItemsDeleted));
+                    model.unsetFocusedDisplayable();
+                    return new CommandResult(String.format(Messages.MESSAGE_DELETE_ALL_MODULES_SUCCESS, numberOfItemsDeleted),
+                            false, false, true, true, null);
                 }
                 return new CommandResult(String.format(
-                        Messages.MESSAGE_MUTIPLE_MODULES_DELETE_SUCCESS, numberOfItemsDeleted, predicate.toString()));
+                        Messages.MESSAGE_MUTIPLE_MODULES_DELETE_SUCCESS, numberOfItemsDeleted,
+                        predicate.toString()), false, false, true, true, null);
             }
         }
         return new CommandResult(Messages.MESSAGE_ERROR);
@@ -104,6 +119,12 @@ public class DeleteCommand extends Command {
             } else {
                 count++;
             }
+        }
+    }
+
+    private void unsetFocusDisplayableIfEqual(Model model, Displayable displayable) {
+        if (model.getFocusedDisplayable() != null && model.isSameFocusedDisplayable(displayable)) {
+            model.unsetFocusedDisplayable();
         }
     }
 
