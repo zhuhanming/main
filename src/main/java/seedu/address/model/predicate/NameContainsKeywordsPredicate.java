@@ -31,4 +31,9 @@ public class NameContainsKeywordsPredicate implements Predicate<Displayable> {
                 || (other instanceof NameContainsKeywordsPredicate // instanceof handles nulls
                 && keywords.equals(((NameContainsKeywordsPredicate) other).keywords)); // state check
     }
+
+    @Override
+    public String toString() {
+        return keywords.toString();
+    }
 }
