@@ -53,12 +53,10 @@ public class LogicManager implements Logic {
         } else {
             Command command = calendarParser.parseCommand(commandText);
             commandResult = command.execute(model);
-            System.out.println("Command Result " + (commandResult instanceof AddModuleCommandResult));
             if (commandResult instanceof AddModuleCommandResult) {
                 AddModuleCommandResult castedCommandResult = (AddModuleCommandResult) commandResult;
                 this.addModuleStatefulLogicManager.setState(castedCommandResult.getModule(),
                         castedCommandResult.getEventTypes());
-                System.out.println(castedCommandResult.getEventTypes());
             }
         }
 
