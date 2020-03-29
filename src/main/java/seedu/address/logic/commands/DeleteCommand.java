@@ -50,7 +50,7 @@ public class DeleteCommand extends Command {
         if (targetIndex != null) {
             ObservableList<? extends Displayable> lastShownList = model.getFilteredFocusedList();
             if (targetIndex.getZeroBased() >= lastShownList.size()) {
-                throw new CommandException(Messages.MESSAGE_INVALID_VIEW_DISPLAYED_INDEX);
+                throw new CommandException(Messages.MESSAGE_INVALID_DELETE_INDEX);
             }
 
             Displayable itemToDelete = lastShownList.get(targetIndex.getZeroBased());
