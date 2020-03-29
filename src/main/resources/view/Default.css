@@ -108,16 +108,16 @@
 }
 
 .list-cell:selected {
-    -fx-font-family: 'Poppins Bold';
+    -fx-font-family: 'Poppins Medium';
     -fx-border-color: transparent transparent #6842E4 transparent;
 }
 
-.list-cell:selected .eventName, .eventId {
+.list-cell:selected .eventName, .eventId, .moduleName, .moduleId{
     -fx-text-fill: #211551;
 }
 
 .list-cell:selected .moduleCode {
-    -fx-font-weight: normal;
+    -fx-font-family: 'Poppins';
 }
 
 .titleName {
@@ -126,7 +126,7 @@
     -fx-opacity: 1.0;
 }
 
-.eventName {
+.eventName, .moduleName {
     -fx-padding: 0 10 0 0;
 }
 
@@ -143,7 +143,7 @@
     -fx-padding: 0 0 0 10;
 }
 
-.eventLocation, .eventDuration {
+.eventLocation, .eventDuration, .moduleAcadYear {
     -fx-text-fill: #ADABBC;
 }
 

@@ -2,7 +2,6 @@ package seedu.address.ui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.module.Module;
@@ -32,7 +31,7 @@ public class ModuleCard extends UiPart<Region> {
     @FXML
     private Label moduleAcadYear;
     @FXML
-    private FlowPane tags;
+    private Label moduleCode;
 
     public ModuleCard(Module module, int displayedIndex) {
         super(FXML);
@@ -40,14 +39,7 @@ public class ModuleCard extends UiPart<Region> {
         id.setText(displayedIndex + ". ");
         moduleName.setText(module.getName().toString());
         moduleAcadYear.setText(module.getAcademicYear().toModuleCardFormat());
-        tags.getChildren().add(new Label(module.getModuleCode().toString()));
-
-        /*
-        Future extension if want to add additional tags:
-        person.getTags().stream()
-                .sorted(Comparator.comparing(tag -> tag.tagName))
-                .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
-        */
+        moduleCode.setText(module.getModuleCode().toString());
     }
 
     @Override

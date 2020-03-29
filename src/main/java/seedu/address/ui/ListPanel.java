@@ -55,8 +55,13 @@ public class ListPanel extends UiPart<Region> {
                         setOnMouseClicked(event -> {
                             mainWindow.handleListClick((Integer) ((DisplayablePair) listItem).getSecond());
                         });
+                        setDisable(false);
                     } else if (listItem instanceof Module) {
                         setGraphic(new ModuleCard((Module) listItem, getIndex() + 1).getRoot());
+                        setOnMouseClicked(event -> {
+                            mainWindow.handleListClick(getIndex());
+                        });
+                        setDisable(false);
                     } else if (listItem instanceof Title) {
                         setGraphic(new TitleCard((Title) listItem).getRoot());
                         setDisable(true);
