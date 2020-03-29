@@ -1,23 +1,20 @@
 package seedu.address.ui;
 
-import java.util.List;
 import java.util.logging.Logger;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextInputControl;
-import javafx.scene.input.KeyCombination;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Logic;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.deadline.Deadline;
+import seedu.address.model.DisplayableType;
 import seedu.address.model.event.Event;
 
 /**
@@ -37,14 +34,23 @@ public class MainWindow extends UiPart<Stage> {
     private ListPanel listPanel;
     private ResultDisplay resultDisplay;
     private HelpWindow helpWindow;
-    private SlideWindowDeadlineList slideWindowDeadlineList;
+    private DetailsWindow detailsWindow;
     //private SlideWindowEvent slideWindowEvent;
 
     @FXML
     private StackPane commandBoxPlaceholder;
 
     @FXML
-    private MenuItem helpMenuItem;
+    private HBox menuBar;
+
+    @FXML
+    private Button moduleButton;
+
+    @FXML
+    private Button eventButton;
+
+    @FXML
+    private Button helpButton;
 
     @FXML
     private StackPane listPanelPlaceholder;
@@ -72,8 +78,6 @@ public class MainWindow extends UiPart<Stage> {
         // Configure the UI
         setWindowDefaultSize(logic.getGuiSettings());
 
-        setAccelerators();
-
         helpWindow = new HelpWindow();
     }
 
@@ -81,47 +85,12 @@ public class MainWindow extends UiPart<Stage> {
         return primaryStage;
     }
 
-    private void setAccelerators() {
-        setAccelerator(helpMenuItem, KeyCombination.valueOf("F1"));
-    }
-
-    /**
-     * Sets the accelerator of a MenuItem.
-     *
-     * @param keyCombination the KeyCombination value of the accelerator
-     */
-    private void setAccelerator(MenuItem menuItem, KeyCombination keyCombination) {
-        menuItem.setAccelerator(keyCombination);
-
-        /*
-         * TODO: the code below can be removed once the bug reported here
-         * https://bugs.openjdk.java.net/browse/JDK-8131666
-         * is fixed in later version of SDK.
-         *
-         * According to the bug report, TextInputControl (TextField, TextArea) will
-         * consume function-key events. Because CommandBox contains a TextField, and
-         * ResultDisplay contains a TextArea, thus some accelerators (e.g F1) will
-         * not work when the focus is in them because the key event is consumed by
-         * the TextInputControl(s).
-         *
-         * For now, we add following event filter to capture such key events and open
-         * help window purposely so to support accelerators even when focus is
-         * in CommandBox or ResultDisplay.
-         */
-        getRoot().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-            if (event.getTarget() instanceof TextInputControl && keyCombination.match(event)) {
-                menuItem.getOnAction().handle(new ActionEvent());
-                event.consume();
-            }
-        });
-    }
-
     /**
      * Fills up all the placeholders of this window.
      */
-    public void fillInnerParts() throws ParseException {
+    public void fillInnerParts() {
         //retrieve the filtered list of module or event.
-        listPanel = new ListPanel(logic.getFilteredFocusedList());
+        listPanel = new ListPanel(logic.getFilteredFocusedList(), this);
         listPanelPlaceholder.getChildren().add(listPanel.getRoot());
 
         resultDisplay = new ResultDisplay();
@@ -130,11 +99,21 @@ public class MainWindow extends UiPart<Stage> {
         StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getCalendarFilePath());
         statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
 
-        slideWindowDeadlineList = new SlideWindowDeadlineList(logic.getFilteredEvent(), null, null);
-        slideWindowListPlaceholder.getChildren().add(slideWindowDeadlineList.getRoot());
+        detailsWindow = new DetailsWindow(logic.getFocusedDisplayable(), this);
+        slideWindowListPlaceholder.getChildren().add(detailsWindow.getRoot());
 
         CommandBox commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
+
+        if (logic.getFilteredFocusedList().size() == 0) {
+            moduleButton.getStyleClass().add("active");
+            resultDisplay.setFeedbackToUser("Use the module command to get started!");
+        } else if (logic.getFilteredFocusedList().get(0) instanceof Event) {
+            eventButton.getStyleClass().add("active");
+        } else {
+            moduleButton.getStyleClass().add("active");
+        }
+
     }
 
     /**
@@ -191,23 +170,20 @@ public class MainWindow extends UiPart<Stage> {
             CommandResult commandResult = logic.execute(commandText);
             logger.info("Result: " + commandResult.getFeedbackToUser());
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
-            if (commandResult.isEventList() && commandResult.getSlideWindowEvent() == null) {
-                showEventList();
-            } else if (commandResult.isModuleList() && commandResult.getSlideWindowEvent() == null) {
-                showModuleList();
-            } else if (commandResult.isShowHelp()) {
-                handleHelp();
-            } else if (commandResult.isExit()) {
+            if (commandResult.isToExit()) {
                 handleExit();
-            } else if (commandResult.getSlideWindowEvent() != null) {
-                if (commandResult.getSlideWindowDeadlineList() != null
-                        && commandResult.getSlideWindowEventList() == null) {
-                    showRightPanelEvent(commandResult.getSlideWindowDeadlineList());
-                } else if (commandResult.getSlideWindowEventList() != null
-                        && commandResult.getSlideWindowDeadlineList() == null) {
-                    showRightPanelModule(commandResult.getSlideWindowEventList());
-                }
-
+            }
+            if (commandResult.isToShowHelp()) {
+                handleHelp();
+            }
+            if (commandResult.isToUpdateLeftPanel()) {
+                updateLeftPanel();
+            }
+            if (commandResult.isToUpdateRightPanel()) {
+                updateRightPanel();
+            }
+            if (commandResult.getIndexToShow() != null) {
+                listPanel.selectDisplayable(commandResult.getIndexToShow());
             }
             return commandResult;
         } catch (CommandException | ParseException e) {
@@ -217,41 +193,101 @@ public class MainWindow extends UiPart<Stage> {
         }
     }
 
-
     /**
-     * Shows the list of module events on the application.
+     * Shows event list as callback from EventButton.
      */
-    public void showEventList() {
-        listPanel = new ListPanel(logic.getFilteredFocusedList());
-        listPanelPlaceholder.getChildren().clear();
-        listPanelPlaceholder.getChildren().add(listPanel.getRoot());
+    public void handleEventButton() {
+        try {
+            this.executeCommand("list e");
+        } catch (CommandException | ParseException e) {
+            logger.info("Invalid command: list e");
+            resultDisplay.setFeedbackToUser(e.getMessage());
+        }
     }
 
     /**
-     * Shows the list of modules on the application.
+     * Shows module list as callback from ModuleButton.
      */
-    public void showModuleList() {
-        listPanel = new ListPanel(logic.getFilteredFocusedList());
-        listPanelPlaceholder.getChildren().clear();
-        listPanelPlaceholder.getChildren().add(listPanel.getRoot());
+    public void handleModuleButton() {
+        try {
+            this.executeCommand("list m");
+        } catch (CommandException | ParseException e) {
+            logger.info("Invalid command: list m");
+            resultDisplay.setFeedbackToUser(e.getMessage());
+        }
     }
 
     /**
+     * Updates the left panel of the application.
+     */
+    public void updateLeftPanel() {
+        listPanel = new ListPanel(logic.getFilteredFocusedList(), this);
+        listPanelPlaceholder.getChildren().clear();
+        listPanelPlaceholder.getChildren().add(listPanel.getRoot());
+        if (logic.getCurrentDisplayableType() == DisplayableType.EVENT) {
+            moduleButton.getStyleClass().clear();
+            moduleButton.getStyleClass().add("menuBarButton");
+            eventButton.getStyleClass().clear();
+            eventButton.getStyleClass().addAll("menuBarButton", "active");
+        } else {
+            assert logic.getCurrentDisplayableType() == DisplayableType.MODULE;
+            eventButton.getStyleClass().clear();
+            eventButton.getStyleClass().add("menuBarButton");
+            moduleButton.getStyleClass().clear();
+            moduleButton.getStyleClass().addAll("menuBarButton", "active");
+        }
+    }
+
+    /**
+     * Shows the deadline list on the right panel.
+     */
+    public void updateRightPanel() {
+        detailsWindow = new DetailsWindow(logic.getFocusedDisplayable(), this);
+        slideWindowListPlaceholder.getChildren().clear();
+        slideWindowListPlaceholder.getChildren().add(detailsWindow.getRoot());
+    }
+
+    /**
+     * Shows the displayable at given index on the right panel.
      *
+     * @param index Index of displayable to display.
      */
-    public void showRightPanelEvent(List<Deadline> deadlineList) {
-        slideWindowDeadlineList = new SlideWindowDeadlineList(logic.getFilteredEvent(), deadlineList, null);
-        slideWindowListPlaceholder.getChildren().clear();
-        slideWindowListPlaceholder.getChildren().add(slideWindowDeadlineList.getRoot());
+    public void handleListClick(int index) {
+        try {
+            this.executeCommand("view " + (index + 1));
+        } catch (CommandException | ParseException e) {
+            logger.info("Invalid command: view " + (index + 1));
+            resultDisplay.setFeedbackToUser(e.getMessage());
+        }
     }
 
     /**
-     * @param eventsList
+     * Shows the event being clicked.
+     *
+     * @param event Event to display.
      */
-    public void showRightPanelModule(List<Event> eventsList) {
-        slideWindowDeadlineList = new SlideWindowDeadlineList(logic.getFilteredEvent(), null, eventsList);
-        slideWindowListPlaceholder.getChildren().clear();
-        slideWindowListPlaceholder.getChildren().add(slideWindowDeadlineList.getRoot());
+    public void handleSidePanelListClick(Event event) {
+        try {
+            this.executeCommand("list e");
+            Index index = this.listPanel.getEventIndex(event);
+            this.executeCommand("view " + index.getOneBased());
+        } catch (CommandException | ParseException e) {
+            logger.info("Invalid command: list e + view index");
+            resultDisplay.setFeedbackToUser(e.getMessage());
+        }
     }
 
+    /**
+     * Executes the done command for the given one-based index.
+     *
+     * @param index One-based index of deadline.
+     */
+    public void handleDeadlineClick(int index) {
+        try {
+            this.executeCommand("done " + index);
+        } catch (CommandException | ParseException e) {
+            logger.info("Invalid command: done " + (index + 1));
+            resultDisplay.setFeedbackToUser(e.getMessage());
+        }
+    }
 }

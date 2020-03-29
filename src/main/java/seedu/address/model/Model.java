@@ -1,6 +1,7 @@
 package seedu.address.model;
 
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -19,7 +20,8 @@ public interface Model {
     /**
      * {@code Predicate} that always evaluate to true
      */
-    Predicate<Event> PREDICATE_SHOW_ALL_EVENTS = unused -> true;
+    Predicate<Event> PREDICATE_SHOW_UPCOMING_EVENTS = event -> !event
+            .getEventStart().toLocalDate().isBefore(LocalDate.now());
     Predicate<Module> PREDICATE_SHOW_ALL_MODULES = unused -> true;
 
     /**
@@ -116,12 +118,12 @@ public interface Model {
     void setModule(Module target, Module editedModule);
 
     /**
-     * Returns an unmodifiable view of the filtered person list
+     * Returns an unmodifiable view of the filtered event list
      */
     ObservableList<Event> getFilteredEventList();
 
     /**
-     * Returns an unmodifiable view of the filtered person list
+     * Returns an unmodifiable view of the filtered module list
      */
     ObservableList<Module> getFilteredModuleList();
 
@@ -147,7 +149,7 @@ public interface Model {
     ObservableList<? extends Displayable> getFilteredFocusedList();
 
 
-    Displayable getFilteredEvent();
+    Displayable getFocusedDisplayable();
 
     /**
      * Set the list in focus.

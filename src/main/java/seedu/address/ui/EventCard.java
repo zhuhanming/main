@@ -4,7 +4,6 @@ import java.time.format.DateTimeFormatter;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.event.Event;
@@ -36,17 +35,17 @@ public class EventCard extends UiPart<Region> {
     @FXML
     private Label endDate;
     @FXML
-    private FlowPane tags;
+    private Label moduleCode;
 
     public EventCard(Event event, int displayedIndex) {
         super(FXML);
         this.event = event;
         id.setText(displayedIndex + ". ");
         name.setText(event.getName().fullName);
-        startDate.setText(event.getEventStart().format(DateTimeFormatter.ofPattern("d MMMM yyyy, h a")) + " - "
+        startDate.setText(event.getEventStart().format(DateTimeFormatter.ofPattern("h a")) + " - "
                 + event.getEventEnd().format(DateTimeFormatter.ofPattern("h a")));
         endDate.setText(event.getLocation().toString());
-        tags.getChildren().add(new Label(event.getParentModule().getModuleCode().toString()));
+        moduleCode.setText(event.getParentModule().getModuleCode().toString());
 
         /*
         Future extension if want to add additional tags:

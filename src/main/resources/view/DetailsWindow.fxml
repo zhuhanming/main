@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity"
+      prefWidth="400.0" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/8"
+      xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity"
+                    minWidth="-Infinity" prefHeight="180.0" prefWidth="400.0" styleClass="anchor-pane"
+                    HBox.hgrow="ALWAYS">
+            <children>
+                <VBox fx:id="slideEventCard" maxHeight="1.7976931348623157E308"
+                      maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity"
+                      prefHeight="180.0" HBox.hgrow="ALWAYS">
+                    <children>
+                        <Label fx:id="name" styleClass="slideEventCardName"
+                               VBox.vgrow="ALWAYS">
+                            <padding>
+                                <Insets top="5.0" bottom="5.0"/>
+                            </padding>
+                        </Label>
+                        <HBox>
+                            <children>
+                                <Label fx:id="module" styleClass="moduleCode, slideEventModuleCode, hidden"
+                                       VBox.vgrow="ALWAYS">
+                                    <HBox.margin>
+                                        <Insets>
+                                            <right>5</right>
+                                        </Insets>
+                                    </HBox.margin>
+                                </Label>
+                                <Label fx:id="completionStatus"
+                                       styleClass="completionStatus, slideEventCompletionStatus, hidden"
+                                       VBox.vgrow="ALWAYS">
+                                </Label>
+                            </children>
+                        </HBox>
+                        <Label fx:id="startDate" styleClass="slideEventDuration" VBox.vgrow="ALWAYS">
+                            <padding>
+                                <Insets right="5.0"/>
+                            </padding>
+                        </Label>
+                        <Label fx:id="venue" styleClass="slideEventVenue" VBox.vgrow="ALWAYS">
+                            <padding>
+                                <Insets right="5.0"/>
+                            </padding>
+                        </Label>
+                        <Label fx:id="eventTypeDescription" alignment="BASELINE_CENTER"
+                               styleClass="slideEventDescription" textAlignment="CENTER"
+                               VBox.vgrow="ALWAYS">
+                            <padding>
+                                <Insets bottom="5.0" right="5.0" top="15.0"/>
+                            </padding>
+                        </Label>
+                    </children>
+                </VBox>
+            </children>
+        </AnchorPane>
+        <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity"
+                   minWidth="-Infinity" VBox.vgrow="ALWAYS">
+            <children>
+                <ListView fx:id="deadlineListView" maxHeight="1.7976931348623157E308"
+                          maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity"
+                          VBox.vgrow="ALWAYS"/>
+            </children>
+        </StackPane>
+    </children>
+</VBox>

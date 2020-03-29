@@ -2,12 +2,9 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.List;
 import java.util.Objects;
 
-import seedu.address.model.Displayable;
-import seedu.address.model.deadline.Deadline;
-import seedu.address.model.event.Event;
+import seedu.address.commons.core.index.Index;
 
 /**
  * Represents the result of a command execution.
@@ -19,83 +16,86 @@ public class CommandResult {
     /**
      * Help information should be shown to the user.
      */
-    private final boolean showHelp;
+    private final boolean toShowHelp;
 
     /**
      * The application should exit.
      */
-    private final boolean exit;
+    private final boolean toExit;
 
     /**
      * Application should display a list of module events.
      */
-    private final boolean showsEventList;
+    private final boolean toUpdateLeftPanel;
 
     /**
-     * Application should display a list of modules.
+     * Application should refresh side panel.
      */
-    private final boolean showsModuleList;
-
-    private Displayable slideWindowEvent;
-
-    private List<Deadline> deadlineList;
-
-    private List<Event> eventList;
+    private final boolean toUpdateRightPanel;
 
     /**
-     * Constructs a {@code CommandResult} with the specified fields.
+     * Index to show for UI usage.
      */
-    public CommandResult(String feedbackToUser,
-                         boolean showHelp, boolean exit, boolean showsEventList, boolean showsModuleList,
-                         Displayable slideWindowEvent, List<Deadline> deadlineList, List<Event> eventList) {
+    private final Index indexToShow;
+
+
+    /**
+     * Constructs a {@code CommandResult} with all fields.
+     *
+     * @param feedbackToUser     Feedback to show to user.
+     * @param toShowHelp         Whether the help panel should show.
+     * @param toExit             Whether to exit the app.
+     * @param toUpdateLeftPanel  Whether to update the left panel.
+     * @param toUpdateRightPanel Whether to update the right panel.
+     * @param indexToShow        The index to highlight for UI.
+     */
+    public CommandResult(String feedbackToUser, boolean toShowHelp, boolean toExit, boolean toUpdateLeftPanel,
+                         boolean toUpdateRightPanel, Index indexToShow) {
         this.feedbackToUser = requireNonNull(feedbackToUser);
-        this.showHelp = showHelp;
-        this.exit = exit;
-        this.showsEventList = showsEventList;
-        this.showsModuleList = showsModuleList;
-        this.slideWindowEvent = slideWindowEvent;
-        this.deadlineList = deadlineList;
-        this.eventList = eventList;
+        this.toShowHelp = toShowHelp;
+        this.toExit = toExit;
+        this.toUpdateLeftPanel = toUpdateLeftPanel;
+        this.toUpdateRightPanel = toUpdateRightPanel;
+        this.indexToShow = indexToShow;
     }
 
     /**
-     * Constructs a {@code CommandResult} with the specified {@code feedbackToUser},
-     * and other fields set to their default value.
+     * Constructs a {@code CommandResult} for Viewing.
+     */
+    public CommandResult(String feedbackToUser, Index indexToShow) {
+        this(feedbackToUser, false, false, false, true, indexToShow);
+    }
+
+    /**
+     * Constructs a {@code CommandResult} with the specified {@code feedbackToUser}, and other fields set to their
+     * default value.
      */
     public CommandResult(String feedbackToUser) {
-        this(feedbackToUser, false, false, false, false, null, null, null);
+        this(feedbackToUser, false, false, false, false, null);
     }
 
     public String getFeedbackToUser() {
         return feedbackToUser;
     }
 
-    public boolean isShowHelp() {
-        return showHelp;
+    public boolean isToShowHelp() {
+        return toShowHelp;
     }
 
-    public boolean isExit() {
-        return exit;
+    public boolean isToExit() {
+        return toExit;
     }
 
-    public boolean isEventList() {
-        return showsEventList;
+    public boolean isToUpdateLeftPanel() {
+        return toUpdateLeftPanel;
     }
 
-    public boolean isModuleList() {
-        return showsModuleList;
+    public boolean isToUpdateRightPanel() {
+        return toUpdateRightPanel;
     }
 
-    public Displayable getSlideWindowEvent() {
-        return slideWindowEvent;
-    }
-
-    public List<Deadline> getSlideWindowDeadlineList() {
-        return deadlineList;
-    }
-
-    public List<Event> getSlideWindowEventList() {
-        return eventList;
+    public Index getIndexToShow() {
+        return indexToShow;
     }
 
     @Override
@@ -111,13 +111,15 @@ public class CommandResult {
 
         CommandResult otherCommandResult = (CommandResult) other;
         return feedbackToUser.equals(otherCommandResult.feedbackToUser)
-                && showHelp == otherCommandResult.showHelp
-                && exit == otherCommandResult.exit;
+                && toShowHelp == otherCommandResult.toShowHelp
+                && toExit == otherCommandResult.toExit
+                && toUpdateRightPanel == otherCommandResult.toUpdateRightPanel
+                && toUpdateLeftPanel == otherCommandResult.toUpdateLeftPanel
+                && indexToShow.equals(otherCommandResult.indexToShow);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(feedbackToUser, showHelp, exit);
+        return Objects.hash(feedbackToUser, toShowHelp, toExit, toUpdateLeftPanel, toUpdateRightPanel, indexToShow);
     }
-
 }

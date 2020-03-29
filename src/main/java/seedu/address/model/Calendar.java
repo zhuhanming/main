@@ -92,7 +92,7 @@ public class Calendar implements ReadOnlyCalendar {
     }
 
     /**
-     * Adds a module to the calendar. The person must not already exist in the calendar.
+     * Adds a module to the calendar. The module must not already exist in the calendar.
      */
     public void addModuleFromStorage(Module module) {
         modules.addModule(module.getModuleCode(), module.getAcademicYear());

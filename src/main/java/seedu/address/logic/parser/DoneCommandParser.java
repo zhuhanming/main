@@ -37,13 +37,20 @@ public class DoneCommandParser implements Parser<DoneCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DoneCommand.MESSAGE_USAGE), pe);
         }
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_MODULE, PREFIX_EVENT)) {
+        ModuleCode moduleCode = null;
+        Name name = null;
+
+        if (argMultimap.getValue(PREFIX_MODULE).isPresent()) {
+            moduleCode = ParserUtil.parseModuleCode(argMultimap.getValue(PREFIX_MODULE).get());
+        }
+        if (argMultimap.getValue(PREFIX_EVENT).isPresent()) {
+            name = ParserUtil.parseName(argMultimap.getValue(PREFIX_EVENT).get());
+        }
+        if (moduleCode == null && name == null) {
+            return new DoneCommand(null, null, index);
+        } else if (moduleCode == null || name == null) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DoneCommand.MESSAGE_USAGE));
         }
-
-        ModuleCode moduleCode = ParserUtil.parseModuleCode(argMultimap.getValue(PREFIX_MODULE).get());
-        Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_EVENT).get());
-
         PartialModule module = new PartialModule(moduleCode);
         EventType eventType = ParserUtil.parseEventType(name.toString());
         PartialEvent event = new PartialEvent(name, eventType, module, new Location("Arbitrary Location"));

@@ -11,9 +11,8 @@ import seedu.address.model.Model;
 public class ListCommand extends Command {
 
     public static final String COMMAND_WORD = "list";
-    public static final String MODULE_MESSAGE_SUCCESS = "Listed all Modules";
-    public static final String EVENT_MESSAGE_SUCCESS = "Listed all Module Events";
-    public static final String MESSAGE_SUCCESS = "Lists";
+    public static final String MODULE_MESSAGE_SUCCESS = "Showing Modules!";
+    public static final String EVENT_MESSAGE_SUCCESS = "Showing Events!";
     private DisplayableType displayableType;
 
     public ListCommand(DisplayableType displayableType) {
@@ -24,23 +23,7 @@ public class ListCommand extends Command {
     public CommandResult execute(Model model) {
         requireNonNull(model);
         model.setFilteredFocusedList(displayableType);
-        CommandResult commandResult = returnCommResultBasedOnType(displayableType);
-        return commandResult;
-    }
-
-    /**
-     * Returns a CommandResult based on the displayable type.
-     *
-     * @param displayableType the displayable type of the object.
-     * @return a CommandResult based on the displayable type.
-     */
-    private CommandResult returnCommResultBasedOnType(DisplayableType displayableType) {
-        if (displayableType == DisplayableType.EVENT) {
-            return new CommandResult(EVENT_MESSAGE_SUCCESS, false, false, true, false, null, null, null);
-        } else if (displayableType == DisplayableType.MODULE) {
-            return new CommandResult(MODULE_MESSAGE_SUCCESS, false, false, false, true, null, null, null);
-        } else {
-            return new CommandResult(MESSAGE_SUCCESS);
-        }
+        return new CommandResult(displayableType == DisplayableType.MODULE ? MODULE_MESSAGE_SUCCESS
+                : EVENT_MESSAGE_SUCCESS, false, false, true, false, null);
     }
 }
