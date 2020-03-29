@@ -1,22 +1,20 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javafx.collections.transformation.FilteredList;
+import javafx.collections.ObservableList;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.logic.parser.ParserUtil;
 import seedu.address.model.Displayable;
-import seedu.address.model.DisplayableType;
 import seedu.address.model.Model;
 import seedu.address.model.deadline.Deadline;
 import seedu.address.model.event.Event;
 import seedu.address.model.module.Module;
-import seedu.address.ui.SlideWindowDeadlineList;
+import seedu.address.ui.DetailsWindow;
 import seedu.address.ui.SlideWindowEvent;
 
 /**
@@ -28,7 +26,7 @@ public class ViewCommand extends Command {
     public static final String MESSAGE_VIEW_SUCCESS = "Here you go";
     private Index index;
     private SlideWindowEvent slideWindowEvent;
-    private SlideWindowDeadlineList slideWindowDeadlineList;
+    private DetailsWindow detailsWindow;
 
     public ViewCommand(Index index) {
         this.index = index;
@@ -38,74 +36,50 @@ public class ViewCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        @SuppressWarnings("unchecked")
-        FilteredList<Displayable> lastShownList = (FilteredList<Displayable>) model.getFilteredFocusedList();
+        ObservableList<?> lastShownList = model.getFilteredFocusedList();
         if (index.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_VIEW_DISPLAYED_INDEX);
         }
 
-        Displayable itemToView = lastShownList.get(index.getZeroBased());
-
-        String itemToViewString = itemToView.toString();
-        System.out.println("item to view " + itemToViewString);
-        /**SameItemPredicate sameItemPredicate = new SameItemPredicate(
-         Arrays.asList(itemToViewString.trim())); */
+        Displayable itemToView = (Displayable) lastShownList.get(index.getZeroBased());
         model.setFocusedDisplayable(itemToView);
-        /** model.updateFilteredDisplayableList(sameItemPredicate); */
-
         CommandResult commandResult;
         // start of view for right panel ;
-        DisplayableType displayableType = ParserUtil.parseDisplayableTypeRightPanel(itemToViewString);
-        if (displayableType.equals(DisplayableType.MODULE)) {
+        if (itemToView instanceof Module) {
             Module module = model.findModule((Module) itemToView);
             List<Event> eventList = module.getEvents();
-            commandResult = returnCommResultBasedOnModuleSelected(itemToView, eventList);
+            commandResult = returnCommResultBasedOnModuleSelected(module, eventList);
         } else {
+            assert itemToView instanceof Event;
             Event event = (Event) itemToView;
-            List<Event> eventList = model.findAllEvents(event);
-            List<Deadline> deadlineList = new ArrayList<Deadline>();
-            for (int i = 0; i < eventList.size(); i++) {
-                if (eventList.get(i).getEventType().equals(event.getEventType())) {
-                    deadlineList.add(eventList.get(i).getDeadlines().get(0));
-                }
-            }
-            commandResult = returnCommResultBasedOnEventSelected(itemToView, deadlineList);
+            List<Deadline> deadlineList = event.getDeadlines();
+            commandResult = returnCommResultBasedOnEventSelected(event, deadlineList);
         }
-
-
         return commandResult;
     }
 
     /**
-     * Method that for right panel return commandResult with deadlist attached to eventType
+     * Returns commandResult with a Deadline list and an Event attached together.
      *
-     * @param displayable
-     * @return commmand Result
+     * @param event        Event to view.
+     * @param deadlineList List of deadlines to view.
+     * @return View command result.
      */
-    private CommandResult returnCommResultBasedOnEventSelected(Displayable displayable, List<Deadline> deadlineList) {
-        if (displayable != null) {
-            System.out.println("displayable is in return ... " + displayable.toString());
-            return new CommandResult(MESSAGE_VIEW_SUCCESS, false, false, true, false, displayable,
-                    deadlineList, null, index);
-        } else {
-            return new CommandResult(MESSAGE_VIEW_SUCCESS);
-        }
+    private CommandResult returnCommResultBasedOnEventSelected(Event event, List<Deadline> deadlineList) {
+        requireAllNonNull(event, deadlineList);
+        return new CommandResult(MESSAGE_VIEW_SUCCESS, event, deadlineList, index);
     }
 
     /**
-     * Method that for right panel return commandResult with eventlist attached to module
+     * Returns commandResult with a Event list and a Module attached together.
      *
-     * @param displayable
-     * @param eventList
-     * @return commmand Result
+     * @param module    Module to view.
+     * @param eventList List of Events to view.
+     * @return View command result.
      */
-    private CommandResult returnCommResultBasedOnModuleSelected(Displayable displayable, List<Event> eventList) {
-        if (displayable != null) {
-            System.out.println("displayable is in return ... " + displayable.toString());
-            return new CommandResult(MESSAGE_VIEW_SUCCESS, false, false, true, false, displayable,
-                    null, eventList, index);
-        } else {
-            return new CommandResult(MESSAGE_VIEW_SUCCESS);
-        }
+    private CommandResult returnCommResultBasedOnModuleSelected(Module module, List<Event> eventList) {
+        requireAllNonNull(module, eventList);
+        return new CommandResult(MESSAGE_VIEW_SUCCESS, module, eventList, index);
+
     }
 }

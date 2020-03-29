@@ -82,8 +82,8 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public Displayable getFilteredEvent() {
-        return model.getFilteredEvent();
+    public Displayable getFocusedDisplayable() {
+        return model.getFocusedDisplayable();
     }
 
     @Override
