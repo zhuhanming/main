@@ -36,20 +36,30 @@ public class AddDeadlineCommandParser implements Parser<AddDeadlineCommand> {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_MODULE, PREFIX_EVENT, PREFIX_NAME, PREFIX_REPEAT);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_MODULE, PREFIX_EVENT, PREFIX_NAME)
+        if (!arePrefixesPresent(argMultimap, PREFIX_NAME)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddDeadlineCommand.MESSAGE_USAGE));
         }
 
-        ModuleCode moduleCode = ParserUtil.parseModuleCode(argMultimap.getValue(PREFIX_MODULE).get());
-        Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
-        Name eventName = ParserUtil.parseName(argMultimap.getValue(PREFIX_EVENT).get());
         boolean isRepeated = false;
         if (argMultimap.getValue(PREFIX_REPEAT).isPresent()) {
             isRepeated = ParserUtil.parseRepeat(argMultimap.getValue(PREFIX_REPEAT).get());
         }
+        Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
 
-        // Todo: need to parse eventName to get eventType
+        ModuleCode moduleCode = null;
+        if (argMultimap.getValue(PREFIX_MODULE).isPresent()) {
+            moduleCode = ParserUtil.parseModuleCode(argMultimap.getValue(PREFIX_MODULE).get());
+        }
+        Name eventName = null;
+        if (argMultimap.getValue(PREFIX_MODULE).isPresent()) {
+            eventName = ParserUtil.parseName(argMultimap.getValue(PREFIX_EVENT).get());
+        }
+
+        if (moduleCode == null && eventName == null) {
+            return new AddDeadlineCommand(name, isRepeated);
+        }
+
         EventType eventType = ParserUtil.parseEventType(name.toString());
 
         Module module = new PartialModule(moduleCode);
