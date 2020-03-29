@@ -53,7 +53,7 @@ public class AddModuleStatefulLogicManager implements StatefulLogic {
         }
         clearState();
         model.setFilteredFocusedList(DisplayableType.MODULE);
-        return new CommandResult(MESSAGE_ALL_EVENTS_ADDED, false, false, false, true, null, null, null);
+        return new CommandResult(MESSAGE_ALL_EVENTS_ADDED, false, false, true, true, null);
     }
 
     /**
