@@ -10,6 +10,7 @@ public class Messages {
     public static final String MESSAGE_INVALID_EVENT_DISPLAYED_INDEX = "The event index provided is invalid";
     public static final String MESSAGE_INVALID_DEADLINE_DISPLAYED_INDEX = "The deadline index provided is invalid";
     public static final String MESSAGE_INVALID_VIEW_DISPLAYED_INDEX = "The index you want to view is invalid";
+    public static final String MESSAGE_INVALID_DELETE_INDEX = "The index you want to delete is invalid";
     public static final String MESSAGE_EVENT_LISTED_OVERVIEW = "%1$d events listed!";
     public static final String MESSAGE_MODULE_LISTED_OVERVIEW = "%1$d modules listed!";
     public static final String MESSAGE_ITEM_LISTED_OVERVIEW = "%1$d items listed!";
