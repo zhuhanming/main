@@ -3,6 +3,7 @@ package seedu.address.model.event;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -25,9 +26,15 @@ import seedu.address.model.event.exceptions.EventNotFoundException;
  */
 public class UniqueEventList implements Iterable<Event> {
 
+
+    private static final Comparator<Event> DEFAULT_START_DATE_COMPARATOR =
+            Comparator.comparing(Event::getEventStart).thenComparing(e -> e.getName().toString());
+
     private final ObservableList<Event> internalList = FXCollections.observableArrayList();
     private final ObservableList<Event> internalUnmodifiableList =
             FXCollections.unmodifiableObservableList(internalList);
+    private Comparator<Event> comparatorToUse = DEFAULT_START_DATE_COMPARATOR;
+
 
     /**
      * Returns true if the list contains an equivalent person as the given argument.
@@ -48,6 +55,7 @@ public class UniqueEventList implements Iterable<Event> {
             throw new DuplicateEventException();
         }
         internalList.add(toAdd);
+        internalList.sort(comparatorToUse);
     }
 
     /**
@@ -67,6 +75,7 @@ public class UniqueEventList implements Iterable<Event> {
         }
 
         internalList.set(index, editedCalendarItem);
+        internalList.sort(comparatorToUse);
     }
 
     /**
@@ -93,6 +102,7 @@ public class UniqueEventList implements Iterable<Event> {
     public void setEvents(UniqueEventList replacement) {
         requireNonNull(replacement);
         internalList.setAll(replacement.internalList);
+        internalList.sort(comparatorToUse);
     }
 
     /**
@@ -105,6 +115,7 @@ public class UniqueEventList implements Iterable<Event> {
         }
 
         internalList.setAll(events);
+        internalList.sort(comparatorToUse);
     }
 
     /**

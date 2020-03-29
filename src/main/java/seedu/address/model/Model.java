@@ -1,6 +1,7 @@
 package seedu.address.model;
 
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -19,7 +20,8 @@ public interface Model {
     /**
      * {@code Predicate} that always evaluate to true
      */
-    Predicate<Event> PREDICATE_SHOW_ALL_EVENTS = unused -> true;
+    Predicate<Event> PREDICATE_SHOW_UPCOMING_EVENTS = event -> !event
+            .getEventStart().toLocalDate().isBefore(LocalDate.now());
     Predicate<Module> PREDICATE_SHOW_ALL_MODULES = unused -> true;
 
     /**
