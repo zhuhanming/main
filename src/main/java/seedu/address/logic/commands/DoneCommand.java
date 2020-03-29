@@ -37,7 +37,8 @@ public class DoneCommand extends Command {
             + PREFIX_MODULE + "CS2103 "
             + PREFIX_EVENT + "Tutorial";
 
-    public static final String MESSAGE_SUCCESS = "Completed the deadline: %1$s";
+    public static final String MESSAGE_SUCCESS_COMPLETE = "Completed the deadline: %1$s";
+    public static final String MESSAGE_SUCCESS_INCOMPLETE = "Marked this deadline incomplete: %1$s";
     public static final String MESSAGE_MODULE_DOES_NOT_EXIST = "The specified module does not exist in the calendar";
     public static final String MESSAGE_EVENT_DOES_NOT_EXIST = "The specified event does not exist in the module";
     public static final String MESSAGE_DEADLINE_DOES_NOT_EXIST = "The specified event does not have the indexed "
@@ -60,12 +61,15 @@ public class DoneCommand extends Command {
 
         Displayable focusedDisplayable = model.getFocusedDisplayable();
         Deadline deadlineToComplete;
+        boolean isDeadlineOriginallyComplete;
 
         if (toCheckEvent == null && toCheckModule == null) {
-            if (focusedDisplayable != null && focusedDisplayable instanceof Event) {
+            if (focusedDisplayable instanceof Event) {
                 deadlineToComplete = ((Event) focusedDisplayable).getDeadlines().get(index.getZeroBased());
-                deadlineToComplete.setCompleted(true);
-                return new CommandResult(String.format(MESSAGE_SUCCESS, deadlineToComplete));
+                isDeadlineOriginallyComplete = deadlineToComplete.isCompleted();
+                deadlineToComplete.setCompleted(!isDeadlineOriginallyComplete);
+                return new CommandResult(String.format(isDeadlineOriginallyComplete ? MESSAGE_SUCCESS_INCOMPLETE
+                        : MESSAGE_SUCCESS_COMPLETE, deadlineToComplete));
             } else if (focusedDisplayable != null) {
                 throw new CommandException(MESSAGE_CANNOT_COMPLETE_EVENT);
             } else {
@@ -86,8 +90,10 @@ public class DoneCommand extends Command {
         List<Deadline> deadlineList = event.getDeadlines();
         try {
             deadlineToComplete = deadlineList.get(index.getZeroBased());
-            deadlineToComplete.setCompleted(true);
-            return new CommandResult(String.format(MESSAGE_SUCCESS, deadlineToComplete));
+            isDeadlineOriginallyComplete = deadlineToComplete.isCompleted();
+            deadlineToComplete.setCompleted(!isDeadlineOriginallyComplete);
+            return new CommandResult(String.format(isDeadlineOriginallyComplete ? MESSAGE_SUCCESS_INCOMPLETE
+                    : MESSAGE_SUCCESS_COMPLETE, deadlineToComplete));
         } catch (IndexOutOfBoundsException e) {
             throw new CommandException(MESSAGE_DEADLINE_DOES_NOT_EXIST);
         }
