@@ -25,8 +25,17 @@
                                 <Insets top="5.0" bottom="5.0"/>
                             </padding>
                         </Label>
-                        <Label fx:id="module" styleClass="moduleCode, slideEventModuleCode" VBox.vgrow="ALWAYS">
-                        </Label>
+                        <HBox>
+                            <children>
+                                <Label fx:id="module" styleClass="moduleCode, slideEventModuleCode, hidden"
+                                       VBox.vgrow="ALWAYS">
+                                </Label>
+                                <Label fx:id="completionStatus"
+                                       styleClass="completionStatus, slideEventCompletionStatus, hidden"
+                                       VBox.vgrow="ALWAYS">
+                                </Label>
+                            </children>
+                        </HBox>
                         <Label fx:id="startDate" styleClass="slideEventDuration" VBox.vgrow="ALWAYS">
                             <padding>
                                 <Insets right="5.0"/>
