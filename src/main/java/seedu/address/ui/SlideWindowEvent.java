@@ -41,7 +41,9 @@ public class SlideWindowEvent extends UiPart<Region> {
             this.moduleViewed = null;
             name.setText("");
             startDate.setText("");
-            module.setText("");
+            if (!module.getStyleClass().contains("hidden")) {
+                module.getStyleClass().add("hidden");
+            }
             venue.setText("");
             eventTypeDescription.setText("");
         } else if (eventOrModule instanceof Event) {
@@ -51,6 +53,9 @@ public class SlideWindowEvent extends UiPart<Region> {
             startDate.setText(this.eventViewed.getEventStart().format(DateTimeFormatter.ofPattern("d MMMM yyyy, h a"))
                     + " - " + this.eventViewed.getEventEnd().format(DateTimeFormatter.ofPattern("h a")));
             module.setText(this.eventViewed.getParentModule().getModuleCode().moduleCode);
+            if (module.getStyleClass().contains("hidden")) {
+                module.getStyleClass().remove("hidden");
+            }
             venue.setText(this.eventViewed.getLocation().toString());
             eventTypeDescription.setText("Prepare for " + this.eventViewed.getName().toString() + " by doing:");
         } else {
@@ -60,6 +65,9 @@ public class SlideWindowEvent extends UiPart<Region> {
             name.setText((this.moduleViewed.getName().toString()));
             startDate.setText(this.moduleViewed.getAcademicYear().toModuleCardFormat());
             module.setText(this.moduleViewed.getModuleCode().moduleCode);
+            if (module.getStyleClass().contains("hidden")) {
+                module.getStyleClass().remove("hidden");
+            }
             venue.setText(null);
             eventTypeDescription.setText(this.moduleViewed.getDescription());
         }

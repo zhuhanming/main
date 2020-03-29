@@ -38,13 +38,30 @@ public class CommandResult {
      */
     private final boolean showsModuleList;
 
-    private Displayable slideWindowEvent;
+    /**
+     * Displayable to display on the right.
+     */
+    private final Displayable slideWindowEvent;
 
-    private List<Deadline> deadlineList;
+    /**
+     * Deadline list to use for population of right panel
+     */
+    private final List<Deadline> deadlineList;
 
-    private List<Event> eventList;
+    /**
+     * Event list to use for population of right panel.
+     */
+    private final List<Event> eventList;
 
-    private Index indexToShow;
+    /**
+     * Index to show for UI usage.
+     */
+    private final Index indexToShow;
+
+    /**
+     * Application should update visible deadline.
+     */
+    private final boolean isVisibleDeadlineChanged;
 
     /**
      * Constructs a {@code CommandResult} with the specified fields.
@@ -52,7 +69,7 @@ public class CommandResult {
     public CommandResult(String feedbackToUser,
                          boolean showHelp, boolean exit, boolean showsEventList, boolean showsModuleList,
                          Displayable slideWindowEvent, List<Deadline> deadlineList, List<Event> eventList,
-                         Index indexToShow) {
+                         Index indexToShow, boolean isVisibleDeadlineChanged) {
         this.feedbackToUser = requireNonNull(feedbackToUser);
         this.showHelp = showHelp;
         this.exit = exit;
@@ -62,6 +79,7 @@ public class CommandResult {
         this.deadlineList = deadlineList;
         this.eventList = eventList;
         this.indexToShow = indexToShow;
+        this.isVisibleDeadlineChanged = isVisibleDeadlineChanged;
     }
 
     /**
@@ -69,7 +87,7 @@ public class CommandResult {
      */
     public CommandResult(String feedbackToUser, Event event, List<Deadline> deadlines,
                          Index indexToShow) {
-        this(feedbackToUser, false, false, true, false, event, deadlines, null, indexToShow);
+        this(feedbackToUser, false, false, true, false, event, deadlines, null, indexToShow, false);
     }
 
     /**
@@ -77,14 +95,21 @@ public class CommandResult {
      */
     public CommandResult(String feedbackToUser, Module module, List<Event> events,
                          Index indexToShow) {
-        this(feedbackToUser, false, false, true, false, module, null, events, indexToShow);
+        this(feedbackToUser, false, false, true, false, module, null, events, indexToShow, false);
     }
 
     /**
      * Constructs a default {@code CommandResult} with the specified fields.
      */
-    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit) {
-        this(feedbackToUser, showHelp, exit, false, false, null, null, null, null);
+    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit, boolean isVisibleDeadlineChanged) {
+        this(feedbackToUser, showHelp, exit, false, false, null, null, null, null, isVisibleDeadlineChanged);
+    }
+
+    /**
+     * Constructs a default {@code CommandResult} with the specified fields.
+     */
+    public CommandResult(String feedbackToUser, boolean showsEventList, boolean showsModuleList) {
+        this(feedbackToUser, false, false, showsEventList, showsModuleList, null, null, null, null, false);
     }
 
     /**
@@ -92,7 +117,7 @@ public class CommandResult {
      * default value.
      */
     public CommandResult(String feedbackToUser) {
-        this(feedbackToUser, false, false, false, false, null, null, null, null);
+        this(feedbackToUser, false, false, false, false, null, null, null, null, false);
     }
 
     public String getFeedbackToUser() {
@@ -129,6 +154,10 @@ public class CommandResult {
 
     public Index getIndexToShow() {
         return indexToShow;
+    }
+
+    public boolean isVisibleDeadlineChanged() {
+        return isVisibleDeadlineChanged;
     }
 
     @Override

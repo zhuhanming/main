@@ -21,7 +21,9 @@ public class DetailsWindow extends UiPart<Region> {
 
     private static final String FXML = "DetailsWindow.fxml";
     private ObservableList<Event> eventList;
+    private MainWindow mainWindow;
 
+    private Displayable displayable;
 
     @FXML
     private ListView<Displayable> deadlineListView;
@@ -33,6 +35,8 @@ public class DetailsWindow extends UiPart<Region> {
     public DetailsWindow(Displayable displayable, List<Deadline> deadlines, List<Event> events,
                          MainWindow mainWindow) {
         super(FXML);
+        this.mainWindow = mainWindow;
+        this.displayable = displayable;
         if (events == null && deadlines != null) {
             slideWindowEvent = new SlideWindowEvent(displayable);
             slideEventCard.getChildren().setAll(slideWindowEvent.getRoot());
@@ -44,6 +48,16 @@ public class DetailsWindow extends UiPart<Region> {
             deadlineListView.setItems(FXCollections.observableArrayList(events));
             deadlineListView.setCellFactory(listView -> new ListViewCell(mainWindow));
         }
+    }
+
+    /**
+     * Updates this component.
+     */
+    public void updateStatus() {
+        deadlineListView.setItems(deadlineListView.getItems());
+        deadlineListView.setCellFactory(listView -> new ListViewCell(mainWindow));
+        slideWindowEvent = new SlideWindowEvent(displayable);
+        slideEventCard.getChildren().setAll(slideWindowEvent.getRoot());
     }
 
     /**

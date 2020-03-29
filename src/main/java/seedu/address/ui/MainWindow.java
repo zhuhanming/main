@@ -215,6 +215,8 @@ public class MainWindow extends UiPart<Stage> {
                 handleHelp();
             } else if (commandResult.isExit()) {
                 handleExit();
+            } else if (commandResult.isVisibleDeadlineChanged()) {
+                handleVisibleDeadlineChange();
             } else if (commandResult.getSlideWindowEvent() != null) {
                 if (commandResult.getSlideWindowDeadlineList() != null
                         && commandResult.getSlideWindowEventList() == null) {
@@ -329,5 +331,12 @@ public class MainWindow extends UiPart<Stage> {
             logger.info("Invalid command: done " + (index + 1));
             resultDisplay.setFeedbackToUser(e.getMessage());
         }
+    }
+
+    /**
+     * Handles updating of visible deadline change.
+     */
+    public void handleVisibleDeadlineChange() {
+        this.detailsWindow.updateStatus();
     }
 }

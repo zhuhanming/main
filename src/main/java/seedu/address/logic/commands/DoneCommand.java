@@ -69,7 +69,7 @@ public class DoneCommand extends Command {
                 isDeadlineOriginallyComplete = deadlineToComplete.isCompleted();
                 deadlineToComplete.setCompleted(!isDeadlineOriginallyComplete);
                 return new CommandResult(String.format(isDeadlineOriginallyComplete ? MESSAGE_SUCCESS_INCOMPLETE
-                        : MESSAGE_SUCCESS_COMPLETE, deadlineToComplete));
+                        : MESSAGE_SUCCESS_COMPLETE, deadlineToComplete), false, false, true);
             } else if (focusedDisplayable != null) {
                 throw new CommandException(MESSAGE_CANNOT_COMPLETE_EVENT);
             } else {

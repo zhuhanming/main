@@ -13,7 +13,6 @@ public class ListCommand extends Command {
     public static final String COMMAND_WORD = "list";
     public static final String MODULE_MESSAGE_SUCCESS = "Showing Modules!";
     public static final String EVENT_MESSAGE_SUCCESS = "Showing Events!";
-    public static final String MESSAGE_SUCCESS = "Lists";
     private DisplayableType displayableType;
 
     public ListCommand(DisplayableType displayableType) {
@@ -36,10 +35,10 @@ public class ListCommand extends Command {
      */
     private CommandResult returnCommResultBasedOnType(DisplayableType displayableType) {
         if (displayableType == DisplayableType.EVENT) {
-            return new CommandResult(EVENT_MESSAGE_SUCCESS, false, false, true, false, null, null, null, null);
+            return new CommandResult(EVENT_MESSAGE_SUCCESS, true, false);
         } else {
             assert displayableType == DisplayableType.MODULE;
-            return new CommandResult(MODULE_MESSAGE_SUCCESS, false, false, false, true, null, null, null, null);
+            return new CommandResult(MODULE_MESSAGE_SUCCESS, false, true);
         }
     }
 }
