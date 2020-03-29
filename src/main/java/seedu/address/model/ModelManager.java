@@ -48,6 +48,7 @@ public class ModelManager implements Model {
         filteredEvents = new FilteredList<>(this.calendar.getEventList());
         filteredModules = new FilteredList<>(this.calendar.getModuleList());
         setFilteredFocusedList(DisplayableType.MODULE);
+        currentDisplayableType = DisplayableType.MODULE;
     }
 
     public ModelManager() {
@@ -171,7 +172,6 @@ public class ModelManager implements Model {
     @Override
     public void addModule(ModuleCode moduleCode, AcademicYear academicYear) {
         calendar.addModule(moduleCode, academicYear);
-        Module addedModule = calendar.getModule(moduleCode, academicYear).get();
         updateFilteredModuleList(PREDICATE_SHOW_ALL_MODULES);
     }
 
@@ -219,6 +219,7 @@ public class ModelManager implements Model {
         if (!hasDisplayable) {
             return;
         }
+        currentDisplayableType = displayable instanceof Module ? DisplayableType.MODULE : DisplayableType.EVENT;
         focusedDisplayable = displayable;
     }
 

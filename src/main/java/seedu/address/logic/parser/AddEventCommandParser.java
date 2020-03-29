@@ -6,6 +6,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_MODULE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_REPEAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_START_DATETIME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_STOP_REPEAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_VENUE;
 
 import java.time.LocalDate;
@@ -41,15 +42,13 @@ public class AddEventCommandParser implements Parser<AddEventCommand> {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_MODULE, PREFIX_NAME,
                 PREFIX_START_DATETIME, PREFIX_END_DATETIME, PREFIX_VENUE, PREFIX_REPEAT);
 
-
-        if (!arePrefixesPresent(argMultimap, PREFIX_MODULE, PREFIX_NAME, PREFIX_START_DATETIME,
+        if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_START_DATETIME,
                 PREFIX_END_DATETIME, PREFIX_VENUE) || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddEventCommand.MESSAGE_USAGE));
         }
 
         // Module module = ParserUtil.parseModule(argMultimap.getValue(PREFIX_MODULE).get());
         Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
-        ModuleCode moduleCode = ParserUtil.parseModuleCode(argMultimap.getValue(PREFIX_MODULE).get());
         LocalDateTime startDateTime = ParserUtil.parseDateTime(argMultimap.getValue(PREFIX_START_DATETIME).get());
         LocalDateTime endDateTime = ParserUtil.parseDateTime(argMultimap.getValue(PREFIX_END_DATETIME).get());
         Location location = ParserUtil.parseLocation(argMultimap.getValue(PREFIX_VENUE).get());
@@ -59,11 +58,15 @@ public class AddEventCommandParser implements Parser<AddEventCommand> {
         }
         LocalDate endRepeatDate = null;
         EventType eventType = ParserUtil.parseEventType(name.toString());
-
-        //if (isRepeated) {
-        //    endRepeatDate = ParserUtil.parseDate(argMultimap.getValue(PREFIX_STOP_REPEAT).get());
-        //}
+        if (isRepeated && argMultimap.getValue(PREFIX_STOP_REPEAT).isPresent()) {
+            endRepeatDate = ParserUtil.parseDate(argMultimap.getValue(PREFIX_STOP_REPEAT).get());
+        }
         TemporalAmount frequency = Period.ofDays(7);
+        if (!argMultimap.getValue(PREFIX_MODULE).isPresent()) {
+            return new AddEventCommand(name, startDateTime, endDateTime, location, isRepeated,
+                    endRepeatDate, eventType, frequency);
+        }
+        ModuleCode moduleCode = ParserUtil.parseModuleCode(argMultimap.getValue(PREFIX_MODULE).get());
         Module module = new PartialModule(moduleCode);
         Event event = new PartialEvent(name, eventType, startDateTime, endDateTime, location, module);
         return new AddEventCommand(event, isRepeated, endRepeatDate, frequency);

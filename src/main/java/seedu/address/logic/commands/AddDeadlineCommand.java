@@ -29,7 +29,7 @@ public class AddDeadlineCommand extends Command {
             + "(if viewing Event) "
             + PREFIX_NAME + "NAME "
             + "[" + PREFIX_REPEAT + "YES/NO] "
-            + "Parameters: (else)"
+            + "Parameters: (else) "
             + PREFIX_MODULE + "MODULE "
             + PREFIX_EVENT + "EVENT_NAME "
             + PREFIX_NAME + "NAME "
