@@ -248,6 +248,14 @@ public class ModelManager implements Model {
         focusedFilteredDisplayables.setPredicate(predicate);
     }
 
+    public Object[] getFilteredDisplayableList(Predicate<Displayable> predicate) {
+        requireNonNull(predicate);
+        updateFilteredDisplayableList(predicate);
+        Object[] focusFilteredDisplayableCopy = getFilteredFocusedList().toArray();
+        setFilteredFocusedList(getCurrentDisplayableType());
+        return focusFilteredDisplayableCopy;
+    }
+
     /**
      * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of {@code
      * versionedAddressBook}
