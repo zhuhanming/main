@@ -27,6 +27,7 @@
 .app {
     -fx-text-fill: #211551;
     -fx-font-family: 'Poppins';
+    -fx-border-width: 0 0 0 0;
 }
 
 /** Menu Bar **/
@@ -105,6 +106,7 @@
 
 .list-cell:hover {
     -fx-cursor: hand;
+    -fx-border-color: transparent transparent #EBEAEE transparent;
 }
 
 .list-cell:selected {
@@ -172,4 +174,14 @@
 
 .scroll-bar:horizontal .increment-arrow, .scroll-bar:horizontal .decrement-arrow {
     -fx-padding: 8 1 8 1;
+}
+
+/** App Bottom Status Footer **/
+.status-bar {
+    -fx-background-color: #6842E4;
+}
+
+#saveLocationStatus {
+    -fx-padding: 5 0 5 20;
+    -fx-text-fill: #FFFFFF;
 }

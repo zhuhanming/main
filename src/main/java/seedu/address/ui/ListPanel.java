@@ -52,6 +52,7 @@ public class ListPanel extends UiPart<Region> {
                     } else if (listItem instanceof DisplayablePair) {
                         setGraphic(new EventCard((Event) ((DisplayablePair) listItem).getFirst(),
                                 (Integer) ((DisplayablePair) listItem).getSecond() + 1).getRoot());
+
                         setOnMouseClicked(event -> {
                             mainWindow.handleListClick((Integer) ((DisplayablePair) listItem).getSecond());
                         });
