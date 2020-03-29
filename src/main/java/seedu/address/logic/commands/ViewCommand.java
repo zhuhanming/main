@@ -31,7 +31,6 @@ public class ViewCommand extends Command {
     private SlideWindowDeadlineList slideWindowDeadlineList;
 
     public ViewCommand(Index index) {
-
         this.index = index;
     }
 
@@ -57,7 +56,7 @@ public class ViewCommand extends Command {
         CommandResult commandResult;
         // start of view for right panel ;
         DisplayableType displayableType = ParserUtil.parseDisplayableTypeRightPanel(itemToViewString);
-        if (displayableType.toString().equals("MODULE")) {
+        if (displayableType.equals(DisplayableType.MODULE)) {
             Module module = model.findModule((Module) itemToView);
             List<Event> eventList = module.getEvents();
             commandResult = returnCommResultBasedOnModuleSelected(itemToView, eventList);
@@ -86,7 +85,8 @@ public class ViewCommand extends Command {
     private CommandResult returnCommResultBasedOnEventSelected(Displayable displayable, List<Deadline> deadlineList) {
         if (displayable != null) {
             System.out.println("displayable is in return ... " + displayable.toString());
-            return new CommandResult(MESSAGE_VIEW_SUCCESS, false, false, true, false, displayable, deadlineList, null);
+            return new CommandResult(MESSAGE_VIEW_SUCCESS, false, false, true, false, displayable,
+                    deadlineList, null, index);
         } else {
             return new CommandResult(MESSAGE_VIEW_SUCCESS);
         }
@@ -102,7 +102,8 @@ public class ViewCommand extends Command {
     private CommandResult returnCommResultBasedOnModuleSelected(Displayable displayable, List<Event> eventList) {
         if (displayable != null) {
             System.out.println("displayable is in return ... " + displayable.toString());
-            return new CommandResult(MESSAGE_VIEW_SUCCESS, false, false, true, false, displayable, null, eventList);
+            return new CommandResult(MESSAGE_VIEW_SUCCESS, false, false, true, false, displayable,
+                    null, eventList, index);
         } else {
             return new CommandResult(MESSAGE_VIEW_SUCCESS);
         }
