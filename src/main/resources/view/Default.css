@@ -1,8 +1,32 @@
+@font-face {
+    font-family: Poppins;
+    src: url('PoppinsRegular.ttf');
+}
+
+@font-face {
+    font-family: Poppins Bold;
+    src: url('PoppinsBold.ttf');
+}
+
+@font-face {
+    font-family: Poppins Medium;
+    src: url('PoppinsMedium.ttf');
+}
+
+@font-face {
+    font-family: Poppins Light;
+    src: url('PoppinsLight.ttf');
+}
+
 /** Overall Theme **/
 .background {
     -fx-background-color: #FAF9FA;
     background-color: #FAF9FA;
+}
+
+.app {
     -fx-text-fill: #211551;
+    -fx-font-family: 'Poppins';
 }
 
 /** Menu Bar **/
@@ -14,7 +38,7 @@
 }
 
 .menuBarButton {
-    -fx-font-weight: bold;
+    -fx-font-family: "Poppins Medium";
     -fx-font-size: 13pt;
     -fx-padding: 10 0 10 0;
     -fx-background-color: transparent;
@@ -41,7 +65,6 @@
     -fx-font-size: 13pt;
     -fx-text-fill: #6842E4;
     -fx-prompt-text-fill: #6842E4;
-    -fx-margin: 10 0 0 0;
 }
 
 /** Result Box **/
@@ -50,8 +73,103 @@
     -fx-border-width: 0 0 3 0;
     -fx-border-color: transparent transparent #EBEAEE transparent;
     -fx-font-size: 12pt;
+    -fx-text-fill: #211551;
 }
 
 #resultDisplay .content {
     -fx-background-color: transparent;
+}
+
+/** Split Pane **/
+.split-pane {
+    -fx-box-border: transparent;
+}
+
+.split-pane-divider {
+   -fx-background-color: transparent;
+   -fx-padding: 0 0 0 0;
+}
+
+/** List Panel **/
+#listView, .list-cell {
+    -fx-text-fill: #211551;
+    -fx-background-color: transparent;
+    -fx-font-size: 12pt;
+}
+
+.list-cell {
+    -fx-padding: 10, 0, 10, 0;
+    -fx-border-width: 0 0 3 0;
+    -fx-border-color: transparent transparent transparent transparent;
+}
+
+.list-cell:hover {
+    -fx-cursor: hand;
+}
+
+.list-cell:selected {
+    -fx-font-family: 'Poppins Bold';
+    -fx-border-color: transparent transparent #6842E4 transparent;
+}
+
+.list-cell:selected .eventName, .eventId {
+    -fx-text-fill: #211551;
+}
+
+.list-cell:selected .moduleCode {
+    -fx-font-weight: normal;
+}
+
+.titleName {
+    -fx-font-size: 14pt;
+    -fx-font-family: 'Poppins Bold';
+    -fx-opacity: 1.0;
+}
+
+.eventName {
+    -fx-padding: 0 10 0 0;
+}
+
+.moduleCode {
+    -fx-text-fill: white;
+    -fx-background-color: #6842E4;
+    -fx-padding: 1 3 1 3;
+    -fx-border-radius: 2;
+    -fx-background-radius: 2;
+    -fx-font-size: 10pt;
+}
+
+.eventDuration {
+    -fx-padding: 0 0 0 10;
+}
+
+.eventLocation, .eventDuration {
+    -fx-text-fill: #ADABBC;
+}
+
+/** Scroll Bar **/
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #EDEDED;
+    -fx-background-insets: 3;
+}
+
+.scroll-bar .increment-button, .scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0 0 0 0;
+}
+
+.scroll-bar .increment-arrow, .scroll-bar .decrement-arrow {
+    -fx-shape: " ";
+}
+
+.scroll-bar:vertical .increment-arrow, .scroll-bar:vertical .decrement-arrow {
+    -fx-padding: 1 8 1 8;
+}
+
+.scroll-bar:horizontal .increment-arrow, .scroll-bar:horizontal .decrement-arrow {
+    -fx-padding: 8 1 8 1;
 }
