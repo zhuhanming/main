@@ -3,36 +3,46 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<HBox id="eventCardPane" fx:id="eventCardPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-    <GridPane HBox.hgrow="ALWAYS">
+
+<HBox id="eventCardPane" fx:id="eventCardPane" xmlns="http://javafx.com/javafx/8"
+      xmlns:fx="http://javafx.com/fxml/1">
+    <GridPane prefWidth="441.0" HBox.hgrow="ALWAYS">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10" prefWidth="150"/>
         </columnConstraints>
-        <VBox alignment="CENTER_LEFT" minHeight="105" GridPane.columnIndex="0">
+        <VBox alignment="CENTER_LEFT" prefWidth="244.0" GridPane.columnIndex="0">
             <padding>
-                <Insets top="5" right="5" bottom="5" left="15"/>
+                <Insets left="5" right="5"/>
             </padding>
-            <HBox spacing="5" alignment="CENTER_LEFT">
-                <Label fx:id="id" styleClass="cell_big_label">
-                    <minWidth>
-                        <!-- Ensures that the label text is never truncated -->
-                        <Region fx:constant="USE_PREF_SIZE"/>
-                    </minWidth>
-                </Label>
-                <Label fx:id="name" text="\$first" styleClass="cell_big_label"/>
+            <HBox>
+                <children>
+                    <HBox alignment="CENTER_LEFT">
+                        <Label fx:id="id" styleClass="cell_big_label, eventId">
+                            <minWidth>
+                                <!-- Ensures that the label text is never truncated -->
+                                <Region fx:constant="USE_PREF_SIZE"/>
+                            </minWidth>
+                        </Label>
+                        <Label fx:id="name" styleClass="cell_big_label, eventName" text="\$first"/>
+                        <Label fx:id="moduleCode" text="\$moduleCode" styleClass="moduleCode"/>
+                        <!-- Module is already inserted as part of tags in EventCard.java-->
+                        <Label fx:id="startDate" styleClass="cell_small_label, eventDuration" text="\$startDate"/>
+                    </HBox>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="endDate" styleClass="cell_small_label, eventLocation" text="\$endDate"/>
+                </children>
             </HBox>
-            <FlowPane fx:id="tags"/>
-            <!-- Module is already inserted as part of tags in EventCard.java-->
-            <Label fx:id="startDate" styleClass="cell_small_label" text="\$startDate"/>
-            <Label fx:id="endDate" styleClass="cell_small_label" text="\$endDate"/>
 
             <!-- For future extensions - providing location of the event e.g. Tutorial at COM1-B103 -->
             <!--<Label fx:id="location" styleClass="cell_small_label" text="\$location" />-->
         </VBox>
+        <rowConstraints>
+            <RowConstraints/>
+        </rowConstraints>
     </GridPane>
 </HBox>
