@@ -9,6 +9,7 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.model.Displayable;
 import seedu.address.model.deadline.Deadline;
 import seedu.address.model.event.Event;
+import seedu.address.model.module.Module;
 
 /**
  * Represents the result of a command execution.
@@ -64,7 +65,23 @@ public class CommandResult {
     }
 
     /**
-     * Constructs a {@code CommandResult} with the specified fields.
+     * Constructs a {@code CommandResult} for Event Viewing.
+     */
+    public CommandResult(String feedbackToUser, Event event, List<Deadline> deadlines,
+                         Index indexToShow) {
+        this(feedbackToUser, false, false, true, false, event, deadlines, null, indexToShow);
+    }
+
+    /**
+     * Constructs a {@code CommandResult} for Module Viewing.
+     */
+    public CommandResult(String feedbackToUser, Module module, List<Event> events,
+                         Index indexToShow) {
+        this(feedbackToUser, false, false, true, false, module, null, events, indexToShow);
+    }
+
+    /**
+     * Constructs a default {@code CommandResult} with the specified fields.
      */
     public CommandResult(String feedbackToUser, boolean showHelp, boolean exit) {
         this(feedbackToUser, showHelp, exit, false, false, null, null, null, null);
