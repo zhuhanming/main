@@ -41,7 +41,7 @@ public class SlideWindowDeadlineList extends UiPart<Region> {
             deadlineListView.setItems(FXCollections.observableArrayList(deadlines));
             deadlineListView.setCellFactory(listView -> new ListViewCell());
         } else if (deadlines == null && eventList != null) {
-            System.out.println("EventList is " + eventList.get(0).getName().fullName);
+            // System.out.println("EventList is " + eventList.get(0).getName().fullName);
             slideWindowEvent = new SlideWindowEvent(displayableEvent);
             slideEventCard.getChildren().setAll(slideWindowEvent.getRoot());
             Module module = (Module) displayableEvent;
