@@ -4,12 +4,12 @@ import static java.util.Objects.requireNonNull;
 
 import javafx.collections.ObservableList;
 
+import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Displayable;
 import seedu.address.model.DisplayableType;
 import seedu.address.model.Model;
-import seedu.address.commons.core.Messages;
 import seedu.address.model.event.Event;
 import seedu.address.model.module.Module;
 import seedu.address.model.predicate.NameContainsKeywordsPredicate;
@@ -57,14 +57,14 @@ public class DeleteCommand extends Command {
             unsetFocusDisplayableIfEqual(model, itemToDelete);
 
             if (displayableType == DisplayableType.EVENT) {
-                Event event = (Event)itemToDelete;
+                Event event = (Event) itemToDelete;
                 model.deleteEvent(event);
                 return new CommandResult(String.format(Messages.MESSAGE_SINGLE_EVENT_DELETE_SUCCESS, itemToDelete),
                         false, false, true, true, null);
             } else if (displayableType == DisplayableType.MODULE) {
-                Module module = (Module)itemToDelete;
+                Module module = (Module) itemToDelete;
                 deleteEventsOfModule(model, module);
-                model.deleteModule((Module)itemToDelete);
+                model.deleteModule((Module) itemToDelete);
                 return new CommandResult(String.format(Messages.MESSAGE_SINGLE_MODULE_DELETE_SUCCESS, itemToDelete),
                         false, false, true, true, null);
             }
@@ -74,13 +74,14 @@ public class DeleteCommand extends Command {
             int numberOfItemsDeleted = 0;
             if (displayableType == DisplayableType.EVENT) {
                 for (Object eventObject : list) {
-                    unsetFocusDisplayableIfEqual(model, (Displayable)eventObject);
+                    unsetFocusDisplayableIfEqual(model, (Displayable) eventObject);
                     numberOfItemsDeleted++;
-                    model.deleteEvent((Event)eventObject);
+                    model.deleteEvent((Event) eventObject);
                 }
 
                 if (predicate.toString().equals(predicateStringForDeleteAll)) {
-                    return new CommandResult(String.format(Messages.MESSAGE_DELETE_ALL_EVENTS_SUCCESS, numberOfItemsDeleted),
+                    return new CommandResult(String.format(Messages.MESSAGE_DELETE_ALL_EVENTS_SUCCESS,
+                            numberOfItemsDeleted),
                             false, false, true, true, null);
                 } else {
                     return new CommandResult(String.format(
@@ -90,15 +91,16 @@ public class DeleteCommand extends Command {
 
             } else if (displayableType == DisplayableType.MODULE) {
                 for (Object moduleObject : list) {
-                    unsetFocusDisplayableIfEqual(model, (Displayable)moduleObject);
+                    unsetFocusDisplayableIfEqual(model, (Displayable) moduleObject);
                     numberOfItemsDeleted++;
-                    Module module = (Module)moduleObject;
+                    Module module = (Module) moduleObject;
                     deleteEventsOfModule(model, module);
                     model.deleteModule(module);
                 }
                 if (predicate.toString().equals(predicateStringForDeleteAll)) {
                     model.unsetFocusedDisplayable();
-                    return new CommandResult(String.format(Messages.MESSAGE_DELETE_ALL_MODULES_SUCCESS, numberOfItemsDeleted),
+                    return new CommandResult(String.format(Messages.MESSAGE_DELETE_ALL_MODULES_SUCCESS,
+                            numberOfItemsDeleted),
                             false, false, true, true, null);
                 }
                 return new CommandResult(String.format(
@@ -109,12 +111,18 @@ public class DeleteCommand extends Command {
         return new CommandResult(Messages.MESSAGE_ERROR);
     }
 
+    /**
+     * Deletes the events inside a module when the module is deleted.
+     *
+     * @param model     Original Model object.
+     * @param module    Module that contains the events to be deleted.
+     */
     private void deleteEventsOfModule(Model model, Module module) {
         int count = 0;
         while (count < model.getFilteredEventList().size()) {
 
             Event event = model.getFilteredEventList().get(count);
-            if (event.getParentModule().equals(((Module)module))) {
+            if (event.getParentModule().equals(((Module) module))) {
                 model.deleteEvent(event);
             } else {
                 count++;

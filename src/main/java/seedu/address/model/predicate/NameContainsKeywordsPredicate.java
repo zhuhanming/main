@@ -34,6 +34,6 @@ public class NameContainsKeywordsPredicate implements Predicate<Displayable> {
 
     @Override
     public String toString() {
-        return keywords.toString().replace('[','"').replace(']','"');
+        return keywords.toString().replace('[', '"').replace(']', '"');
     }
 }
