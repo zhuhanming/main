@@ -15,7 +15,7 @@ import seedu.address.model.Model;
 public class ViewCommand extends Command {
 
     public static final String COMMAND_WORD = "view";
-    public static final String MESSAGE_VIEW_SUCCESS = "Here you go";
+    public static final String MESSAGE_VIEW_SUCCESS = "%1$s \n is in view!";
     private Index index;
 
     public ViewCommand(Index index) {
@@ -33,6 +33,6 @@ public class ViewCommand extends Command {
 
         Displayable itemToView = (Displayable) lastShownList.get(index.getZeroBased());
         model.setFocusedDisplayable(itemToView);
-        return new CommandResult(MESSAGE_VIEW_SUCCESS, index);
+        return new CommandResult(String.format(MESSAGE_VIEW_SUCCESS, itemToView), index);
     }
 }
