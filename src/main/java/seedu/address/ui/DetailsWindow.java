@@ -12,15 +12,14 @@ import javafx.scene.layout.VBox;
 import seedu.address.model.Displayable;
 import seedu.address.model.deadline.Deadline;
 import seedu.address.model.event.Event;
-import seedu.address.model.module.Module;
 
 /**
  * An UI component that displays information of selected {@code Event} and its deadline list update of children node of
  * slideWindowEvent happened here.
  */
-public class SlideWindowDeadlineList extends UiPart<Region> {
+public class DetailsWindow extends UiPart<Region> {
 
-    private static final String FXML = "SlideWindowDeadlineList.fxml";
+    private static final String FXML = "DetailsWindow.fxml";
     private ObservableList<Event> eventList;
 
 
@@ -31,21 +30,17 @@ public class SlideWindowDeadlineList extends UiPart<Region> {
 
     private SlideWindowEvent slideWindowEvent;
 
-    @SuppressWarnings({"unchecked", "checkstyle:CommentsIndentation"})
-    public SlideWindowDeadlineList(Displayable displayableEvent, List<Deadline> deadlines, List<Event> eventList) {
+    public DetailsWindow(Displayable displayable, List<Deadline> deadlines, List<Event> events) {
         super(FXML);
-        if (eventList == null && deadlines != null) {
-            slideWindowEvent = new SlideWindowEvent(displayableEvent);
+        if (events == null && deadlines != null) {
+            slideWindowEvent = new SlideWindowEvent(displayable);
             slideEventCard.getChildren().setAll(slideWindowEvent.getRoot());
-            Event e = (Event) displayableEvent;
             deadlineListView.setItems(FXCollections.observableArrayList(deadlines));
             deadlineListView.setCellFactory(listView -> new ListViewCell());
-        } else if (deadlines == null && eventList != null) {
-            // System.out.println("EventList is " + eventList.get(0).getName().fullName);
-            slideWindowEvent = new SlideWindowEvent(displayableEvent);
+        } else if (deadlines == null && events != null) {
+            slideWindowEvent = new SlideWindowEvent(displayable);
             slideEventCard.getChildren().setAll(slideWindowEvent.getRoot());
-            Module module = (Module) displayableEvent;
-            deadlineListView.setItems(FXCollections.observableArrayList(eventList));
+            deadlineListView.setItems(FXCollections.observableArrayList(events));
             deadlineListView.setCellFactory(listView -> new ListViewCell());
         }
     }

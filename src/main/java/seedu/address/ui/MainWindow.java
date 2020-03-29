@@ -34,7 +34,7 @@ public class MainWindow extends UiPart<Stage> {
     private ListPanel listPanel;
     private ResultDisplay resultDisplay;
     private HelpWindow helpWindow;
-    private SlideWindowDeadlineList slideWindowDeadlineList;
+    private DetailsWindow detailsWindow;
     //private SlideWindowEvent slideWindowEvent;
 
     @FXML
@@ -136,8 +136,8 @@ public class MainWindow extends UiPart<Stage> {
         StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getCalendarFilePath());
         statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
 
-        slideWindowDeadlineList = new SlideWindowDeadlineList(logic.getFilteredEvent(), null, null);
-        slideWindowListPlaceholder.getChildren().add(slideWindowDeadlineList.getRoot());
+        detailsWindow = new DetailsWindow(logic.getFocusedDisplayable(), null, null);
+        slideWindowListPlaceholder.getChildren().add(detailsWindow.getRoot());
 
         CommandBox commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
@@ -287,9 +287,9 @@ public class MainWindow extends UiPart<Stage> {
      * @param deadlineList Deadline list to show.
      */
     public void showRightPanelEvent(List<Deadline> deadlineList) {
-        slideWindowDeadlineList = new SlideWindowDeadlineList(logic.getFilteredEvent(), deadlineList, null);
+        detailsWindow = new DetailsWindow(logic.getFocusedDisplayable(), deadlineList, null);
         slideWindowListPlaceholder.getChildren().clear();
-        slideWindowListPlaceholder.getChildren().add(slideWindowDeadlineList.getRoot());
+        slideWindowListPlaceholder.getChildren().add(detailsWindow.getRoot());
     }
 
     /**
@@ -298,9 +298,9 @@ public class MainWindow extends UiPart<Stage> {
      * @param eventsList Event list to show.
      */
     public void showRightPanelModule(List<Event> eventsList) {
-        slideWindowDeadlineList = new SlideWindowDeadlineList(logic.getFilteredEvent(), null, eventsList);
+        detailsWindow = new DetailsWindow(logic.getFocusedDisplayable(), null, eventsList);
         slideWindowListPlaceholder.getChildren().clear();
-        slideWindowListPlaceholder.getChildren().add(slideWindowDeadlineList.getRoot());
+        slideWindowListPlaceholder.getChildren().add(detailsWindow.getRoot());
     }
 
     /**

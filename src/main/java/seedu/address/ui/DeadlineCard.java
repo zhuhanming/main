@@ -25,13 +25,10 @@ public class DeadlineCard extends UiPart<Region> {
     @FXML
     private Label name;
 
-    @FXML
-    private Label dueDate;
 
     public DeadlineCard(Deadline deadline, int displayedIndex) {
         super(FXML);
         this.deadline = deadline;
-        dueDate.setText(deadline.getDueTime().toString());
         name.setText(deadline.getName().fullName);
         isCompleted.setSelected(deadline.isCompleted());
     }

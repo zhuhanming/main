@@ -6,9 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import seedu.address.logic.parser.ParserUtil;
 import seedu.address.model.Displayable;
-import seedu.address.model.DisplayableType;
 import seedu.address.model.event.Event;
 import seedu.address.model.module.Module;
 
@@ -17,7 +15,7 @@ import seedu.address.model.module.Module;
  */
 public class SlideWindowEvent extends UiPart<Region> {
 
-    private static final String FXML = "SlideWindowDeadlineList.fxml";
+    private static final String FXML = "DetailsWindow.fxml";
     public final Event eventViewed;
     public final Module moduleViewed;
 
@@ -38,30 +36,7 @@ public class SlideWindowEvent extends UiPart<Region> {
     public SlideWindowEvent(Displayable eventOrModule) {
         super(FXML);
 
-        DisplayableType displayableType = null;
-
-        if (eventOrModule != null) {
-            displayableType = ParserUtil.parseDisplayableTypeRightPanel(eventOrModule.toString());
-        }
-
-        if (displayableType != null && displayableType.toString().equals("EVENT")) {
-            this.eventViewed = (Event) eventOrModule;
-            this.moduleViewed = null;
-            name.setText((this.eventViewed.getEventType()).toString());
-            startDate.setText(this.eventViewed.getEventStart().format(DateTimeFormatter.ofPattern("d MMMM yyyy, h a"))
-                    + " - " + this.eventViewed.getEventEnd().format(DateTimeFormatter.ofPattern("h a")));
-            module.setText(this.eventViewed.getParentModule().getModuleCode().moduleCode);
-            venue.setText(this.eventViewed.getLocation().toString());
-            eventTypeDescription.setText(this.eventViewed.getEventType().getDefaultDeadlineDescription());
-        } else if (displayableType != null && displayableType.toString().equals("MODULE")) {
-            this.moduleViewed = (Module) eventOrModule;
-            this.eventViewed = null;
-            name.setText((this.moduleViewed.getName().fullName));
-            startDate.setText(this.moduleViewed.getAcademicYear().toModuleCardFormat());
-            module.setText(this.moduleViewed.getModuleCode().moduleCode);
-            venue.setText(null);
-            eventTypeDescription.setText(null);
-        } else {
+        if (eventOrModule == null) {
             this.eventViewed = null;
             this.moduleViewed = null;
             name.setText("");
@@ -69,6 +44,24 @@ public class SlideWindowEvent extends UiPart<Region> {
             module.setText("");
             venue.setText("");
             eventTypeDescription.setText("");
+        } else if (eventOrModule instanceof Event) {
+            this.eventViewed = (Event) eventOrModule;
+            this.moduleViewed = null;
+            name.setText(this.eventViewed.getName().toString());
+            startDate.setText(this.eventViewed.getEventStart().format(DateTimeFormatter.ofPattern("d MMMM yyyy, h a"))
+                    + " - " + this.eventViewed.getEventEnd().format(DateTimeFormatter.ofPattern("h a")));
+            module.setText(this.eventViewed.getParentModule().getModuleCode().moduleCode);
+            venue.setText(this.eventViewed.getLocation().toString());
+            eventTypeDescription.setText("Prepare for " + this.eventViewed.getName().toString() + " by doing:");
+        } else {
+            assert eventOrModule instanceof Module;
+            this.moduleViewed = (Module) eventOrModule;
+            this.eventViewed = null;
+            name.setText((this.moduleViewed.getName().toString()));
+            startDate.setText(this.moduleViewed.getAcademicYear().toModuleCardFormat());
+            module.setText(this.moduleViewed.getModuleCode().moduleCode);
+            venue.setText(null);
+            eventTypeDescription.setText(this.moduleViewed.getDescription());
         }
     }
 
