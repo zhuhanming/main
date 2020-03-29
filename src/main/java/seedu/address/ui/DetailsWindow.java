@@ -1,7 +1,5 @@
 package seedu.address.ui;
 
-import java.util.List;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,6 +10,7 @@ import javafx.scene.layout.VBox;
 import seedu.address.model.Displayable;
 import seedu.address.model.deadline.Deadline;
 import seedu.address.model.event.Event;
+import seedu.address.model.module.Module;
 
 /**
  * An UI component that displays information of selected {@code Event} and its deadline list update of children node of
@@ -32,32 +31,35 @@ public class DetailsWindow extends UiPart<Region> {
 
     private SlideWindowEvent slideWindowEvent;
 
-    public DetailsWindow(Displayable displayable, List<Deadline> deadlines, List<Event> events,
-                         MainWindow mainWindow) {
+    public DetailsWindow(Displayable displayable, MainWindow mainWindow) {
         super(FXML);
         this.mainWindow = mainWindow;
         this.displayable = displayable;
-        if (events == null && deadlines != null) {
-            slideWindowEvent = new SlideWindowEvent(displayable);
-            slideEventCard.getChildren().setAll(slideWindowEvent.getRoot());
-            deadlineListView.setItems(FXCollections.observableArrayList(deadlines));
-            deadlineListView.setCellFactory(listView -> new ListViewCell(mainWindow));
-        } else if (deadlines == null && events != null) {
-            slideWindowEvent = new SlideWindowEvent(displayable);
-            slideEventCard.getChildren().setAll(slideWindowEvent.getRoot());
-            deadlineListView.setItems(FXCollections.observableArrayList(events));
-            deadlineListView.setCellFactory(listView -> new ListViewCell(mainWindow));
+        if (displayable instanceof Event) {
+            deadlineListView.setItems(FXCollections.observableArrayList(((Event) displayable).getDeadlines()));
+        } else if (displayable instanceof Module) {
+            deadlineListView.setItems(FXCollections.observableArrayList(((Module) displayable).getEvents()));
+        } else {
+            deadlineListView.setItems(FXCollections.emptyObservableList());
         }
+        slideWindowEvent = new SlideWindowEvent(displayable);
+        slideEventCard.getChildren().setAll(slideWindowEvent.getRoot());
+        deadlineListView.setCellFactory(listView -> new ListViewCell(mainWindow));
     }
 
     /**
      * Updates this component.
      */
     public void updateStatus() {
-        deadlineListView.setItems(deadlineListView.getItems());
-        deadlineListView.setCellFactory(listView -> new ListViewCell(mainWindow));
+        if (displayable instanceof Event) {
+            deadlineListView.setItems(FXCollections.observableArrayList(((Event) displayable).getDeadlines()));
+        } else {
+            assert displayable instanceof Module;
+            deadlineListView.setItems(FXCollections.observableArrayList(((Module) displayable).getEvents()));
+        }
         slideWindowEvent = new SlideWindowEvent(displayable);
         slideEventCard.getChildren().setAll(slideWindowEvent.getRoot());
+        deadlineListView.setCellFactory(listView -> new ListViewCell(mainWindow));
     }
 
     /**
@@ -79,7 +81,8 @@ public class DetailsWindow extends UiPart<Region> {
             } else if (listItem instanceof Deadline) {
                 setGraphic(new DeadlineCard((Deadline) listItem, getIndex() + 1, mainWindow).getRoot());
             } else if (listItem instanceof Event) {
-                setGraphic(new EventCard((Event) listItem, getIndex() + 1).getRoot());
+                setGraphic(new EventSidePanelCard((Event) listItem, getIndex() + 1).getRoot());
+                setOnMouseClicked(event -> mainWindow.handleSidePanelListClick((Event) listItem));
             }
         }
     }
