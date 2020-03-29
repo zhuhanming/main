@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 import java.util.List;
 import java.util.Objects;
 
+import seedu.address.commons.core.index.Index;
 import seedu.address.model.Displayable;
 import seedu.address.model.deadline.Deadline;
 import seedu.address.model.event.Event;
@@ -42,12 +43,15 @@ public class CommandResult {
 
     private List<Event> eventList;
 
+    private Index indexToShow;
+
     /**
      * Constructs a {@code CommandResult} with the specified fields.
      */
     public CommandResult(String feedbackToUser,
                          boolean showHelp, boolean exit, boolean showsEventList, boolean showsModuleList,
-                         Displayable slideWindowEvent, List<Deadline> deadlineList, List<Event> eventList) {
+                         Displayable slideWindowEvent, List<Deadline> deadlineList, List<Event> eventList,
+                         Index indexToShow) {
         this.feedbackToUser = requireNonNull(feedbackToUser);
         this.showHelp = showHelp;
         this.exit = exit;
@@ -56,14 +60,22 @@ public class CommandResult {
         this.slideWindowEvent = slideWindowEvent;
         this.deadlineList = deadlineList;
         this.eventList = eventList;
+        this.indexToShow = indexToShow;
     }
 
     /**
-     * Constructs a {@code CommandResult} with the specified {@code feedbackToUser},
-     * and other fields set to their default value.
+     * Constructs a {@code CommandResult} with the specified fields.
+     */
+    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit) {
+        this(feedbackToUser, showHelp, exit, false, false, null, null, null, null);
+    }
+
+    /**
+     * Constructs a {@code CommandResult} with the specified {@code feedbackToUser}, and other fields set to their
+     * default value.
      */
     public CommandResult(String feedbackToUser) {
-        this(feedbackToUser, false, false, false, false, null, null, null);
+        this(feedbackToUser, false, false, false, false, null, null, null, null);
     }
 
     public String getFeedbackToUser() {
@@ -96,6 +108,10 @@ public class CommandResult {
 
     public List<Event> getSlideWindowEventList() {
         return eventList;
+    }
+
+    public Index getIndexToShow() {
+        return indexToShow;
     }
 
     @Override
