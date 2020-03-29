@@ -84,6 +84,30 @@ public class ListPanel extends UiPart<Region> {
     }
 
     /**
+     * Returns the zero-based index of an event in the event list.
+     *
+     * @param event Event to find.
+     * @return Index of the event.
+     */
+    public Index getEventIndex(Event event) {
+        ObservableList<Displayable> listViewList = listView.getItems();
+        int x = 0;
+        for (Displayable displayable : listViewList) {
+            if (displayable instanceof Title) {
+                continue;
+            }
+            @SuppressWarnings("unchecked")
+            DisplayablePair<Event, Integer> pair = (DisplayablePair<Event, Integer>) displayable;
+            Event eventTwo = pair.getFirst();
+            if (event.equals(eventTwo)) {
+                return Index.fromZeroBased(x);
+            }
+            x++;
+        }
+        return null;
+    }
+
+    /**
      * Custom {@code ListCell} that displays the graphics of a {@code event} using a {@code eventCard}.
      */
     static class ListViewCell extends ListCell<Displayable> {

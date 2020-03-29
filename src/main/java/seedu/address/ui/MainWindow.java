@@ -1,6 +1,5 @@
 package seedu.address.ui;
 
-import java.util.List;
 import java.util.logging.Logger;
 
 import javafx.fxml.FXML;
@@ -10,11 +9,12 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Logic;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.deadline.Deadline;
+import seedu.address.model.DisplayableType;
 import seedu.address.model.event.Event;
 
 /**
@@ -78,49 +78,12 @@ public class MainWindow extends UiPart<Stage> {
         // Configure the UI
         setWindowDefaultSize(logic.getGuiSettings());
 
-        setAccelerators();
-
         helpWindow = new HelpWindow();
     }
 
     public Stage getPrimaryStage() {
         return primaryStage;
     }
-
-    private void setAccelerators() {
-        // setAccelerator(helpMenuItem, KeyCombination.valueOf("F1"));
-    }
-
-    /**
-     * Sets the accelerator of a MenuItem.
-     *
-     * @param keyCombination the KeyCombination value of the accelerator
-     */
-    //private void setAccelerator(MenuItem menuItem, KeyCombination keyCombination) {
-    //    menuItem.setAccelerator(keyCombination);
-
-    /*
-     * TODO: the code below can be removed once the bug reported here
-     * https://bugs.openjdk.java.net/browse/JDK-8131666
-     * is fixed in later version of SDK.
-     *
-     * According to the bug report, TextInputControl (TextField, TextArea) will
-     * consume function-key events. Because CommandBox contains a TextField, and
-     * ResultDisplay contains a TextArea, thus some accelerators (e.g F1) will
-     * not work when the focus is in them because the key event is consumed by
-     * the TextInputControl(s).
-     *
-     * For now, we add following event filter to capture such key events and open
-     * help window purposely so to support accelerators even when focus is
-     * in CommandBox or ResultDisplay.
-     */
-    //    getRoot().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-    //        if (event.getTarget() instanceof TextInputControl && keyCombination.match(event)) {
-    //            menuItem.getOnAction().handle(new ActionEvent());
-    //            event.consume();
-    //        }
-    //    });
-    //}
 
     /**
      * Fills up all the placeholders of this window.
@@ -136,7 +99,7 @@ public class MainWindow extends UiPart<Stage> {
         StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getCalendarFilePath());
         statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
 
-        detailsWindow = new DetailsWindow(logic.getFocusedDisplayable(), null, null, this);
+        detailsWindow = new DetailsWindow(logic.getFocusedDisplayable(), this);
         slideWindowListPlaceholder.getChildren().add(detailsWindow.getRoot());
 
         CommandBox commandBox = new CommandBox(this::executeCommand);
@@ -207,24 +170,19 @@ public class MainWindow extends UiPart<Stage> {
             CommandResult commandResult = logic.execute(commandText);
             logger.info("Result: " + commandResult.getFeedbackToUser());
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
-            if (commandResult.isEventList() && commandResult.getSlideWindowEvent() == null) {
-                showEventList();
-            } else if (commandResult.isModuleList() && commandResult.getSlideWindowEvent() == null) {
-                showModuleList();
-            } else if (commandResult.isShowHelp()) {
-                handleHelp();
-            } else if (commandResult.isExit()) {
+            if (commandResult.isToExit()) {
                 handleExit();
-            } else if (commandResult.isVisibleDeadlineChanged()) {
-                handleVisibleDeadlineChange();
-            } else if (commandResult.getSlideWindowEvent() != null) {
-                if (commandResult.getSlideWindowDeadlineList() != null
-                        && commandResult.getSlideWindowEventList() == null) {
-                    showRightPanelEvent(commandResult.getSlideWindowDeadlineList());
-                } else if (commandResult.getSlideWindowEventList() != null
-                        && commandResult.getSlideWindowDeadlineList() == null) {
-                    showRightPanelModule(commandResult.getSlideWindowEventList());
-                }
+            }
+            if (commandResult.isToShowHelp()) {
+                handleHelp();
+            }
+            if (commandResult.isToUpdateLeftPanel()) {
+                updateLeftPanel();
+            }
+            if (commandResult.isToUpdateRightPanel()) {
+                updateRightPanel();
+            }
+            if (commandResult.getIndexToShow() != null) {
                 listPanel.selectDisplayable(commandResult.getIndexToShow());
             }
             return commandResult;
@@ -237,70 +195,54 @@ public class MainWindow extends UiPart<Stage> {
 
     /**
      * Shows event list as callback from EventButton.
-     *
-     * @throws CommandException If command is not recognised, which should not happen.
-     * @throws ParseException   If the command cannot be parsed, which should not happen.
      */
-    public void handleEventButton() throws CommandException, ParseException {
-        this.executeCommand("list e");
-        this.showEventList();
+    public void handleEventButton() {
+        try {
+            this.executeCommand("list e");
+        } catch (CommandException | ParseException e) {
+            logger.info("Invalid command: list e");
+            resultDisplay.setFeedbackToUser(e.getMessage());
+        }
     }
 
     /**
      * Shows module list as callback from ModuleButton.
-     *
-     * @throws CommandException If command is not recognised, which should not happen.
-     * @throws ParseException   If the command cannot be parsed, which should not happen.
      */
-    public void handleModuleButton() throws CommandException, ParseException {
-        this.executeCommand("list m");
-        this.showModuleList();
+    public void handleModuleButton() {
+        try {
+            this.executeCommand("list m");
+        } catch (CommandException | ParseException e) {
+            logger.info("Invalid command: list m");
+            resultDisplay.setFeedbackToUser(e.getMessage());
+        }
     }
 
     /**
-     * Shows the list of module events on the application.
+     * Updates the left panel of the application.
      */
-    public void showEventList() {
+    public void updateLeftPanel() {
         listPanel = new ListPanel(logic.getFilteredFocusedList(), this);
         listPanelPlaceholder.getChildren().clear();
         listPanelPlaceholder.getChildren().add(listPanel.getRoot());
-        moduleButton.getStyleClass().clear();
-        moduleButton.getStyleClass().add("menuBarButton");
-        eventButton.getStyleClass().clear();
-        eventButton.getStyleClass().addAll("menuBarButton", "active");
-    }
-
-    /**
-     * Shows the list of modules on the application.
-     */
-    public void showModuleList() {
-        listPanel = new ListPanel(logic.getFilteredFocusedList(), this);
-        listPanelPlaceholder.getChildren().clear();
-        listPanelPlaceholder.getChildren().add(listPanel.getRoot());
-        eventButton.getStyleClass().clear();
-        eventButton.getStyleClass().add("menuBarButton");
-        moduleButton.getStyleClass().clear();
-        moduleButton.getStyleClass().addAll("menuBarButton", "active");
+        if (logic.getCurrentDisplayableType() == DisplayableType.EVENT) {
+            moduleButton.getStyleClass().clear();
+            moduleButton.getStyleClass().add("menuBarButton");
+            eventButton.getStyleClass().clear();
+            eventButton.getStyleClass().addAll("menuBarButton", "active");
+        } else {
+            assert logic.getCurrentDisplayableType() == DisplayableType.MODULE;
+            eventButton.getStyleClass().clear();
+            eventButton.getStyleClass().add("menuBarButton");
+            moduleButton.getStyleClass().clear();
+            moduleButton.getStyleClass().addAll("menuBarButton", "active");
+        }
     }
 
     /**
      * Shows the deadline list on the right panel.
-     *
-     * @param deadlineList Deadline list to show.
      */
-    public void showRightPanelEvent(List<Deadline> deadlineList) {
-        detailsWindow = new DetailsWindow(logic.getFocusedDisplayable(), deadlineList, null, this);
-        slideWindowListPlaceholder.getChildren().clear();
-        slideWindowListPlaceholder.getChildren().add(detailsWindow.getRoot());
-    }
-
-    /**
-     * Shows the event list on the right panel.
-     *
-     * @param eventsList Event list to show.
-     */
-    public void showRightPanelModule(List<Event> eventsList) {
-        detailsWindow = new DetailsWindow(logic.getFocusedDisplayable(), null, eventsList, this);
+    public void updateRightPanel() {
+        detailsWindow = new DetailsWindow(logic.getFocusedDisplayable(), this);
         slideWindowListPlaceholder.getChildren().clear();
         slideWindowListPlaceholder.getChildren().add(detailsWindow.getRoot());
     }
@@ -320,6 +262,22 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
+     * Shows the event being clicked.
+     *
+     * @param event Event to display.
+     */
+    public void handleSidePanelListClick(Event event) {
+        try {
+            this.executeCommand("list e");
+            Index index = this.listPanel.getEventIndex(event);
+            this.executeCommand("view " + index.getOneBased());
+        } catch (CommandException | ParseException e) {
+            logger.info("Invalid command: list e + view index");
+            resultDisplay.setFeedbackToUser(e.getMessage());
+        }
+    }
+
+    /**
      * Executes the done command for the given one-based index.
      *
      * @param index One-based index of deadline.
@@ -331,12 +289,5 @@ public class MainWindow extends UiPart<Stage> {
             logger.info("Invalid command: done " + (index + 1));
             resultDisplay.setFeedbackToUser(e.getMessage());
         }
-    }
-
-    /**
-     * Handles updating of visible deadline change.
-     */
-    public void handleVisibleDeadlineChange() {
-        this.detailsWindow.updateStatus();
     }
 }
