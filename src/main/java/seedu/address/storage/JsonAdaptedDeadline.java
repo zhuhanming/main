@@ -19,7 +19,7 @@ public class JsonAdaptedDeadline {
 
     private final String name;
     private final String dueTime;
-    private final boolean isCompleted;
+    private final String isCompleted;
 
     /**
      * Constructs a {@code JsonAdaptedPerson} with the given person details.
@@ -30,7 +30,7 @@ public class JsonAdaptedDeadline {
                                @JsonProperty("isCompleted") boolean isCompleted) {
         this.name = name;
         this.dueTime = dueTime.toString();
-        this.isCompleted = isCompleted;
+        this.isCompleted = String.valueOf(isCompleted);
     }
 
     /**
@@ -39,7 +39,7 @@ public class JsonAdaptedDeadline {
     public JsonAdaptedDeadline(Deadline source) {
         name = source.getName().toString();
         dueTime = source.getDueTime().toString();
-        isCompleted = source.isCompleted();
+        isCompleted = String.valueOf(source.isCompleted());
     }
 
     /**
@@ -61,6 +61,11 @@ public class JsonAdaptedDeadline {
         }
         final LocalDateTime modelDueTime = LocalDateTime.parse(dueTime);
 
-        return new Deadline(modelName, modelDueTime, isCompleted);
+        if (isCompleted == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "Deadline Completion Status"));
+        }
+        final boolean modelIsCompleted = Boolean.parseBoolean(isCompleted);
+
+        return new Deadline(modelName, modelDueTime, modelIsCompleted);
     }
 }

@@ -16,7 +16,8 @@ public enum EventType {
     SEMINAR("Prepare for seminar in advance", "Seminar-Style Module Class", "sem"),
     RECITATION("Do recitation homework", "Recitation", "recit"),
     WORKSHOP("Prepare for workshop in advance", "Workshop", "workshop", "work"),
-    LABORATORY("Prepare for laboratory in advance", "Laboratory", "lab");
+    LABORATORY("Prepare for laboratory in advance", "Laboratory", "lab"),
+    USER_ADDED("Prepare for this event", "");
 
     private static final String MESSAGE_CONSTRAINTS = "Your event type is not recognised!";
 
@@ -59,6 +60,6 @@ public enum EventType {
                 return e;
             }
         }
-        return null;
+        return USER_ADDED;
     }
 }

@@ -1,17 +1,19 @@
 package seedu.address.ui;
 
+import java.time.format.DateTimeFormatter;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
-import seedu.address.model.module.Module;
+import seedu.address.model.event.Event;
 
 /**
- * An UI component that displays information of a {@code Module}.
+ * An UI component that displays information of a {@code Event}.
  */
-public class ModuleCard extends UiPart<Region> {
+public class EventSidePanelCard extends UiPart<Region> {
 
-    private static final String FXML = "ModuleListCard.fxml";
+    private static final String FXML = "EventListSidePanelCard.fxml";
 
     /**
      * Note: Certain keywords such as "location" and "resources" are reserved keywords in JavaFX. As a consequence, UI
@@ -20,26 +22,27 @@ public class ModuleCard extends UiPart<Region> {
      * @see <a href="https://github.com/se-edu/addressbook-level4/issues/336">The issue on AddressBook level 4</a>
      */
 
-    public final Module module;
+    public final Event event;
 
+    @FXML
+    private HBox eventCardPane;
+    @FXML
+    private Label name;
     @FXML
     private Label id;
     @FXML
-    private HBox moduleCardPane;
+    private Label startDate;
     @FXML
-    private Label moduleName;
-    @FXML
-    private Label moduleAcadYear;
-    @FXML
-    private Label moduleCode;
+    private Label endDate;
 
-    public ModuleCard(Module module, int displayedIndex) {
+    public EventSidePanelCard(Event event, int displayedIndex) {
         super(FXML);
-        this.module = module;
+        this.event = event;
         id.setText(displayedIndex + ". ");
-        moduleName.setText(module.getName().toString());
-        moduleAcadYear.setText(module.getAcademicYear().toModuleCardFormat());
-        moduleCode.setText(module.getModuleCode().toString());
+        name.setText(event.getName().fullName);
+        startDate.setText(event.getEventStart().format(DateTimeFormatter.ofPattern("EEE h a")) + " - "
+                + event.getEventEnd().format(DateTimeFormatter.ofPattern("h a")));
+        endDate.setText(event.getLocation().toString());
     }
 
     @Override
@@ -50,13 +53,13 @@ public class ModuleCard extends UiPart<Region> {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof ModuleCard)) {
+        if (!(other instanceof EventSidePanelCard)) {
             return false;
         }
 
         // state check
-        ModuleCard card = (ModuleCard) other;
+        EventSidePanelCard card = (EventSidePanelCard) other;
         return id.getText().equals(card.id.getText())
-                && module.equals(card.module);
+                && event.equals(card.event);
     }
 }

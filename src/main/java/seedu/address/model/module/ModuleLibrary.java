@@ -14,7 +14,6 @@ import java.time.temporal.TemporalAmount;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -31,8 +30,6 @@ import seedu.address.model.module.exceptions.ModuleNotFoundException;
  * Interfacing class between the app and the module JSON files.
  */
 public class ModuleLibrary {
-    private static final Gson GSON = new Gson();
-
     /**
      * Creates a module based on the code and academic year given, with data from the module json files.
      *
@@ -45,8 +42,8 @@ public class ModuleLibrary {
             throws ModuleNotFoundException {
         try {
             JsonObject moduleNeeded = getModule(moduleCode);
-            Name name = new Name(GSON.fromJson(moduleNeeded.get("title"), String.class));
-            String description = GSON.fromJson(moduleNeeded.get("description"), String.class);
+            Name name = new Name(moduleNeeded.get("title").getAsString());
+            String description = moduleNeeded.get("description").getAsString();
             return new Module(moduleCode, name, academicYear, description);
         } catch (IOException | URISyntaxException e) {
             throw new ModuleNotFoundException();

@@ -47,7 +47,8 @@ public class ModelManager implements Model {
 
         filteredEvents = new FilteredList<>(this.calendar.getEventList());
         filteredModules = new FilteredList<>(this.calendar.getModuleList());
-        setFilteredFocusedList(DisplayableType.EVENT);
+        setFilteredFocusedList(DisplayableType.MODULE);
+        currentDisplayableType = DisplayableType.MODULE;
     }
 
     public ModelManager() {
@@ -115,7 +116,7 @@ public class ModelManager implements Model {
     @Override
     public void addEvent(Event calendarItem) {
         calendar.addEvent(calendarItem);
-        updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
+        updateFilteredEventList(PREDICATE_SHOW_UPCOMING_EVENTS);
     }
 
 
@@ -171,7 +172,6 @@ public class ModelManager implements Model {
     @Override
     public void addModule(ModuleCode moduleCode, AcademicYear academicYear) {
         calendar.addModule(moduleCode, academicYear);
-        Module addedModule = calendar.getModule(moduleCode, academicYear).get();
         updateFilteredModuleList(PREDICATE_SHOW_ALL_MODULES);
     }
 
@@ -219,6 +219,7 @@ public class ModelManager implements Model {
         if (!hasDisplayable) {
             return;
         }
+        currentDisplayableType = displayable instanceof Module ? DisplayableType.MODULE : DisplayableType.EVENT;
         focusedDisplayable = displayable;
     }
 
@@ -231,7 +232,7 @@ public class ModelManager implements Model {
     @Override
     public void setFilteredFocusedList(DisplayableType displayableType) {
         if (displayableType == DisplayableType.EVENT) {
-            updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
+            updateFilteredEventList(PREDICATE_SHOW_UPCOMING_EVENTS);
             focusedFilteredDisplayables = filteredEvents;
         } else if (displayableType == DisplayableType.MODULE) {
             updateFilteredModuleList(PREDICATE_SHOW_ALL_MODULES);
@@ -263,7 +264,7 @@ public class ModelManager implements Model {
      * @return
      */
     @Override
-    public Displayable getFilteredEvent() {
+    public Displayable getFocusedDisplayable() {
         return focusedDisplayable;
     }
 

@@ -9,9 +9,12 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_REPEAT;
 import java.util.List;
 
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.Displayable;
 import seedu.address.model.Model;
+import seedu.address.model.Name;
 import seedu.address.model.deadline.Deadline;
 import seedu.address.model.event.Event;
+import seedu.address.model.module.Module;
 
 
 /**
@@ -23,10 +26,14 @@ public class AddDeadlineCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a deadline to the calendar. "
             + "Parameters: "
+            + "(if viewing Event) "
+            + PREFIX_NAME + "NAME "
+            + "[" + PREFIX_REPEAT + "YES/NO] "
+            + "Parameters: (else) "
             + PREFIX_MODULE + "MODULE "
             + PREFIX_EVENT + "EVENT_NAME "
             + PREFIX_NAME + "NAME "
-            + "[" + PREFIX_REPEAT + "YES/NO]...\n"
+            + "[" + PREFIX_REPEAT + "YES/NO]\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_MODULE + "CS2103 "
             + PREFIX_EVENT + "Tutorial "
@@ -34,12 +41,14 @@ public class AddDeadlineCommand extends Command {
             + PREFIX_REPEAT + "YES";
 
     public static final String MESSAGE_SUCCESS = "New deadline added: %1$s";
-    public static final String MESSAGE_DUPLICATE_DEADLINE = "This deadline already exists in the calendar";
-    public static final String MESSAGE_EVENT_DOESNT_EXIST = "The specified event does not exist in the calendar";
+    public static final String MESSAGE_DUPLICATE_DEADLINE = "This deadline already exists in the calendar!";
+    public static final String MESSAGE_EVENT_DOESNT_EXIST = "The specified event does not exist in the calendar!";
+    public static final String MESSAGE_CANNOT_ADD_TO_MODULE = "You cannot add deadlines to modules!";
 
     private final Deadline toAdd;
     private final Event parentEvent;
     private final boolean isRepeated;
+    private final Name name;
 
 
     /**
@@ -50,27 +59,54 @@ public class AddDeadlineCommand extends Command {
         this.toAdd = deadline;
         this.parentEvent = parentEvent;
         this.isRepeated = isRepeated;
+        this.name = null;
+    }
+
+    public AddDeadlineCommand(Name name, boolean isRepeated) {
+        requireNonNull(name);
+        this.name = name;
+        this.isRepeated = isRepeated;
+        this.toAdd = null;
+        this.parentEvent = null;
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        Event parentEvent = this.parentEvent;
+        Deadline toAdd = this.toAdd;
 
-        System.out.println(model.getCalendar().getEventList());
-        System.out.println(parentEvent);
-
-        if (!model.hasEvent(parentEvent)) {
-            throw new CommandException(MESSAGE_EVENT_DOESNT_EXIST);
-        }
-
-        if (!isRepeated) {
-            Event actualParentEvent = model.findEvent(parentEvent);
-            if (actualParentEvent.containsDeadline(toAdd)) {
-                throw new CommandException(MESSAGE_DUPLICATE_DEADLINE);
+        if (parentEvent == null) {
+            Displayable focusedDisplayable = model.getFocusedDisplayable();
+            if (focusedDisplayable instanceof Module) {
+                throw new CommandException(MESSAGE_CANNOT_ADD_TO_MODULE);
             }
-            Deadline actualDeadline = new Deadline(toAdd.getName(), actualParentEvent);
-            actualParentEvent.addDeadline(actualDeadline);
-            return new CommandResult(String.format(MESSAGE_SUCCESS, actualDeadline));
+            if (focusedDisplayable == null) {
+                throw new CommandException(MESSAGE_EVENT_DOESNT_EXIST);
+            }
+            parentEvent = (Event) focusedDisplayable;
+            toAdd = new Deadline(name, parentEvent);
+            if (!isRepeated) {
+                if (parentEvent.containsDeadline(toAdd)) {
+                    throw new CommandException(MESSAGE_DUPLICATE_DEADLINE);
+                }
+                parentEvent.addDeadline(toAdd);
+                return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd), false, false, false, true, null);
+            }
+        } else {
+            if (!model.hasEvent(parentEvent)) {
+                throw new CommandException(MESSAGE_EVENT_DOESNT_EXIST);
+            }
+            if (!isRepeated) {
+                Event actualParentEvent = model.findEvent(parentEvent);
+                if (actualParentEvent.containsDeadline(toAdd)) {
+                    throw new CommandException(MESSAGE_DUPLICATE_DEADLINE);
+                }
+                Deadline actualDeadline = new Deadline(toAdd.getName(), actualParentEvent);
+                actualParentEvent.addDeadline(actualDeadline);
+                return new CommandResult(String.format(MESSAGE_SUCCESS, actualDeadline),
+                        false, false, false, true, null);
+            }
         }
 
         List<Event> events = model.findAllEvents(parentEvent);
@@ -81,11 +117,9 @@ public class AddDeadlineCommand extends Command {
             if (!event.getIsOver() && !event.containsDeadline(toAdd)) {
                 Deadline currentToAdd = new Deadline(toAdd.getName(), event);
                 event.addDeadline(currentToAdd);
-                System.out.println("Added: " + toAdd.toDebugString());
             }
         }
-        System.out.println(model.checkCurrentCalendar());
-        return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd), false, false, false, true, null);
     }
 
     @Override

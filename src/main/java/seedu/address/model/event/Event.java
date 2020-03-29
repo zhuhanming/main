@@ -53,8 +53,7 @@ public class Event implements Displayable {
         this.parentModule = parentModule;
         this.isOver = LocalDateTime.now().isAfter(eventEnd);
         this.location = location;
-        this.deadlines = new ArrayList<>();
-        this.deadlines.add(new Deadline(new Name(this.eventType.getDefaultDeadlineDescription()), this));
+        this.deadlines = deadlines;
     }
 
     public EventType getEventType() {

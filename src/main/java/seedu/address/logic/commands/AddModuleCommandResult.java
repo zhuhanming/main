@@ -13,7 +13,7 @@ public class AddModuleCommandResult extends CommandResult {
     private List<EventType> eventTypes;
 
     public AddModuleCommandResult(String feedbackToUser, Module module, List<EventType> eventTypes) {
-        super(feedbackToUser);
+        super(feedbackToUser, false, false, true, true, null);
         this.module = module;
         this.eventTypes = eventTypes;
     }
