@@ -26,12 +26,19 @@ public class DeadlineCard extends UiPart<Region> {
     private Label name;
 
 
-    public DeadlineCard(Deadline deadline, int displayedIndex) {
+    public DeadlineCard(Deadline deadline, int displayedIndex, MainWindow mainWindow) {
         super(FXML);
         this.deadline = deadline;
         name.setText(deadline.getName().fullName);
         isCompleted.setSelected(deadline.isCompleted());
+        isCompleted.setOnAction(e -> {
+            mainWindow.handleDeadlineClick(displayedIndex);
+            isCompleted.setSelected(deadline.isCompleted());
+        });
     }
 
+    public void updateStatus() {
+        isCompleted.setSelected(deadline.isCompleted());
+    }
 }
 

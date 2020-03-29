@@ -136,7 +136,7 @@ public class MainWindow extends UiPart<Stage> {
         StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getCalendarFilePath());
         statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
 
-        detailsWindow = new DetailsWindow(logic.getFocusedDisplayable(), null, null);
+        detailsWindow = new DetailsWindow(logic.getFocusedDisplayable(), null, null, this);
         slideWindowListPlaceholder.getChildren().add(detailsWindow.getRoot());
 
         CommandBox commandBox = new CommandBox(this::executeCommand);
@@ -202,7 +202,7 @@ public class MainWindow extends UiPart<Stage> {
      *
      * @see seedu.address.logic.Logic#execute(String)
      */
-    public CommandResult executeCommand(String commandText) throws CommandException, ParseException {
+    private CommandResult executeCommand(String commandText) throws CommandException, ParseException {
         try {
             CommandResult commandResult = logic.execute(commandText);
             logger.info("Result: " + commandResult.getFeedbackToUser());
@@ -287,7 +287,7 @@ public class MainWindow extends UiPart<Stage> {
      * @param deadlineList Deadline list to show.
      */
     public void showRightPanelEvent(List<Deadline> deadlineList) {
-        detailsWindow = new DetailsWindow(logic.getFocusedDisplayable(), deadlineList, null);
+        detailsWindow = new DetailsWindow(logic.getFocusedDisplayable(), deadlineList, null, this);
         slideWindowListPlaceholder.getChildren().clear();
         slideWindowListPlaceholder.getChildren().add(detailsWindow.getRoot());
     }
@@ -298,7 +298,7 @@ public class MainWindow extends UiPart<Stage> {
      * @param eventsList Event list to show.
      */
     public void showRightPanelModule(List<Event> eventsList) {
-        detailsWindow = new DetailsWindow(logic.getFocusedDisplayable(), null, eventsList);
+        detailsWindow = new DetailsWindow(logic.getFocusedDisplayable(), null, eventsList, this);
         slideWindowListPlaceholder.getChildren().clear();
         slideWindowListPlaceholder.getChildren().add(detailsWindow.getRoot());
     }
@@ -312,7 +312,21 @@ public class MainWindow extends UiPart<Stage> {
         try {
             this.executeCommand("view " + (index + 1));
         } catch (CommandException | ParseException e) {
-            logger.info("Invalid command: view" + (index + 1));
+            logger.info("Invalid command: view " + (index + 1));
+            resultDisplay.setFeedbackToUser(e.getMessage());
+        }
+    }
+
+    /**
+     * Executes the done command for the given one-based index.
+     *
+     * @param index One-based index of deadline.
+     */
+    public void handleDeadlineClick(int index) {
+        try {
+            this.executeCommand("done " + index);
+        } catch (CommandException | ParseException e) {
+            logger.info("Invalid command: done " + (index + 1));
             resultDisplay.setFeedbackToUser(e.getMessage());
         }
     }

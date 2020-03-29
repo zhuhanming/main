@@ -30,18 +30,19 @@ public class DetailsWindow extends UiPart<Region> {
 
     private SlideWindowEvent slideWindowEvent;
 
-    public DetailsWindow(Displayable displayable, List<Deadline> deadlines, List<Event> events) {
+    public DetailsWindow(Displayable displayable, List<Deadline> deadlines, List<Event> events,
+                         MainWindow mainWindow) {
         super(FXML);
         if (events == null && deadlines != null) {
             slideWindowEvent = new SlideWindowEvent(displayable);
             slideEventCard.getChildren().setAll(slideWindowEvent.getRoot());
             deadlineListView.setItems(FXCollections.observableArrayList(deadlines));
-            deadlineListView.setCellFactory(listView -> new ListViewCell());
+            deadlineListView.setCellFactory(listView -> new ListViewCell(mainWindow));
         } else if (deadlines == null && events != null) {
             slideWindowEvent = new SlideWindowEvent(displayable);
             slideEventCard.getChildren().setAll(slideWindowEvent.getRoot());
             deadlineListView.setItems(FXCollections.observableArrayList(events));
-            deadlineListView.setCellFactory(listView -> new ListViewCell());
+            deadlineListView.setCellFactory(listView -> new ListViewCell(mainWindow));
         }
     }
 
@@ -49,6 +50,12 @@ public class DetailsWindow extends UiPart<Region> {
      * Custom {@code ListCell} that displays the graphics of a {@code event} using a {@code eventCard}.
      */
     static class ListViewCell extends ListCell<Displayable> {
+        private MainWindow mainWindow;
+
+        public ListViewCell(MainWindow mainWindow) {
+            this.mainWindow = mainWindow;
+        }
+
         @Override
         protected void updateItem(Displayable listItem, boolean empty) {
             super.updateItem(listItem, empty);
@@ -56,7 +63,7 @@ public class DetailsWindow extends UiPart<Region> {
                 setGraphic(null);
                 setText(null);
             } else if (listItem instanceof Deadline) {
-                setGraphic(new DeadlineCard((Deadline) listItem, getIndex() + 1).getRoot());
+                setGraphic(new DeadlineCard((Deadline) listItem, getIndex() + 1, mainWindow).getRoot());
             } else if (listItem instanceof Event) {
                 setGraphic(new EventCard((Event) listItem, getIndex() + 1).getRoot());
             }
