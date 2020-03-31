@@ -1,6 +1,5 @@
 package modulo.storage;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,11 +7,10 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import modulo.commons.exceptions.IllegalValueException;
 import modulo.model.event.Event;
 import modulo.model.module.AcademicYear;
 import modulo.model.module.Module;
-import modulo.commons.exceptions.DataConversionException;
-import modulo.commons.exceptions.IllegalValueException;
 import modulo.model.module.ModuleCode;
 import modulo.model.module.PartialModule;
 
@@ -57,7 +55,7 @@ class JsonAdaptedModule {
      *
      * @throws IllegalValueException if there were any data constraints violated in the adapted person.
      */
-    public Module toModelType() throws IllegalValueException, IOException, DataConversionException {
+    public Module toModelType() throws IllegalValueException {
         List<Event> modelEvents = new ArrayList<>();
         for (JsonAdaptedEvent event : events) {
             modelEvents.add(event.toModelType());
@@ -79,9 +77,7 @@ class JsonAdaptedModule {
 
         final AcademicYear modelAcademicYear = AcademicYear.fromString(academicYear);
 
-        Module result = new PartialModule(modelModuleCode, modelAcademicYear, modelEvents);
-
-        return result;
+        return new PartialModule(modelModuleCode, modelAcademicYear, modelEvents);
     }
 
 }

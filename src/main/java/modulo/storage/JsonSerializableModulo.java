@@ -1,6 +1,5 @@
 package modulo.storage;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -9,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
-import modulo.commons.exceptions.DataConversionException;
 import modulo.commons.exceptions.IllegalValueException;
 import modulo.model.Modulo;
 import modulo.model.ReadOnlyModulo;
@@ -22,7 +20,6 @@ import modulo.model.module.Module;
 class JsonSerializableModulo {
 
     public static final String MESSAGE_DUPLICATE_MODULE = "Module list contains duplicate module(s).";
-    public static final String MESSAGE_DUPLICATE_EVENT = "Event list contains duplicate event(s).";
 
     private final List<JsonAdaptedModule> modules = new ArrayList<>();
 
@@ -51,7 +48,7 @@ class JsonSerializableModulo {
      *
      * @throws IllegalValueException if there were any data constraints violated.
      */
-    public Modulo toModelType() throws IllegalValueException, IOException, DataConversionException {
+    public Modulo toModelType() throws IllegalValueException {
         Modulo modulo = new Modulo();
         for (JsonAdaptedModule jsonAdaptedModule : modules) {
             Module module = jsonAdaptedModule.toModelType();

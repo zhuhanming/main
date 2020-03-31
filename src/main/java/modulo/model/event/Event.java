@@ -7,10 +7,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import modulo.model.module.Module;
 import modulo.model.Displayable;
 import modulo.model.Name;
 import modulo.model.deadline.Deadline;
+import modulo.model.module.Module;
 
 /**
  * Represents an event in Modulo. Guarantees: details are present and not null, field values are validated, immutable.
@@ -23,7 +23,7 @@ public class Event implements Displayable {
     private LocalDateTime eventStart;
     private LocalDateTime eventEnd;
     private Module parentModule;
-    private Location location = new Location("COM1-B103");
+    private Location location;
 
     // Data Fields
     private List<Deadline> deadlines;

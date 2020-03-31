@@ -81,13 +81,13 @@ public class ModelManager implements Model {
 
     @Override
     public Path getCalendarFilePath() {
-        return userPrefs.getCalendarFilePath();
+        return userPrefs.getModuloFilePath();
     }
 
     @Override
     public void setCalendarFilePath(Path calendarFilePath) {
         requireNonNull(calendarFilePath);
-        userPrefs.setCalendarFilePath(calendarFilePath);
+        userPrefs.setModuloFilePath(calendarFilePath);
     }
 
     //=========== Modulo ================================================================================

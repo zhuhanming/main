@@ -1,6 +1,9 @@
 package modulo.logic.parser;
 
 import static modulo.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static modulo.logic.parser.CliSyntax.PREFIX_ACADEMIC_YEAR;
+import static modulo.logic.parser.CliSyntax.PREFIX_MODULE;
+import static modulo.logic.parser.CliSyntax.PREFIX_SEMESTER;
 
 import java.util.stream.Stream;
 
@@ -22,25 +25,25 @@ public class AddModuleCommandParser implements Parser<AddModuleCommand> {
      */
     public AddModuleCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, CliSyntax.PREFIX_MODULE, CliSyntax.PREFIX_ACADEMIC_YEAR, CliSyntax.PREFIX_SEMESTER);
+                ArgumentTokenizer.tokenize(args, PREFIX_MODULE, PREFIX_ACADEMIC_YEAR, PREFIX_SEMESTER);
 
-        if (!arePrefixesPresent(argMultimap, CliSyntax.PREFIX_MODULE)
+        if (!arePrefixesPresent(argMultimap, PREFIX_MODULE)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddModuleCommand.MESSAGE_USAGE));
         }
 
-        ModuleCode moduleCode = ParserUtil.parseModuleCode(argMultimap.getValue(CliSyntax.PREFIX_MODULE).get());
+        ModuleCode moduleCode = ParserUtil.parseModuleCode(argMultimap.getValue(PREFIX_MODULE).get());
         AcademicYear academicYear = AcademicYear.now();
 
-        if (argMultimap.getValue(CliSyntax.PREFIX_ACADEMIC_YEAR).isPresent()
-                && argMultimap.getValue(CliSyntax.PREFIX_SEMESTER).isPresent()) {
-            academicYear = new AcademicYear(argMultimap.getValue(CliSyntax.PREFIX_ACADEMIC_YEAR).get(),
-                    argMultimap.getValue(CliSyntax.PREFIX_SEMESTER).get());
-        } else if (argMultimap.getValue(CliSyntax.PREFIX_SEMESTER).isPresent()) {
+        if (argMultimap.getValue(PREFIX_ACADEMIC_YEAR).isPresent()
+                && argMultimap.getValue(PREFIX_SEMESTER).isPresent()) {
+            academicYear = new AcademicYear(argMultimap.getValue(PREFIX_ACADEMIC_YEAR).get(),
+                    argMultimap.getValue(PREFIX_SEMESTER).get());
+        } else if (argMultimap.getValue(PREFIX_SEMESTER).isPresent()) {
             academicYear = new AcademicYear(AcademicYear.now().getStartYear(),
-                    Integer.parseInt(argMultimap.getValue(CliSyntax.PREFIX_SEMESTER).get()));
-        } else if (argMultimap.getValue(CliSyntax.PREFIX_ACADEMIC_YEAR).isPresent()) {
-            academicYear = new AcademicYear(argMultimap.getValue(CliSyntax.PREFIX_ACADEMIC_YEAR).get(),
+                    Integer.parseInt(argMultimap.getValue(PREFIX_SEMESTER).get()));
+        } else if (argMultimap.getValue(PREFIX_ACADEMIC_YEAR).isPresent()) {
+            academicYear = new AcademicYear(argMultimap.getValue(PREFIX_ACADEMIC_YEAR).get(),
                     String.valueOf(AcademicYear.now().getSemester()));
         }
 

@@ -4,10 +4,10 @@ import static modulo.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 import java.util.Arrays;
 
-import modulo.model.predicate.NameContainsKeywordsPredicate;
 import modulo.commons.core.index.Index;
 import modulo.logic.commands.DeleteCommand;
 import modulo.logic.parser.exceptions.ParseException;
+import modulo.model.predicate.NameContainsKeywordsPredicate;
 
 
 /**
@@ -16,8 +16,8 @@ import modulo.logic.parser.exceptions.ParseException;
 public class DeleteCommandParser implements Parser<DeleteCommand> {
 
     /**
-     * Parses the given {@code String} of arguments in the context of the DeleteCommand
-     * and returns a DeleteCommand object for execution.
+     * Parses the given {@code String} of arguments in the context of the DeleteCommand and returns a DeleteCommand
+     * object for execution.
      */
     public DeleteCommand parse(String args) throws ParseException {
         if (args.isEmpty()) {

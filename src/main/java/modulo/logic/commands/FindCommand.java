@@ -2,14 +2,14 @@ package modulo.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
-import modulo.model.predicate.NameContainsKeywordsPredicate;
 import modulo.commons.core.Messages;
 import modulo.model.DisplayableType;
 import modulo.model.Model;
+import modulo.model.predicate.NameContainsKeywordsPredicate;
 
 /**
- * Finds and lists all persons in address book whose name contains any of the argument keywords.
- * Keyword matching is case insensitive.
+ * Finds and lists all persons in address book whose name contains any of the argument keywords. Keyword matching is
+ * case insensitive.
  */
 public class FindCommand extends Command {
 

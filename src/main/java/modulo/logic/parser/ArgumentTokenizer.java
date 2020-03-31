@@ -7,12 +7,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Tokenizes arguments string of the form: {@code preamble <prefix>value <prefix>value ...}<br>
- * e.g. {@code some preamble text t/ 11.00 t/12.00 k/ m/ July}  where prefixes are {@code t/ k/ m/}.<br>
- * 1. An argument's value can be an empty string e.g. the value of {@code k/} in the above example.<br>
- * 2. Leading and trailing whitespaces of an argument value will be discarded.<br>
- * 3. An argument may be repeated and all its values will be accumulated e.g. the value of {@code t/}
- * in the above example.<br>
+ * Tokenizes arguments string of the form: {@code preamble <prefix>value <prefix>value ...}<br> e.g. {@code some
+ * preamble text t/ 11.00 t/12.00 k/ m/ July}  where prefixes are {@code t/ k/ m/}.<br> 1. An argument's value can be an
+ * empty string e.g. the value of {@code k/} in the above example.<br> 2. Leading and trailing whitespaces of an
+ * argument value will be discarded.<br> 3. An argument may be repeated and all its values will be accumulated e.g. the
+ * value of {@code t/} in the above example.<br>
  */
 public class ArgumentTokenizer {
 
@@ -59,16 +58,13 @@ public class ArgumentTokenizer {
     }
 
     /**
-     * Returns the index of the first occurrence of {@code prefix} in
-     * {@code argsString} starting from index {@code fromIndex}. An occurrence
-     * is valid if there is a whitespace before {@code prefix}. Returns -1 if no
-     * such occurrence can be found.
+     * Returns the index of the first occurrence of {@code prefix} in {@code argsString} starting from index {@code
+     * fromIndex}. An occurrence is valid if there is a whitespace before {@code prefix}. Returns -1 if no such
+     * occurrence can be found.
      * <p>
-     * E.g if {@code argsString} = "e/hip/900", {@code prefix} = "p/" and
-     * {@code fromIndex} = 0, this method returns -1 as there are no valid
-     * occurrences of "p/" with whitespace before it. However, if
-     * {@code argsString} = "e/hi p/900", {@code prefix} = "p/" and
-     * {@code fromIndex} = 0, this method returns 5.
+     * E.g if {@code argsString} = "e/hip/900", {@code prefix} = "p/" and {@code fromIndex} = 0, this method returns -1
+     * as there are no valid occurrences of "p/" with whitespace before it. However, if {@code argsString} = "e/hi
+     * p/900", {@code prefix} = "p/" and {@code fromIndex} = 0, this method returns 5.
      */
     private static int findPrefixPosition(String argsString, String prefix, int fromIndex) {
         int prefixIndex = argsString.indexOf(" " + prefix, fromIndex);
@@ -111,8 +107,8 @@ public class ArgumentTokenizer {
     }
 
     /**
-     * Returns the trimmed value of the argument in the arguments string specified by {@code currentPrefixPosition}.
-     * The end position of the value is determined by {@code nextPrefixPosition}.
+     * Returns the trimmed value of the argument in the arguments string specified by {@code currentPrefixPosition}. The
+     * end position of the value is determined by {@code nextPrefixPosition}.
      */
     private static String extractArgumentValue(String argsString,
                                                PrefixPosition currentPrefixPosition,

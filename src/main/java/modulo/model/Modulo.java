@@ -28,7 +28,8 @@ public class Modulo implements ReadOnlyModulo {
      *
      *  Note that non-static init blocks are not recommended to use. There are other ways to avoid duplication
      *  among constructors.
-     */ {
+     */
+    {
         events = new UniqueEventList();
         modules = new UniqueModuleList();
     }

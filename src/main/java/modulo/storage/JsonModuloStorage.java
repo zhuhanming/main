@@ -53,7 +53,7 @@ public class JsonModuloStorage implements ModuloStorage {
 
         try {
             return Optional.of(jsonSerializableCalendar.get().toModelType());
-        } catch (IllegalValueException | IOException ive) {
+        } catch (IllegalValueException ive) {
             logger.info("Illegal values found in " + filePath + ": " + ive.getMessage());
             throw new DataConversionException(ive);
         }

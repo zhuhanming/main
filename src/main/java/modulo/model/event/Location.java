@@ -1,7 +1,6 @@
 package modulo.model.event;
 
 import static java.util.Objects.requireNonNull;
-import static modulo.commons.util.AppUtil.checkArgument;
 
 import modulo.commons.util.AppUtil;
 

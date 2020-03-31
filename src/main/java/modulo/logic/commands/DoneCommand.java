@@ -2,18 +2,19 @@ package modulo.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static modulo.commons.util.CollectionUtil.requireAllNonNull;
+import static modulo.logic.parser.CliSyntax.PREFIX_EVENT;
+import static modulo.logic.parser.CliSyntax.PREFIX_MODULE;
 
 import java.util.List;
 
 import modulo.commons.core.Messages;
+import modulo.commons.core.index.Index;
 import modulo.logic.commands.exceptions.CommandException;
-import modulo.logic.parser.CliSyntax;
 import modulo.model.Displayable;
 import modulo.model.Model;
 import modulo.model.deadline.Deadline;
 import modulo.model.event.Event;
 import modulo.model.module.Module;
-import modulo.commons.core.index.Index;
 
 /**
  * Set a deadline to be done
@@ -29,12 +30,12 @@ public class DoneCommand extends Command {
             + "INDEX "
             + "Parameters: (else) "
             + "INDEX "
-            + CliSyntax.PREFIX_MODULE + "MODULE "
-            + CliSyntax.PREFIX_EVENT + "EVENT_NAME"
+            + PREFIX_MODULE + "MODULE "
+            + PREFIX_EVENT + "EVENT_NAME"
             + "\n"
             + "Example: " + COMMAND_WORD + " 1 "
-            + CliSyntax.PREFIX_MODULE + "CS2103 "
-            + CliSyntax.PREFIX_EVENT + "Tutorial";
+            + PREFIX_MODULE + "CS2103 "
+            + PREFIX_EVENT + "Tutorial";
 
     public static final String MESSAGE_SUCCESS_COMPLETE = "Completed the deadline: %1$s";
     public static final String MESSAGE_SUCCESS_INCOMPLETE = "Marked this deadline incomplete: %1$s";
@@ -72,7 +73,8 @@ public class DoneCommand extends Command {
             } else if (focusedDisplayable != null) {
                 throw new CommandException(MESSAGE_CANNOT_COMPLETE_EVENT);
             } else {
-                throw new CommandException(String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, DoneCommand.MESSAGE_USAGE));
+                throw new CommandException(String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT,
+                        DoneCommand.MESSAGE_USAGE));
             }
         }
 

@@ -1,8 +1,8 @@
 package modulo.commons.core;
 
+import static modulo.testutil.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static modulo.testutil.Assert.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
@@ -129,7 +129,7 @@ public class VersionTest {
     }
 
     private void verifyVersionParsedCorrectly(String versionString,
-            int major, int minor, int patch, boolean isEarlyAccess) {
+                                              int major, int minor, int patch, boolean isEarlyAccess) {
         assertEquals(new Version(major, minor, patch, isEarlyAccess), Version.fromString(versionString));
     }
 }

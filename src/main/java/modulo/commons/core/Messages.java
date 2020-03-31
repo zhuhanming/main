@@ -24,4 +24,9 @@ public class Messages {
     public static final String MESSAGE_DELETE_ALL_MODULES_SUCCESS = "Deleted all %1$s modules!";
     public static final String MESSAGE_DELETE_ALL_EVENTS_SUCCESS = "Deleted all %1$s events!";
 
+    // ERROR MESSAGES
+
+    // MODULE-RELATED
+    public static final String MESSAGE_MODULE_DOES_NOT_EXIST = "The module you want does not exist!";
+
 }

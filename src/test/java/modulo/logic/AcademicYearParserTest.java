@@ -7,8 +7,8 @@ import java.time.LocalDate;
 
 import org.junit.jupiter.api.Test;
 
-import modulo.logic.parser.exceptions.ParseException;
 import modulo.logic.parser.AcademicYearParser;
+import modulo.logic.parser.exceptions.ParseException;
 
 public class AcademicYearParserTest {
     @Test

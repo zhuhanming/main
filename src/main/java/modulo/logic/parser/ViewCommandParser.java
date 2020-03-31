@@ -1,5 +1,7 @@
 package modulo.logic.parser;
 
+import static modulo.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+
 import java.util.stream.Stream;
 
 import modulo.commons.core.index.Index;
@@ -18,7 +20,12 @@ public class ViewCommandParser implements Parser<ViewCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public ViewCommand parse(String args) throws ParseException {
-        Index index = ParserUtil.parseIndex(args);
+        Index index;
+        try {
+            index = ParserUtil.parseIndex(args);
+        } catch (ParseException pe) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewCommand.MESSAGE_USAGE), pe);
+        }
         return new ViewCommand(index);
     }
 

@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
-import modulo.model.ics.IcsEvent;
 import modulo.model.event.Event;
+import modulo.model.ics.IcsEvent;
 
 /**
  * todo
@@ -15,6 +15,7 @@ public class IcsParser {
 
     /**
      * todo
+     *
      * @param exportDirectory
      * @param eventList
      * @throws IOException

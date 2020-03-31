@@ -15,7 +15,7 @@ import modulo.commons.core.GuiSettings;
 public class UserPrefs implements ReadOnlyUserPrefs {
 
     private GuiSettings guiSettings = new GuiSettings();
-    private Path calendarFilePath = Paths.get("data", "calendar.json");
+    private Path moduloFilePath = Paths.get("data", "modulo.json");
     private Path icsFilePath = Paths.get("data");
 
     /**
@@ -38,7 +38,7 @@ public class UserPrefs implements ReadOnlyUserPrefs {
     public void resetData(ReadOnlyUserPrefs newUserPrefs) {
         requireNonNull(newUserPrefs);
         setGuiSettings(newUserPrefs.getGuiSettings());
-        setCalendarFilePath(newUserPrefs.getCalendarFilePath());
+        setModuloFilePath(newUserPrefs.getModuloFilePath());
         setIcsFilePath(newUserPrefs.getIcsFilePath());
     }
 
@@ -51,13 +51,13 @@ public class UserPrefs implements ReadOnlyUserPrefs {
         this.guiSettings = guiSettings;
     }
 
-    public Path getCalendarFilePath() {
-        return calendarFilePath;
+    public Path getModuloFilePath() {
+        return moduloFilePath;
     }
 
-    public void setCalendarFilePath(Path calendarFilePath) {
-        requireNonNull(calendarFilePath);
-        this.calendarFilePath = calendarFilePath;
+    public void setModuloFilePath(Path moduloFilePath) {
+        requireNonNull(moduloFilePath);
+        this.moduloFilePath = moduloFilePath;
     }
 
     public Path getIcsFilePath() {
@@ -81,17 +81,17 @@ public class UserPrefs implements ReadOnlyUserPrefs {
         UserPrefs o = (UserPrefs) other;
 
         return guiSettings.equals(o.guiSettings)
-                && calendarFilePath.equals(o.calendarFilePath);
+                && moduloFilePath.equals(o.moduloFilePath);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(guiSettings, calendarFilePath);
+        return Objects.hash(guiSettings, moduloFilePath);
     }
 
     @Override
     public String toString() {
-        return "Gui Settings : " + guiSettings + "\nLocal data file location : " + calendarFilePath;
+        return "Gui Settings : " + guiSettings + "\nLocal data file location : " + moduloFilePath;
     }
 
 }

@@ -15,7 +15,13 @@ import modulo.model.Model;
 public class ViewCommand extends Command {
 
     public static final String COMMAND_WORD = "view";
-    public static final String MESSAGE_VIEW_SUCCESS = "%1$s \n is in view!";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": View a module or event. "
+            + "Parameters: "
+            + "INDEX "
+            + "\n"
+            + "Example: " + COMMAND_WORD + " 1 ";
+
+    public static final String MESSAGE_VIEW_SUCCESS = "%1$s \nis in view!";
     private Index index;
 
     public ViewCommand(Index index) {

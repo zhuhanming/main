@@ -1,18 +1,21 @@
 package modulo.logic.parser;
 
 import static modulo.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static modulo.logic.parser.CliSyntax.PREFIX_EVENT;
+import static modulo.logic.parser.CliSyntax.PREFIX_MODULE;
+import static modulo.logic.parser.CliSyntax.PREFIX_NAME;
+import static modulo.logic.parser.CliSyntax.PREFIX_REPEAT;
 
 import java.util.stream.Stream;
 
 import modulo.logic.commands.AddDeadlineCommand;
 import modulo.logic.parser.exceptions.ParseException;
-import modulo.model.deadline.Deadline;
-import modulo.model.event.Event;
-import modulo.model.module.Module;
 import modulo.model.Name;
+import modulo.model.event.Event;
 import modulo.model.event.EventType;
 import modulo.model.event.Location;
 import modulo.model.event.PartialEvent;
+import modulo.model.module.Module;
 import modulo.model.module.ModuleCode;
 import modulo.model.module.PartialModule;
 
@@ -30,26 +33,26 @@ public class AddDeadlineCommandParser implements Parser<AddDeadlineCommand> {
      */
     public AddDeadlineCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, CliSyntax.PREFIX_MODULE, CliSyntax.PREFIX_EVENT, CliSyntax.PREFIX_NAME, CliSyntax.PREFIX_REPEAT);
+                ArgumentTokenizer.tokenize(args, PREFIX_MODULE, PREFIX_EVENT, PREFIX_NAME, PREFIX_REPEAT);
 
-        if (!arePrefixesPresent(argMultimap, CliSyntax.PREFIX_NAME)
+        if (!arePrefixesPresent(argMultimap, PREFIX_NAME)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddDeadlineCommand.MESSAGE_USAGE));
         }
 
         boolean isRepeated = false;
-        if (argMultimap.getValue(CliSyntax.PREFIX_REPEAT).isPresent()) {
-            isRepeated = ParserUtil.parseRepeat(argMultimap.getValue(CliSyntax.PREFIX_REPEAT).get());
+        if (argMultimap.getValue(PREFIX_REPEAT).isPresent()) {
+            isRepeated = ParserUtil.parseRepeat(argMultimap.getValue(PREFIX_REPEAT).get());
         }
-        Name name = ParserUtil.parseName(argMultimap.getValue(CliSyntax.PREFIX_NAME).get());
+        Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
 
         ModuleCode moduleCode = null;
-        if (argMultimap.getValue(CliSyntax.PREFIX_MODULE).isPresent()) {
-            moduleCode = ParserUtil.parseModuleCode(argMultimap.getValue(CliSyntax.PREFIX_MODULE).get());
+        if (argMultimap.getValue(PREFIX_MODULE).isPresent()) {
+            moduleCode = ParserUtil.parseModuleCode(argMultimap.getValue(PREFIX_MODULE).get());
         }
         Name eventName = null;
-        if (argMultimap.getValue(CliSyntax.PREFIX_MODULE).isPresent()) {
-            eventName = ParserUtil.parseName(argMultimap.getValue(CliSyntax.PREFIX_EVENT).get());
+        if (argMultimap.getValue(PREFIX_MODULE).isPresent()) {
+            eventName = ParserUtil.parseName(argMultimap.getValue(PREFIX_EVENT).get());
         }
 
         if (moduleCode == null && eventName == null) {
@@ -60,9 +63,8 @@ public class AddDeadlineCommandParser implements Parser<AddDeadlineCommand> {
 
         Module module = new PartialModule(moduleCode);
         Event event = new PartialEvent(eventName, eventType, module, new Location("Arbitrary Location"));
-        Deadline deadline = new Deadline(name, event);
 
-        return new AddDeadlineCommand(deadline, event, isRepeated);
+        return new AddDeadlineCommand(name, event, isRepeated);
     }
 
     /**

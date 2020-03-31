@@ -13,8 +13,8 @@ import modulo.logic.parser.exceptions.ParseException;
 public class ExportCommandParser implements Parser<ExportCommand> {
 
     /**
-     * Parses the given {@code String} of arguments in the context of the ExportCommandParser
-     * and returns a ExportCommandParser object for execution.
+     * Parses the given {@code String} of arguments in the context of the ExportCommandParser and returns a
+     * ExportCommandParser object for execution.
      *
      * @throws ParseException if the user input does not conform the expected format
      */

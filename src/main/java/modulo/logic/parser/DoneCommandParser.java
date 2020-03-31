@@ -1,18 +1,20 @@
 package modulo.logic.parser;
 
 import static modulo.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static modulo.logic.parser.CliSyntax.PREFIX_EVENT;
+import static modulo.logic.parser.CliSyntax.PREFIX_MODULE;
 
 import java.util.stream.Stream;
 
+import modulo.commons.core.index.Index;
+import modulo.logic.commands.DoneCommand;
 import modulo.logic.parser.exceptions.ParseException;
 import modulo.model.Name;
 import modulo.model.event.EventType;
+import modulo.model.event.Location;
 import modulo.model.event.PartialEvent;
 import modulo.model.module.ModuleCode;
 import modulo.model.module.PartialModule;
-import modulo.commons.core.index.Index;
-import modulo.logic.commands.DoneCommand;
-import modulo.model.event.Location;
 
 /**
  * Parser done arguments to set a deadline to be done.
@@ -24,13 +26,12 @@ public class DoneCommandParser implements Parser<DoneCommand> {
      * @throws ParseException
      */
     public DoneCommand parse(String args) throws ParseException {
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, CliSyntax.PREFIX_MODULE, CliSyntax.PREFIX_EVENT);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_MODULE, PREFIX_EVENT);
 
         Index index;
 
         try {
             index = ParserUtil.parseIndex(argMultimap.getPreamble());
-            System.out.println("index " + index.getOneBased());
         } catch (ParseException pe) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DoneCommand.MESSAGE_USAGE), pe);
         }
@@ -38,11 +39,11 @@ public class DoneCommandParser implements Parser<DoneCommand> {
         ModuleCode moduleCode = null;
         Name name = null;
 
-        if (argMultimap.getValue(CliSyntax.PREFIX_MODULE).isPresent()) {
-            moduleCode = ParserUtil.parseModuleCode(argMultimap.getValue(CliSyntax.PREFIX_MODULE).get());
+        if (argMultimap.getValue(PREFIX_MODULE).isPresent()) {
+            moduleCode = ParserUtil.parseModuleCode(argMultimap.getValue(PREFIX_MODULE).get());
         }
-        if (argMultimap.getValue(CliSyntax.PREFIX_EVENT).isPresent()) {
-            name = ParserUtil.parseName(argMultimap.getValue(CliSyntax.PREFIX_EVENT).get());
+        if (argMultimap.getValue(PREFIX_EVENT).isPresent()) {
+            name = ParserUtil.parseName(argMultimap.getValue(PREFIX_EVENT).get());
         }
         if (moduleCode == null && name == null) {
             return new DoneCommand(null, null, index);

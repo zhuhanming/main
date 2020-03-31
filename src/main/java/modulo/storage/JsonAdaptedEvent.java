@@ -8,15 +8,15 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import modulo.model.deadline.Deadline;
-import modulo.model.event.Event;
-import modulo.model.module.AcademicYear;
-import modulo.model.module.Module;
 import modulo.commons.exceptions.IllegalValueException;
 import modulo.model.Name;
+import modulo.model.deadline.Deadline;
+import modulo.model.event.Event;
 import modulo.model.event.EventType;
 import modulo.model.event.Location;
 import modulo.model.event.PartialEvent;
+import modulo.model.module.AcademicYear;
+import modulo.model.module.Module;
 import modulo.model.module.ModuleCode;
 import modulo.model.module.PartialModule;
 

@@ -5,9 +5,9 @@ import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import modulo.commons.exceptions.IllegalValueException;
 import modulo.model.Name;
 import modulo.model.deadline.Deadline;
-import modulo.commons.exceptions.IllegalValueException;
 
 /**
  * Jackson-friendly version of {@link Deadline}.

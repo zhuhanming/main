@@ -56,7 +56,7 @@ public class MainApp extends Application {
 
         UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(config.getUserPrefsFilePath());
         UserPrefs userPrefs = initPrefs(userPrefsStorage);
-        ModuloStorage moduloStorage = new JsonModuloStorage(userPrefs.getCalendarFilePath());
+        ModuloStorage moduloStorage = new JsonModuloStorage(userPrefs.getModuloFilePath());
         storage = new StorageManager(moduloStorage, userPrefsStorage);
 
 
