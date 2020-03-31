@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.logging.Filter;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -245,8 +247,10 @@ public class ModelManager implements Model {
 
     @Override
     public void updateFilteredDisplayableList(Predicate<Displayable> predicate) {
+
         requireNonNull(predicate);
-        focusedFilteredDisplayables.setPredicate(predicate);
+        FilteredList<? extends Displayable> tempList = new FilteredList<>(focusedFilteredDisplayables, predicate);
+        focusedFilteredDisplayables = tempList;
     }
 
     public Object[] getFilteredDisplayableList(Predicate<Displayable> predicate) {
