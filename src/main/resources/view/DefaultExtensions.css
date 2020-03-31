@@ -1,0 +1,3 @@
+.error {
+    -fx-text-fill: #EE117F !important; /* The error class should always override the default text-fill style */
+}
