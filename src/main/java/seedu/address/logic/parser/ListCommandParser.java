@@ -18,8 +18,12 @@ public class ListCommandParser implements Parser<ListCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public ListCommand parse(String args) throws ParseException {
-        DisplayableType displayableType = ParserUtil.parseDisplayableType(args);
-        return new ListCommand(displayableType);
+        String[] arrOfArgs = args.toLowerCase().trim().split(" ");
+        DisplayableType displayableType = ParserUtil.parseDisplayableType(arrOfArgs[0]);
+        if (arrOfArgs.length > 1 && arrOfArgs[1].equals("all")) {
+            return new ListCommand(displayableType, true);
+        }
+        return new ListCommand(displayableType, false);
     }
 }
 

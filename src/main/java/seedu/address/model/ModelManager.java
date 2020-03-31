@@ -240,13 +240,25 @@ public class ModelManager implements Model {
         }
     }
 
+    @Override
+    public void setFilteredFocusedListShowAll(DisplayableType displayableType) {
+        if (displayableType == DisplayableType.EVENT) {
+            updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
+            focusedFilteredDisplayables = filteredEvents;
+        } else if (displayableType == DisplayableType.MODULE) {
+            updateFilteredModuleList(PREDICATE_SHOW_ALL_MODULES);
+            focusedFilteredDisplayables = filteredModules;
+        }
+    }
+
 
     //=========== Filtered Person List Accessors =============================================================
 
     @Override
     public void updateFilteredDisplayableList(Predicate<Displayable> predicate) {
         requireNonNull(predicate);
-        focusedFilteredDisplayables.setPredicate(predicate);
+        FilteredList<? extends Displayable> filteredList = new FilteredList<>(focusedFilteredDisplayables, predicate);
+        focusedFilteredDisplayables = filteredList;
     }
 
     public Object[] getFilteredDisplayableList(Predicate<Displayable> predicate) {

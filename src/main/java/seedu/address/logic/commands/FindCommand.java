@@ -33,13 +33,16 @@ public class FindCommand extends Command {
 
         if (model.getCurrentDisplayableType() == DisplayableType.EVENT) {
             return new CommandResult(
-                    String.format(Messages.MESSAGE_EVENT_LISTED_OVERVIEW, model.getFilteredFocusedList().size()));
+                    String.format(Messages.MESSAGE_EVENT_LISTED_OVERVIEW, model.getFilteredFocusedList().size()),
+                    false, false, true, true, null);
         } else if (model.getCurrentDisplayableType() == DisplayableType.MODULE) {
             return new CommandResult(
-                    String.format(Messages.MESSAGE_MODULE_LISTED_OVERVIEW, model.getFilteredFocusedList().size()));
+                    String.format(Messages.MESSAGE_MODULE_LISTED_OVERVIEW, model.getFilteredFocusedList().size()),
+                    false, false, true, true, null);
         } else {
             return new CommandResult(
-                    String.format(Messages.MESSAGE_ITEM_LISTED_OVERVIEW, model.getFilteredFocusedList().size()));
+                    String.format(Messages.MESSAGE_ITEM_LISTED_OVERVIEW, model.getFilteredFocusedList().size()),
+                    false, false, true, true, null);
         }
     }
 
