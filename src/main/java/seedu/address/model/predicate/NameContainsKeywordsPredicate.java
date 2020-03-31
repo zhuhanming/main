@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import seedu.address.model.Displayable;
-import seedu.address.model.DisplayableType;
 
 /**
  * Tests that a {@code Person}'s {@code CalendarItemName} matches any of the keywords given.
