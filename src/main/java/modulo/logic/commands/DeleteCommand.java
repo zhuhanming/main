@@ -101,6 +101,7 @@ public class DeleteCommand extends Command {
                     numberOfItemsDeleted++;
                     model.deleteEvent((Event) eventObject);
                 }
+                assert predicate != null;
                 if (predicate.toString().equals(predicateStringForDeleteAll)) {
                     return new CommandResult(String.format(Messages.MESSAGE_DELETE_ALL_EVENTS_SUCCESS,
                             numberOfItemsDeleted),
@@ -118,6 +119,7 @@ public class DeleteCommand extends Command {
                     deleteEventsOfModule(model, module);
                     model.deleteModule(module);
                 }
+                assert predicate != null;
                 if (predicate.toString().equals(predicateStringForDeleteAll)) {
                     model.unsetFocusedDisplayable();
                     return new CommandResult(String.format(Messages.MESSAGE_DELETE_ALL_MODULES_SUCCESS,
@@ -143,7 +145,7 @@ public class DeleteCommand extends Command {
         while (count < model.getFilteredEventList().size()) {
 
             Event event = model.getFilteredEventList().get(count);
-            if (event.getParentModule().equals(((Module) module))) {
+            if (event.getParentModule().equals(module)) {
                 model.deleteEvent(event);
             } else {
                 count++;
@@ -161,6 +163,9 @@ public class DeleteCommand extends Command {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof DeleteCommand // instanceof handles nulls
-                && targetIndex.equals(((DeleteCommand) other).targetIndex)); // state check
+                && (((targetIndex != null && ((DeleteCommand) other).targetIndex != null)
+                && targetIndex.equals(((DeleteCommand) other).targetIndex))
+                || ((predicate != null && ((DeleteCommand) other).predicate != null)
+                && predicate.equals(((DeleteCommand) other).predicate)))); // state check
     }
 }

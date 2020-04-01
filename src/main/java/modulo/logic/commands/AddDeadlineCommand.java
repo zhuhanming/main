@@ -1,6 +1,10 @@
 package modulo.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static modulo.commons.core.Messages.MESSAGE_CANNOT_ADD_DEADLINE_TO_MODULE;
+import static modulo.commons.core.Messages.MESSAGE_DEADLINE_ADDED;
+import static modulo.commons.core.Messages.MESSAGE_DUPLICATE_DEADLINE;
+import static modulo.commons.core.Messages.MESSAGE_EVENT_DOES_NOT_EXIST;
 import static modulo.logic.parser.CliSyntax.PREFIX_EVENT;
 import static modulo.logic.parser.CliSyntax.PREFIX_MODULE;
 import static modulo.logic.parser.CliSyntax.PREFIX_NAME;
@@ -40,10 +44,6 @@ public class AddDeadlineCommand extends Command {
             + PREFIX_NAME + "Complete tutorial questions "
             + PREFIX_REPEAT + "YES";
 
-    public static final String MESSAGE_SUCCESS = "New deadline added: %1$s";
-    public static final String MESSAGE_DUPLICATE_DEADLINE = "This deadline already exists in Modulo!";
-    public static final String MESSAGE_EVENT_DOESNT_EXIST = "The specified event does not exist in Modulo!";
-    public static final String MESSAGE_CANNOT_ADD_TO_MODULE = "You cannot add deadlines to modules!";
 
     private final Event parentEvent;
     private final boolean isRepeated;
@@ -87,11 +87,11 @@ public class AddDeadlineCommand extends Command {
             Displayable focusedDisplayable = model.getFocusedDisplayable();
 
             if (focusedDisplayable instanceof Module) {
-                throw new CommandException(MESSAGE_CANNOT_ADD_TO_MODULE);
+                throw new CommandException(MESSAGE_CANNOT_ADD_DEADLINE_TO_MODULE);
             }
 
             if (focusedDisplayable == null) {
-                throw new CommandException(MESSAGE_EVENT_DOESNT_EXIST);
+                throw new CommandException(MESSAGE_EVENT_DOES_NOT_EXIST);
             }
 
             Event parentEvent = (Event) focusedDisplayable;
@@ -102,12 +102,12 @@ public class AddDeadlineCommand extends Command {
                     throw new CommandException(MESSAGE_DUPLICATE_DEADLINE);
                 }
                 parentEvent.addDeadline(toAdd);
-                return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd), false, false, false, true, null);
+                return new CommandResult(String.format(MESSAGE_DEADLINE_ADDED, toAdd), false, false, false, true, null);
             }
         } else {
             // Add deadline to a referenced Event.
             if (!model.hasEvent(parentEvent)) {
-                throw new CommandException(MESSAGE_EVENT_DOESNT_EXIST);
+                throw new CommandException(MESSAGE_EVENT_DOES_NOT_EXIST);
             }
             if (!isRepeated) {
                 Event actualParentEvent = model.findEvent(parentEvent);
@@ -116,7 +116,7 @@ public class AddDeadlineCommand extends Command {
                     throw new CommandException(MESSAGE_DUPLICATE_DEADLINE);
                 }
                 actualParentEvent.addDeadline(toAdd);
-                return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd), false, false, false, true, null);
+                return new CommandResult(String.format(MESSAGE_DEADLINE_ADDED, toAdd), false, false, false, true, null);
             }
         }
 
@@ -129,7 +129,8 @@ public class AddDeadlineCommand extends Command {
                 event.addDeadline(currentToAdd);
             }
         }
-        return new CommandResult(String.format(MESSAGE_SUCCESS, referenceDeadline), false, false, false, true, null);
+        return new CommandResult(String.format(MESSAGE_DEADLINE_ADDED, referenceDeadline),
+                false, false, false, true, null);
     }
 
     @Override

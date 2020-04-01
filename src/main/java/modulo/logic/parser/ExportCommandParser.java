@@ -1,14 +1,13 @@
 package modulo.logic.parser;
 
+import static modulo.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static modulo.logic.parser.CliSyntax.PREFIX_DIRECTORY;
-
-import java.util.stream.Stream;
 
 import modulo.logic.commands.ExportCommand;
 import modulo.logic.parser.exceptions.ParseException;
 
 /**
- * todo
+ * Parses input arguments and creates a new ExportCommand object
  */
 public class ExportCommandParser implements Parser<ExportCommand> {
 
@@ -16,23 +15,20 @@ public class ExportCommandParser implements Parser<ExportCommand> {
      * Parses the given {@code String} of arguments in the context of the ExportCommandParser and returns a
      * ExportCommandParser object for execution.
      *
-     * @throws ParseException if the user input does not conform the expected format
+     * @param args Arguments passed in by the user.
+     * @return {@code ExportCommand} to execute.
+     * @throws ParseException if the user input does not conform the expected format.
      */
 
     public ExportCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_DIRECTORY);
-        if (!arePrefixesPresent(argMultimap, PREFIX_DIRECTORY) || !argMultimap.getPreamble().isEmpty()) {
+        if (!argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ExportCommand.MESSAGE_USAGE));
+        }
+        if (argMultimap.getValue(PREFIX_DIRECTORY).isEmpty()) {
             return new ExportCommand();
         } else {
             return new ExportCommand(ParserUtil.parseDirectory(argMultimap.getValue(PREFIX_DIRECTORY).get()));
         }
-    }
-
-    /**
-     * Returns true if none of the prefixes contains empty {@code Optional} values in the given {@code
-     * ArgumentMultimap}.
-     */
-    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
-        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
 }

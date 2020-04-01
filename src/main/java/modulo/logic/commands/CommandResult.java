@@ -61,6 +61,9 @@ public class CommandResult {
 
     /**
      * Constructs a {@code CommandResult} for Viewing.
+     *
+     * @param feedbackToUser Feedback to show to the user.
+     * @param indexToShow    Index to focus on.
      */
     public CommandResult(String feedbackToUser, Index indexToShow) {
         this(feedbackToUser, false, false, false, true, indexToShow);
@@ -69,31 +72,63 @@ public class CommandResult {
     /**
      * Constructs a {@code CommandResult} with the specified {@code feedbackToUser}, and other fields set to their
      * default value.
+     *
+     * @param feedbackToUser Feedback to show to user.
      */
     public CommandResult(String feedbackToUser) {
         this(feedbackToUser, false, false, false, false, null);
     }
 
+    /**
+     * Returns the feedback to show to user.
+     *
+     * @return Feedback to show to user.
+     */
     public String getFeedbackToUser() {
         return feedbackToUser;
     }
 
+    /**
+     * Returns a boolean value for whether to show help.
+     *
+     * @return A boolean value for whether to show help.
+     */
     public boolean isToShowHelp() {
         return toShowHelp;
     }
 
+    /**
+     * Returns a boolean value for whether to exit the application.
+     *
+     * @return A boolean value for whether to exit the application.
+     */
     public boolean isToExit() {
         return toExit;
     }
 
+    /**
+     * Returns a boolean value for whether to update the left Ui panel.
+     *
+     * @return A boolean value for whether to update the left Ui panel.
+     */
     public boolean isToUpdateLeftPanel() {
         return toUpdateLeftPanel;
     }
 
+    /**
+     * Returns a boolean value for whether to update the right Ui panel.
+     *
+     * @return A boolean value for whether to update the right Ui panel.
+     */
     public boolean isToUpdateRightPanel() {
         return toUpdateRightPanel;
     }
 
+    /**
+     * Returns an Index to highlight for the left Ui panel.
+     *
+     * @return An Index to highlight for the left Ui panel.
+     */
     public Index getIndexToShow() {
         return indexToShow;
     }

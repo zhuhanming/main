@@ -1,8 +1,14 @@
 package modulo.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static modulo.commons.core.Messages.MESSAGE_CANNOT_ADD_EVENT_TO_EVENT;
+import static modulo.commons.core.Messages.MESSAGE_DUPLICATE_EVENT;
+import static modulo.commons.core.Messages.MESSAGE_EVENT_ADDED;
+import static modulo.commons.core.Messages.MESSAGE_INVALID_DATE_RANGE;
+import static modulo.commons.core.Messages.MESSAGE_MODULE_DOES_NOT_EXIST;
 import static modulo.commons.util.CollectionUtil.requireAllNonNull;
 import static modulo.logic.parser.CliSyntax.PREFIX_END_DATETIME;
+import static modulo.logic.parser.CliSyntax.PREFIX_FREQUENCY;
 import static modulo.logic.parser.CliSyntax.PREFIX_MODULE;
 import static modulo.logic.parser.CliSyntax.PREFIX_NAME;
 import static modulo.logic.parser.CliSyntax.PREFIX_REPEAT;
@@ -32,12 +38,13 @@ public class AddEventCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a event to Modulo. "
             + "Parameters: "
-            + "(if viewing Module) "
+            + "(if viewing module) "
             + PREFIX_NAME + "EVENT_NAME "
-            + PREFIX_START_DATETIME + "EVENT_START_DATETIME "
-            + PREFIX_END_DATETIME + "EVENT_END_DATETIME "
+            + PREFIX_START_DATETIME + "START DATETIME "
+            + PREFIX_END_DATETIME + "END DATETIME "
             + PREFIX_VENUE + "VENUE "
-            + "[" + PREFIX_REPEAT + "YES/NO] "
+            + "[" + PREFIX_REPEAT + "TO REPEAT] "
+            + "[" + PREFIX_FREQUENCY + "FREQ (WEEKS)] "
             + "[" + PREFIX_STOP_REPEAT + "EVENT_REPEAT_END] "
             + "Parameters: (else) "
             + PREFIX_MODULE + "MODULE CODE "
@@ -54,14 +61,8 @@ public class AddEventCommand extends Command {
             + PREFIX_END_DATETIME + "2020-01-30 10:00 "
             + PREFIX_VENUE + "COM1-B103 "
             + PREFIX_REPEAT + "YES "
+            + PREFIX_FREQUENCY + "2 "
             + PREFIX_STOP_REPEAT + "2020-05-08";
-
-    public static final String MESSAGE_SUCCESS = "New event added: %1$s";
-    public static final String MESSAGE_DUPLICATE_EVENT = "This event already exists for this module!";
-    public static final String MESSAGE_INVALID_DATE_RANGE = "The specified date range is invalid!";
-    public static final String MESSAGE_MODULE_DOESNT_EXIST = "The specified module does not exist in Modulo!";
-    public static final String MESSAGE_CANNOT_ADD_TO_EVENT = "You cannot add events to events!";
-
 
     private final Event toAdd;
     private final Name name;
@@ -72,7 +73,6 @@ public class AddEventCommand extends Command {
     private final TemporalAmount frequency;
     private final Location location;
     private final EventType eventType;
-
 
     /**
      * Creates an AddEventCommand to add an Event to a specified Module. The module data is stored within the event
@@ -131,10 +131,10 @@ public class AddEventCommand extends Command {
         if (toAdd == null) {
             Displayable displayable = model.getFocusedDisplayable();
             if (displayable instanceof Event) {
-                throw new CommandException(MESSAGE_CANNOT_ADD_TO_EVENT);
+                throw new CommandException(MESSAGE_CANNOT_ADD_EVENT_TO_EVENT);
             }
             if (displayable == null) {
-                throw new CommandException(MESSAGE_MODULE_DOESNT_EXIST);
+                throw new CommandException(MESSAGE_MODULE_DOES_NOT_EXIST);
             }
             actualModule = (Module) displayable;
             actualEvent = new Event(name, eventType, startDateTime, endDateTime, actualModule, location);
@@ -142,7 +142,7 @@ public class AddEventCommand extends Command {
             // If an event is specified, we recreate the event with the correct module reference.
             Module partialModule = toAdd.getParentModule();
             actualModule = model.getModule(partialModule.getModuleCode(), partialModule.getAcademicYear())
-                    .orElseThrow(() -> new CommandException(MESSAGE_MODULE_DOESNT_EXIST));
+                    .orElseThrow(() -> new CommandException(MESSAGE_MODULE_DOES_NOT_EXIST));
 
             actualEvent = new Event(toAdd.getName(), toAdd.getEventType(), toAdd.getEventStart(),
                     toAdd.getEventEnd(), actualModule, toAdd.getLocation());
@@ -182,7 +182,7 @@ public class AddEventCommand extends Command {
             actualModule.addEvent(actualEvent);
             model.addEvent(actualEvent);
         }
-        return new CommandResult(String.format(MESSAGE_SUCCESS, actualEvent), false, false, true, true, null);
+        return new CommandResult(String.format(MESSAGE_EVENT_ADDED, actualEvent), false, false, true, true, null);
     }
 
     @Override

@@ -27,11 +27,11 @@ public interface Logic {
     CommandResult execute(String commandText) throws CommandException, ParseException;
 
     /**
-     * Returns the AddressBook.
+     * Returns Modulo.
      *
      * @see Model#getModulo()
      */
-    ReadOnlyModulo getCalendar();
+    ReadOnlyModulo getModulo();
 
     /**
      * Returns an unmodifiable view of the filtered list of focused items. This can be either {@code Module} or {@code}
@@ -47,12 +47,14 @@ public interface Logic {
     DisplayableType getCurrentDisplayableType();
 
     /**
-     * Returns the user prefs' address book file path.
+     * Returns the user prefs' modulo file path.
      */
-    Path getCalendarFilePath();
+    Path getModuloFilePath();
 
     /**
      * Returns the user prefs' GUI settings.
+     *
+     * @return GUI settings.
      */
     GuiSettings getGuiSettings();
 

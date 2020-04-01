@@ -1,6 +1,12 @@
 package modulo.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static modulo.commons.core.Messages.MESSAGE_CANNOT_COMPLETE_EVENT;
+import static modulo.commons.core.Messages.MESSAGE_COMPLETED_DEADLINE;
+import static modulo.commons.core.Messages.MESSAGE_DEADLINE_DOES_NOT_EXIST;
+import static modulo.commons.core.Messages.MESSAGE_EVENT_DOES_NOT_EXIST;
+import static modulo.commons.core.Messages.MESSAGE_MODULE_DOES_NOT_EXIST;
+import static modulo.commons.core.Messages.MESSAGE_UNCOMPLETED_DEADLINE;
 import static modulo.commons.util.CollectionUtil.requireAllNonNull;
 import static modulo.logic.parser.CliSyntax.PREFIX_EVENT;
 import static modulo.logic.parser.CliSyntax.PREFIX_MODULE;
@@ -17,7 +23,7 @@ import modulo.model.event.Event;
 import modulo.model.module.Module;
 
 /**
- * Set a deadline to be done
+ * Marks a deadline as complete or incomplete.
  */
 public class DoneCommand extends Command {
 
@@ -37,13 +43,6 @@ public class DoneCommand extends Command {
             + PREFIX_MODULE + "CS2103 "
             + PREFIX_EVENT + "Tutorial";
 
-    public static final String MESSAGE_SUCCESS_COMPLETE = "Completed the deadline: %1$s";
-    public static final String MESSAGE_SUCCESS_INCOMPLETE = "Marked this deadline incomplete: %1$s";
-    public static final String MESSAGE_MODULE_DOES_NOT_EXIST = "The specified module does not exist in the calendar";
-    public static final String MESSAGE_EVENT_DOES_NOT_EXIST = "The specified event does not exist in the module";
-    public static final String MESSAGE_DEADLINE_DOES_NOT_EXIST = "The specified event does not have the indexed "
-            + "deadline";
-    public static final String MESSAGE_CANNOT_COMPLETE_EVENT = "You cannot complete an event!";
     private final Module toCheckModule;
     private final Event toCheckEvent;
     private final Index index;
@@ -68,8 +67,8 @@ public class DoneCommand extends Command {
                 deadlineToComplete = ((Event) focusedDisplayable).getDeadlines().get(index.getZeroBased());
                 isDeadlineOriginallyComplete = deadlineToComplete.isCompleted();
                 deadlineToComplete.setCompleted(!isDeadlineOriginallyComplete);
-                return new CommandResult(String.format(isDeadlineOriginallyComplete ? MESSAGE_SUCCESS_INCOMPLETE
-                        : MESSAGE_SUCCESS_COMPLETE, deadlineToComplete), false, false, false, true, null);
+                return new CommandResult(String.format(isDeadlineOriginallyComplete ? MESSAGE_UNCOMPLETED_DEADLINE
+                        : MESSAGE_COMPLETED_DEADLINE, deadlineToComplete), false, false, false, true, null);
             } else if (focusedDisplayable != null) {
                 throw new CommandException(MESSAGE_CANNOT_COMPLETE_EVENT);
             } else {
@@ -93,8 +92,8 @@ public class DoneCommand extends Command {
             deadlineToComplete = deadlineList.get(index.getZeroBased());
             isDeadlineOriginallyComplete = deadlineToComplete.isCompleted();
             deadlineToComplete.setCompleted(!isDeadlineOriginallyComplete);
-            return new CommandResult(String.format(isDeadlineOriginallyComplete ? MESSAGE_SUCCESS_INCOMPLETE
-                    : MESSAGE_SUCCESS_COMPLETE, deadlineToComplete), false, false, false, true, null);
+            return new CommandResult(String.format(isDeadlineOriginallyComplete ? MESSAGE_UNCOMPLETED_DEADLINE
+                    : MESSAGE_COMPLETED_DEADLINE, deadlineToComplete), false, false, false, true, null);
         } catch (IndexOutOfBoundsException e) {
             throw new CommandException(MESSAGE_DEADLINE_DOES_NOT_EXIST);
         }

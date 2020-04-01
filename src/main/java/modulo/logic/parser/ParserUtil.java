@@ -1,6 +1,12 @@
 package modulo.logic.parser;
 
 import static java.util.Objects.requireNonNull;
+import static modulo.commons.core.Messages.MESSAGE_INVALID_DATETIME_FORMAT;
+import static modulo.commons.core.Messages.MESSAGE_INVALID_DATE_FORMAT;
+import static modulo.commons.core.Messages.MESSAGE_INVALID_DISPLAYABLE_TYPE;
+import static modulo.commons.core.Messages.MESSAGE_INVALID_EVENT_TYPE;
+import static modulo.commons.core.Messages.MESSAGE_INVALID_INDEX;
+import static modulo.commons.core.Messages.MESSAGE_INVALID_REPEAT_VALUE;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -23,29 +29,33 @@ import modulo.model.module.ModuleCode;
  */
 public class ParserUtil {
 
-    public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
     public static final DateTimeFormatter DATETIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     public static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     /**
+     *
+     */
+    /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
      * trimmed.
      *
+     * @param oneBasedIndex One-based index as string.
+     * @return An Index object.
      * @throws ParseException if the specified index is invalid (not non-zero unsigned integer).
      */
     public static Index parseIndex(String oneBasedIndex) throws ParseException {
-        System.out.println("index entered " + oneBasedIndex);
         String trimmedIndex = oneBasedIndex.trim();
         if (!StringUtil.isNonZeroUnsignedInteger(trimmedIndex)) {
             throw new ParseException(MESSAGE_INVALID_INDEX);
         }
-        System.out.println("index pass " + oneBasedIndex);
         return Index.fromOneBased(Integer.parseInt(trimmedIndex));
     }
 
     /**
      * Parses a {@code String name} into a {@code Name}. Leading and trailing whitespaces will be trimmed.
      *
+     * @param name Name as string.
+     * @return Name object.
      * @throws ParseException if the given {@code name} is invalid.
      */
     public static Name parseName(String name) throws ParseException {
@@ -72,7 +82,7 @@ public class ParserUtil {
         try {
             result = LocalDate.parse(trimmedDate, DATE_FORMAT);
         } catch (DateTimeParseException e) {
-            throw new ParseException("Please enter a valid date in the format: yyyy-MM-dd");
+            throw new ParseException(MESSAGE_INVALID_DATE_FORMAT);
         }
         return result;
     }
@@ -87,7 +97,7 @@ public class ParserUtil {
     public static ModuleCode parseModuleCode(String moduleCode) throws ParseException {
         requireNonNull(moduleCode);
         String trimmedModuleCode = moduleCode.trim();
-        //TO REPLACE WITH MODULE CHECKING WITHIN IMPORTED NUSMOD SET
+
         if (!ModuleCode.isValidModuleCode(trimmedModuleCode)) {
             throw new ParseException(ModuleCode.MESSAGE_CONSTRAINTS);
         }
@@ -106,7 +116,7 @@ public class ParserUtil {
         try {
             result = LocalDateTime.parse(dateTime, DATETIME_FORMAT);
         } catch (DateTimeParseException e) {
-            throw new ParseException("Please enter a valid date time in the format: yyyy-MM-dd HH:mm");
+            throw new ParseException(MESSAGE_INVALID_DATETIME_FORMAT);
         }
         return result;
     }
@@ -115,7 +125,7 @@ public class ParserUtil {
      * Parses the user input repeat.
      *
      * @param repeat Date time provided by user.
-     * @return boolean value denoting whether the event should repeat.
+     * @return Boolean value denoting whether the event should repeat.
      * @throws ParseException If the repeat string is not recognised.
      */
     public static boolean parseRepeat(String repeat) throws ParseException {
@@ -125,7 +135,7 @@ public class ParserUtil {
         case "no":
             return false;
         default:
-            throw new ParseException("Please enter valid input for repeat : YES/NO");
+            throw new ParseException(MESSAGE_INVALID_REPEAT_VALUE);
         }
     }
 
@@ -140,7 +150,7 @@ public class ParserUtil {
     public static EventType parseEventType(String eventType) throws ParseException {
         EventType result = EventType.parseEventType(eventType);
         if (result == null) {
-            throw new ParseException("Event type is not recognised!");
+            throw new ParseException(MESSAGE_INVALID_EVENT_TYPE);
         }
         return result;
     }
@@ -160,7 +170,7 @@ public class ParserUtil {
         } else if (cleanedDisplayableType.equals("e") || cleanedDisplayableType.equals("event")) {
             return DisplayableType.EVENT;
         }
-        throw new ParseException("Displayable type is not recognised!");
+        throw new ParseException(MESSAGE_INVALID_DISPLAYABLE_TYPE);
     }
 
     /**
@@ -178,6 +188,8 @@ public class ParserUtil {
     /**
      * Parses a {@code String location} into a {@code Location}. Leading and trailing whitespaces will be trimmed.
      *
+     * @param location String provided by user.
+     * @return Location from the string provided.
      * @throws ParseException if the given {@code location} is invalid.
      */
     public static Location parseLocation(String location) throws ParseException {

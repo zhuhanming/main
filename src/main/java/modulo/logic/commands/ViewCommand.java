@@ -1,16 +1,18 @@
 package modulo.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static modulo.commons.core.Messages.MESSAGE_CLEARED_VIEW;
+import static modulo.commons.core.Messages.MESSAGE_INVALID_VIEW_INDEX;
+import static modulo.commons.core.Messages.MESSAGE_VIEW_ITEM_SUCCESS;
 
 import javafx.collections.ObservableList;
-import modulo.commons.core.Messages;
 import modulo.commons.core.index.Index;
 import modulo.logic.commands.exceptions.CommandException;
 import modulo.model.Displayable;
 import modulo.model.Model;
 
 /**
- * Allows the user to view details of a specific event / module in the list
+ * Allows the user to view details of a specific event / module in the list.
  */
 public class ViewCommand extends Command {
 
@@ -21,9 +23,13 @@ public class ViewCommand extends Command {
             + "\n"
             + "Example: " + COMMAND_WORD + " 1 ";
 
-    public static final String MESSAGE_VIEW_SUCCESS = "%1$s \nis in view!";
     private Index index;
 
+    /**
+     * Creates a {@code ViewCommand} that sets the item at the specified index into view.
+     *
+     * @param index Index of item to view.
+     */
     public ViewCommand(Index index) {
         this.index = index;
     }
@@ -32,13 +38,18 @@ public class ViewCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
+        if (index == null) {
+            model.unsetFocusedDisplayable();
+            return new CommandResult(MESSAGE_CLEARED_VIEW, false, false, true, true, null);
+        }
+
         ObservableList<?> lastShownList = model.getFilteredFocusedList();
         if (index.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_VIEW_DISPLAYED_INDEX);
+            throw new CommandException(MESSAGE_INVALID_VIEW_INDEX);
         }
 
         Displayable itemToView = (Displayable) lastShownList.get(index.getZeroBased());
         model.setFocusedDisplayable(itemToView);
-        return new CommandResult(String.format(MESSAGE_VIEW_SUCCESS, itemToView), index);
+        return new CommandResult(String.format(MESSAGE_VIEW_ITEM_SUCCESS, itemToView), index);
     }
 }

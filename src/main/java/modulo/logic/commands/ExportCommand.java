@@ -1,29 +1,44 @@
 package modulo.logic.commands;
 
+import static modulo.commons.core.Messages.MESSAGE_EXPORT_FAILED;
+import static modulo.commons.core.Messages.MESSAGE_EXPORT_SUCCESS;
+import static modulo.logic.parser.CliSyntax.PREFIX_DIRECTORY;
+
 import java.io.IOException;
 import java.nio.file.Path;
 
 import modulo.logic.commands.exceptions.CommandException;
-import modulo.logic.handler.IcsParser;
+import modulo.logic.writer.IcsWriter;
 import modulo.model.Model;
 
 /**
- * Exports current calendar to ics file
+ * Exports current Modulo to a .ics file.
  */
 public class ExportCommand extends Command {
 
     public static final String COMMAND_WORD = "export";
 
-    public static final String MESSAGE_SUCCESS = "Calendar successfully exported to .ics file";
-
-    public static final String MESSAGE_FAILED_EXPORT = "Failed to export calendar";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Exports Modulo as a .ics calendar file.\n"
+            + "Parameters: "
+            + "[" + PREFIX_DIRECTORY + "DIRECTORY]"
+            + "\n"
+            + "Example: " + COMMAND_WORD
+            + PREFIX_DIRECTORY + "data/ ";
 
     private Path exportDirectory;
 
+    /**
+     * Creates an {@code ExportCommand} without an explicit export directory. The file will be exported to the default
+     * directory.
+     */
     public ExportCommand() {
-
     }
 
+    /**
+     * Creates an {@code ExportCommand} with a specified export directory.
+     *
+     * @param exportDirectory Directory to export to.
+     */
     public ExportCommand(Path exportDirectory) {
         this.exportDirectory = exportDirectory;
     }
@@ -36,12 +51,12 @@ public class ExportCommand extends Command {
         }
 
         try {
-            IcsParser.generateIcsFile(exportDirectory, model.getModulo().getEventList());
+            IcsWriter.writeIcsFile(exportDirectory, model.getModulo().getEventList());
         } catch (IOException e) {
             e.printStackTrace();
-            throw new CommandException(String.format(MESSAGE_FAILED_EXPORT));
+            throw new CommandException(MESSAGE_EXPORT_FAILED);
         }
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS));
+        return new CommandResult(MESSAGE_EXPORT_SUCCESS);
     }
 }

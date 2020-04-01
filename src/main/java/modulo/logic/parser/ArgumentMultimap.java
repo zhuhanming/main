@@ -34,6 +34,9 @@ public class ArgumentMultimap {
 
     /**
      * Returns the last value of {@code prefix}.
+     *
+     * @param prefix Prefix for value to get.
+     * @return Value associated to that prefix.
      */
     public Optional<String> getValue(Prefix prefix) {
         List<String> values = getAllValues(prefix);
@@ -43,6 +46,9 @@ public class ArgumentMultimap {
     /**
      * Returns all values of {@code prefix}. If the prefix does not exist or has no values, this will return an empty
      * list. Modifying the returned list will not affect the underlying data structure of the ArgumentMultimap.
+     *
+     * @param prefix Prefix for values to get.
+     * @return List of strings associated with the prefix.
      */
     public List<String> getAllValues(Prefix prefix) {
         if (!argMultimap.containsKey(prefix)) {
@@ -53,6 +59,8 @@ public class ArgumentMultimap {
 
     /**
      * Returns the preamble (text before the first valid prefix). Trims any leading/trailing spaces.
+     *
+     * @return Preamble of command.
      */
     public String getPreamble() {
         return getValue(new Prefix("")).orElse("");

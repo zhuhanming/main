@@ -12,6 +12,7 @@ import modulo.logic.commands.AddModuleCommand;
 import modulo.logic.commands.Command;
 import modulo.logic.commands.DeleteCommand;
 import modulo.logic.commands.DoneCommand;
+import modulo.logic.commands.ExitCommand;
 import modulo.logic.commands.ExportCommand;
 import modulo.logic.commands.FindCommand;
 import modulo.logic.commands.HelpCommand;
@@ -48,12 +49,6 @@ public class ModuloParser {
         System.out.println("arguments " + arguments);
         switch (commandWord) {
 
-        case ViewCommand.COMMAND_WORD:
-            return new ViewCommandParser().parse(arguments);
-
-        case ListCommand.COMMAND_WORD:
-            return new ListCommandParser().parse(arguments);
-
         case AddDeadlineCommand.COMMAND_WORD:
             return new AddDeadlineCommandParser().parse(arguments);
 
@@ -63,21 +58,29 @@ public class ModuloParser {
         case AddModuleCommand.COMMAND_WORD:
             return new AddModuleCommandParser().parse(arguments);
 
+        case DeleteCommand.COMMAND_WORD:
+            return new DeleteCommandParser().parse(arguments);
+
         case DoneCommand.COMMAND_WORD:
             return new DoneCommandParser().parse(arguments);
 
-        case FindCommand.COMMAND_WORD:
-            return new FindCommandParser().parse(arguments);
+        case ExitCommand.COMMAND_WORD:
+            return new ExitCommand();
 
         case ExportCommand.COMMAND_WORD:
             return new ExportCommandParser().parse(arguments);
 
-        case DeleteCommand.COMMAND_WORD:
-            return new DeleteCommandParser().parse(arguments);
+        case FindCommand.COMMAND_WORD:
+            return new FindCommandParser().parse(arguments);
 
         case HelpCommand.COMMAND_WORD:
             return new HelpCommand();
 
+        case ListCommand.COMMAND_WORD:
+            return new ListCommandParser().parse(arguments);
+
+        case ViewCommand.COMMAND_WORD:
+            return new ViewCommandParser().parse(arguments);
 
         default:
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);

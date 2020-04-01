@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.temporal.TemporalAmount;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import modulo.logic.commands.AddEventCommand;
@@ -32,35 +33,43 @@ import modulo.model.module.PartialModule;
 public class AddEventCommandParser implements Parser<AddEventCommand> {
 
     /**
-     * Parses the given {@code String} of arguments in the context of the AddCommand and returns an AddCommand object
-     * for execution.
+     * Parses the given {@code String} of arguments in the context of the AddEventCommand and returns an AddEventCommand
+     * object for execution.
      *
-     * @throws ParseException if the user input does not conform the expected format
+     * @param args Arguments passed in by the user.
+     * @return {@code AddEventCommand} to execute.
+     * @throws ParseException if the user input does not conform the expected format.
      */
     public AddEventCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_MODULE, PREFIX_NAME,
                 PREFIX_START_DATETIME, PREFIX_END_DATETIME, PREFIX_VENUE, PREFIX_REPEAT);
 
+        Supplier<ParseException> parseExceptionSupplier = () -> new ParseException(
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddEventCommand.MESSAGE_USAGE));
+
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_START_DATETIME, PREFIX_END_DATETIME, PREFIX_VENUE)
                 || !argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddEventCommand.MESSAGE_USAGE));
+            parseExceptionSupplier.get();
         }
 
-        Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
-        LocalDateTime startDateTime = ParserUtil.parseDateTime(argMultimap
-                .getValue(PREFIX_START_DATETIME).get());
-        LocalDateTime endDateTime = ParserUtil.parseDateTime(argMultimap.getValue(PREFIX_END_DATETIME).get());
-        Location location = ParserUtil.parseLocation(argMultimap.getValue(PREFIX_VENUE).get());
-        boolean isRepeated = false;
-        if (argMultimap.getValue(PREFIX_REPEAT).isPresent()) {
-            isRepeated = ParserUtil.parseRepeat(argMultimap.getValue(PREFIX_REPEAT).get());
-        }
-        LocalDate endRepeatDate = null;
+        // Defensive getting of optionals
+        Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).orElseThrow(parseExceptionSupplier));
+        LocalDateTime startDateTime = ParserUtil.parseDateTime(argMultimap.getValue(PREFIX_START_DATETIME)
+                .orElseThrow(parseExceptionSupplier));
+        LocalDateTime endDateTime = ParserUtil.parseDateTime(argMultimap.getValue(PREFIX_END_DATETIME)
+                .orElseThrow(parseExceptionSupplier));
+        Location location = ParserUtil.parseLocation(argMultimap.getValue(PREFIX_VENUE)
+                .orElseThrow(parseExceptionSupplier));
+        boolean isRepeated = ParserUtil.parseRepeat(argMultimap.getValue(PREFIX_REPEAT).orElse("NO"));
         EventType eventType = ParserUtil.parseEventType(name.toString());
+
+        LocalDate endRepeatDate = null;
+
         if (isRepeated && argMultimap.getValue(CliSyntax.PREFIX_STOP_REPEAT).isPresent()) {
             endRepeatDate = ParserUtil.parseDate(argMultimap.getValue(CliSyntax.PREFIX_STOP_REPEAT).get());
         }
         TemporalAmount frequency = Period.ofDays(7);
+
         if (argMultimap.getValue(PREFIX_MODULE).isEmpty()) {
             return new AddEventCommand(name, startDateTime, endDateTime, location, isRepeated,
                     endRepeatDate, eventType, frequency);
@@ -74,10 +83,12 @@ public class AddEventCommandParser implements Parser<AddEventCommand> {
     /**
      * Returns true if none of the prefixes contains empty {@code Optional} values in the given {@code
      * ArgumentMultimap}.
+     *
+     * @param argumentMultimap Multimap containing the arguments.
+     * @param prefixes         Prefixes to check.
+     * @return Boolean denoting whether the prefixes are present.
      */
     private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
         return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
-
-
 }

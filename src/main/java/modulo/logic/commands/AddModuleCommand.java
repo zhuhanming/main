@@ -1,6 +1,9 @@
 package modulo.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static modulo.commons.core.Messages.MESSAGE_DUPLICATE_MODULE;
+import static modulo.commons.core.Messages.MESSAGE_MODULE_ADDED;
+import static modulo.commons.core.Messages.MESSAGE_MODULE_DOES_NOT_EXIST;
 import static modulo.commons.util.CollectionUtil.requireAllNonNull;
 import static modulo.logic.parser.CliSyntax.PREFIX_ACADEMIC_YEAR;
 import static modulo.logic.parser.CliSyntax.PREFIX_MODULE;
@@ -33,9 +36,6 @@ public class AddModuleCommand extends Command {
             + PREFIX_ACADEMIC_YEAR + "2019/2020 "
             + PREFIX_SEMESTER + "2 ";
 
-    public static final String MESSAGE_SUCCESS = "New module added: %1$s";
-    public static final String MESSAGE_DUPLICATE_MODULE = "This module already exists in Modulo";
-
     private final ModuleCode moduleCode;
     private final AcademicYear academicYear;
 
@@ -60,15 +60,19 @@ public class AddModuleCommand extends Command {
         }
 
         model.addModule(moduleCode, academicYear);
-        Module addedModule = model.getModule(moduleCode, academicYear).get();
-        System.out.println(model.checkCurrentCalendar());
+        Module addedModule = model.getModule(moduleCode, academicYear)
+                .orElseThrow(() -> new CommandException(MESSAGE_MODULE_DOES_NOT_EXIST));
+
+        // Creating the state for the stateful logic later.
         List<EventType> eventTypeList = ModuleLibrary.getEventTypesOfModule(addedModule);
-        String feedbackToUser = String.format(MESSAGE_SUCCESS, addedModule);
+        String feedbackToUser = String.format(MESSAGE_MODULE_ADDED, addedModule);
+
         if (eventTypeList.size() > 0) {
             EventType firstEventType = eventTypeList.get(0);
             feedbackToUser += "\nEnter slot for " + addedModule.getModuleCode().toString()
                     + " " + firstEventType.toString() + ".";
         }
+
         return new AddModuleCommandResult(feedbackToUser, addedModule, eventTypeList);
     }
 

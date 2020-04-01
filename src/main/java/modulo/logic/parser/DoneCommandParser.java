@@ -4,7 +4,7 @@ import static modulo.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static modulo.logic.parser.CliSyntax.PREFIX_EVENT;
 import static modulo.logic.parser.CliSyntax.PREFIX_MODULE;
 
-import java.util.stream.Stream;
+import java.util.function.Supplier;
 
 import modulo.commons.core.index.Index;
 import modulo.logic.commands.DoneCommand;
@@ -17,19 +17,24 @@ import modulo.model.module.ModuleCode;
 import modulo.model.module.PartialModule;
 
 /**
- * Parser done arguments to set a deadline to be done.
+ * Parser user input arguments to create a {@code DoneCommand} that completes a certain deadline.
  */
 public class DoneCommandParser implements Parser<DoneCommand> {
     /**
-     * @param args
-     * @return a DoneCommand class
-     * @throws ParseException
+     * Parses the given {@code String} of arguments in the context of the DoneCommand and returns a DoneCommand object
+     * for execution.
+     *
+     * @param args Arguments passed in by the user.
+     * @return {@code DoneCommand} to execute.
+     * @throws ParseException if the user input does not conform the expected format.
      */
     public DoneCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_MODULE, PREFIX_EVENT);
 
-        Index index;
+        Supplier<ParseException> parseExceptionSupplier = () -> new ParseException(
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, DoneCommand.MESSAGE_USAGE));
 
+        Index index;
         try {
             index = ParserUtil.parseIndex(argMultimap.getPreamble());
         } catch (ParseException pe) {
@@ -37,31 +42,24 @@ public class DoneCommandParser implements Parser<DoneCommand> {
         }
 
         ModuleCode moduleCode = null;
-        Name name = null;
+        Name eventName = null;
 
         if (argMultimap.getValue(PREFIX_MODULE).isPresent()) {
             moduleCode = ParserUtil.parseModuleCode(argMultimap.getValue(PREFIX_MODULE).get());
         }
         if (argMultimap.getValue(PREFIX_EVENT).isPresent()) {
-            name = ParserUtil.parseName(argMultimap.getValue(PREFIX_EVENT).get());
+            eventName = ParserUtil.parseName(argMultimap.getValue(PREFIX_EVENT).get());
         }
-        if (moduleCode == null && name == null) {
+        if (moduleCode == null && eventName == null) {
             return new DoneCommand(null, null, index);
-        } else if (moduleCode == null || name == null) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DoneCommand.MESSAGE_USAGE));
+        } else if (moduleCode == null || eventName == null) {
+            parseExceptionSupplier.get();
         }
         PartialModule module = new PartialModule(moduleCode);
-        EventType eventType = ParserUtil.parseEventType(name.toString());
-        PartialEvent event = new PartialEvent(name, eventType, module, new Location("Arbitrary Location"));
+        assert eventName != null;
+        EventType eventType = ParserUtil.parseEventType(eventName.toString());
+        PartialEvent event = new PartialEvent(eventName, eventType, module, new Location("Arbitrary Location"));
         return new DoneCommand(module, event, index);
-    }
-
-    /**
-     * Returns true if none of the prefixes contains empty {@code Optional} values in the given {@code
-     * ArgumentMultimap}.
-     */
-    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
-        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
 }
 

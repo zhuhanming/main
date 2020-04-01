@@ -20,14 +20,17 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
     /**
      * Parses the given {@code String} of arguments in the context of the DeleteCommand and returns a DeleteCommand
      * object for execution.
+     *
+     * @param args Arguments passed in by the user.
+     * @return {@code DeleteCommand} to execute.
+     * @throws ParseException if the user input does not conform the expected format.
      */
     public DeleteCommand parse(String args) throws ParseException {
         String trimmedArgs = args.toLowerCase().trim();
 
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_DEADLINE);
         if (args.isEmpty()) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
         }
 
         if (arePrefixesPresent(argMultimap, PREFIX_DEADLINE)) {
@@ -47,8 +50,7 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
         }
     }
 
-
-    private static boolean arePrefixesPresent (ArgumentMultimap argumentMultimap, Prefix...prefixes) {
+    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
         return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
 }
