@@ -28,12 +28,15 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
     public DeleteCommand parse(String args) throws ParseException {
         String trimmedArgs = args.toLowerCase().trim();
 
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_DEADLINE);
         if (args.isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
         }
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_DEADLINE);
 
         if (arePrefixesPresent(argMultimap, PREFIX_DEADLINE)) {
+            if (argMultimap.getValue(PREFIX_DEADLINE).get().equals("all")) {
+                return new DeleteCommand(new NameContainsKeywordsPredicate(Arrays.asList("")), true);
+            }
             Index deadlineIndex = ParserUtil.parseIndex(argMultimap.getValue(PREFIX_DEADLINE).get());
             return new DeleteCommand(deadlineIndex, true);
         }
@@ -43,10 +46,10 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
             return new DeleteCommand(index, false);
         } catch (ParseException pe) {
             if (trimmedArgs.equals("all")) {
-                return new DeleteCommand(new NameContainsKeywordsPredicate(Arrays.asList("")));
+                return new DeleteCommand(new NameContainsKeywordsPredicate(Arrays.asList("")), false);
             }
             String[] nameKeywords = {trimmedArgs};
-            return new DeleteCommand(new NameContainsKeywordsPredicate(Arrays.asList(nameKeywords)));
+            return new DeleteCommand(new NameContainsKeywordsPredicate(Arrays.asList(nameKeywords)), false );
         }
     }
 
