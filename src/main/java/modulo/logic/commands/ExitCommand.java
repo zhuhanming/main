@@ -1,5 +1,7 @@
 package modulo.logic.commands;
 
+import static modulo.commons.core.Messages.MESSAGE_EXIT_ACKNOWLEDGEMENT;
+
 import modulo.model.Model;
 
 /**
@@ -9,7 +11,6 @@ public class ExitCommand extends Command {
 
     public static final String COMMAND_WORD = "exit";
 
-    public static final String MESSAGE_EXIT_ACKNOWLEDGEMENT = "Exiting Address Book as requested ...";
 
     @Override
     public CommandResult execute(Model model) {
