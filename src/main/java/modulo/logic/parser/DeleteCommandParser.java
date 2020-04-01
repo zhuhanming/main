@@ -49,7 +49,7 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
                 return new DeleteCommand(new NameContainsKeywordsPredicate(Arrays.asList("")), false);
             }
             String[] nameKeywords = {trimmedArgs};
-            return new DeleteCommand(new NameContainsKeywordsPredicate(Arrays.asList(nameKeywords)), false );
+            return new DeleteCommand(new NameContainsKeywordsPredicate(Arrays.asList(nameKeywords)), false);
         }
     }
 

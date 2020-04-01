@@ -2,8 +2,6 @@ package modulo.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.List;
-
 import javafx.collections.ObservableList;
 import modulo.commons.core.Messages;
 import modulo.commons.core.index.Index;
@@ -100,8 +98,8 @@ public class DeleteCommand extends Command {
                 try {
                     Event displayedEvent = (Event) model.getFocusedDisplayable();
                     displayedEvent.removeAllDeadlines();
-                    return new CommandResult(String.format(Messages.MESSAGE_ALL_DEADLINE_DELETE_SUCCESS, displayedEvent),
-                            false, false, true, true, null);
+                    return new CommandResult(String.format(Messages.MESSAGE_ALL_DEADLINE_DELETE_SUCCESS,
+                            displayedEvent), false, false, true, true, null);
                 } catch (ClassCastException e) {
                     return new CommandResult(Messages.MESSAGE_EVENT_NOT_SELECTED);
                 } catch (NullPointerException e) {
