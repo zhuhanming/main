@@ -1,5 +1,6 @@
 package modulo.logic.parser;
 
+import static modulo.commons.core.Messages.INVALID_ACADEMIC_SEMESTER;
 import static modulo.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.time.DayOfWeek;
@@ -12,8 +13,6 @@ import modulo.logic.parser.exceptions.ParseException;
  * Helper class to process logic with regards to academic years.
  */
 public class AcademicYearParser {
-
-    public static final String INVALID_ACADEMIC_SEMESTER = "The semester number is not valid!";
 
     /**
      * Parses given academic year and semester to return an array containing the start and end date of the semester.
