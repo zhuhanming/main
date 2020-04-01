@@ -18,11 +18,14 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
     /**
      * Parses the given {@code String} of arguments in the context of the DeleteCommand and returns a DeleteCommand
      * object for execution.
+     *
+     * @param args Arguments passed in by the user.
+     * @return {@code DeleteCommand} to execute.
+     * @throws ParseException if the user input does not conform the expected format.
      */
     public DeleteCommand parse(String args) throws ParseException {
         if (args.isEmpty()) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
         }
         try {
             Index index = ParserUtil.parseIndex(args);
@@ -35,7 +38,5 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
             String[] nameKeywords = {trimmedArgs};
             return new DeleteCommand(new NameContainsKeywordsPredicate(Arrays.asList(nameKeywords)));
         }
-
     }
-
 }
