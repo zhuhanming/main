@@ -2,6 +2,8 @@ package modulo.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.List;
+
 import javafx.collections.ObservableList;
 import modulo.commons.core.Messages;
 import modulo.commons.core.index.Index;
@@ -38,10 +40,10 @@ public class DeleteCommand extends Command {
         this.isDeadline = isDeadline;
     }
 
-    public DeleteCommand(NameContainsKeywordsPredicate predicate) {
+    public DeleteCommand(NameContainsKeywordsPredicate predicate, boolean isDeadline) {
         this.targetIndex = null;
         this.predicate = predicate;
-        this.isDeadline = false;
+        this.isDeadline = isDeadline;
     }
 
     @Override
@@ -93,6 +95,19 @@ public class DeleteCommand extends Command {
                 }
             }
         } else {
+            if (isDeadline) {
+
+                try {
+                    Event displayedEvent = (Event) model.getFocusedDisplayable();
+                    displayedEvent.removeAllDeadlines();
+                    return new CommandResult(String.format(Messages.MESSAGE_ALL_DEADLINE_DELETE_SUCCESS, displayedEvent),
+                            false, false, true, true, null);
+                } catch (ClassCastException e) {
+                    return new CommandResult(Messages.MESSAGE_EVENT_NOT_SELECTED);
+                } catch (NullPointerException e) {
+                    return new CommandResult(Messages.MESSAGE_EVENT_NOT_SELECTED);
+                }
+            }
             Object[] list = model.getFilteredDisplayableList(predicate);
             int numberOfItemsDeleted = 0;
             if (displayableType == DisplayableType.EVENT) {
