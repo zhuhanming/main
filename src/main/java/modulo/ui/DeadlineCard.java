@@ -29,7 +29,7 @@ public class DeadlineCard extends UiPart<Region> {
     public DeadlineCard(Deadline deadline, int displayedIndex, MainWindow mainWindow) {
         super(FXML);
         this.deadline = deadline;
-        name.setText(deadline.getName().fullName);
+        name.setText(displayedIndex + ". " + deadline.getName().fullName);
         isCompleted.setSelected(deadline.isCompleted());
         isCompleted.setOnAction(e -> {
             mainWindow.handleDeadlineClick(displayedIndex);

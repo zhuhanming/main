@@ -100,6 +100,18 @@ public class Event implements Displayable {
     }
 
     /**
+     * Removes a deadline to the list of deadlines.
+     *
+     * @param deadline Deadline to remove.
+     */
+    public void removeDeadline(Deadline deadline) {
+        requireNonNull(deadline);
+        deadlines.remove(deadline);
+    }
+
+
+
+    /**
      * Checks if a deadline has already been added.
      *
      * @param deadline Deadline to check.
@@ -174,10 +186,6 @@ public class Event implements Displayable {
     public String toDebugString() {
         return (getParentModule() == null ? "null" : getParentModule().getModuleCode()) + " | "
                 + eventType + " | " + name + " | " + eventStart + " | " + eventEnd;
-    }
-
-    public String findCommandString() {
-        return toString();
     }
 
     @Override
