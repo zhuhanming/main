@@ -169,7 +169,7 @@ public interface Model {
      */
     DisplayableType getCurrentDisplayableType();
 
-    public void setFilteredFocusedListShowAll(DisplayableType displayableType);
+    void setFilteredFocusedListShowAll(DisplayableType displayableType);
 
     boolean isSameFocusedDisplayable(Displayable displayable);
 
@@ -178,9 +178,6 @@ public interface Model {
     Object[] getFilteredDisplayableList(Predicate<Displayable> predicate);
 
     void unsetFocusedDisplayable();
-
-    //to be deleted after debugging
-    String checkCurrentCalendar();
 
     List<Event> findAllEvents(Event toFind);
 

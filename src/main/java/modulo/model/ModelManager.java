@@ -341,26 +341,4 @@ public class ModelManager implements Model {
                 && filteredEvents.equals(other.filteredEvents)
                 && filteredModules.equals(other.filteredModules);
     }
-
-    @Override
-    public String checkCurrentCalendar() {
-        List<Module> modules = modulo.getModuleList();
-        List<Event> events = modulo.getEventList();
-        StringBuilder sb = new StringBuilder();
-        sb.append("Modules: ");
-        sb.append("\n");
-        for (Module eachModule : modules) {
-            sb.append(eachModule.toDebugString());
-            sb.append("\n");
-        }
-
-        sb.append("Events: ");
-        sb.append("\n");
-        for (Event eachEvent : events) {
-            sb.append(eachEvent.toDebugString());
-            sb.append("\n");
-        }
-        return sb.toString();
-    }
-
 }
