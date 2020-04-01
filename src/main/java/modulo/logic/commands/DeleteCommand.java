@@ -22,9 +22,10 @@ public class DeleteCommand extends Command {
     public static final String COMMAND_WORD = "delete";
     private static final String predicateStringForDeleteAll = "\"\"";
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Deletes the module or event identified by the index number used in the displayed list.\n"
-            + "Parameters: INDEX (must be a positive integer)\n"
-            + "Example: " + COMMAND_WORD + " 1";
+            + ": Deletes a module, event or deadline.\n"
+            + "Parameters: INDEX (must be a positive integer) or a String\n"
+            + "Example: \n1. " + COMMAND_WORD + " 1 (deletes event / module)\n2. "
+            + COMMAND_WORD + " d/1 (deletes deadline)";
 
 
     private final Index targetIndex;
