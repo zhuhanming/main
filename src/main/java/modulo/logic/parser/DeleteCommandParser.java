@@ -1,8 +1,10 @@
 package modulo.logic.parser;
 
 import static modulo.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static modulo.logic.parser.CliSyntax.PREFIX_DEADLINE;
 
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 import modulo.commons.core.index.Index;
 import modulo.logic.commands.DeleteCommand;
@@ -24,14 +26,22 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
      * @throws ParseException if the user input does not conform the expected format.
      */
     public DeleteCommand parse(String args) throws ParseException {
+        String trimmedArgs = args.toLowerCase().trim();
+
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_DEADLINE);
         if (args.isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
         }
+
+        if (arePrefixesPresent(argMultimap, PREFIX_DEADLINE)) {
+            Index deadlineIndex = ParserUtil.parseIndex(argMultimap.getValue(PREFIX_DEADLINE).get());
+            return new DeleteCommand(deadlineIndex, true);
+        }
+
         try {
-            Index index = ParserUtil.parseIndex(args);
-            return new DeleteCommand(index);
+            Index index = ParserUtil.parseIndex(trimmedArgs);
+            return new DeleteCommand(index, false);
         } catch (ParseException pe) {
-            String trimmedArgs = args.toLowerCase().trim();
             if (trimmedArgs.equals("all")) {
                 return new DeleteCommand(new NameContainsKeywordsPredicate(Arrays.asList("")));
             }
@@ -39,4 +49,9 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
             return new DeleteCommand(new NameContainsKeywordsPredicate(Arrays.asList(nameKeywords)));
         }
     }
+
+    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
+        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
+    }
 }
+

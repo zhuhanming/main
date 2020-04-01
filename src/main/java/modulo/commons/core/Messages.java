@@ -19,6 +19,7 @@ public class Messages {
     public static final String MESSAGE_DUPLICATE_EVENT = "This event already exists for this module!";
     public static final String MESSAGE_CANNOT_ADD_EVENT_TO_EVENT = "You cannot add events to events!";
     public static final String MESSAGE_INVALID_EVENT_TYPE = "Event type is not recognised!";
+    public static final String MESSAGE_EVENT_NOT_SELECTED = "Please select an event to delete deadlines from!";
 
     // DEADLINE-RELATED
     public static final String MESSAGE_DEADLINE_DOES_NOT_EXIST = "The deadline you want does not exist!";
@@ -75,6 +76,10 @@ public class Messages {
     public static final String MESSAGE_DEADLINE_ADDED = "New deadline added: %1$s";
     public static final String MESSAGE_COMPLETED_DEADLINE = "Completed the deadline: %1$s";
     public static final String MESSAGE_UNCOMPLETED_DEADLINE = "Marked this deadline incomplete: %1$s";
+    public static final String MESSAGE_COMPLETED_DEADLINE_DELETE_SUCCESS = "Deleted deadline: %1$s. "
+            + "\nGood job it is completed!";
+    public static final String MESSAGE_INCOMPLETE_DEADLINE_DELETE_SUCCESS = "Deleted deadline: %1$s! "
+            + "\nI notice its uncompleted - Dont give up!";
 
     // GENERAL
     public static final String MESSAGE_MODULO_CLEARED = "Modulo has been cleared!";

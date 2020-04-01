@@ -134,11 +134,6 @@ public class Module implements Displayable {
                 + getAcademicYear().getEndDate().toString();
     }
 
-    // TODO: 26/3/20 Refine the returning string for the FindCommand
-    public String findCommandString() {
-        return moduleCode + " | " + name.toString();
-    }
-
     @Override
     public String toString() {
         return moduleCode.toString() + " | " + name.toString() + " | " + academicYear.toModuleCardFormat();
