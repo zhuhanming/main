@@ -23,7 +23,11 @@ public class Messages {
     public static final String MESSAGE_ERROR = "Error please click the 'Help' button for more info";
     public static final String MESSAGE_DELETE_ALL_MODULES_SUCCESS = "Deleted all %1$s modules!";
     public static final String MESSAGE_DELETE_ALL_EVENTS_SUCCESS = "Deleted all %1$s events!";
-
+    public static final String MESSAGE_COMPLETED_DEADLINE_DELETE_SUCCESS = "Deleted deadline: %1$s. "
+            + "\nGood job it is completed!";
+    public static final String MESSAGE_INCOMPLETE_DEADLINE_DELETE_SUCCESS = "Deleted deadline: %1$s! "
+            + "\nI notice its uncompleted - Dont give up!";
+    public static final String MESSAGE_EVENT_NOT_SELECTED = "Please select an event to delete deadlines from!";
     // ERROR MESSAGES
 
     // MODULE-RELATED
