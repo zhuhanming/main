@@ -139,7 +139,7 @@ public class Event implements Displayable {
         }
 
         return otherEvent.getEventType().equals(getEventType())
-                && otherEvent.getParentModule().equals(getParentModule());
+                && otherEvent.getParentModule().getModuleCode().equals(getParentModule().getModuleCode());
     }
 
     /**
