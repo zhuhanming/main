@@ -72,7 +72,7 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public ReadOnlyModulo getCalendar() {
+    public ReadOnlyModulo getModulo() {
         return model.getModulo();
     }
 
@@ -92,7 +92,7 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public Path getCalendarFilePath() {
+    public Path getModuloFilePath() {
         return model.getCalendarFilePath();
     }
 
