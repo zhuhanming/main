@@ -6,14 +6,25 @@ package modulo.logic.parser;
 public class Prefix {
     private final String prefix;
 
+    /**
+     * Creates a prefix from a prefix string.
+     *
+     * @param prefix Prefix string.
+     */
     public Prefix(String prefix) {
         this.prefix = prefix;
     }
 
+    /**
+     * Returns the prefix.
+     *
+     * @return Prefix string.
+     */
     public String getPrefix() {
         return prefix;
     }
 
+    @Override
     public String toString() {
         return getPrefix();
     }
