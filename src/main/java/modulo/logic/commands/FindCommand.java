@@ -5,9 +5,9 @@ import static modulo.commons.core.Messages.MESSAGE_EVENT_LISTED_OVERVIEW;
 import static modulo.commons.core.Messages.MESSAGE_ITEM_LISTED_OVERVIEW;
 import static modulo.commons.core.Messages.MESSAGE_MODULE_LISTED_OVERVIEW;
 
-import modulo.model.DisplayableType;
+import modulo.logic.predicate.NameContainsKeywordsPredicate;
 import modulo.model.Model;
-import modulo.model.predicate.NameContainsKeywordsPredicate;
+import modulo.model.displayable.DisplayableType;
 
 /**
  * Finds and lists all persons in address book whose name contains any of the argument keywords. Keyword matching is

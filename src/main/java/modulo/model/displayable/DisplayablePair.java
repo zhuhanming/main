@@ -1,6 +1,4 @@
-package modulo.ui;
-
-import modulo.model.Displayable;
+package modulo.model.displayable;
 
 /**
  * A pair class to contain displayables and is a displayable itself.

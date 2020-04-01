@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 import modulo.logic.commands.ListCommand;
 import modulo.logic.parser.exceptions.ParseException;
-import modulo.model.DisplayableType;
+import modulo.model.displayable.DisplayableType;
 
 
 /**

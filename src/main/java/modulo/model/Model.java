@@ -8,6 +8,8 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import modulo.commons.core.GuiSettings;
+import modulo.model.displayable.Displayable;
+import modulo.model.displayable.DisplayableType;
 import modulo.model.event.Event;
 import modulo.model.module.AcademicYear;
 import modulo.model.module.Module;
@@ -66,7 +68,7 @@ public interface Model {
     Module findModule(Module module);
 
     /**
-     * Replaces address book data with the data in {@code addressBook}.
+     * Replaces Modulo data with the data in {@code modulo}.
      */
     void setModulo(ReadOnlyModulo modulo);
 
@@ -180,6 +182,4 @@ public interface Model {
     void unsetFocusedDisplayable();
 
     List<Event> findAllEvents(Event toFind);
-
-    Event getEvent(Event toFind);
 }

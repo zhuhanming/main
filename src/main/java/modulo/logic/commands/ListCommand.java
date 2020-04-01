@@ -6,8 +6,8 @@ import static modulo.commons.core.Messages.MESSAGE_SHOWING_ALL_MODULES;
 import static modulo.commons.core.Messages.MESSAGE_SHOWING_EVENTS;
 import static modulo.commons.core.Messages.MESSAGE_SHOWING_MODULES;
 
-import modulo.model.DisplayableType;
 import modulo.model.Model;
+import modulo.model.displayable.DisplayableType;
 
 /**
  * Displays the specified list to the user.

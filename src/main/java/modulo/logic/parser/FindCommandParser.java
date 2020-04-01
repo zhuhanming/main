@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 import modulo.logic.commands.FindCommand;
 import modulo.logic.parser.exceptions.ParseException;
-import modulo.model.predicate.NameContainsKeywordsPredicate;
+import modulo.logic.predicate.NameContainsKeywordsPredicate;
 
 /**
  * Parses input arguments and creates a new FindCommand object

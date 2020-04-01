@@ -13,10 +13,10 @@ import static modulo.logic.parser.CliSyntax.PREFIX_REPEAT;
 import java.util.List;
 
 import modulo.logic.commands.exceptions.CommandException;
-import modulo.model.Displayable;
 import modulo.model.Model;
 import modulo.model.Name;
 import modulo.model.deadline.Deadline;
+import modulo.model.displayable.Displayable;
 import modulo.model.event.Event;
 import modulo.model.module.Module;
 

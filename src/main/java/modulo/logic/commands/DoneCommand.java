@@ -16,9 +16,9 @@ import java.util.List;
 import modulo.commons.core.Messages;
 import modulo.commons.core.index.Index;
 import modulo.logic.commands.exceptions.CommandException;
-import modulo.model.Displayable;
 import modulo.model.Model;
 import modulo.model.deadline.Deadline;
+import modulo.model.displayable.Displayable;
 import modulo.model.event.Event;
 import modulo.model.module.Module;
 

@@ -7,10 +7,10 @@ import modulo.commons.core.GuiSettings;
 import modulo.logic.commands.CommandResult;
 import modulo.logic.commands.exceptions.CommandException;
 import modulo.logic.parser.exceptions.ParseException;
-import modulo.model.Displayable;
-import modulo.model.DisplayableType;
 import modulo.model.Model;
 import modulo.model.ReadOnlyModulo;
+import modulo.model.displayable.Displayable;
+import modulo.model.displayable.DisplayableType;
 
 /**
  * API of the Logic component

@@ -6,15 +6,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import modulo.model.Displayable;
 import modulo.model.deadline.Deadline;
+import modulo.model.displayable.Displayable;
 import modulo.model.event.Event;
 import modulo.model.module.Module;
 
 /**
  * An UI component that displays information of select {@code Event} in the right panel
  */
-public class SlideWindowEvent extends UiPart<Region> {
+public class RightPanelDescription extends UiPart<Region> {
 
     private static final String FXML = "DetailsWindow.fxml";
     public final Event eventViewed;
@@ -36,7 +36,7 @@ public class SlideWindowEvent extends UiPart<Region> {
     private Label eventTypeDescription;
 
 
-    public SlideWindowEvent(Displayable eventOrModule) {
+    public RightPanelDescription(Displayable eventOrModule) {
         super(FXML);
 
         if (eventOrModule instanceof Event) {

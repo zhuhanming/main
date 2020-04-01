@@ -7,8 +7,8 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import modulo.model.Displayable;
 import modulo.model.deadline.Deadline;
+import modulo.model.displayable.Displayable;
 import modulo.model.event.Event;
 import modulo.model.module.Module;
 
@@ -16,7 +16,7 @@ import modulo.model.module.Module;
  * An UI component that displays information of selected {@code Event} and its deadline list update of children node of
  * slideWindowEvent happened here.
  */
-public class DetailsWindow extends UiPart<Region> {
+public class RightPanel extends UiPart<Region> {
 
     private static final String FXML = "DetailsWindow.fxml";
     private ObservableList<Event> eventList;
@@ -29,9 +29,9 @@ public class DetailsWindow extends UiPart<Region> {
     @FXML
     private VBox slideEventCard;
 
-    private SlideWindowEvent slideWindowEvent;
+    private RightPanelDescription rightPanelDescription;
 
-    public DetailsWindow(Displayable displayable, MainWindow mainWindow) {
+    public RightPanel(Displayable displayable, MainWindow mainWindow) {
         super(FXML);
         this.mainWindow = mainWindow;
         this.displayable = displayable;
@@ -42,8 +42,8 @@ public class DetailsWindow extends UiPart<Region> {
         } else {
             deadlineListView.setItems(FXCollections.emptyObservableList());
         }
-        slideWindowEvent = new SlideWindowEvent(displayable);
-        slideEventCard.getChildren().setAll(slideWindowEvent.getRoot());
+        rightPanelDescription = new RightPanelDescription(displayable);
+        slideEventCard.getChildren().setAll(rightPanelDescription.getRoot());
         deadlineListView.setCellFactory(listView -> new ListViewCell(mainWindow));
     }
 
@@ -57,8 +57,8 @@ public class DetailsWindow extends UiPart<Region> {
             assert displayable instanceof Module;
             deadlineListView.setItems(FXCollections.observableArrayList(((Module) displayable).getEvents()));
         }
-        slideWindowEvent = new SlideWindowEvent(displayable);
-        slideEventCard.getChildren().setAll(slideWindowEvent.getRoot());
+        rightPanelDescription = new RightPanelDescription(displayable);
+        slideEventCard.getChildren().setAll(rightPanelDescription.getRoot());
         deadlineListView.setCellFactory(listView -> new ListViewCell(mainWindow));
     }
 
@@ -79,9 +79,9 @@ public class DetailsWindow extends UiPart<Region> {
                 setGraphic(null);
                 setText(null);
             } else if (listItem instanceof Deadline) {
-                setGraphic(new DeadlineCard((Deadline) listItem, getIndex() + 1, mainWindow).getRoot());
+                setGraphic(new RightPanelDeadlineCard((Deadline) listItem, getIndex() + 1, mainWindow).getRoot());
             } else if (listItem instanceof Event) {
-                setGraphic(new EventSidePanelCard((Event) listItem, getIndex() + 1).getRoot());
+                setGraphic(new RightPanelEventCard((Event) listItem, getIndex() + 1).getRoot());
                 setOnMouseClicked(event -> mainWindow.handleSidePanelListClick((Event) listItem));
             }
         }

@@ -1,4 +1,4 @@
-package modulo.model;
+package modulo.model.displayable;
 
 /**
  * An interface for classes that can be listed in Modulo.

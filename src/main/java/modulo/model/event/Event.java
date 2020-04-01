@@ -7,9 +7,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import modulo.model.Displayable;
 import modulo.model.Name;
 import modulo.model.deadline.Deadline;
+import modulo.model.displayable.Displayable;
 import modulo.model.module.Module;
 
 /**
@@ -108,7 +108,6 @@ public class Event implements Displayable {
         requireNonNull(deadline);
         deadlines.remove(deadline);
     }
-
 
 
     /**

@@ -14,6 +14,8 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import modulo.commons.core.GuiSettings;
 import modulo.commons.core.LogsCenter;
+import modulo.model.displayable.Displayable;
+import modulo.model.displayable.DisplayableType;
 import modulo.model.event.Event;
 import modulo.model.module.AcademicYear;
 import modulo.model.module.Module;
@@ -116,7 +118,6 @@ public class ModelManager implements Model {
     @Override
     public void addEvent(Event calendarItem) {
         modulo.addEvent(calendarItem);
-        updateFilteredEventList(PREDICATE_SHOW_UPCOMING_EVENTS);
     }
 
 
@@ -150,12 +151,6 @@ public class ModelManager implements Model {
             }
         }
         return result;
-    }
-
-    @Override
-    public Event getEvent(Event toFind) {
-        requireNonNull(toFind);
-        return modulo.getEvent(toFind);
     }
 
     @Override

@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 import modulo.commons.util.CollectionUtil;
 import modulo.model.event.exceptions.DuplicateEventException;
 import modulo.model.event.exceptions.EventNotFoundException;
+import modulo.model.module.Module;
 
 /**
  * A list of Events that enforces uniqueness between its elements and does not allow nulls. An event is considered
@@ -97,6 +98,8 @@ public class UniqueEventList implements Iterable<Event> {
         if (!internalList.remove(toRemove)) {
             throw new EventNotFoundException();
         }
+        Module module = toRemove.getParentModule();
+        module.deleteEvent(toRemove);
     }
 
     public void setEvents(UniqueEventList replacement) {

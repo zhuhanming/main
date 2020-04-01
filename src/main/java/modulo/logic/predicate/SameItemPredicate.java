@@ -1,9 +1,9 @@
-package modulo.model.predicate;
+package modulo.logic.predicate;
 
 import java.util.List;
 import java.util.function.Predicate;
 
-import modulo.model.Displayable;
+import modulo.model.displayable.Displayable;
 
 /**
  * Tests that a {@code Person}'s {@code CalendarItemName} matches any of the keywords given.

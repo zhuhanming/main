@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 import modulo.commons.core.index.Index;
 import modulo.logic.commands.DeleteCommand;
 import modulo.logic.parser.exceptions.ParseException;
-import modulo.model.predicate.NameContainsKeywordsPredicate;
+import modulo.logic.predicate.NameContainsKeywordsPredicate;
 
 
 /**

@@ -21,9 +21,9 @@ import java.time.LocalDateTime;
 import java.time.temporal.TemporalAmount;
 
 import modulo.logic.commands.exceptions.CommandException;
-import modulo.model.Displayable;
 import modulo.model.Model;
 import modulo.model.Name;
+import modulo.model.displayable.Displayable;
 import modulo.model.event.Event;
 import modulo.model.event.EventType;
 import modulo.model.event.Location;

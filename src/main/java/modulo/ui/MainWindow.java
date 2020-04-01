@@ -14,7 +14,7 @@ import modulo.logic.Logic;
 import modulo.logic.commands.CommandResult;
 import modulo.logic.commands.exceptions.CommandException;
 import modulo.logic.parser.exceptions.ParseException;
-import modulo.model.DisplayableType;
+import modulo.model.displayable.DisplayableType;
 import modulo.model.event.Event;
 
 /**
@@ -34,8 +34,7 @@ public class MainWindow extends UiPart<Stage> {
     private ListPanel listPanel;
     private ResultDisplay resultDisplay;
     private HelpWindow helpWindow;
-    private DetailsWindow detailsWindow;
-    //private SlideWindowEvent slideWindowEvent;
+    private RightPanel rightPanel;
 
     @FXML
     private StackPane commandBoxPlaceholder;
@@ -99,8 +98,8 @@ public class MainWindow extends UiPart<Stage> {
         StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getModuloFilePath());
         statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
 
-        detailsWindow = new DetailsWindow(logic.getFocusedDisplayable(), this);
-        slideWindowListPlaceholder.getChildren().add(detailsWindow.getRoot());
+        rightPanel = new RightPanel(logic.getFocusedDisplayable(), this);
+        slideWindowListPlaceholder.getChildren().add(rightPanel.getRoot());
 
         CommandBox commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
@@ -242,9 +241,9 @@ public class MainWindow extends UiPart<Stage> {
      * Shows the deadline list on the right panel.
      */
     public void updateRightPanel() {
-        detailsWindow = new DetailsWindow(logic.getFocusedDisplayable(), this);
+        rightPanel = new RightPanel(logic.getFocusedDisplayable(), this);
         slideWindowListPlaceholder.getChildren().clear();
-        slideWindowListPlaceholder.getChildren().add(detailsWindow.getRoot());
+        slideWindowListPlaceholder.getChildren().add(rightPanel.getRoot());
     }
 
     /**

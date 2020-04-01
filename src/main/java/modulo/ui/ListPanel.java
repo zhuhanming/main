@@ -12,7 +12,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
 import modulo.commons.core.LogsCenter;
 import modulo.commons.core.index.Index;
-import modulo.model.Displayable;
+import modulo.model.Title;
+import modulo.model.displayable.Displayable;
+import modulo.model.displayable.DisplayablePair;
 import modulo.model.event.Event;
 import modulo.model.module.Module;
 
@@ -29,7 +31,6 @@ public class ListPanel extends UiPart<Region> {
     @SuppressWarnings("unchecked")
     public ListPanel(ObservableList<? extends Displayable> displayableList, MainWindow mainWindow) {
         super(FXML);
-        System.out.println("List Panel running here is " + displayableList.toString());
         ObservableList<Displayable> listViewList;
         if (!displayableList.isEmpty() && displayableList.get(0) instanceof Event) {
             listViewList = processDisplayableList((ObservableList<Displayable>) displayableList);

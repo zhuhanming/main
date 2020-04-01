@@ -11,7 +11,7 @@ import modulo.model.event.Event;
 /**
  * An UI component that displays information of a {@code Event}.
  */
-public class EventSidePanelCard extends UiPart<Region> {
+public class RightPanelEventCard extends UiPart<Region> {
 
     private static final String FXML = "EventListSidePanelCard.fxml";
 
@@ -35,7 +35,7 @@ public class EventSidePanelCard extends UiPart<Region> {
     @FXML
     private Label endDate;
 
-    public EventSidePanelCard(Event event, int displayedIndex) {
+    public RightPanelEventCard(Event event, int displayedIndex) {
         super(FXML);
         this.event = event;
         id.setText(displayedIndex + ". ");
@@ -53,12 +53,12 @@ public class EventSidePanelCard extends UiPart<Region> {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof EventSidePanelCard)) {
+        if (!(other instanceof RightPanelEventCard)) {
             return false;
         }
 
         // state check
-        EventSidePanelCard card = (EventSidePanelCard) other;
+        RightPanelEventCard card = (RightPanelEventCard) other;
         return id.getText().equals(card.id.getText())
                 && event.equals(card.event);
     }

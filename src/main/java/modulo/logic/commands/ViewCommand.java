@@ -8,8 +8,8 @@ import static modulo.commons.core.Messages.MESSAGE_VIEW_ITEM_SUCCESS;
 import javafx.collections.ObservableList;
 import modulo.commons.core.index.Index;
 import modulo.logic.commands.exceptions.CommandException;
-import modulo.model.Displayable;
 import modulo.model.Model;
+import modulo.model.displayable.Displayable;
 
 /**
  * Allows the user to view details of a specific event / module in the list.

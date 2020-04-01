@@ -1,11 +1,11 @@
-package modulo.ui;
+package modulo.model;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import modulo.model.Displayable;
+import modulo.model.displayable.Displayable;
 
 /**
  * Class to section events out by date.

@@ -4,8 +4,8 @@ import static modulo.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.time.LocalDateTime;
 
-import modulo.model.Displayable;
 import modulo.model.Name;
+import modulo.model.displayable.Displayable;
 import modulo.model.event.Event;
 
 

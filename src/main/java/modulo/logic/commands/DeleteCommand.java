@@ -6,13 +6,13 @@ import javafx.collections.ObservableList;
 import modulo.commons.core.Messages;
 import modulo.commons.core.index.Index;
 import modulo.logic.commands.exceptions.CommandException;
-import modulo.model.Displayable;
-import modulo.model.DisplayableType;
+import modulo.logic.predicate.NameContainsKeywordsPredicate;
 import modulo.model.Model;
 import modulo.model.deadline.Deadline;
+import modulo.model.displayable.Displayable;
+import modulo.model.displayable.DisplayableType;
 import modulo.model.event.Event;
 import modulo.model.module.Module;
-import modulo.model.predicate.NameContainsKeywordsPredicate;
 
 /**
  * Deletes a person identified using it's displayed index from the address book.
@@ -80,8 +80,8 @@ public class DeleteCommand extends Command {
                             Messages.MESSAGE_COMPLETED_DEADLINE_DELETE_SUCCESS, itemToDelete),
                             false, false, true, true, null)
                             : new CommandResult(String.format(
-                                    Messages.MESSAGE_INCOMPLETE_DEADLINE_DELETE_SUCCESS, itemToDelete),
-                                    false, false, true, true, null);
+                            Messages.MESSAGE_INCOMPLETE_DEADLINE_DELETE_SUCCESS, itemToDelete),
+                            false, false, true, true, null);
 
 
                 } catch (ClassCastException e) {

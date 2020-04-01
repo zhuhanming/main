@@ -1,4 +1,4 @@
-package modulo.model;
+package modulo.model.displayable;
 
 /**
  * Type of {@code Displayable}s in the app.

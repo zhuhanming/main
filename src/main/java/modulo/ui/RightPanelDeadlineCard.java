@@ -10,7 +10,7 @@ import modulo.model.deadline.Deadline;
 /**
  * An UI component that displays information of a {@code Deadline}.
  */
-public class DeadlineCard extends UiPart<Region> {
+public class RightPanelDeadlineCard extends UiPart<Region> {
 
     private static final String FXML = "DeadlineListCard.fxml";
 
@@ -26,7 +26,7 @@ public class DeadlineCard extends UiPart<Region> {
     private Label name;
 
 
-    public DeadlineCard(Deadline deadline, int displayedIndex, MainWindow mainWindow) {
+    public RightPanelDeadlineCard(Deadline deadline, int displayedIndex, MainWindow mainWindow) {
         super(FXML);
         this.deadline = deadline;
         name.setText(displayedIndex + ". " + deadline.getName().fullName);

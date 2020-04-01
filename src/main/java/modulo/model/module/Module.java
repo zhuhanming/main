@@ -5,8 +5,8 @@ import static modulo.commons.util.CollectionUtil.requireAllNonNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import modulo.model.Displayable;
 import modulo.model.Name;
+import modulo.model.displayable.Displayable;
 import modulo.model.event.Event;
 
 
@@ -71,6 +71,10 @@ public class Module implements Displayable {
 
     public void addEvent(Event event) {
         events.add(event);
+    }
+
+    public void deleteEvent(Event event) {
+        events.remove(event);
     }
 
     /**
