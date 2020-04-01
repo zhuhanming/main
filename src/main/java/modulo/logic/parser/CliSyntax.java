@@ -6,6 +6,7 @@ package modulo.logic.parser;
 public class CliSyntax {
     public static final Prefix PREFIX_NAME = new Prefix("n/");
     public static final Prefix PREFIX_MODULE = new Prefix("m/");
+    public static final Prefix PREFIX_DEADLINE = new Prefix("d/");
     public static final Prefix PREFIX_EVENT = new Prefix("e/");
     public static final Prefix PREFIX_FREQUENCY = new Prefix("f/");
     public static final Prefix PREFIX_REPEAT = new Prefix("r/");
