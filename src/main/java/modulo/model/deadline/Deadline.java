@@ -93,10 +93,6 @@ public class Deadline implements Displayable {
                 && otherDeadline.isCompleted() == isCompleted();
     }
 
-    public String findCommandString() {
-        return toString();
-    }
-
     @Override
     public String toString() {
         return this.name.toString();

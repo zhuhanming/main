@@ -24,9 +24,4 @@ public class DisplayablePair<S extends Displayable, T> implements Displayable {
     public T getSecond() {
         return this.second;
     }
-
-    @Override
-    public String findCommandString() {
-        return null;
-    }
 }

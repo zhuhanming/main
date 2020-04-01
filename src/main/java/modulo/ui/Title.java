@@ -54,9 +54,4 @@ public class Title implements Displayable {
     public String getTitle() {
         return title;
     }
-
-    @Override
-    public String findCommandString() {
-        return null;
-    }
 }
