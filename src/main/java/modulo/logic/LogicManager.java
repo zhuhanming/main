@@ -29,7 +29,7 @@ public class LogicManager implements Logic {
     private final Model model;
     private final Storage storage;
     private final ModuloParser moduloParser;
-    private final AddModuleStatefulLogicManager addModuleStatefulLogicManager;
+    private final StatefulLogic addModuleStatefulLogicManager;
 
     public LogicManager(Model model, Storage storage) {
         this.model = model;
@@ -56,8 +56,7 @@ public class LogicManager implements Logic {
             commandResult = command.execute(model);
             if (commandResult instanceof AddModuleCommandResult) {
                 AddModuleCommandResult castedCommandResult = (AddModuleCommandResult) commandResult;
-                this.addModuleStatefulLogicManager.setState(castedCommandResult.getModule(),
-                        castedCommandResult.getEventTypes());
+                this.addModuleStatefulLogicManager.setStateWithCommandResult(commandResult);
                 model.setFocusedDisplayable(castedCommandResult.getModule());
             }
         }

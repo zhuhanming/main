@@ -5,6 +5,7 @@ import java.util.List;
 
 import modulo.commons.core.index.Index;
 import modulo.logic.commands.AddEventCommand;
+import modulo.logic.commands.AddModuleCommandResult;
 import modulo.logic.commands.CommandResult;
 import modulo.logic.commands.exceptions.CommandException;
 import modulo.logic.parser.ParserUtil;
@@ -69,10 +70,14 @@ public class AddModuleStatefulLogicManager implements StatefulLogic {
     /**
      * Sets the state of the stateful logic manager.
      *
-     * @param module     Module to reference.
-     * @param eventTypes List of EventTypes to go through.
+     * @param commandResult CommandResult to load state from.
      */
-    public void setState(Module module, List<EventType> eventTypes) {
+    @Override
+    public void setStateWithCommandResult(CommandResult commandResult) {
+        assert commandResult instanceof AddModuleCommandResult;
+        AddModuleCommandResult castedCommandResult = (AddModuleCommandResult) commandResult;
+        List<EventType> eventTypes = castedCommandResult.getEventTypes();
+        Module module = castedCommandResult.getModule();
         if (eventTypes.size() > 0) {
             this.module = module;
             this.eventTypes.addAll(eventTypes);
