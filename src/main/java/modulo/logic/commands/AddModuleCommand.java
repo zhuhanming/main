@@ -69,8 +69,8 @@ public class AddModuleCommand extends Command {
 
         if (eventTypeList.size() > 0) {
             EventType firstEventType = eventTypeList.get(0);
-            feedbackToUser += "\nEnter slot for " + addedModule.getModuleCode().toString()
-                    + " " + firstEventType.toString() + ".";
+            feedbackToUser += "\n\nEnter slot for " + addedModule.getModuleCode().toString()
+                    + " " + firstEventType.toString() + ":";
         }
 
         return new AddModuleCommandResult(feedbackToUser, addedModule, eventTypeList);

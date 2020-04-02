@@ -3,16 +3,15 @@ package modulo.logic;
 import java.util.ArrayList;
 import java.util.List;
 
-import modulo.commons.core.index.Index;
 import modulo.logic.commands.AddEventCommand;
 import modulo.logic.commands.AddModuleCommandResult;
 import modulo.logic.commands.CommandResult;
 import modulo.logic.commands.exceptions.CommandException;
-import modulo.logic.parser.ParserUtil;
 import modulo.logic.parser.exceptions.ParseException;
 import modulo.model.Model;
 import modulo.model.displayable.DisplayableType;
 import modulo.model.event.EventType;
+import modulo.model.event.exceptions.EventNotFoundException;
 import modulo.model.module.Module;
 import modulo.model.module.ModuleLibrary;
 
@@ -36,21 +35,23 @@ public class AddModuleStatefulLogicManager implements StatefulLogic {
     @Override
     public CommandResult execute(String commandText) throws CommandException, ParseException {
         assert hasState();
-        Index eventSlot;
+        String eventSlot;
 
-        try {
-            eventSlot = ParserUtil.parseIndex(commandText);
-        } catch (ParseException e) {
-            throw new ParseException(String.format(MESSAGE_INVALID_SLOT_NUMBER, this.eventTypes.get(0).toString()));
-        }
+        eventSlot = commandText.trim().toLowerCase();
 
         EventType eventType = this.eventTypes.remove(0);
-        AddEventCommand addEventCommand = ModuleLibrary.getAddEventCommandToExecute(this.module,
-                eventType, eventSlot.getOneBased());
+        AddEventCommand addEventCommand;
+        try {
+            addEventCommand = ModuleLibrary.getAddEventCommandToExecute(this.module, eventType, eventSlot);
+        } catch (EventNotFoundException e) {
+            this.eventTypes.add(0, eventType);
+            throw new ParseException(String.format(MESSAGE_INVALID_SLOT_NUMBER, this.eventTypes.get(0).toString())
+                    + "\n" + e.getMessage());
+        }
         addEventCommand.execute(model);
         if (this.eventTypes.size() != 0) {
             return new CommandResult("Enter slot for " + module.getModuleCode().toString()
-                    + " " + this.eventTypes.get(0).toString() + ".");
+                    + " " + this.eventTypes.get(0).toString() + ":");
         }
         clearState();
         model.setFilteredFocusedList(DisplayableType.MODULE);
