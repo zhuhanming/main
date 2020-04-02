@@ -1,5 +1,6 @@
 package modulo.logic.writer;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -18,6 +19,10 @@ public class IcsWriter {
      * @throws IOException Failed to write.
      */
     public static void writeIcsFile(Path exportDirectory, List<Event> eventList) throws IOException {
+        File file = new File(String.valueOf(exportDirectory));
+        if (!file.exists()) {
+            file.mkdirs();
+        }
         FileWriter fw = new FileWriter(String.valueOf(exportDirectory.resolve("modulo.ics")));
         fw.write("BEGIN:VCALENDAR" + System.lineSeparator());
         fw.write("VERSION:2.0" + System.lineSeparator());
