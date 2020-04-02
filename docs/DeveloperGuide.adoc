@@ -77,12 +77,17 @@ The sections below give more details of each component.
 === UI component
 
 .Structure of the UI Component
-image::UiClassDiagram.png[]
+image::ModuloUI.png[]
 
 *API* : link:{repoURL}/src/main/java/seedu/address/ui/Ui.java[`Ui.java`]
 
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter` etc.
+The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `ListPanel`, `StatusBarFilter`, `RightPanel` etc.
 All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
+
+The `ListPanel` is located at the left  of the application and it consists of UI `EventCard`, `ModuleCard`, `TitleCard` to display list of events or modules.
+The `RightPanel` is located at the right of the application and it consists of UI `RightPanelDeadlineCard` , `RightPanelDescription`, and `RightPanelEvent` to display the details of the module or event.
+For the example, user can do `view` command to view the deadlines of the event in the `ListPanel` and the details and deadlines of the event will be displayed at the `RightPanel`.
+
 
 The `UI` component uses JavaFx UI framework.
 The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder.
@@ -142,14 +147,14 @@ image:BetterModelClassDiagram.png[]
 === Storage component
 
 .Structure of the Storage Component
-image::StorageClassDiagram.png[]
+image::ModuloStorage.png[]
 
 *API* : link:{repoURL}/src/main/java/seedu/address/storage/Storage.java[`Storage.java`]
 
 The `Storage` component,
 
 * can save `UserPref` objects in json format and read it back.
-* can save the Address Book data in json format and read it back.
+* can save the Modulo data in json format and read it back.
 
 [[Design-Commons]]
 === Common classes
@@ -511,3 +516,4 @@ _{ more test cases ... }_
 
 .. _{explain how to simulate a missing/corrupted file and the expected behavior}_
 _{ more test cases ... }_
+

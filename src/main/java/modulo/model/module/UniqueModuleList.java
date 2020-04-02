@@ -84,7 +84,7 @@ public class UniqueModuleList implements Iterable<Module> {
     /**
      * Adds a module to the list. The module must not already exist in the list.
      */
-    private void add(Module toAdd) {
+    public void add(Module toAdd) {
         requireNonNull(toAdd);
         if (contains(toAdd.getModuleCode(), toAdd.getAcademicYear())) {
             throw new DuplicateModuleException();

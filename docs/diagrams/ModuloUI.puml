@@ -1,0 +1,93 @@
+@startuml
+!include style.puml
+
+!include style.puml
+skinparam arrowThickness 1.1
+skinparam arrowColor UI_COLOR_T4
+skinparam classBackgroundColor UI_COLOR
+
+package UI <<Rectangle>>{
+Interface Ui <<Interface>>
+
+abstract UiPart <<Abstract>>
+class UiManager
+class MainWindow
+class ListPanel
+class ResultDisplay
+class HelpWindow
+class RightPanel
+class CommandBox
+class StatusBarFilter
+class TitleCard
+class EventCard
+class ModuleCard
+class RightPanelDeadlineCard
+class RightPanelDescription
+class RightPanelEventCard
+}
+
+package Model <<Rectangle>> {
+Class HiddenModel #FFFFFF
+}
+
+package Logic <<Rectangle>> {
+Class HiddenLogic #FFFFFF
+}
+
+Class HiddenOutside #FFFFFF
+HiddenOutside ..> Ui
+
+Interface Ui <<Interface>>
+
+abstract UiPart <<Abstract>>
+
+class UiManager
+class MainWindow
+class ListPanel
+class ResultDisplay
+class HelpWindow
+class RightPanel
+class CommandBox
+class StatusBarFilter
+class TitleCard
+class EventCard
+class ModuleCard
+class RightPanelDeadlineCard
+class RightPanelDescription
+class RightPanelEventCard
+
+UiManager .left.|> Ui
+UiManager --> Logic
+UiManager --> MainWindow
+MainWindow -right-> Logic
+MainWindow *--> ListPanel
+MainWindow *--> ResultDisplay
+MainWindow --> HelpWindow
+MainWindow *--> RightPanel
+MainWindow *--> CommandBox
+MainWindow *--> StatusBarFilter
+ListPanel --|> UiPart
+ResultDisplay --|> UiPart
+HelpWindow --|> UiPart
+RightPanel --|> UiPart
+CommandBox --|> UiPart
+StatusBarFilter --|> UiPart
+MainWindow --|> UiPart
+ListPanel -->TitleCard
+ListPanel --> EventCard
+ListPanel --> ModuleCard
+TitleCard --|> UiPart
+EventCard --|> UiPart
+ModuleCard --|> UiPart
+RightPanel --> RightPanelDeadlineCard
+RightPanel --> RightPanelDescription
+RightPanel --> RightPanelEventCard
+TitleCard ..> Model
+EventCard ..> Model
+ModuleCard ..> Model
+RightPanelDeadlineCard ..> Model
+RightPanelDescription ...> Model
+RightPanelEventCard ...> Model
+
+@enduml
+
