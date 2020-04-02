@@ -29,4 +29,6 @@ JsonModuloStorage .down.> JsonSerializableModulo
 JsonSerializableModulo .down.> JsonAdaptedModule
 JsonAdaptedModule .down.> JsonAdaptedEvent
 JsonAdaptedEvent .down.> JsonAdaptedDeadline
+
 @enduml
+
