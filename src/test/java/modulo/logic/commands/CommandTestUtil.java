@@ -84,31 +84,31 @@ public class CommandTestUtil<DESC_CS2103> {
         assertEquals(expectedFilteredList, actualModel.getFilteredModuleList());
     }
 
-//    /**
-//     * Updates {@code model}'s filtered list to show only the person at the given {@code targetIndex} in the
-//     * {@code model}'s address book.
-//     */
-//    public static void showModuleAtIndex(Model model, Index targetIndex) {
-//        assertTrue(targetIndex.getZeroBased() < model.getFilteredModuleList().size());
-//
-//        Module module = model.getFilteredModuleList().get(targetIndex.getZeroBased());
-//        final String[] splitName = module.getName().fullName.split("\\s+");
-//        model.updateFilteredModuleList(new NameContainsKeywordsPredicate(Arrays.asList(splitName[0])));
-//        assertEquals(1, model.getFilteredModuleList().size());
-//    }
-//
-//    /**
-//     * Updates {@code model}'s filtered list to show only the person at the given {@code targetIndex} in the
-//     * {@code model}'s address book.
-//     */
-//    public static void showEventAtIndex(Model model, Index targetIndex) {
-//        assertTrue(targetIndex.getZeroBased() < model.getFilteredEventList().size());
-//
-//        Event event = model.getFilteredEventList().get(targetIndex.getZeroBased());
-//        final String[] splitName = event.getName().fullName.split("\\s+");
-//        model.updateFilteredModuleList(new NameContainsKeywordsPredicate(Arrays.asList(splitName[0])));
-//        assertEquals(1, model.getFilteredModuleList().size());
-//    }
+    /**
+     * Updates {@code model}'s filtered list to show only the person at the given {@code targetIndex} in the
+     * {@code model}'s address book.
+
+     public static void showModuleAtIndex(Model model, Index targetIndex) {
+     assertTrue(targetIndex.getZeroBased() < model.getFilteredModuleList().size());
+
+     Module module = model.getFilteredModuleList().get(targetIndex.getZeroBased());
+     final String[] splitName = module.getName().fullName.split("\\s+");
+     model.updateFilteredModuleList(new NameContainsKeywordsPredicate(Arrays.asList(splitName[0])));
+     assertEquals(1, model.getFilteredModuleList().size());
+     }
+
+     /**
+     * Updates {@code model}'s filtered list to show only the person at the given {@code targetIndex} in the
+     * {@code model}'s address book.
+
+     public static void showEventAtIndex(Model model, Index targetIndex) {
+     assertTrue(targetIndex.getZeroBased() < model.getFilteredEventList().size());
+
+     Event event = model.getFilteredEventList().get(targetIndex.getZeroBased());
+     final String[] splitName = event.getName().fullName.split("\\s+");
+     model.updateFilteredModuleList(new NameContainsKeywordsPredicate(Arrays.asList(splitName[0])));
+     assertEquals(1, model.getFilteredModuleList().size());
+     } */
 
 
 }

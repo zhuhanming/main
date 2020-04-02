@@ -87,7 +87,9 @@ public class UniqueModuleListTest {
     @Test
     public void setModule_editedModuleHasSameIdentity_success() throws ParseException {
         uniqueModuleList.add(CS2103);
-        Module editedCS2103 = new ModuleBuilder(CS2103).withAcademicYear(VALID_ACADEMICYEAR_CS2105, VALID_SEMESTER_CS2105).withDescription(VALID_DESCRIPTION_CS2105).build();
+        Module editedCS2103 = new ModuleBuilder(CS2103)
+                .withAcademicYear(VALID_ACADEMICYEAR_CS2105, VALID_SEMESTER_CS2105)
+                .withDescription(VALID_DESCRIPTION_CS2105).build();
         uniqueModuleList.setModule(CS2103, editedCS2103);
         UniqueModuleList expectedUniqueModuleList = new UniqueModuleList();
         expectedUniqueModuleList.add(editedCS2103);
@@ -165,8 +167,8 @@ public class UniqueModuleListTest {
 
     @Test
     public void asUnmodifiableObservableList_modifyList_throwsUnsupportedOperationException() {
-        assertThrows(UnsupportedOperationException.class, ()
-                -> uniqueModuleList.asUnmodifiableObservableList().remove(0));
+        assertThrows(UnsupportedOperationException.class, () ->
+                uniqueModuleList.asUnmodifiableObservableList().remove(0));
     }
 
 }
