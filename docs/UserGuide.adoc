@@ -267,11 +267,18 @@ The index is one-based also.
 * Example: `done 1` +
 Set the deadline on the right panel list to be completed.
 
-=== Export: `export`
+=== Export calendar: `export`
 
-User could export all the module, event, and deadlines as a .ics file.
+Allows user to export all events and deadlines as a .ics file. File will be named modulo.ics inside the export directory.
 
-Format: `export [s/START_DATE] [e/END_DATE] [d/TARGET_DIRECTORY] f/FILENAME`
+If no directory is defined, Modulo will deposit the .ics file in the data folder.
+
+* .ics file will be generated with Singapore (Asia) timezone.
+* Event entity will be converted as VEVENT.
+* Deadline entity will be exported as VTODO.
+* However, as certain common calendar applications (e.g. Google Calendars, Microsoft Outlook) do not parse VTODO, summarized deadlines are also displayed under event description.
+
+Format: `export [d/TARGET_DIRECTORY]`
 
 [[Delete]]
 === Deleting a module/event/deadline: `delete`
