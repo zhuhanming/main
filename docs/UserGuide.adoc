@@ -242,15 +242,30 @@ or `list module`.
 
 === Finishing a task : `done`
 
-If the user is currently not viewing an event or is not viewing the event of interest, the following format will be used:
-and bring the closest event to focus e.g. Tutorial 4 happening on Week 6, where the UI will prompt the user: “Which deadline do you wish to complete?”
+Command to set a deadline's status to be `Completed` +
 
-Format: `done m/MODULE_CODE n/EVENT_NAME`
+Scenario 1: If the user is currently not viewing an event or is not viewing the event of interest, the following format will be used:
 
-The following command can then be used (or be used instantly should the user already be viewing the event of interest):
-and complete the first deadline on the list of deadlines for that event.
+* Format: `done index m/MODULE_CODE n/EVENT_NAME` +
 
-Format: `done 1`
+****
+* Every event can only have one deadline.
+Therefore,the index is one-based and always is 1.
+* Searched the deadline from the module's event, if deadline exists it will update the status to be completed.
+* Otherwise, it will display deadline does not exists message.
+****
+
+* Example: `done 1 m/CS2103 n/Tutorial 1` +
+Set the deadline of the CS2103's Tutorial 1 to be completed.
+
+Scenario 2: If the user already be viewing the event of interest.
+The following command can then be used :
+
+* Format: `done index` +
+The index is one-based also.
+
+* Example: `done 1` +
+Set the deadline on the right panel list to be completed.
 
 === Export: `export`
 
