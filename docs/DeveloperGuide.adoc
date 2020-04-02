@@ -84,10 +84,9 @@ image::ModuloUI.png[]
 The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `ListPanel`, `StatusBarFilter`, `RightPanel` etc.
 All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
 
-The `ListPanel` is located at the left  of the application and it consists of UI `EventCard`, `ModuleCard`, `TitleCard` to display list of events or modules.
+The `ListPanel` is located at the left of the application and it consists of UI `EventCard`, `ModuleCard`, `TitleCard` to display list of events or modules.
 The `RightPanel` is located at the right of the application and it consists of UI `RightPanelDeadlineCard` , `RightPanelDescription`, and `RightPanelEvent` to display the details of the module or event.
 For the example, user can do `view` command to view the deadlines of the event in the `ListPanel` and the details and deadlines of the event will be displayed at the `RightPanel`.
-
 
 The `UI` component uses JavaFx UI framework.
 The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder.
@@ -103,7 +102,7 @@ The `UI` component,
 
 [[fig-LogicClassDiagram]]
 .Structure of the Logic Component
-image::LogicClassDiagram.png[]
+image::ModuloLogicClassDiagram.png[]
 
 *API* :
 link:{repoURL}/src/main/java/seedu/address/logic/Logic.java[`Logic.java`]
@@ -132,14 +131,14 @@ image::ModelClassDiagram.png[]
 The `Model`,
 
 * stores a `UserPref` object that represents the user's preferences.
-* stores the Address Book data.
-* exposes an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
+* stores Modulo data.
+* exposes an unmodifiable `ObservableList<Module>` and `ObservableList<Event>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * does not depend on any of the other three components.
 
 [NOTE]
-As a more OOP model, we can store a `Tag` list in `Address Book`, which `Person` can reference.
-This would allow `Address Book` to only require one `Tag` object per unique `Tag`, instead of each `Person` needing their own `Tag` object.
-An example of how such a model may look like is given below. +
+As of now, there are two separate `ObservableList` being maintained, and with each individual `Module` keeping its own list of `Event` as well.
+In the future, to better enable the concept of a single source of truth, we can discard the use of a
+`ObservableList<Event>` and expose solely the unmodifiable `ObservableList<Module>`, and have `Event` accessed through its parent `Module`. +
  +
 image:BetterModelClassDiagram.png[]
 
@@ -373,7 +372,6 @@ User enters incorrect information.
 Use case resumes from step 3.
 
 [discrete]
-
 === Use case: UC02 - Add a module
 
 *MSS* Preconditions: Module data file is loaded properly. +
@@ -421,7 +419,6 @@ User enters something other than ‘Y’.
 Use case ends.
 
 [appendix]
-
 == Non Functional Requirements
 
 . A NUS student with above-average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
@@ -434,7 +431,6 @@ Use case ends.
 _{More to be added}_
 
 [appendix]
-
 == Glossary
 
 [[mainstream-os]]
