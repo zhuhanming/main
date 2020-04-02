@@ -107,11 +107,26 @@ image::LogicClassDiagram.png[]
 *API* :
 link:{repoURL}/src/main/java/seedu/address/logic/Logic.java[`Logic.java`]
 
-. `Logic` uses the `AddressBookParser` class to parse the user command.
+. `Logic` uses the `ModuloParser` class to parse the user command.
 . This results in a `Command` object which is executed by the `LogicManager`.
-. The command execution can affect the `Model` (e.g. adding a person).
+. The command execution can affect the `Model` (e.g. adding an event).
 . The result of the command execution is encapsulated as a `CommandResult` object which is passed back to the `Ui`.
 . In addition, the `CommandResult` object can also instruct the `Ui` to perform certain actions, such as displaying help to the user.
+
+*STATEFUL LOGIC* Interface:
+
+NOTE: Stateful Logic is implemented by classes that only manages logic while a state exists. This state, within
+the AddModuleStatefulLogicManager, is created during the adding of modules by the `module m/MODULE_CODE` function. The
+state is depending on the number of event types (tutorial, lecture, lab etc) that each module has. Following
+the return of the AddModuleCommandResult, the existence of the AddModuleStatefulLogicManager allows the application
+to handle the tutorial, lecture, lab or recitation slot inputs that follows from the `module m/MODULE_CODE` function.
+
+*WRITER* Component:
+
+NOTE: The Writer component is activated when the ExportCommand is executed. It then calls the writeIcsFile function from the IcsWriter class which
+retrieves the current list of events from the Model component which, along with its deadlines, are converted into IcsEvent and IcsDeadline
+objects, which are then written into the ICS file.
+
 
 Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")` API call.
 
