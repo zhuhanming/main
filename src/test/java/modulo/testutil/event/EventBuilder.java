@@ -1,4 +1,4 @@
-package modulo.testutil.Event;
+package modulo.testutil.event;
 
 public class EventBuilder {
 }

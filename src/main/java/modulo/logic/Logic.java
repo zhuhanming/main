@@ -12,6 +12,7 @@ import modulo.model.ReadOnlyModulo;
 import modulo.model.displayable.Displayable;
 import modulo.model.displayable.DisplayableType;
 
+
 /**
  * API of the Logic component
  */

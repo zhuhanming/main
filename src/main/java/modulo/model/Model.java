@@ -68,7 +68,7 @@ public interface Model {
     Module findModule(Module module);
 
     /**
-     * Replaces Modulo data with the data in {@code modulo}.
+     * Replaces address book data with the data in {@code addressBook}.
      */
     void setModulo(ReadOnlyModulo modulo);
 
@@ -171,7 +171,7 @@ public interface Model {
      */
     DisplayableType getCurrentDisplayableType();
 
-    void setFilteredFocusedListShowAll(DisplayableType displayableType);
+    public void setFilteredFocusedListShowAll(DisplayableType displayableType);
 
     boolean isSameFocusedDisplayable(Displayable displayable);
 
@@ -181,5 +181,10 @@ public interface Model {
 
     void unsetFocusedDisplayable();
 
+    //to be deleted after debugging
+    String checkCurrentCalendar();
+
     List<Event> findAllEvents(Event toFind);
+
+    Event getEvent(Event toFind);
 }

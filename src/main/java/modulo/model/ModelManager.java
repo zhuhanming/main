@@ -154,6 +154,11 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public Event getEvent(Event toFind) {
+        return null;
+    }
+
+    @Override
     public boolean hasModule(ModuleCode moduleCode, AcademicYear academicYear) {
         requireAllNonNull(moduleCode, academicYear);
         return modulo.hasModule(moduleCode, academicYear);
@@ -221,6 +226,11 @@ public class ModelManager implements Model {
     @Override
     public void unsetFocusedDisplayable() {
         focusedDisplayable = null;
+    }
+
+    @Override
+    public String checkCurrentCalendar() {
+        return null;
     }
 
 
@@ -303,6 +313,7 @@ public class ModelManager implements Model {
     public ObservableList<Module> getFilteredModuleList() {
         return filteredModules;
     }
+
 
     @Override
     public void updateFilteredModuleList(Predicate<Module> predicate) {

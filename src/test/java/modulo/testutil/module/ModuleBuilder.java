@@ -1,4 +1,4 @@
-package modulo.testutil;
+package modulo.testutil.module;
 
 import modulo.logic.parser.exceptions.ParseException;
 import modulo.model.Name;
@@ -28,6 +28,13 @@ public class ModuleBuilder {
         moduleCode = new ModuleCode(DEFAULT_MODULE_CODE);
         academicYear = new AcademicYear(DEFAULT_ACADEMIC_YEAR, DEFAULT_SEMESTER);
         description = DEFAULT_DESCRIPTION;
+    }
+
+    public ModuleBuilder(Module moduleToCopy) throws ParseException {
+        name = moduleToCopy.getName();
+        moduleCode = moduleToCopy.getModuleCode();
+        academicYear = moduleToCopy.getAcademicYear();
+        description = moduleToCopy.getDescription();
     }
 
     /**
