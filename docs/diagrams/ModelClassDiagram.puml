@@ -4,53 +4,97 @@ skinparam arrowThickness 1.1
 skinparam arrowColor MODEL_COLOR
 skinparam classBackgroundColor MODEL_COLOR
 
+
+Package Logic{
+Class HiddenLogic #FFFFFF
+}
+
 Package Model <<Rectangle>>{
-Interface ReadOnlyAddressBook <<Interface>>
-Interface Model <<Interface>>
-Interface ObservableList <<Interface>>
-Class AddressBook
-Class ReadOnlyAddressBook
-Class Model
-Class ModelManager
-Class UserPrefs
-Class ReadOnlyUserPrefs
+    Interface ReadOnlyModulo <<Interface>>
+    Interface Model <<Interface>>
+    Interface ObservableList <<Interface>>
+    Class Modulo
+    Class ReadOnlyModulo
+    Class Model
+    Class ModelManager
+    Class UserPrefs
+    Class ReadOnlyUserPrefs
 
-Package Person {
-Class Person
-Class Address
-Class Email
-Class Name
-Class Phone
-Class UniquePersonList
-}
+    Package Displayable {
+        Interface Displayable <<Interface>>
+        Enum DisplayableType <<enumeration>>
+        Class DisplayablePair
 
-Package Tag {
-Class Tag
-}
+        DisplayablePair .up.|> Displayable
+    }
+
+    Package Event {
+        Class Event
+        Class PartialEvent
+        Class Location
+        Enum EventType <<enumeration>>
+        Class UniqueEventList
+    }
+
+    Package Module {
+        Class Module
+        Class ModuleLibrary
+        Class PartialModule
+        Class ModuleCode
+        Class AcademicYear
+        Class UniqueModuleList
+    }
+
+    Package Deadline {
+        Class Deadline
+    }
+
+    Class Name
 }
 
 Class HiddenOutside #FFFFFF
 HiddenOutside ..> Model
 
-AddressBook .up.|> ReadOnlyAddressBook
 
+Modulo .up.|> ReadOnlyModulo
 ModelManager .up.|> Model
-Model .right.> ObservableList
-ModelManager o--> "1" AddressBook
+Model .up.> ObservableList
+ModelManager .up> Displayable
+ModelManager .up> DisplayableType
+ModelManager o--> "1" Modulo
 ModelManager o-left-> "1" UserPrefs
 UserPrefs .up.|> ReadOnlyUserPrefs
 
-AddressBook *--> "1" UniquePersonList
-UniquePersonList o--> "*" Person
-Person *--> Name
-Person *--> Phone
-Person *--> Email
-Person *--> Address
-Person *--> "*" Tag
 
-Name -[hidden]right-> Phone
-Phone -[hidden]right-> Address
-Address -[hidden]right-> Email
+Modulo *--> "1" UniqueModuleList
+UniqueModuleList o--> "*" Module
+Module *--> Name
+Module *--> AcademicYear
+Module *--> ModuleCode
+PartialModule -up-|> Module
+ModuleLibrary .down.> Module
+ModuleLibrary .left.> Logic
+Module "1" *-left-> "*" Event
+Module .up|> Displayable
 
-ModelManager -->"1" Person : filtered list
+Modulo *--> "1" UniqueEventList
+UniqueEventList o--> "*" Event
+Event *--> Name
+Event *--> Location
+Event .up|> Displayable
+PartialEvent -up-|> Event
+Event --> EventType
+Event "1" *-left-> "*" Deadline
+
+Deadline *-right-> Name
+Deadline .up.|> Displayable
+
+
+
+ModuleCode -[hidden]right-> AcademicYear
+AcademicYear -[hidden]down-> Name
+EventType -[hidden]down-> Deadline
+
+ModelManager -->"1" Module : filtered list
+ModelManager -->"1" Event : filtered list
 @enduml
