@@ -80,6 +80,7 @@ public class Messages {
             + "\nGood job it is completed!";
     public static final String MESSAGE_INCOMPLETE_DEADLINE_DELETE_SUCCESS = "Deleted deadline: %1$s! "
             + "\nI notice its uncompleted - Dont give up!";
+    public static final String MESSAGE_ALL_DEADLINE_DELETE_SUCCESS = "All deadlines for %1$s has been deleted!";
 
     // GENERAL
     public static final String MESSAGE_MODULO_CLEARED = "Modulo has been cleared!";

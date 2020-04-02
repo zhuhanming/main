@@ -109,6 +109,14 @@ public class Event implements Displayable {
         deadlines.remove(deadline);
     }
 
+    /**
+     * Removes all deadlines from the list of deadlines.
+     *
+     */
+    public void removeAllDeadlines() {
+        deadlines.clear();
+    }
+
 
     /**
      * Checks if a deadline has already been added.
