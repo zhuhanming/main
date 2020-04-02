@@ -84,6 +84,10 @@ image::ModuloUI.png[]
 The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `ListPanel`, `StatusBarFilter`, `RightPanel` etc.
 All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
 
+The `ListPanel` is located at the left  of the application and it consists of UI `EventCard`, `ModuleCard`, `TitleCard` to display list of events or modules.  
+The `RightPanel` is located at the right of the application and it consists of UI `RightPanelDeadlineCard` , `RightPanelDescription`, and `RightPanelEvent` to display the details of the module or event. 
+For the example, user can do `view` command to view the deadlines of the event in the `ListPanel` and the details and deadlines of the event will be displayed at the `RightPanel`.
+
 
 The `UI` component uses JavaFx UI framework.
 The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder.
