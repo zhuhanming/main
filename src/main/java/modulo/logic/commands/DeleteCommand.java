@@ -21,9 +21,7 @@ public class DeleteCommand extends Command {
 
     public static final String COMMAND_WORD = "delete";
     private static final String predicateStringForDeleteAll = "\"\"";
-    public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Deletes a module, event or deadline.\n"
-            + "Parameters: INDEX (must be a positive integer) or a String\n"
+    public static final String MESSAGE_USAGE = "Arguments must be an index or a String!\n"
             + "Example: \n1. " + COMMAND_WORD + " 1 (deletes event / module)\n2. "
             + COMMAND_WORD + " d/1 (deletes deadline)";
 
@@ -38,10 +36,10 @@ public class DeleteCommand extends Command {
         this.isDeadline = isDeadline;
     }
 
-    public DeleteCommand(NameContainsKeywordsPredicate predicate) {
+    public DeleteCommand(NameContainsKeywordsPredicate predicate, boolean isDeadline) {
         this.targetIndex = null;
         this.predicate = predicate;
-        this.isDeadline = false;
+        this.isDeadline = isDeadline;
     }
 
     @Override
@@ -93,6 +91,19 @@ public class DeleteCommand extends Command {
                 }
             }
         } else {
+            if (isDeadline) {
+
+                try {
+                    Event displayedEvent = (Event) model.getFocusedDisplayable();
+                    displayedEvent.removeAllDeadlines();
+                    return new CommandResult(String.format(Messages.MESSAGE_ALL_DEADLINE_DELETE_SUCCESS,
+                            displayedEvent), false, false, true, true, null);
+                } catch (ClassCastException e) {
+                    return new CommandResult(Messages.MESSAGE_EVENT_NOT_SELECTED);
+                } catch (NullPointerException e) {
+                    return new CommandResult(Messages.MESSAGE_EVENT_NOT_SELECTED);
+                }
+            }
             Object[] list = model.getFilteredDisplayableList(predicate);
             int numberOfItemsDeleted = 0;
             if (displayableType == DisplayableType.EVENT) {

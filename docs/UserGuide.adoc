@@ -40,8 +40,8 @@ image::Ui.png[width="790"]
 e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 . Some example commands you can try:
 
-* **`module`**`n/CS2103 y/2020 s/2` : add new module
-* **`today`**: view deadlines due today
+* **`module`**`m/CS2103` : add new module
+* **`list e`**: view events occuring from today onwards
 * *`exit`* : exits the app
 
 . Refer to <<Features>> for details of each command.
@@ -52,36 +52,117 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 ====
 *Command Format*
 
-* Words in `UPPER_CASE` are the parameters to be supplied by the user e.g. in `module n/NAME`, `NAME` is a parameter which can be used as `module n/CS2103`.
-* Items in square brackets are optional e.g `list [m/MONTH]` can be used as `list m/July` or as `list`.
-* Items with `…`​ after them can be used multiple times including zero times e.g. `[m/MONTH]...` can be used as `{nbsp}` (i.e. 0 times), `m/JULY`, `m/JULY m/MARCH` etc.
-* Parameters can be in any order e.g. if the command specifies `m/MODULE n/NAME`, `n/NAME m/MODULE` is also acceptable.
+* Words in `UPPER_CASE` are the parameters to be supplied by the user e.g. in `module m/MODULE CODE`, `MODULE CODE`
+is a parameter which can be used as `module m/CS2103`.
+* Items in square brackets are optional e.g `list [all] e` can be used as `list all e` or as `list e`.
+* Parameters can be in any order e.g. if the command specifies `m/MODULE CODE n/NAME`, `n/NAME m/MODULE CODE` is also acceptable.
 ====
 
 === Viewing help : `help`
 
+Opens the pop-up help window with the link to this user guide. +
 Format: `help`
 
 === Adding a module: `module`
 
 Adds a module to Modulo.
-The default timeframe is set to the current academic year, AY19/20. +
-Format: `module n/NAME`
+The default timeframe is set to the current academic year and semester. +
+Format: `module m/MODULE CODE [ay/ACADEMIC YEAR] [s/SEMESTER NUMBER]`
 
-Example:
+Examples:
 
-* `module n/cs2103`
+* `module m/cs2103 ay/2019/2020 s/2`
+* `module m/cs2100`
+
+This command will kickstart the autopopulation of module events.
+You will be prompted to enter the slot numbers for all events under this module, e.g. tutorial slot 2, lecture slot 1, lab slot 13, etc.
+
+Example of prompts by Modulo:
+
+* `Enter slot for CS2100 Lab:`
+* `Enter slot for LAJ1201 Tutorial Type 2:`
+
+*****
+* There are limitations with module data obtained from NUS. For example, based on official records, some tutorials will start from Week 1, despite actually only starting in Week 3.
+* If you quit Modulo in the middle of this process, your autopopulation will be incomplete!
+You may have to restart the process by deleting the module and re-adding it.
+Do see the section on <<Delete,deleting a module>> below.
+*****
 
 === Adding an event : `event`
 
-Adds an event to a module Format: event m/MODULE n/NAME t/TIME f/FREQUENCY
+Adds an event to a module.
+This is perhaps the lengthiest command in Modulo.
+Events refer to Tutorials, Lectures, Examinations, etc. +
 
-Autopopulated based on keyword detection, e.g. Tutorials added for weekly will be populated from Week 3-13, and will have numbers automatically appended, e.g. Tutorial 1, Tutorial 2. A default deadline will also be added to the event, e.g. Tutorial Homework
+There are two possible scenarios: +
 
+*You're currently <<View,viewing>> a module on the right UI panel.*
+
+You can add an event straight to the module you're currently viewing.
+
+Format: `event n/EVENT NAME s/START DATETIME e/END DATETIME v/VENUE [r/REPEAT] [f/FREQUENCY]
+[until/REPEAT_STOP_DATE]`
+
+Example (while viewing CS2103):
+
+* `event n/Tutorial s/2020-01-30 11:00 e/2020-01-30 10:00 v/COM1-B103 r/YES until/2020-05-08`
+
+*****
+* Modulo recognises datetime formats of YYYY-MM-DD HH:MM.
+* The default repeat frequency (in weeks) is 1.
+* By default, the event will not repeat.
+The default repeat end date, if not specified, is Week 13 of the semester.
+*****
+
+*You're not <<View,viewing>> a module or you're adding the event to a module not being viewed.*
+
+You can add an event to a specified module that you have already created before.
+
+Format: `event m/MODULE CODE n/EVENT NAME s/START DATETIME e/END DATETIME v/VENUE [r/REPEAT] [f/FREQUENCY]
+[until/REPEAT_STOP_DATE]`
+
+Example:
+
+* `event m/CS2103 n/Tutorial s/2020-01-30 11:00 e/2020-01-30 10:00 v/COM1-B103 r/YES until/2020-05-08`
+
+*****
+* All events with types that are recognised come with a default `deadline` created.
+Examples of recognised types would be:
+`Tutorial`, `Lecture`, etc.
+*****
+
+[[AddingDeadline]]
 === Adding a deadline : `deadline`
 
 Adds a deadline to an event.
-Format: `deadline m/MODULE e/EVENT NAME n/DESCRIPTION [r/YES/NO]`
+There are two possible scenarios: +
+
+*You're currently <<View,viewing>> an event on the right UI panel.*
+
+You can add a deadline straight to the event you're currently viewing.
+
+Format: `deadline n/DEADLINE NAME [r/REPEAT]`
+
+Example (while viewing CS2103 Tutorial 3):
+
+* `deadline n/Practice UML Diagrams r/YES`
+
+*****
+* Repeated deadlines are added to events of the same type as the one specified, and have yet to occur.
+* By default, the deadline will not repeat.
+* This may result in what seems like a "bug" when you try to add repeated deadlines, starting with an event that has already passed, since the deadline will be added to that event itself.
+*****
+
+*You're not <<View,viewing>> an event or you're adding the deadline to an event not being viewed.*
+
+You can add a deadline to a specified event that you have already created before.
+
+Format: `deadline m/MODULE CODE e/EVENT NAME n/DEADLINE NAME [r/REPEAT]`
+
+Example:
+
+* `deadline m/CS2103 e/Tutorial 3 n/Practice UML Diagrams r/YES`
 
 ****
 * Automatically adds a deadline to the nearest event of this name
@@ -93,53 +174,71 @@ Examples:
 * `deadline m/CS2103 e/Tutorial n/Homework r/NO` +
 Adds a Homework deadline to the nearest upcoming tutorial of CS2103
 
-=== Displaying all events and modules: `list / modulo`
+[[ListAll]]
+=== Displaying all events and modules: `list all`
 
-Shows a list of modules in the modulo view. +
-Format: `list / modulo [m/MONTH]`
-
-Examples:
-
-* `list m/AUGUST` +
-Returns all tasks in August
-
-****
-* Shows the tasks of modules in the calender view during the specified month.
-****
-
-=== Displaying all events based on timeframe: `today / tomorrow / this week / next week / this month / MMM (e.g. Mar)`
-
-Shows a list of events happening today or anytime during the timeframe requested +
-Format: `today / tomorrow / this week / next week / this month / MMM`
+Shows a list of all events or modules in the left panel of Modulo. +
+Format: `list all event / list all module`
 
 Examples:
 
-* `today` +
-Shows a list of events happening today
-* `this week` +
-Shows a list of events happening this week
-* `august` +
-Shows a list of events happening in August
+* `list all event / list all e` +
+Shows all the events in the left display panel
+
+* `list all module / list all m` +
+Shows all the modules in the left display panel
 
 ****
-* Shows the events happening during the specified period.
+* Shows all events or modules recorded in Modulo, depending on the current list.
+* For events, this would include events that have already passed.
+* Do note that adding deadlines to these past events may result in unexpected behaviour.
+Do see the above section on <<AddingDeadline,adding a deadline>> for more information.
 ****
 
-=== Find event/module/deadline [keywords]: `find`
+[[List]]
+=== Displaying all events based on current timeframe: `list`
 
-User able to find module which matches any of the given keywords.
+Shows the list of future events or modules happening from the current date onwards. +
+Format: `list event / list module`
 
-* The search is case insensitive. e.g tutorial will match Tutorial
-* The order of the keywords does not matter. e.g. 3 Tutorial will match Tutorial 3
-* Names containing part of the searched words will be matched e.g. tut will match Tutorial 4
+Examples:
 
-Format: `find m/MODULE_CODE`
+* `list event / list e` +
+Shows all the events happening from the current date onwards on the left display panel.
+* `list module / list m` +
+Shows all the modules happening from the current date onwards on the left display panel.
 
-Return registered modules that match module
+****
+* This is the default filter!
+****
 
-Format: `find d/Deadline`
+=== Find an event / module [keywords]: `find`
 
-Return matched deadline
+Allows the user to find a module or event which matches any of the given keywords.
+
+* The search is case insensitive. e.g `find tutorial` will produce all events that match Tutorial.
+* Names containing part of the searched words will be matched e.g. `find tut` will match Tutorial 4.
+* Modules can be searched according to their Module code, Name as well as Academic Year.
+* Events can be searched according to their Module code and Name.
+
+Format: `find SEARCH TERM` while the left panel of Modulo is <<List,listing>> modules:
+
+****
+* Shows the modules with Name / Module Code / Academic Year that match the search term.
+****
+
+Format: `find SEARCH TERM` while the left panel of Modulo is <<List,listing>> events:
+
+****
+* Shows the events with Name / Module Code that match the search term
+****
+
+Points to note:
+
+* The `find` command allows the user to continually filter their list of searches. E.g.
+While viewing the list of events, entering `find cs2103` and then `find tutorial` right after will allow the user to view CS2103 tutorials.
+* After finding a module / event, to undo and <<List,list>> the whole list of modules or events again, users are recommended to enter `list event`
+or `list module`.
 
 === Finishing a task : `done`
 
@@ -159,53 +258,53 @@ User could export all the module, event, and deadlines as a .ics file.
 
 Format: `export [s/START_DATE] [e/END_DATE] [d/TARGET_DIRECTORY] f/FILENAME`
 
+[[Delete]]
 === Deleting a module/event/deadline: `delete`
 
-Deletes a module and all its associated events. +
-The UI will display the event of interest and prompt: Delete event or delete one of its deadlines? +
+Allows the user to delete a module, event, or deadline.
+Deleting a module will delete all its associated events.
+Deleting an event with delete all its associated deadlines.
 
-Format: `delete m/MODULE_CODE [n/EVENT_NAME]`
+* Deletion will depend on whether modules or events are displayed in the left panel of Modulo
+* Users can choose to delete modules or events by index: `delete 1`
+* Users can choose to delete modules or events based on description E.g. `delete tut`
+* For deadlines, users are required to click on the event containing the deadline - `delete d/1` will then delete the deadline of index 1 of the event.
 
+Examples: +
 
-The following formats can be used:
+* `delete 1` +
+Deletes the module / event of index 1
 
-****
-* Format: `delete event` (deletes the event)
-* Format: `delete 1` (deletes the first deadline)
-****
+* `delete DESCRIPTION` +
+1. If the left panel of Modulo displays Modules, deletes all Modules which Name / Module code / Academic Year contains `DESCRIPTION`
+2. If the left panel of Modulo displays Events, deletes all Events which Name / Module code contains `DESCRIPTION`
+{nbsp} +
+{nbsp} +
 
-In all cases, the UI will confirm with the user.
-The user can then follow up with:
+* `delete all` +
+Deletes all modules / events depending on what is being <<View,viewed>> on the left panel of Modulo.
 
-****
-* Format: `y`
-****
+* `delete d/1` +
+Deletes the deadline of index 1 from the event <<View,viewed>> on the right panel of Modulo.
 
-=== Importing a Calendar: `import`
+* `delete d/all` +
+Deletes all the deadlines from the event <<View,viewed>> on the right panel of Modulo.
 
-Imports an .ics file to be parsed. +
-Imports all .ics files within the import directory (if no directory is specified, the default directory will be searched).
-If filename is specified, only the selected one will be imported. +
-Files will be moved to archive once imported. +
+[[View]]
+=== Viewing module or event details : `view`
 
-Format: `import [d/DIRECTORY] [f/FILENAME]`
+Lets user view the details for a module or event on the right panel based on its index on the left panel.
+This index is based on the current list being listed. +
 
-=== Viewing current events/deadline for module : `view`
+Format: `view INDEX`
 
-Lets user view a specific event. +
-If more than one event fits the criteria, the UI will display the closest event with the greatest match. +
-Format: `view m/MODULE_CODE n/EVENT_NAME`
+Example:
 
-=== View module details : `view`
+* `view 1`
 
-User able to view details about a specific module (and recurring lectures, tut, lab). +
-Format: `view m/MODULE_CODE`
+=== Importing a NUSMods Calendar: `[coming in v2.0]`
 
-// tag::dataencryption[]
-=== Encrypting data files `[coming in v2.0]`
-
-_{explain how the user can enable/disable data encryption}_
-// end::dataencryption[]
+_{explain how the user can import a NUSMods Calendar}_
 
 == FAQ
 
