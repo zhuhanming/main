@@ -8,13 +8,14 @@ package Logic {
 
 package Parser {
 Interface Parser <<Interface>>
-Class AddressBookParser
+Class ModuloParser
 Class XYZCommandParser
 Class CliSyntax
 Class ParserUtil
 Class ArgumentMultimap
 Class ArgumentTokenizer
 Class Prefix
+Class AcademicYearParser
 }
 
 package Command {
@@ -23,8 +24,20 @@ Class CommandResult
 Class "{abstract}\nCommand" as Command
 }
 
+package Writer {
+Class IcsEvent
+Class IcsRRule
+Class IcsDeadline
+Class IcsWriter
+}
+
 Interface Logic <<Interface>>
 Class LogicManager
+Class AddModuleStatefulLogicManager
+Class IcsWriter
+Class AddModuleCommandResult
+
+Interface StatefulLogic <<Interface>>
 }
 
 package Model{
@@ -35,8 +48,8 @@ Class HiddenOutside #FFFFFF
 HiddenOutside ..> Logic
 
 LogicManager .up.|> Logic
-LogicManager -->"1" AddressBookParser
-AddressBookParser .left.> XYZCommandParser: creates >
+LogicManager -->"1" ModuloParser
+ModuloParser .left.|> XYZCommandParser: creates >
 
 XYZCommandParser ..> XYZCommand : creates >
 XYZCommandParser ..|> Parser
@@ -51,12 +64,29 @@ ArgumentTokenizer .down.> Prefix
 XYZCommand -up-|> Command
 LogicManager .left.> Command : executes >
 
+IcsEvent ..> IcsWriter
+IcsEvent --> IcsRRule
+IcsEvent --> IcsDeadline
+
+IcsEvent ..> Model
+IcsDeadline ..> Model
+IcsWriter ..> Model
+
+XYZCommand .right.> IcsWriter
+
+AddModuleCommandResult -left-|> CommandResult
+AddModuleCommandResult ..> Model
+
 LogicManager --> Model
 Command .right.> Model
-note right of XYZCommand: XYZCommand = AddCommand, \nFindCommand, etc
-
+ParserUtil ..> AcademicYearParser
+note left of XYZCommand: XYZCommand = AddCommand, \nFindCommand, etc
 Logic ..> CommandResult
+StatefulLogic .down.> CommandResult
 LogicManager .down.> CommandResult
+LogicManager *-> StatefulLogic
+AddModuleStatefulLogicManager .left.> StatefulLogic
+AddModuleStatefulLogicManager --> Model
 Command .up.> CommandResult
 CommandResult -[hidden]-> Parser
 @enduml

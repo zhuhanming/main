@@ -36,7 +36,7 @@ public class Messages {
     // INDEX
     public static final String MESSAGE_INVALID_VIEW_INDEX = "The index you want to view is invalid";
     public static final String MESSAGE_INVALID_DELETE_INDEX = "The index you want to delete is invalid";
-    public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
+    public static final String MESSAGE_INVALID_INDEX = "A positive integer is require for index.";
 
     // GENERAL
     public static final String MESSAGE_INVALID_DATE_RANGE = "The specified date range is invalid!";

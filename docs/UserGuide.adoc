@@ -93,53 +93,71 @@ Examples:
 * `deadline m/CS2103 e/Tutorial n/Homework r/NO` +
 Adds a Homework deadline to the nearest upcoming tutorial of CS2103
 
-=== Displaying all events and modules: `list / modulo`
+=== Displaying all events and modules: `list all`
 
-Shows a list of modules in the modulo view. +
-Format: `list / modulo [m/MONTH]`
-
-Examples:
-
-* `list m/AUGUST` +
-Returns all tasks in August
-
-****
-* Shows the tasks of modules in the calender view during the specified month.
-****
-
-=== Displaying all events based on timeframe: `today / tomorrow / this week / next week / this month / MMM (e.g. Mar)`
-
-Shows a list of events happening today or anytime during the timeframe requested +
-Format: `today / tomorrow / this week / next week / this month / MMM`
+Shows a list of all events or modules in the left panel of Modulo. +
+Format: `list all event / list all module`
 
 Examples:
 
-* `today` +
-Shows a list of events happening today
-* `this week` +
-Shows a list of events happening this week
-* `august` +
-Shows a list of events happening in August
+* `list all event / list all e` +
+Shows all the events in the left display panel
+
+* `list all module / list all m` +
+Shows all the modules in the left display panel
 
 ****
-* Shows the events happening during the specified period.
+* Shows all events or modules recorded in Modulo.
 ****
 
-=== Find event/module/deadline [keywords]: `find`
 
-User able to find module which matches any of the given keywords.
+=== Displaying all events based on current timeframe: `list`
 
-* The search is case insensitive. e.g tutorial will match Tutorial
-* The order of the keywords does not matter. e.g. 3 Tutorial will match Tutorial 3
-* Names containing part of the searched words will be matched e.g. tut will match Tutorial 4
+Shows the list of future events or modules happening from the current date onwards. +
+Format: `list event / list module`
 
-Format: `find m/MODULE_CODE`
+Examples:
 
-Return registered modules that match module
+* `list event / list e` +
+Shows all the events happening from the current date onwards on the left display panel.
+* `list module / list m` +
+Shows all the modules happening from the current date onwards on the left display panel.
 
-Format: `find d/Deadline`
+****
+* Shows the events happening from the current date onwards.
+****
 
-Return matched deadline
+=== Find an event / module [keywords]: `find`
+
+Allows the user to find a module or event which matches any of the given keywords.
+
+* The search is case insensitive. e.g `find tutorial` will produce all events that match Tutorial
+* Names containing part of the searched words will be matched e.g. `find tut` will match Tutorial 4
+* Modules can be searched according to their Module code, Name as well as Academic Year
+* Events can be searched according to their Module code and Name
+
+
+
+Format: `find DESCRIPTION` while the left panel of Modulo is viewing modules:
+
+
+****
+* Shows the modules that Name / Module Code / Academic Year matches the description
+****
+
+Format: `find DESCRIPTION` while the left panel of Modulo is viewing events:
+****
+* Shows the events that Name / Module code matches the description
+****
+
+Points to note:
+
+* The `find` command allows the user to continually filter their list of searches. E.g. While viewing the
+list of events, entering `find cs2103` and then `find tutorial` right after will allow the user to view
+cs2103 tutorials.
+* After finding a module / event, to undo and view the whole list of modules or events again, users are recommended to enter `list event`
+or `list module`.
+
 
 === Finishing a task : `done`
 
@@ -161,25 +179,38 @@ Format: `export [s/START_DATE] [e/END_DATE] [d/TARGET_DIRECTORY] f/FILENAME`
 
 === Deleting a module/event/deadline: `delete`
 
-Deletes a module and all its associated events. +
-The UI will display the event of interest and prompt: Delete event or delete one of its deadlines? +
+Allows the user to delete a module, event, or deadline. Deleting a module will delete all its associated events. Deleting an event with delete all its
+associated deadlines.
 
-Format: `delete m/MODULE_CODE [n/EVENT_NAME]`
+* Deletion will depend on whether modules or events are displayed in the left panel of Modulo
+* Users can choose to delete modules or events by index: `delete 1`
+* Users can choose to delete modules or events based on description E.g. `delete tut`
+* For deadlines, users are required to click on the event containing the deadline - `delete d/1` will then delete the
+deadline of index 1 of the event.
 
 
-The following formats can be used:
+Examples: +
 
-****
-* Format: `delete event` (deletes the event)
-* Format: `delete 1` (deletes the first deadline)
-****
+* `delete 1` +
+Deletes the module / event of index 1
 
-In all cases, the UI will confirm with the user.
-The user can then follow up with:
+* `delete DESCRIPTION` +
+1. If the left panel of Modulo displays Modules, deletes all Modules which Name / Module code / Academic Year
+contains `DESCRIPTION`
+2. If the left panel of Modulo displays Events, deletes all Events which Name / Module code
+contains `DESCRIPTION`
+{nbsp} +
+{nbsp} +
 
-****
-* Format: `y`
-****
+* `delete all` +
+Deletes all modules / events depending on what is being displayed on the left panel of Modulo
+
+* `delete d/1` +
+Deletes the deadline of index 1 from the event viewed on the right panel of Modulo
+
+* `delete d/all` +
+Deletes all the deadlines from the event viewed on the right panel of Modulo
+
 
 === Importing a Calendar: `import`
 
