@@ -102,7 +102,7 @@ The `UI` component,
 
 [[fig-LogicClassDiagram]]
 .Structure of the Logic Component
-image::ModuloLogicClassDiagram.png[]
+image::LogicClassDiagram.png[]
 
 *API* :
 link:{repoURL}/src/main/java/seedu/address/logic/Logic.java[`Logic.java`]
@@ -146,7 +146,7 @@ image:BetterModelClassDiagram.png[]
 === Storage component
 
 .Structure of the Storage Component
-image::ModuloStorage.png[]
+image::StorageClassDiagram.png[]
 
 *API* : link:{repoURL}/src/main/java/seedu/address/storage/Storage.java[`Storage.java`]
 
