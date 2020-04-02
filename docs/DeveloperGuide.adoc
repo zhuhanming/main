@@ -81,8 +81,9 @@ image::ModuloUI.png[]
 
 *API* : link:{repoURL}/src/main/java/seedu/address/ui/Ui.java[`Ui.java`]
 
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter` etc.
+The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `ListPanel`, `StatusBarFilter`, `RightPanel` etc.
 All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
+
 
 The `UI` component uses JavaFx UI framework.
 The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder.
@@ -142,14 +143,14 @@ image:BetterModelClassDiagram.png[]
 === Storage component
 
 .Structure of the Storage Component
-image::StorageClassDiagram.png[]
+image::ModuloStorage.png[]
 
 *API* : link:{repoURL}/src/main/java/seedu/address/storage/Storage.java[`Storage.java`]
 
 The `Storage` component,
 
 * can save `UserPref` objects in json format and read it back.
-* can save the Address Book data in json format and read it back.
+* can save the Modulo data in json format and read it back.
 
 [[Design-Commons]]
 === Common classes
