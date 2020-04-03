@@ -51,7 +51,7 @@ public class AddModuleStatefulLogicManager implements StatefulLogic {
         addEventCommand.execute(model);
         if (this.eventTypes.size() != 0) {
             return new CommandResult("Enter slot for " + module.getModuleCode().toString()
-                    + " " + this.eventTypes.get(0).toString() + ":");
+                    + " " + this.eventTypes.get(0).toString() + ":", false, false, true, true, null);
         }
         clearState();
         model.setFilteredFocusedList(DisplayableType.MODULE);

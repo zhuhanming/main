@@ -10,7 +10,7 @@ import modulo.logic.parser.exceptions.ParseException;
 /**
  * Class to manage Academic Years.
  */
-public class AcademicYear {
+public class AcademicYear implements Comparable<AcademicYear> {
     private int startYear;
     private int endYear;
     private int semester;
@@ -33,6 +33,9 @@ public class AcademicYear {
         String[] splitYears = years.split("/", 2);
         this.startYear = Integer.parseInt(splitYears[0]);
         this.endYear = Integer.parseInt(splitYears[1]);
+        if (endYear - startYear != 1) {
+            throw new ParseException("Academic end year must be 1 year after the start year!");
+        }
         this.semester = Integer.parseInt(semester);
         LocalDate[] dates = AcademicYearParser.parseAcademicYear(this.startYear, this.semester);
         this.startDate = dates[0];
@@ -108,5 +111,10 @@ public class AcademicYear {
                 && semester == (((AcademicYear) other).semester)
                 && startDate.equals(((AcademicYear) other).startDate)
                 && endDate.equals(((AcademicYear) other).endDate)); // state check
+    }
+
+    @Override
+    public int compareTo(AcademicYear o) {
+        return startYear - o.startYear == 0 ? semester - o.semester : startYear - o.startYear;
     }
 }

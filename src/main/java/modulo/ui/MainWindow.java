@@ -287,6 +287,11 @@ public class MainWindow extends UiPart<Stage> {
         try {
             this.executeCommand("list e");
             Index index = this.listPanel.getEventIndex(event);
+            if (index == null) {
+                this.executeCommand("list all e");
+                index = this.listPanel.getEventIndex(event);
+            }
+            assert index != null;
             this.executeCommand("view " + index.getOneBased());
         } catch (CommandException | ParseException e) {
             logger.info("Invalid command: list e + view index");
