@@ -41,7 +41,7 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 . Some example commands you can try:
 
 * **`module`**`m/CS2103` : add new module
-* **`list e`**: view events occuring from today onwards
+* **`list e`**: list events occuring from today onwards
 * *`exit`* : exits the app
 
 . Refer to <<Features>> for details of each command.
@@ -194,14 +194,14 @@ You can always check which list you're viewing by looking at the menu bar above:
 
 image::MenuButtons.png[width="500"]
 
-Format: `list events` OR `list modules`
+Format: `list event` OR `list module`
 
 Shorthands:
 
 * `list e` +
-Same behaviour as `list events` - lists all the events happening from the current date onwards under the left display panel.
+Same behaviour as `list event` - lists all the events happening from the current date onwards under the left display panel.
 * `list m` +
-Same behaviour as `list modules` - lists all the modules happening from the current date onwards under the left display panel.
+Same behaviour as `list module` - lists all the modules happening from the current date onwards under the left display panel.
 
 ****
 * This is the default list filter!
@@ -213,15 +213,15 @@ Same behaviour as `list modules` - lists all the modules happening from the curr
 Shows a list of all events or modules in the left panel of Modulo.
 This helps you to toggle between the two lists. +
 
-Format: `list all events` OR `list all modules`
+Format: `list all event` OR `list all module`
 
 Shorthands:
 
 * `list all e` +
-Same behaviour as `list all events` - lists all the events under the left display panel
+Same behaviour as `list all event` - lists all the events under the left display panel
 
 * `list all m` +
-Same behaviour as `list all modules` - Shows all the modules under the left display panel
+Same behaviour as `list all module` - Shows all the modules under the left display panel
 
 ****
 * Lists all events or modules recorded in Modulo.
