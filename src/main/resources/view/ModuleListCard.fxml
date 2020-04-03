@@ -28,11 +28,22 @@
                             </minWidth>
                         </Label>
                         <Label fx:id="moduleName" text="\$first" styleClass="cell_big_label, moduleName"/>
-                        <Label fx:id="moduleCode" text="\$moduleCode" styleClass="moduleCode"/>
+                        <Label fx:id="moduleCode" text="\$moduleCode" styleClass="moduleCode">
+                            <minWidth>
+                                <!-- Ensures that the label text is never truncated -->
+                                <Region fx:constant="USE_PREF_SIZE"/>
+                            </minWidth>
+                        </Label>
                     </HBox>
                     <Region HBox.hgrow="ALWAYS"/>
                     <Label fx:id="moduleAcadYear" styleClass="cell_small_label, moduleAcadYear"
-                           text="\$moduleAcadYear"/>
+                           text="\$moduleAcadYear">
+                        <minWidth>
+                            <!-- Ensures that the label text is never truncated -->
+                            <Region fx:constant="USE_PREF_SIZE"/>
+                        </minWidth>
+                    </Label>
+
                 </children>
             </HBox>
         </VBox>

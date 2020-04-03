@@ -18,7 +18,7 @@ import modulo.model.module.Module;
  */
 public class RightPanel extends UiPart<Region> {
 
-    private static final String FXML = "DetailsWindow.fxml";
+    private static final String FXML = "RightPanel.fxml";
     private ObservableList<Event> eventList;
     private MainWindow mainWindow;
 
@@ -42,22 +42,7 @@ public class RightPanel extends UiPart<Region> {
         } else {
             deadlineListView.setItems(FXCollections.emptyObservableList());
         }
-        rightPanelDescription = new RightPanelDescription(displayable);
-        slideEventCard.getChildren().setAll(rightPanelDescription.getRoot());
-        deadlineListView.setCellFactory(listView -> new ListViewCell(mainWindow));
-    }
-
-    /**
-     * Updates this component.
-     */
-    public void updateStatus() {
-        if (displayable instanceof Event) {
-            deadlineListView.setItems(FXCollections.observableArrayList(((Event) displayable).getDeadlines()));
-        } else {
-            assert displayable instanceof Module;
-            deadlineListView.setItems(FXCollections.observableArrayList(((Module) displayable).getEvents()));
-        }
-        rightPanelDescription = new RightPanelDescription(displayable);
+        rightPanelDescription = new RightPanelDescription(displayable, mainWindow);
         slideEventCard.getChildren().setAll(rightPanelDescription.getRoot());
         deadlineListView.setCellFactory(listView -> new ListViewCell(mainWindow));
     }

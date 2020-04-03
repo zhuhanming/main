@@ -16,6 +16,7 @@ import modulo.model.Title;
 import modulo.model.displayable.Displayable;
 import modulo.model.displayable.DisplayablePair;
 import modulo.model.event.Event;
+import modulo.model.module.AcademicYear;
 import modulo.model.module.Module;
 
 /**
@@ -33,9 +34,9 @@ public class ListPanel extends UiPart<Region> {
         super(FXML);
         ObservableList<Displayable> listViewList;
         if (!displayableList.isEmpty() && displayableList.get(0) instanceof Event) {
-            listViewList = processDisplayableList((ObservableList<Displayable>) displayableList);
+            listViewList = processEventDisplayableList((ObservableList<Displayable>) displayableList);
         } else {
-            listViewList = (ObservableList<Displayable>) displayableList;
+            listViewList = processModuleDisplayableList((ObservableList<Displayable>) displayableList);
         }
         listView.setItems(listViewList);
         listView.setCellFactory(listView -> new ListViewCell(mainWindow));
@@ -44,19 +45,19 @@ public class ListPanel extends UiPart<Region> {
     /**
      * Returns a processed Event list with Titles inserted.
      *
-     * @param displaybleList List of {@code Event} to process.
+     * @param displayableList List of {@code Event} to process.
      * @return List with Titles inserted.
      */
-    private ObservableList<Displayable> processDisplayableList(ObservableList<Displayable> displaybleList) {
+    private ObservableList<Displayable> processEventDisplayableList(ObservableList<Displayable> displayableList) {
         final ObservableList<Displayable> result = FXCollections.observableArrayList();
-        if (displaybleList.size() == 0) {
+        if (displayableList.size() == 0) {
             return result;
         }
-        LocalDateTime currentDateTime = ((Event) displaybleList.get(0)).getEventStart();
+        LocalDateTime currentDateTime = ((Event) displayableList.get(0)).getEventStart();
         LocalDate currentDate = currentDateTime.toLocalDate();
         result.add(0, new Title(currentDateTime));
-        for (int i = 0; i < displaybleList.size(); i++) {
-            Event event = (Event) displaybleList.get(i);
+        for (int i = 0; i < displayableList.size(); i++) {
+            Event event = (Event) displayableList.get(i);
             LocalDateTime localDateTime = event.getEventStart();
             LocalDate localDate = localDateTime.toLocalDate();
             if (!localDate.isEqual(currentDate)) {
@@ -64,6 +65,31 @@ public class ListPanel extends UiPart<Region> {
                 currentDate = localDate;
             }
             result.add(new DisplayablePair<>(event, i));
+        }
+        return result;
+    }
+
+    /**
+     * Returns a processed Module list with Titles inserted.
+     *
+     * @param displayableList List of {@code Module} to process.
+     * @return List with Titles inserted.
+     */
+    private ObservableList<Displayable> processModuleDisplayableList(ObservableList<Displayable> displayableList) {
+        final ObservableList<Displayable> result = FXCollections.observableArrayList();
+        if (displayableList.size() == 0) {
+            return result;
+        }
+        AcademicYear currentAcademicYear = ((Module) displayableList.get(0)).getAcademicYear();
+        result.add(0, new Title(currentAcademicYear));
+        for (int i = 0; i < displayableList.size(); i++) {
+            Module module = (Module) displayableList.get(i);
+            AcademicYear academicYear = module.getAcademicYear();
+            if (!academicYear.equals(currentAcademicYear)) {
+                result.add(new Title(academicYear));
+                currentAcademicYear = academicYear;
+            }
+            result.add(new DisplayablePair<>(module, i));
         }
         return result;
     }
@@ -125,14 +151,15 @@ public class ListPanel extends UiPart<Region> {
                 setGraphic(null);
                 setText(null);
             } else if (listItem instanceof DisplayablePair) {
-                @SuppressWarnings("unchecked")
-                DisplayablePair<Event, Integer> item = (DisplayablePair<Event, Integer>) listItem;
-                setGraphic(new EventCard(item.getFirst(), item.getSecond() + 1).getRoot());
-                setOnMouseClicked(event -> mainWindow.handleListClick(item.getSecond()));
-                setDisable(false);
-            } else if (listItem instanceof Module) {
-                setGraphic(new ModuleCard((Module) listItem, getIndex() + 1).getRoot());
-                setOnMouseClicked(event -> mainWindow.handleListClick(getIndex()));
+                DisplayablePair item = (DisplayablePair) listItem;
+                Integer index = ((Integer) item.getSecond());
+                if (item.getFirst() instanceof Event) {
+                    setGraphic(new EventCard((Event) item.getFirst(), index + 1).getRoot());
+                } else {
+                    assert item.getFirst() instanceof Module;
+                    setGraphic(new ModuleCard((Module) item.getFirst(), index + 1).getRoot());
+                }
+                setOnMouseClicked(event -> mainWindow.handleListClick(index));
                 setDisable(false);
             } else if (listItem instanceof Title) {
                 setGraphic(new TitleCard((Title) listItem).getRoot());

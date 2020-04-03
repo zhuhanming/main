@@ -153,7 +153,7 @@
     -fx-background-color: transparent;
 }
 
-.eventDuration {
+.eventDuration, .moduleAcadYear, .eventLocation {
     -fx-padding: 0 0 0 10;
 }
 
@@ -162,6 +162,7 @@
 }
 
 /** Right Panel **/
+
 /** Details **/
 #slideEventCard {
     -fx-font-size: 12pt;
@@ -175,6 +176,22 @@
 
 .slideEventVenue, .slideEventDuration {
     -fx-font-family: 'Poppins Light';
+}
+
+.slideEventVenue.moduleDescription {
+    -fx-font-family: 'Poppins';
+    -fx-padding: 10 0 0 0;
+}
+
+.moduleDescriptionName  {
+    -fx-font-family: 'Poppins Bold';
+    -fx-font-size: 14pt;
+    -fx-padding: 0 0 5 0;
+}
+
+.slideEventVenue.moduleDescription:hover {
+    -fx-text-fill: #6842E4;
+    -fx-cursor: hand;
 }
 
 .slideEventDescription {

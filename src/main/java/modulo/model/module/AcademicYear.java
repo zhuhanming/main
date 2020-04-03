@@ -98,4 +98,15 @@ public class AcademicYear {
     public String toString() {
         return getStartYear() + "/" + getEndYear() + "+" + getSemester();
     }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof AcademicYear // instanceof handles nulls
+                && startYear == (((AcademicYear) other).startYear)
+                && endYear == (((AcademicYear) other).endYear)
+                && semester == (((AcademicYear) other).semester)
+                && startDate.equals(((AcademicYear) other).startDate)
+                && endDate.equals(((AcademicYear) other).endDate)); // state check
+    }
 }
