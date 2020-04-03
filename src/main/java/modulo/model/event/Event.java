@@ -111,7 +111,6 @@ public class Event implements Displayable {
 
     /**
      * Removes all deadlines from the list of deadlines.
-     *
      */
     public void removeAllDeadlines() {
         deadlines.clear();
@@ -143,6 +142,7 @@ public class Event implements Displayable {
         return otherEvent != null
                 && otherEvent.getName().toString().toLowerCase().equals(getName().toString().toLowerCase())
                 && otherEvent.getParentModule().getModuleCode().equals(getParentModule().getModuleCode())
+                && otherEvent.getParentModule().getAcademicYear().equals(getParentModule().getAcademicYear())
                 && otherEvent.getEventType().equals(getEventType());
     }
 
@@ -158,7 +158,8 @@ public class Event implements Displayable {
         }
 
         return otherEvent.getEventType().equals(getEventType())
-                && otherEvent.getParentModule().getModuleCode().equals(getParentModule().getModuleCode());
+                && otherEvent.getParentModule().getModuleCode().equals(getParentModule().getModuleCode())
+                && otherEvent.getParentModule().getAcademicYear().equals(getParentModule().getAcademicYear());
     }
 
     /**
