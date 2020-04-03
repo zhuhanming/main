@@ -443,7 +443,7 @@ The second tag / label indicates whether all deadlines have been completed.
 
 === Status Bar Footer
 
-image::StatusBarFooter.png[width="500"]
+image::StatusBarFooter.png[width="790"]
 This status bar displays where your data is being saved at.
 You can head over to that folder to find the `.json` file for your usage.
 
