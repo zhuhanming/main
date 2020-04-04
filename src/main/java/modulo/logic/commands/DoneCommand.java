@@ -5,6 +5,7 @@ import static modulo.commons.core.Messages.MESSAGE_CANNOT_COMPLETE_EVENT;
 import static modulo.commons.core.Messages.MESSAGE_COMPLETED_DEADLINE;
 import static modulo.commons.core.Messages.MESSAGE_DEADLINE_DOES_NOT_EXIST;
 import static modulo.commons.core.Messages.MESSAGE_EVENT_DOES_NOT_EXIST;
+import static modulo.commons.core.Messages.MESSAGE_INVALID_DONE_INDEX;
 import static modulo.commons.core.Messages.MESSAGE_MODULE_DOES_NOT_EXIST;
 import static modulo.commons.core.Messages.MESSAGE_UNCOMPLETED_DEADLINE;
 import static modulo.commons.util.CollectionUtil.requireAllNonNull;
@@ -64,7 +65,11 @@ public class DoneCommand extends Command {
 
         if (toCheckEvent == null && toCheckModule == null) {
             if (focusedDisplayable instanceof Event) {
-                deadlineToComplete = ((Event) focusedDisplayable).getDeadlines().get(index.getZeroBased());
+                try {
+                    deadlineToComplete = ((Event) focusedDisplayable).getDeadlines().get(index.getZeroBased());
+                } catch (IndexOutOfBoundsException e) {
+                    throw new CommandException(MESSAGE_INVALID_DONE_INDEX);
+                }
                 isDeadlineOriginallyComplete = deadlineToComplete.isCompleted();
                 deadlineToComplete.setCompleted(!isDeadlineOriginallyComplete);
                 return new CommandResult(String.format(isDeadlineOriginallyComplete ? MESSAGE_UNCOMPLETED_DEADLINE
