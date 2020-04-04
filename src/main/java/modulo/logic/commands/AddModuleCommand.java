@@ -18,6 +18,7 @@ import modulo.model.module.AcademicYear;
 import modulo.model.module.Module;
 import modulo.model.module.ModuleCode;
 import modulo.model.module.ModuleLibrary;
+import modulo.model.module.exceptions.ModuleNotFoundException;
 
 /**
  * Adds a module to Modulo.
@@ -59,7 +60,11 @@ public class AddModuleCommand extends Command {
             throw new CommandException(MESSAGE_DUPLICATE_MODULE);
         }
 
-        model.addModule(moduleCode, academicYear);
+        try {
+            model.addModule(moduleCode, academicYear);
+        } catch (ModuleNotFoundException e) {
+            throw new CommandException(MESSAGE_MODULE_DOES_NOT_EXIST);
+        }
         Module addedModule = model.getModule(moduleCode, academicYear)
                 .orElseThrow(() -> new CommandException(MESSAGE_MODULE_DOES_NOT_EXIST));
 
