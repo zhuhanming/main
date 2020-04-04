@@ -12,7 +12,7 @@ ifdef::env-github[]
 :tip-caption: :bulb:
 :note-caption: :information_source:
 endif::[]
-:repoURL: https://github.com/AY1920S2-CS2103-T09-1/main
+:repoURL: https://github.com/AY1920S2-CS2103-T09-1/main/tree/master
 
 By: `Team Modulo`      Since: `Feb 2020`      Licence: `MIT`
 
@@ -42,7 +42,7 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 . Some example commands you can try:
 
 * **`module`**`m/CS2103` : add new module
-* **`list e`**: view events occuring from today onwards
+* **`list e`**: list events occuring from today onwards
 * *`exit`* : exits the app
 
 . Refer to <<Features>> for details of each command.
@@ -64,6 +64,8 @@ is a parameter which can be used as `module m/CS2103`.
 Opens the pop-up help window with the link to this user guide. +
 Format: `help`
 
+image::HelpWindow.png[width="790"]
+
 === Adding a module: `module`
 
 Adds a module to Modulo.
@@ -81,7 +83,9 @@ You will be prompted to enter the slot numbers for all events under this module,
 Example of prompts by Modulo:
 
 * `Enter slot for CS2100 Lab:`
-* `Enter slot for LAJ1201 Tutorial Type 2:`
+* `Enter slot for LAJ1201 Tutorial Type Two:`
+
+image::SamplePrompt1.png[width="500"]
 
 *****
 * There are limitations with module data obtained from NUS. For example, based on official records, some tutorials will start from Week 1, despite actually only starting in Week 3.
@@ -95,6 +99,8 @@ Do see the section on <<Delete,deleting a module>> below.
 Adds an event to a module.
 This is perhaps the lengthiest command in Modulo.
 Events refer to Tutorials, Lectures, Examinations, etc. +
+
+image::SampleEvents.png[width="500"]
 
 There are two possible scenarios: +
 
@@ -140,6 +146,10 @@ provides the additional convenience to the user so that the user can avoid typin
 === Adding a deadline : `deadline`
 
 Adds a deadline to an event.
+This deadline will be due when the event starts.
+
+image::SampleDeadline.png[width="500"]
+
 There are two possible scenarios: +
 
 *You're currently <<View,viewing>> an event on the right UI panel.*
@@ -154,8 +164,8 @@ Example (while viewing CS2103 Tutorial 3):
 
 *****
 * Repeated deadlines are added to events of the same type as the one specified, and have yet to occur.
-* By default, the deadline will not repeat.
 * This may result in what seems like a "bug" when you try to add repeated deadlines, starting with an event that has already passed, since the deadline will be added to that event itself.
+* By default, the deadline will not repeat.
 *****
 
 *You're not <<View,viewing>> an event or you're adding the deadline to an event not being viewed.*
@@ -178,64 +188,83 @@ Examples:
 * `deadline m/CS2103 e/Tutorial n/Homework r/NO` +
 Adds a Homework deadline to the nearest upcoming tutorial of CS2103
 
+[[List]]
+=== Displaying events and modules that have yet to pass: `list`
+
+Shows the list of future events or modules happening from the current date onwards.
+This allows you to toggle between the two lists, as well as hide events or modules that have already passed. +
+
+You can always check which list you're viewing by looking at the menu bar above:
+
+image::MenuButtons.png[width="500"]
+
+Format: `list event` OR `list module`
+
+Shorthands:
+
+* `list e` +
+Same behaviour as `list event` - lists all the events happening from the current date onwards under the left display panel.
+* `list m` +
+Same behaviour as `list module` - lists all the modules happening from the current date onwards under the left display panel.
+
+****
+* This is the default list filter!
+****
+
 [[ListAll]]
 === Displaying all events and modules: `list all`
 
-Shows a list of all events or modules in the left panel of Modulo. +
-Format: `list all event / list all module`
+Shows a list of all events or modules in the left panel of Modulo.
+This helps you to toggle between the two lists. +
 
-Examples:
+Format: `list all event` OR `list all module`
 
-* `list all event / list all e` +
-Shows all the events in the left display panel
+Shorthands:
 
-* `list all module / list all m` +
-Shows all the modules in the left display panel
+* `list all e` +
+Same behaviour as `list all event` - lists all the events under the left display panel
+
+* `list all m` +
+Same behaviour as `list all module` - Shows all the modules under the left display panel
 
 ****
-* Shows all events or modules recorded in Modulo, depending on the current list.
+* Lists all events or modules recorded in Modulo.
 * For events, this would include events that have already passed.
 * Do note that adding deadlines to these past events may result in unexpected behaviour.
 Do see the above section on <<AddingDeadline,adding a deadline>> for more information.
 ****
 
-[[List]]
-=== Displaying all events based on current timeframe: `list`
-
-Shows the list of future events or modules happening from the current date onwards. +
-Format: `list event / list module`
-
-Examples:
-
-* `list event / list e` +
-Shows all the events happening from the current date onwards on the left display panel.
-* `list module / list m` +
-Shows all the modules happening from the current date onwards on the left display panel.
-
-****
-* This is the default filter!
-****
-
+[[Find]]
 === Find an event / module [keywords]: `find`
 
 Allows the user to find a module or event which matches any of the given keywords.
 
 * The search is case insensitive. e.g `find tutorial` will produce all events that match Tutorial.
 * Names containing part of the searched words will be matched e.g. `find tut` will match Tutorial 4.
-* Modules can be searched according to their Module code, Name as well as Academic Year.
-* Events can be searched according to their Module code and Name.
 
-Format: `find SEARCH_TERM` while the left panel of Modulo is <<List,listing>> modules:
+
+There are two possible scenarios:
+
+*You're <<List,listing>> Modules on your left panel*
+
+Format: `find SEARCH_TERM`
 
 ****
+* Modules will be searched according to their Module Code, Name as well as Academic Year.
 * Shows the modules with Name / Module Code / Academic Year that match the search term.
 ****
+
+
+*You're <<List,listing>> Events on your left panel*
 
 Format: `find SEARCH_TERM` while the left panel of Modulo is <<List,listing>> events:
 
 ****
+* Events will be searched according to their Module Code and Name.
 * Shows the events with Name / Module Code that match the search term
 ****
+
+image::SampleFind.png[width="500"]
 
 Points to note:
 
@@ -246,75 +275,104 @@ or `list module`.
 
 === Finishing a task : `done`
 
-Command to set a deadline's status to be `Completed` +
+Toggles the completion status of a deadline.
+If the deadline was incomplete, it would be completed, and vice versa. +
 
-Scenario 1: If the user is currently not viewing an event or is not viewing the event of interest, the following format will be used:
+There are two possible scenarios:
 
-* Format: `done index m/MODULE_CODE n/EVENT_NAME` +
+*You're currently <<View,viewing>> an event on the right UI panel.*
 
-****
-* Every event can only have one deadline.
-Therefore,the index is one-based and always is 1.
-* Searched the deadline from the module's event, if deadline exists it will update the status to be completed.
-* Otherwise, it will display deadline does not exists message.
-****
+You can complete the deadline using its displayed index.
 
-* Example: `done 1 m/CS2103 n/Tutorial 1` +
-Set the deadline of the CS2103's Tutorial 1 to be completed.
+Format: `done index` +
 
-Scenario 2: If the user already be viewing the event of interest.
-The following command can then be used :
+*You're not <<View,viewing>> an event or you're completing a deadline for an event not being viewed.*
 
-* Format: `done index` +
-The index is one-based also.
+This is not very useful, since the index of the deadline needs to be known beforehand.
+Nevertheless, it's possible.
 
-* Example: `done 1` +
-Set the deadline on the right panel list to be completed.
+Format: `done index m/MODULE CODE e/EVENT NAME` +
+
+Example:
+
+* `done 1 m/CS2103 e/Tutorial 13`
+
+image::DeadlinesComplete.png[width="500"]
+All deadlines completed.
+
+image::DeadlinesIncomplete.png[width="500"]
+At least one incomplete deadline.
 
 === Export calendar: `export`
 
-Allows user to export all events and deadlines as a .ics file. File will be named modulo.ics inside the export directory.
+Exports all events and deadlines into a `.ics` file.
+File will be named `modulo.ics` inside the export directory.
 
-If no directory is defined, Modulo will deposit the .ics file in the data folder.
+If no directory is provided, Modulo will deposit the `.ics` file into the `data` folder.
 
-* .ics file will be generated with Singapore (Asia) timezone.
+* `.ics` file will be generated with the Singapore (Asia) timezone.
 * Event entity will be converted as VEVENT.
 * Deadline entity will be exported as VTODO.
-* However, as certain common calendar applications (e.g. Google Calendars, Microsoft Outlook) do not parse VTODO, summarized deadlines are also displayed under event description.
+* However, as certain common calendar applications (e.g. Google Calendars, Microsoft Outlook) do not parse VTODO, summarized deadlines are also displayed under the event's description.
 
 Format: `export [d/TARGET_DIRECTORY]`
+
+Example:
+
+* `export d/data/`
+
+*****
+* If the given export directory does not exist, it will be created.
+So do be careful with the given directory!
+* The directory must end with a `/`.
+*****
 
 [[Delete]]
 === Deleting a module/event/deadline: `delete`
 
-Allows the user to delete a module, event, or deadline.
+Deletes a module, event, or deadline by its index, a search term, or delete all.
 Deleting a module will delete all its associated events.
 Deleting an event with delete all its associated deadlines.
 
-* Deletion will depend on whether modules or events are displayed in the left panel of Modulo
-* Users can choose to delete modules or events by index: `delete 1`
-* Users can choose to delete modules or events based on description E.g. `delete tut`
-* For deadlines, users are required to click on the event containing the deadline - `delete d/1` will then delete the deadline of index 1 of the event.
+There are three possible scenarios:
 
-Examples: +
+*You're <<List,listing>> Modules on your left panel*
 
-* `delete 1` +
-Deletes the module / event of index 1
+You can delete a module based on its displayed index on the left panel or a search term.
+You can also delete all modules.
 
-* `delete DESCRIPTION` +
-1. If the left panel of Modulo displays Modules, deletes all Modules which Name / Module code / Academic Year contains `DESCRIPTION`
-2. If the left panel of Modulo displays Events, deletes all Events which Name / Module code contains `DESCRIPTION`
-{nbsp} +
-{nbsp} +
+Format: `delete INDEX` OR `delete SEARCH TERM` OR `delete all`
 
-* `delete all` +
-Deletes all modules / events depending on what is being <<View,viewed>> on the left panel of Modulo.
+Examples:
 
-* `delete d/1` +
-Deletes the deadline of index 1 from the event <<View,viewed>> on the right panel of Modulo.
+* `delete 1`
+* `delete cs2103`
 
-* `delete d/all` +
-Deletes all the deadlines from the event <<View,viewed>> on the right panel of Modulo.
+*You're <<List,listing>> Events on your left panel*
+
+You can delete an event based on its displayed index on the left panel.
+You can also delete all events.
+
+Format: `delete INDEX` OR `delete SEARCH TERM` OR `delete all`
+
+Examples:
+
+* `delete 1`
+* `delete tut`
+
+image::DeleteAll.png[width="500"]
+
+*You're <<View,viewing>> an Event on your right panel UI*
+
+You can delete an event's deadline using the deadline's index.
+You can also delete all deadlines of that event.
+This event needs to be currently viewed on the right panel.
+
+Format: `delete d/INDEX` OR `delete d/all`
+
+*****
+* The logic of the search term follows that of the <<Find,find command>>.
+*****
 
 [[View]]
 === Viewing module or event details : `view`
@@ -326,13 +384,86 @@ Format: `view INDEX`
 
 Example:
 
-* `view 1`
+* `view 2`
+
+image::SampleView.png[width="790"]
+
+=== Editing added Events and Deadlines: `[coming in v2.0]`
+
+_{explain how the user can edit an added Event or Deadline}_
 
 === Importing a NUSMods Calendar: `[coming in v2.0]`
 
 _{explain how the user can import a NUSMods Calendar}_
 
+== UI
+
+*****
+Although this app is designed with a fast CLI user in mind, there are UI features that can help to enhance a user's experience.
+This may be of use should one's fingers get tired.
+*****
+
+=== Menu Bar Buttons
+
+image::MenuButtons.png[width="500"]
+These buttons perform the equivalent of `list modules` and `list events` respectively.
+Just click them!
+
+=== Module and Event List
+
+image::ModuleList.png[width="500"]
+Click on any of these list items to view them on the right panel.
+They perform the equivalent of `view INDEX`.
+
+Modules are separated accordingly into their academic years and semesters, and events are separated based on their dates.
+
+*****
+*Note:* There is unfortunately an unfixed bug with how the focus of the UI is handled.
+After performing an action such as typing into the Command Box or clicking the Menu Buttons, you may need to double click the list item for it to show.
+*****
+
+=== Module Details
+
+image::ModuleDetails.png[width="500"]
+The right panel displays the details of the module.
+You can click "Click to view description" to open the <<DescriptionWindow,Description Window>>.
+
+Clicking any of the events listed below will also bring you to the event list and display the event.
+
+=== Description Window
+
+image::DescriptionWindow.png[width="790"]
+This window displays the description of the module.
+
+*****
+This is currently the only feature that is only accessible via the UI. This will be updated in subsequent releases.
+*****
+
+=== Event Details
+
+image::EventDetails.png[width="500"]
+The right panel displays the details of the event.
+You can check any of the deadlines to mark them as complete or incomplete, performing the equivalent of `done INDEX`.
+
+The second tag / label indicates whether all deadlines have been completed.
+
+=== Status Bar Footer
+
+image::StatusBarFooter.png[width="790"]
+This status bar displays where your data is being saved at.
+You can head over to that folder to find the `.json` file for your usage.
+
+Your exported `modulo.ics` will also be found in the same directory, unless otherwise specified when exporting.
+
 == FAQ
+
+*Q*: How do I transfer my data to another Computer? +
+*A*: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous Address Book folder.
+
+*Q*: My tutorial starts in Week 3. Why does it show up from Week 1 on Modulo? +
+*A*: Modulo uses NUS module data to do the event autopopulation.
+Unfortunately, there are discrepancies between the data they have and what actually happens on the ground.
+To overcome this, you can either manually create a repeating event, or delete the first two occurrences of the event.
 
 *Q*: Does Modulo work for other semesters? +
 *A*: For now, Modulo is made for students taking modules this Academic Year AY2019/2020, Semester 2! Upon the new Academic Year,

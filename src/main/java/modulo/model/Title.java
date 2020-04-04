@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import modulo.model.displayable.Displayable;
+import modulo.model.module.AcademicYear;
 
 /**
  * Class to section events out by date.
@@ -49,6 +50,10 @@ public class Title implements Displayable {
                 this.title = localDateTime.format(MONTH_FORMAT);
             }
         }
+    }
+
+    public Title(AcademicYear academicYear) {
+        this.title = academicYear.toModuleCardFormat();
     }
 
     public String getTitle() {

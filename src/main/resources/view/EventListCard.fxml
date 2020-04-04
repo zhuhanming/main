@@ -29,9 +29,19 @@
                             </minWidth>
                         </Label>
                         <Label fx:id="name" styleClass="cell_big_label, eventName" text="\$first"/>
-                        <Label fx:id="moduleCode" text="\$moduleCode" styleClass="moduleCode"/>
+                        <Label fx:id="moduleCode" text="\$moduleCode" styleClass="moduleCode">
+                            <minWidth>
+                                <!-- Ensures that the label text is never truncated -->
+                                <Region fx:constant="USE_PREF_SIZE"/>
+                            </minWidth>
+                        </Label>
                         <!-- Module is already inserted as part of tags in EventCard.java-->
-                        <Label fx:id="startDate" styleClass="cell_small_label, eventDuration" text="\$startDate"/>
+                        <Label fx:id="startDate" styleClass="cell_small_label, eventDuration" text="\$startDate">
+                            <minWidth>
+                                <!-- Ensures that the label text is never truncated -->
+                                <Region fx:constant="USE_PREF_SIZE"/>
+                            </minWidth>
+                        </Label>
                     </HBox>
                     <Region HBox.hgrow="ALWAYS"/>
                     <Label fx:id="endDate" styleClass="cell_small_label, eventLocation" text="\$endDate"/>

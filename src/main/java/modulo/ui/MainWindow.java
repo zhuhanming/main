@@ -34,6 +34,7 @@ public class MainWindow extends UiPart<Stage> {
     private ListPanel listPanel;
     private ResultDisplay resultDisplay;
     private HelpWindow helpWindow;
+    private DescriptionWindow descriptionWindow;
     private RightPanel rightPanel;
 
     @FXML
@@ -78,6 +79,7 @@ public class MainWindow extends UiPart<Stage> {
         setWindowDefaultSize(logic.getGuiSettings());
 
         helpWindow = new HelpWindow();
+        descriptionWindow = new DescriptionWindow();
     }
 
     public Stage getPrimaryStage() {
@@ -139,6 +141,19 @@ public class MainWindow extends UiPart<Stage> {
         }
     }
 
+    /**
+     * Opens the description window with the given description.
+     *
+     * @param description Description to show.
+     */
+    public void handleDescription(String description, String moduleName) {
+        if (descriptionWindow.isShowing()) {
+            descriptionWindow.hide();
+        }
+        descriptionWindow = new DescriptionWindow(description, moduleName);
+        descriptionWindow.show();
+    }
+
     void show() {
         primaryStage.show();
     }
@@ -153,6 +168,7 @@ public class MainWindow extends UiPart<Stage> {
         logic.setGuiSettings(guiSettings);
         helpWindow.hide();
         primaryStage.hide();
+        descriptionWindow.hide();
     }
 
     public ListPanel getListPanel() {
@@ -195,6 +211,7 @@ public class MainWindow extends UiPart<Stage> {
     /**
      * Shows event list as callback from EventButton.
      */
+    @FXML
     public void handleEventButton() {
         try {
             this.executeCommand("list e");
@@ -207,6 +224,7 @@ public class MainWindow extends UiPart<Stage> {
     /**
      * Shows module list as callback from ModuleButton.
      */
+    @FXML
     public void handleModuleButton() {
         try {
             this.executeCommand("list m");
@@ -269,6 +287,11 @@ public class MainWindow extends UiPart<Stage> {
         try {
             this.executeCommand("list e");
             Index index = this.listPanel.getEventIndex(event);
+            if (index == null) {
+                this.executeCommand("list all e");
+                index = this.listPanel.getEventIndex(event);
+            }
+            assert index != null;
             this.executeCommand("view " + index.getOneBased());
         } catch (CommandException | ParseException e) {
             logger.info("Invalid command: list e + view index");

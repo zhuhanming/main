@@ -3,6 +3,7 @@ package modulo.model.module;
 import static java.util.Objects.requireNonNull;
 import static modulo.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -90,6 +91,7 @@ public class UniqueModuleList implements Iterable<Module> {
             throw new DuplicateModuleException();
         }
         internalList.add(toAdd);
+        internalList.sort(Comparator.comparing(Module::getAcademicYear));
     }
 
     /**
@@ -109,6 +111,7 @@ public class UniqueModuleList implements Iterable<Module> {
         }
 
         internalList.set(index, editedModule);
+        internalList.sort(Comparator.comparing(Module::getAcademicYear));
     }
 
     /**
@@ -127,6 +130,7 @@ public class UniqueModuleList implements Iterable<Module> {
     public void setModules(UniqueModuleList replacement) {
         requireNonNull(replacement);
         internalList.setAll(replacement.internalList);
+        internalList.sort(Comparator.comparing(Module::getAcademicYear));
     }
 
     /**
@@ -137,8 +141,8 @@ public class UniqueModuleList implements Iterable<Module> {
         if (!modulesAreUnique(modules)) {
             throw new DuplicateModuleException();
         }
-
         internalList.setAll(modules);
+        internalList.sort(Comparator.comparing(Module::getAcademicYear));
     }
 
     /**

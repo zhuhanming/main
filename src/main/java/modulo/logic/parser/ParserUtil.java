@@ -165,9 +165,9 @@ public class ParserUtil {
      */
     public static DisplayableType parseDisplayableType(String displayableType) throws ParseException {
         String cleanedDisplayableType = displayableType.toLowerCase().trim();
-        if (cleanedDisplayableType.equals("m") || cleanedDisplayableType.equals("module")) {
+        if (cleanedDisplayableType.equals("m") || cleanedDisplayableType.contains("module")) {
             return DisplayableType.MODULE;
-        } else if (cleanedDisplayableType.equals("e") || cleanedDisplayableType.equals("event")) {
+        } else if (cleanedDisplayableType.equals("e") || cleanedDisplayableType.contains("event")) {
             return DisplayableType.EVENT;
         }
         throw new ParseException(MESSAGE_INVALID_DISPLAYABLE_TYPE);

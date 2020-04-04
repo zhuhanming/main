@@ -11,7 +11,8 @@ We are a team based in the http://www.comp.nus.edu.sg[School of Computing, Natio
 == Project Team
 
 === Low Chen Yi, Sean
-image::seanlowcy77.jpg[width="150", align="left"]
+
+image::seanlowcy77.png[width="150",align="left"]
 {empty}[http://github.com/seanlowcy77[github]]
 
 Role: Developer
@@ -19,7 +20,8 @@ Role: Developer
 '''
 
 === Ong Jing Yu
-image::jingyuong.png[width="150", align="left"]
+
+image::jingyuong.png[width="150",align="left"]
 {empty}[https://github.com/jingyuong[github]]
 
 Role: Developer
@@ -27,7 +29,8 @@ Role: Developer
 '''
 
 === Teoh Ern Tek
-image::erntekteoh.png[width="150", align="left"]
+
+image::erntekteoh.png[width="150",align="left"]
 {empty}[http://github.com/erntekteoh[github]]
 
 Role: Developer
@@ -35,7 +38,8 @@ Role: Developer
 '''
 
 === Zhu Hanming
-image::zhuhanming.png[width="150", align="left"]
+
+image::zhuhanming.png[width="150",align="left"]
 {empty}[http://github.com/zhuhanming[github]]
 
 Role: Developer

@@ -153,7 +153,7 @@
     -fx-background-color: transparent;
 }
 
-.eventDuration {
+.eventDuration, .moduleAcadYear, .eventLocation {
     -fx-padding: 0 0 0 10;
 }
 
@@ -162,6 +162,7 @@
 }
 
 /** Right Panel **/
+
 /** Details **/
 #slideEventCard {
     -fx-font-size: 12pt;
@@ -175,6 +176,22 @@
 
 .slideEventVenue, .slideEventDuration {
     -fx-font-family: 'Poppins Light';
+}
+
+.slideEventVenue.moduleDescription {
+    -fx-font-family: 'Poppins';
+    -fx-padding: 10 0 0 0;
+}
+
+.moduleDescriptionName  {
+    -fx-font-family: 'Poppins Bold';
+    -fx-font-size: 14pt;
+    -fx-padding: 0 0 5 0;
+}
+
+.slideEventVenue.moduleDescription:hover {
+    -fx-text-fill: #6842E4;
+    -fx-cursor: hand;
 }
 
 .slideEventDescription {
@@ -263,5 +280,22 @@
 
 #saveLocationStatus {
     -fx-padding: 5 0 5 20;
+    -fx-text-fill: #FFFFFF;
+}
+
+/** Help Window **/
+.helpCopyButton {
+    -fx-padding: 5 5 5 5;
+    -fx-border-width: 1 1 1 1;
+    -fx-border-color: #6842E4 #6842E4 #6842E4 #6842E4;
+    -fx-border-radius: 2;
+    -fx-background-radius: 2;
+    -fx-background-color: transparent;
+    -fx-text-fill: #6842E4;
+}
+
+.helpCopyButton:hover {
+    -fx-cursor: hand;
+    -fx-background-color: #6842E4;
     -fx-text-fill: #FFFFFF;
 }

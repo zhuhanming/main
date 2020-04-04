@@ -12,7 +12,7 @@ import modulo.model.deadline.Deadline;
  */
 public class RightPanelDeadlineCard extends UiPart<Region> {
 
-    private static final String FXML = "DeadlineListCard.fxml";
+    private static final String FXML = "RightPanelDeadlineCard.fxml";
 
     public final Deadline deadline;
 

@@ -4,6 +4,7 @@ import java.time.format.DateTimeFormatter;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import modulo.model.deadline.Deadline;
@@ -16,9 +17,10 @@ import modulo.model.module.Module;
  */
 public class RightPanelDescription extends UiPart<Region> {
 
-    private static final String FXML = "DetailsWindow.fxml";
-    public final Event eventViewed;
-    public final Module moduleViewed;
+    private static final String FXML = "RightPanel.fxml";
+    private final Event eventViewed;
+    private final Module moduleViewed;
+    private final MainWindow mainWindow;
 
     @FXML
     private VBox slideEventCard;
@@ -36,9 +38,9 @@ public class RightPanelDescription extends UiPart<Region> {
     private Label eventTypeDescription;
 
 
-    public RightPanelDescription(Displayable eventOrModule) {
+    public RightPanelDescription(Displayable eventOrModule, MainWindow mainWindow) {
         super(FXML);
-
+        this.mainWindow = mainWindow;
         if (eventOrModule instanceof Event) {
             this.eventViewed = (Event) eventOrModule;
             this.moduleViewed = null;
@@ -54,6 +56,7 @@ public class RightPanelDescription extends UiPart<Region> {
                 completionStatus.getStyleClass().add("allComplete");
             }
             venue.setText(this.eventViewed.getLocation().toString());
+            venue.getStyleClass().remove("moduleDescription");
             eventTypeDescription.setText("Prepare for " + this.eventViewed.getName().toString() + " by doing:");
         } else if (eventOrModule instanceof Module) {
             this.moduleViewed = (Module) eventOrModule;
@@ -67,7 +70,11 @@ public class RightPanelDescription extends UiPart<Region> {
                 completionStatus.getStyleClass().add("hidden");
             }
             completionStatus.getStyleClass().remove("allComplete");
-            venue.setText(null);
+            venue.setText("Click to view description");
+            if (!venue.getStyleClass().contains("moduleDescription")) {
+                venue.getStyleClass().add("moduleDescription");
+            }
+            venue.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> openDescription());
             eventTypeDescription.setText("Events under this module:");
         } else {
             this.eventViewed = null;
@@ -85,6 +92,13 @@ public class RightPanelDescription extends UiPart<Region> {
             completionStatus.getStyleClass().remove("allComplete");
             venue.setText("");
             eventTypeDescription.setText("");
+        }
+    }
+
+    @FXML
+    private void openDescription() {
+        if (moduleViewed != null && eventViewed == null) {
+            mainWindow.handleDescription(moduleViewed.getDescription(), moduleViewed.getName().toString());
         }
     }
 }

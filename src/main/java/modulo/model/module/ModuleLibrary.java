@@ -76,7 +76,7 @@ public class ModuleLibrary {
     }
 
     public static AddEventCommand getAddEventCommandToExecute(Module module, EventType eventType,
-                                                              int eventSlot) throws EventNotFoundException {
+                                                              String eventSlot) throws EventNotFoundException {
         try {
             JsonArray timetable = getTimetable(module);
             JsonObject lesson = null;
@@ -84,13 +84,25 @@ public class ModuleLibrary {
                 JsonObject selectLesson = timetable.get(i).getAsJsonObject();
                 String lessonType = selectLesson.get("lessonType").getAsString();
                 String classNumber = selectLesson.get("classNo").getAsString();
-                if (EventType.parseEventType(lessonType) == eventType && getClassNumber(classNumber) == eventSlot) {
+                if (EventType.parseEventType(lessonType) == eventType && areSameEventSlot(classNumber, eventSlot)) {
                     lesson = selectLesson;
                     break;
                 }
             }
             if (lesson == null) {
-                throw new EventNotFoundException();
+                String sampleClassNumber = null;
+                for (int i = 0; i < timetable.size(); i++) {
+                    JsonObject selectLesson = timetable.get(i).getAsJsonObject();
+                    String lessonType = selectLesson.get("lessonType").getAsString();
+                    String classNumber = selectLesson.get("classNo").getAsString();
+                    if (EventType.parseEventType(lessonType) == eventType) {
+                        sampleClassNumber = classNumber;
+                        break;
+                    }
+                }
+                throw new EventNotFoundException(sampleClassNumber == null
+                        ? ""
+                        : "A sample slot input would be: " + sampleClassNumber);
             }
             JsonArray weeks = lesson.getAsJsonArray("weeks");
             String day = lesson.get("day").getAsString().toUpperCase();
@@ -122,11 +134,46 @@ public class ModuleLibrary {
         }
     }
 
-    private static int getClassNumber(String classNumber) {
-        while (!Character.isDigit(classNumber.charAt(0))) {
-            classNumber = classNumber.substring(1);
+    /**
+     * Checks if user provided {@code eventSlot} matches the {@code classNumber}.
+     *
+     * @param classNumber
+     * @param eventSlot   Event slot
+     * @return
+     */
+    private static boolean areSameEventSlot(String classNumber, String eventSlot) {
+        String loweredClassNumber = classNumber.trim().toLowerCase();
+        if (eventSlot == loweredClassNumber) {
+            return true;
         }
-        return Integer.parseInt(classNumber);
+        while (loweredClassNumber.length() > 0 && eventSlot.length() > 0
+                && loweredClassNumber.charAt(0) == eventSlot.charAt(0)) {
+            loweredClassNumber = loweredClassNumber.substring(1);
+            eventSlot = eventSlot.substring(1);
+        }
+        while (loweredClassNumber.length() > 0 && eventSlot.length() > 0
+                && loweredClassNumber.charAt(loweredClassNumber.length() - 1)
+                == eventSlot.charAt(eventSlot.length() - 1)) {
+            loweredClassNumber = loweredClassNumber.substring(0, loweredClassNumber.length() - 1);
+            eventSlot = eventSlot.substring(0, eventSlot.length() - 1);
+        }
+        if (loweredClassNumber.length() > eventSlot.length()) {
+            for (int i = 0; i < loweredClassNumber.length(); i++) {
+                if (loweredClassNumber.charAt(i) != '0') {
+                    return false;
+                }
+            }
+            return true;
+        } else if (eventSlot.length() > loweredClassNumber.length()) {
+            for (int i = 0; i < eventSlot.length(); i++) {
+                if (eventSlot.charAt(i) != '0') {
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            return eventSlot.equalsIgnoreCase(loweredClassNumber);
+        }
     }
 
     private static JsonObject getModule(ModuleCode moduleCode) throws IOException {

@@ -12,7 +12,7 @@ ifdef::env-github[]
 :note-caption: :information_source:
 :warning-caption: :warning:
 endif::[]
-:repoURL: https://github.com/AY1920S2-CS2103-T09-1/main
+:repoURL: https://github.com/AY1920S2-CS2103-T09-1/main/tree/master
 
 By: `Team Modulo`      Since: `Feb 2020`      Licence: `MIT`
 
@@ -77,7 +77,7 @@ The sections below give more details of each component.
 === UI component
 
 .Structure of the UI Component
-image::ModuloUI.png[]
+image::UiClassDiagram.png[]
 
 *API* : link:{repoURL}/src/main/java/seedu/address/ui/Ui.java[`Ui.java`]
 
@@ -115,18 +115,15 @@ link:{repoURL}/src/main/java/seedu/address/logic/Logic.java[`Logic.java`]
 
 *STATEFUL LOGIC* Interface:
 
-NOTE: Stateful Logic is implemented by classes that only manages logic while a state exists. This state, within
-the AddModuleStatefulLogicManager, is created during the adding of modules by the `module m/MODULE_CODE` function. The
-state is depending on the number of event types (tutorial, lecture, lab etc) that each module has. Following
-the return of the AddModuleCommandResult, the existence of the AddModuleStatefulLogicManager allows the application
-to handle the tutorial, lecture, lab or recitation slot inputs that follows from the `module m/MODULE_CODE` function.
+NOTE: Stateful Logic is implemented by classes that only manages logic while a state exists.
+This state, within the AddModuleStatefulLogicManager, is created during the adding of modules by the `module m/MODULE_CODE` function.
+The state is depending on the number of event types (tutorial, lecture, lab etc) that each module has.
+Following the return of the AddModuleCommandResult, the existence of the AddModuleStatefulLogicManager allows the application to handle the tutorial, lecture, lab or recitation slot inputs that follows from the `module m/MODULE_CODE` function.
 
 *WRITER* Component:
 
-NOTE: The Writer component is activated when the ExportCommand is executed. It then calls the writeIcsFile function from the IcsWriter class which
-retrieves the current list of events from the Model component which, along with its deadlines, are converted into IcsEvent and IcsDeadline
-objects, which are then written into the ICS file.
-
+NOTE: The Writer component is activated when the ExportCommand is executed.
+It then calls the writeIcsFile function from the IcsWriter class which retrieves the current list of events from the Model component which, along with its deadlines, are converted into IcsEvent and IcsDeadline objects, which are then written into the ICS file.
 
 Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")` API call.
 
