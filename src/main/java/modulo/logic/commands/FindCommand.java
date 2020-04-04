@@ -2,8 +2,8 @@ package modulo.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static modulo.commons.core.Messages.MESSAGE_EVENT_LISTED_OVERVIEW;
-import static modulo.commons.core.Messages.MESSAGE_ITEM_LISTED_OVERVIEW;
 import static modulo.commons.core.Messages.MESSAGE_MODULE_LISTED_OVERVIEW;
+import static modulo.commons.core.Messages.MESSAGE_ZERO_ITEMS_LISTED;
 
 import modulo.logic.predicate.NameContainsKeywordsPredicate;
 import modulo.model.Model;
@@ -16,10 +16,12 @@ import modulo.model.displayable.DisplayableType;
 public class FindCommand extends Command {
 
     public static final String COMMAND_WORD = "find";
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all modules / event whose names contain any of "
-            + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
-            + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all modules / events whose names"
+            + "\ncontain any of the specified keywords.\n"
             + "Example: " + COMMAND_WORD + " CS";
+    public static final String RETURN_TO_ORIGINAL_LIST_INSTRUCTION = "\nTo return to the original list view, try:\n"
+            + "1. list event / list module\n"
+            + "2. list all event/ list all module";
 
     private final NameContainsKeywordsPredicate predicate;
 
@@ -33,17 +35,20 @@ public class FindCommand extends Command {
         requireNonNull(model);
         model.updateFilteredDisplayableList(predicate);
 
+        if (model.getFilteredFocusedList().size() == 0) {
+            return new CommandResult(
+                    String.format(MESSAGE_ZERO_ITEMS_LISTED, predicate.toString())
+                            + RETURN_TO_ORIGINAL_LIST_INSTRUCTION, false, false, true, true, null);
+        }
         if (model.getCurrentDisplayableType() == DisplayableType.EVENT) {
             return new CommandResult(
-                    String.format(MESSAGE_EVENT_LISTED_OVERVIEW, model.getFilteredFocusedList().size()),
-                    false, false, true, true, null);
-        } else if (model.getCurrentDisplayableType() == DisplayableType.MODULE) {
-            return new CommandResult(
-                    String.format(MESSAGE_MODULE_LISTED_OVERVIEW, model.getFilteredFocusedList().size()),
+                    String.format(MESSAGE_EVENT_LISTED_OVERVIEW, model.getFilteredFocusedList().size(),
+                            predicate.toString()) + RETURN_TO_ORIGINAL_LIST_INSTRUCTION,
                     false, false, true, true, null);
         } else {
             return new CommandResult(
-                    String.format(MESSAGE_ITEM_LISTED_OVERVIEW, model.getFilteredFocusedList().size()),
+                    String.format(MESSAGE_MODULE_LISTED_OVERVIEW, model.getFilteredFocusedList().size(),
+                            predicate.toString()) + RETURN_TO_ORIGINAL_LIST_INSTRUCTION,
                     false, false, true, true, null);
         }
     }
