@@ -135,13 +135,13 @@ public class ModuleLibrary {
     /**
      * Checks if user provided {@code eventSlot} matches the {@code classNumber}.
      *
-     * @param classNumber
+     * @param classNumber Class number from JSON.
      * @param eventSlot   Event slot
-     * @return
+     * @return Boolean representing whether they match.
      */
     private static boolean areSameEventSlot(String classNumber, String eventSlot) {
         String loweredClassNumber = classNumber.trim().toLowerCase();
-        if (eventSlot == loweredClassNumber) {
+        if (eventSlot.equals(loweredClassNumber)) {
             return true;
         }
         while (loweredClassNumber.length() > 0 && eventSlot.length() > 0
