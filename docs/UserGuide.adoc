@@ -18,8 +18,9 @@ By: `Team Modulo`      Since: `Feb 2020`      Licence: `MIT`
 
 == Introduction
 
-Modulo is for those who *prefer to use a desktop app for managing their school work on a modular level*.
+Modulo is for *NUS students* who *prefer to use a desktop app for managing their school work on a modular level*.
 It helps you to break down your modules into deadlines and track their progress.
+Currently Modulo is made for NUS students taking modules this Academic Year AY2019/2020 Semester 2!
 More importantly, Modulo is *optimized for those who prefer to work with a Command Line Interface (CLI)* while still having the benefits of a Graphical User Interface (GUI).
 If you can type fast, Modulo can get your module management tasks done faster than traditional GUI apps.
 Interested?
@@ -103,16 +104,16 @@ image::SampleEvents.png[width="500"]
 
 There are two possible scenarios: +
 
-*You're currently <<View,viewing>> a module on the right UI panel.*
+*1. You're currently <<View,viewing>> a module on the right UI panel.*
 
-You can add an event straight to the module you're currently viewing.
+This allows you to be able to add an event straight to the module you're currently viewing.
 
 Format: `event n/EVENT NAME s/START DATETIME e/END DATETIME v/VENUE [r/REPEAT] [f/FREQUENCY]
 [until/REPEAT_STOP_DATE]`
 
 Example (while viewing CS2103):
 
-* `event n/Tutorial s/2020-01-30 11:00 e/2020-01-30 10:00 v/COM1-B103 r/YES until/2020-05-08`
+* `event n/Tutorial s/2020-01-30 10:00 e/2020-01-30 11:00 v/COM1-B103 r/YES until/2020-05-08`
 
 *****
 * Modulo recognises datetime formats of YYYY-MM-DD HH:MM.
@@ -121,22 +122,25 @@ Example (while viewing CS2103):
 The default repeat end date, if not specified, is Week 13 of the semester.
 *****
 
-*You're not <<View,viewing>> a module or you're adding the event to a module not being viewed.*
+*2. You're not <<View,viewing>> a module or you're adding the event to a module not being viewed.*
 
-You can add an event to a specified module that you have already created before.
+This allows you to be able to add an event to a specified module that you have already created before.
 
 Format: `event m/MODULE CODE n/EVENT NAME s/START DATETIME e/END DATETIME v/VENUE [r/REPEAT] [f/FREQUENCY]
 [until/REPEAT_STOP_DATE]`
 
 Example:
 
-* `event m/CS2103 n/Tutorial s/2020-01-30 11:00 e/2020-01-30 10:00 v/COM1-B103 r/YES until/2020-05-08`
+* `event m/CS2103 n/Tutorial s/2020-01-30 10:00 e/2020-01-30 11:00 v/COM1-B103 r/YES until/2020-05-08`
 
 *****
 * All events with types that are recognised come with a default `deadline` created.
 Examples of recognised types would be:
 `Tutorial`, `Lecture`, etc.
 *****
+
+NOTE: Both function formats will work regardless of the right panel UI view. The first function type simply
+provides the additional convenience to the user so that the user can avoid typing the module code again.
 
 [[AddingDeadline]]
 === Adding a deadline : `deadline`
@@ -238,20 +242,22 @@ Allows the user to find a module or event which matches any of the given keyword
 * The search is case insensitive. e.g `find tutorial` will produce all events that match Tutorial.
 * Names containing part of the searched words will be matched e.g. `find tut` will match Tutorial 4.
 
+
 There are two possible scenarios:
 
 *You're <<List,listing>> Modules on your left panel*
 
-Format: `find SEARCH TERM`
+Format: `find SEARCH_TERM`
 
 ****
 * Modules will be searched according to their Module Code, Name as well as Academic Year.
 * Shows the modules with Name / Module Code / Academic Year that match the search term.
 ****
 
+
 *You're <<List,listing>> Events on your left panel*
 
-Format: `find SEARCH TERM` while the left panel of Modulo is <<List,listing>> events:
+Format: `find SEARCH_TERM` while the left panel of Modulo is <<List,listing>> events:
 
 ****
 * Events will be searched according to their Module Code and Name.
@@ -458,3 +464,11 @@ Your exported `modulo.ics` will also be found in the same directory, unless othe
 *A*: Modulo uses NUS module data to do the event autopopulation.
 Unfortunately, there are discrepancies between the data they have and what actually happens on the ground.
 To overcome this, you can either manually create a repeating event, or delete the first two occurrences of the event.
+
+*Q*: Does Modulo work for other semesters? +
+*A*: For now, Modulo is made for students taking modules this Academic Year AY2019/2020, Semester 2! Upon the new Academic Year,
+Modulo will updated! Stay Tuned!
+
+*Q*: Does Modulo only work for NUS students? +
+*A*: Unfortunately for now, Modulo is only caterred to NUS students. For other universities, feel free to reach out to our team to
+discuss a possible collaboration!

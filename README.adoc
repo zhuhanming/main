@@ -4,6 +4,7 @@ ifdef::env-github,env-browser[:relfileprefix: docs/]
 https://travis-ci.com/AY1920S2-CS2103-T09-1/main[image:https://travis-ci.com/AY1920S2-CS2103-T09-1/main.svg?branch=master[Build Status]]
 https://ci.appveyor.com/project/zhuhanming/main-a6krd[image:https://ci.appveyor.com/api/projects/status/o23c9crc7x2n59w2?svg=true[Build status]]
 https://coveralls.io/github/AY1920S2-CS2103-T09-1/main?branch=master[image:https://coveralls.io/repos/github/AY1920S2-CS2103-T09-1/main/badge.svg?branch=master[Coverage Status]]
+https://www.codacy.com/gh/AY1920S2-CS2103-T09-1/main?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=AY1920S2-CS2103-T09-1/main&amp;utm_campaign=Badge_Grade[image:https://api.codacy.com/project/badge/Grade/ce3e2a013019488188be93e7ffa6b555[Codacy Badge]]
 
 ### Manage your modules like never before.
 
