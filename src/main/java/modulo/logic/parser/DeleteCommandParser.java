@@ -26,11 +26,13 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
      * @throws ParseException if the user input does not conform the expected format.
      */
     public DeleteCommand parse(String args) throws ParseException {
+
         String trimmedArgs = args.toLowerCase().trim();
 
-        if (args.isEmpty()) {
+        if (trimmedArgs.isEmpty() || trimmedArgs.equals("d/")) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
         }
+
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_DEADLINE);
 
         if (arePrefixesPresent(argMultimap, PREFIX_DEADLINE)) {
@@ -42,9 +44,10 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
         }
 
         try {
-            Index index = ParserUtil.parseIndex(trimmedArgs);
+            int indexInteger = Integer.parseInt(trimmedArgs);
+            Index index = ParserUtil.parseIndex(Integer.toString(indexInteger));
             return new DeleteCommand(index, false);
-        } catch (ParseException pe) {
+        } catch (NumberFormatException e) {
             if (trimmedArgs.equals("all")) {
                 return new DeleteCommand(new NameContainsKeywordsPredicate(Arrays.asList("")), false);
             }
