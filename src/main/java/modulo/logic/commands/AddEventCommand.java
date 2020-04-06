@@ -3,6 +3,7 @@ package modulo.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static modulo.commons.core.Messages.MESSAGE_CANNOT_ADD_EVENT_TO_EVENT;
 import static modulo.commons.core.Messages.MESSAGE_DUPLICATE_EVENT;
+import static modulo.commons.core.Messages.MESSAGE_ENDDATE_MUST_AFTER_STARTDATE;
 import static modulo.commons.core.Messages.MESSAGE_EVENT_ADDED;
 import static modulo.commons.core.Messages.MESSAGE_INVALID_DATE_RANGE;
 import static modulo.commons.core.Messages.MESSAGE_MODULE_DOES_NOT_EXIST;
@@ -126,7 +127,6 @@ public class AddEventCommand extends Command {
         requireNonNull(model);
         Module actualModule;
         Event actualEvent;
-
         // If there's no event specified, we create one.
         if (toAdd == null) {
             Displayable displayable = model.getFocusedDisplayable();
@@ -136,6 +136,11 @@ public class AddEventCommand extends Command {
             if (displayable == null) {
                 throw new CommandException(MESSAGE_MODULE_DOES_NOT_EXIST);
             }
+            if (endDateTime.isBefore(startDateTime)) {
+                throw new CommandException(String.format(MESSAGE_ENDDATE_MUST_AFTER_STARTDATE,
+                        startDateTime.toString().replace('T', ' '), endDateTime).replace('T', ' '));
+            }
+
             actualModule = (Module) displayable;
             actualEvent = new Event(name, eventType, startDateTime, endDateTime, actualModule, location);
         } else {
@@ -143,9 +148,14 @@ public class AddEventCommand extends Command {
             Module partialModule = toAdd.getParentModule();
             actualModule = model.getModule(partialModule.getModuleCode(), partialModule.getAcademicYear())
                     .orElseThrow(() -> new CommandException(MESSAGE_MODULE_DOES_NOT_EXIST));
-
+            if (toAdd.getEventEnd().isBefore(toAdd.getEventStart())) {
+                throw new CommandException(String.format(MESSAGE_ENDDATE_MUST_AFTER_STARTDATE,
+                        toAdd.getEventStart().toString().replace('T', ' '),
+                        toAdd.getEventEnd().toString().replace('T', ' ')));
+            }
             actualEvent = new Event(toAdd.getName(), toAdd.getEventType(), toAdd.getEventStart(),
                     toAdd.getEventEnd(), actualModule, toAdd.getLocation());
+
         }
 
         if (model.hasEvent(actualEvent)) {

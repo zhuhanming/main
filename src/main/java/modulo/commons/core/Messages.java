@@ -36,7 +36,13 @@ public class Messages {
     // INDEX
     public static final String MESSAGE_INVALID_VIEW_INDEX = "The index you want to view is invalid";
     public static final String MESSAGE_INVALID_DELETE_INDEX = "The index you want to delete is invalid";
-    public static final String MESSAGE_INVALID_INDEX = "A positive integer is require for index.";
+    public static final String MESSAGE_INVALID_INDEX = "A positive integer is require for index";
+    public static final String MESSAGE_INVALID_DONE_INDEX = "The index you want to set as done is invalid";
+
+    // DATETIME-RELATED
+    public static final String MESSAGE_ENDDATE_MUST_AFTER_STARTDATE = "Start date/time must be before "
+            + "the ending date/time!\n" + "Start DateTime: %1$s is after\n"
+            + "End DateTime: %2$s";
 
     // GENERAL
     public static final String MESSAGE_INVALID_DATE_RANGE = "The specified date range is invalid!";
@@ -49,13 +55,14 @@ public class Messages {
     public static final String MESSAGE_INVALID_DISPLAYABLE_TYPE = "Type of item (module/event) to view is not "
             + "recognised!";
 
+
     // ===================================
     // ===== [[ SUCCESS-MESSAGES ]] ======
     // ===================================
 
     // MODULE-RELATED
     public static final String MESSAGE_MODULE_ADDED = "New module added: %1$s";
-    public static final String MESSAGE_MODULE_LISTED_OVERVIEW = "%1$d modules listed!";
+    public static final String MESSAGE_MODULE_LISTED_OVERVIEW = "%1$d modules listed containing %2$s!";
     public static final String MESSAGE_SHOWING_MODULES = "Showing modules!";
     public static final String MESSAGE_SHOWING_ALL_MODULES = "Showing all modules!";
     public static final String MESSAGE_SINGLE_MODULE_DELETE_SUCCESS = "Deleted module: %1$s";
@@ -65,7 +72,7 @@ public class Messages {
 
     // EVENT-RELATED
     public static final String MESSAGE_EVENT_ADDED = "New event added: %1$s";
-    public static final String MESSAGE_EVENT_LISTED_OVERVIEW = "%1$d events listed!";
+    public static final String MESSAGE_EVENT_LISTED_OVERVIEW = "%1$d events listed containing %2$s!";
     public static final String MESSAGE_SHOWING_EVENTS = "Showing Events!";
     public static final String MESSAGE_SHOWING_ALL_EVENTS = "Showing All Events!";
     public static final String MESSAGE_SINGLE_EVENT_DELETE_SUCCESS = "Deleted module: %1$s";
@@ -86,9 +93,10 @@ public class Messages {
     public static final String MESSAGE_MODULO_CLEARED = "Modulo has been cleared!";
     public static final String MESSAGE_EXIT_ACKNOWLEDGEMENT = "Exiting Modulo as requested...";
     public static final String MESSAGE_EXPORT_SUCCESS = "Modulo successfully exported as a .ics file!";
-    public static final String MESSAGE_ITEM_LISTED_OVERVIEW = "%1$d items listed!";
+    public static final String MESSAGE_ITEM_LISTED_OVERVIEW = "%1$d items listed containing %2$d!";
     public static final String MESSAGE_SHOWING_HELP = "Opened help window.";
     public static final String MESSAGE_VIEW_ITEM_SUCCESS = "%1$s \nis in view!";
     public static final String MESSAGE_CLEARED_VIEW = "Cleared your view!";
+    public static final String MESSAGE_ZERO_ITEMS_LISTED = "No items containing %1$s has been found";
 
 }

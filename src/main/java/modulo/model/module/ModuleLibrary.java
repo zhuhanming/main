@@ -43,6 +43,8 @@ public class ModuleLibrary {
             Name name = new Name(moduleNeeded.get("title").getAsString());
             String description = moduleNeeded.get("description").getAsString();
             return new Module(moduleCode, name, academicYear, description);
+        } catch (NullPointerException e) {
+            throw new ModuleNotFoundException();
         } catch (IOException e) {
             throw new ModuleNotFoundException();
         }
