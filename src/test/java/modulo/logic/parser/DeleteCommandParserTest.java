@@ -2,24 +2,21 @@ package modulo.logic.parser;
 
 import static modulo.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static modulo.commons.core.Messages.MESSAGE_INVALID_INDEX;
-import static modulo.logic.commands.CommandTestUtil.VALID_CODE_CS2103_LOWER_CASE;
-import static modulo.testutil.Assert.assertThrows;
-
-import static modulo.testutil.TypicalIndexes.INDEX_FIRST_ITEM;
-import static modulo.testutil.TypicalIndexes.INDEX_THOUSANDTH_ITEM;
 import static modulo.logic.commands.CommandTestUtil.INVALID_MODULE_CODE_CS2000;
+import static modulo.logic.commands.CommandTestUtil.VALID_CODE_CS2103_LOWER_CASE;
 import static modulo.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static modulo.logic.parser.CommandParserTestUtil.assertParseSuccess;
-
-import modulo.logic.commands.DeleteCommand;
-import modulo.logic.predicate.NameContainsKeywordsPredicate;
-import org.junit.jupiter.api.Test;
-
-
-import modulo.logic.parser.exceptions.ParseException;
+import static modulo.testutil.Assert.assertThrows;
+import static modulo.testutil.TypicalIndexes.INDEX_FIRST_ITEM;
+import static modulo.testutil.TypicalIndexes.INDEX_THOUSANDTH_ITEM;
 
 import java.util.Arrays;
 
+import org.junit.jupiter.api.Test;
+
+import modulo.logic.commands.DeleteCommand;
+import modulo.logic.parser.exceptions.ParseException;
+import modulo.logic.predicate.NameContainsKeywordsPredicate;
 
 public class DeleteCommandParserTest {
 
@@ -62,7 +59,8 @@ public class DeleteCommandParserTest {
 
     @Test
     public void parse_inputIsInvalidString_returnsDeleteCommand() {
-        DeleteCommand expectedDeleteCommand = new DeleteCommand(new NameContainsKeywordsPredicate(Arrays.asList(INVALID_MODULE_CODE_CS2000)), false);
+        DeleteCommand expectedDeleteCommand = new DeleteCommand(new NameContainsKeywordsPredicate(
+                Arrays.asList(INVALID_MODULE_CODE_CS2000)), false);
         assertParseSuccess(deleteCommandParser, INVALID_MODULE_CODE_CS2000, expectedDeleteCommand);
     }
 
@@ -76,7 +74,8 @@ public class DeleteCommandParserTest {
     @Test
     public void parse_inputIsValidString_returnsDeleteCommand() {
         DeleteCommand expectedDeleteCommand =
-                new DeleteCommand(new NameContainsKeywordsPredicate(Arrays.asList(VALID_CODE_CS2103_LOWER_CASE)), false);
+                new DeleteCommand(new NameContainsKeywordsPredicate(Arrays.asList(
+                        VALID_CODE_CS2103_LOWER_CASE)), false);
         assertParseSuccess(deleteCommandParser, "CS2103", expectedDeleteCommand);
     }
 

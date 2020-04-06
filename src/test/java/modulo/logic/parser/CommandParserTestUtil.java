@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import modulo.logic.commands.Command;
 import modulo.logic.parser.exceptions.ParseException;
-import modulo.logic.parser.Parser;
 
 /**
  * Contains helper methods for testing command parsers.
