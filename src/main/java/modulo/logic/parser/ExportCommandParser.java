@@ -21,6 +21,8 @@ public class ExportCommandParser implements Parser<ExportCommand> {
      */
 
     public ExportCommand parse(String args) throws ParseException {
+        //System outputs to help with debugging ExportCommandParserTest issue
+        //System.out.println("args are " + "|" + args + "|");
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_DIRECTORY);
         if (!argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ExportCommand.MESSAGE_USAGE));
@@ -28,6 +30,7 @@ public class ExportCommandParser implements Parser<ExportCommand> {
         if (argMultimap.getValue(PREFIX_DIRECTORY).isEmpty()) {
             return new ExportCommand();
         } else {
+            //System.out.println("argmap is " + argMultimap.getValue(PREFIX_DIRECTORY).get());
             return new ExportCommand(ParserUtil.parseDirectory(argMultimap.getValue(PREFIX_DIRECTORY).get()));
         }
     }
