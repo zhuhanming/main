@@ -7,8 +7,8 @@ import static modulo.logic.commands.CommandTestUtil.VALID_CODE_CS2103_LOWER_CASE
 import static modulo.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static modulo.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static modulo.testutil.Assert.assertThrows;
-import static modulo.testutil.TypicalIndexes.INDEX_FIRST_ITEM;
-import static modulo.testutil.TypicalIndexes.INDEX_THOUSANDTH_ITEM;
+import static modulo.testutil.TypicalIndexesUtils.INDEX_FIRST_ITEM;
+import static modulo.testutil.TypicalIndexesUtils.INDEX_THOUSANDTH_ITEM;
 
 import java.util.Arrays;
 
@@ -85,7 +85,7 @@ public class DeleteCommandParserTest {
 
     @Test
     public void parse_inputDeleteDeadlineEmpty_throwsParseException() {
-        assertThrows(ParseException.class, () -> deleteCommandParser.parse("d/"));
+        assertThrows(ParseException.class, () -> deleteCommandParser.parse(" d/"));
         assertParseFailure(deleteCommandParser, " d/",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
     }
