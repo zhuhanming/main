@@ -25,6 +25,8 @@ import modulo.model.module.exceptions.ModuleNotFoundException;
  */
 public class AddModuleCommand extends Command {
     public static final String COMMAND_WORD = "module";
+    public static final String MESSAGE_SUCCESS = MESSAGE_MODULE_ADDED;
+
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a module to Modulo. "
             + "Parameters: "

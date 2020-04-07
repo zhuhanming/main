@@ -14,8 +14,8 @@ public class ModuleBuilder {
 
     public static final String DEFAULT_MODULE_CODE = "CS2103";
     public static final String DEFAULT_MODULE_NAME = "Software Engineering";
-    public static final int DEFAULT_ACADEMIC_YEAR = 2019 / 2020;
-    public static final int DEFAULT_SEMESTER = 2;
+    public static final String DEFAULT_ACADEMIC_YEAR = "2019/2020";
+    public static final String DEFAULT_SEMESTER = "2";
     public static final String DEFAULT_DESCRIPTION = "";
 
     private Name name;
@@ -61,7 +61,7 @@ public class ModuleBuilder {
     /**
      * Parses the {@code AcademicYear and semester } into a {@code Set<Tag>} a that we are building.
      */
-    public ModuleBuilder withAcademicYear(int academicYear, int semester) {
+    public ModuleBuilder withAcademicYear(String academicYear, String semester) {
         try {
             this.academicYear = new AcademicYear(academicYear, semester);
         } catch (ParseException e) {

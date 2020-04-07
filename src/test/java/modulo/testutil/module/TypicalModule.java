@@ -25,7 +25,7 @@ public class TypicalModule {
 
     public static final Module CS1010E = new ModuleBuilder().withModuleCode("CS1010E")
             .withModuleName("Programming Methodology")
-            .withAcademicYear(2019 / 2020, 2)
+            .withAcademicYear("2019/2020", "2")
             .withDescription("This module introduces the fundamental concepts of problem solving by "
                     + "computing and programming using an imperative programming language.").build();
 
