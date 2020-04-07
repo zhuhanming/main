@@ -45,7 +45,7 @@ public class AddModuleCommandParser implements Parser<AddModuleCommand> {
             academicYear = getAcademicYear(argMultimap);
         } catch (ParseException pe) {
             throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddModuleCommand.MESSAGE_USAGE), pe);
+                    pe.getMessage() == null ? String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddModuleCommand.MESSAGE_USAGE) : pe.getMessage(), pe);
         }
 
         return new AddModuleCommand(moduleCode, academicYear);
