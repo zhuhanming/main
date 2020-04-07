@@ -29,7 +29,7 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
 
         String trimmedArgs = args.toLowerCase().trim();
 
-        if (trimmedArgs.equals("d/") || trimmedArgs.isEmpty()) {
+        if ("/d".equals(trimmedArgs) || trimmedArgs.isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
         }
 
