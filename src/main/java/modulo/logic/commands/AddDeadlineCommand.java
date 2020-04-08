@@ -45,7 +45,7 @@ public class AddDeadlineCommand extends Command {
             + PREFIX_REPEAT + "YES";
 
 
-    private final Event parentEvent;
+    private Event parentEvent;
     private final boolean isRepeated;
     private final Name name;
 
@@ -94,7 +94,7 @@ public class AddDeadlineCommand extends Command {
                 throw new CommandException(MESSAGE_EVENT_DOES_NOT_EXIST);
             }
 
-            Event parentEvent = (Event) focusedDisplayable;
+            this.parentEvent = (Event) focusedDisplayable;
             toAdd = new Deadline(name, parentEvent);
 
             if (!isRepeated) {
@@ -122,9 +122,9 @@ public class AddDeadlineCommand extends Command {
 
         List<Event> events = model.findAllEvents(parentEvent);
         Deadline referenceDeadline = new Deadline(name, parentEvent);
-
+        Event actualParentEvent = model.findEvent(parentEvent);
         for (Event event : events) {
-            if (!event.getIsOver() && !event.containsDeadline(referenceDeadline)) {
+            if ((event.equals(actualParentEvent) || event.isAfterEvent(actualParentEvent)) && !event.containsDeadline(referenceDeadline)) {
                 Deadline currentToAdd = new Deadline(name, event);
                 event.addDeadline(currentToAdd);
             }
