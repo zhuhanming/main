@@ -38,23 +38,23 @@ public class AddEventCommand extends Command {
     public static final String COMMAND_WORD = "event";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a event to Modulo. "
-            + "Parameters: "
-            + "(if viewing module) "
+            + "Parameters:\n"
+            + "1. (if viewing module) "
             + PREFIX_NAME + "EVENT_NAME "
             + PREFIX_START_DATETIME + "START DATETIME "
             + PREFIX_END_DATETIME + "END DATETIME "
             + PREFIX_VENUE + "VENUE "
             + "[" + PREFIX_REPEAT + "TO REPEAT] "
             + "[" + PREFIX_FREQUENCY + "FREQ (WEEKS)] "
-            + "[" + PREFIX_STOP_REPEAT + "EVENT_REPEAT_END] "
-            + "Parameters: (else) "
+            + "[" + PREFIX_STOP_REPEAT + "EVENT_REPEAT_END]\n"
+            + "2. (otherwise) "
             + PREFIX_MODULE + "MODULE CODE "
             + PREFIX_NAME + "EVENT_NAME "
             + PREFIX_START_DATETIME + "EVENT_START_DATETIME "
             + PREFIX_END_DATETIME + "EVENT_END_DATETIME "
             + PREFIX_VENUE + "VENUE "
             + "[" + PREFIX_REPEAT + "YES/NO] "
-            + "[" + PREFIX_STOP_REPEAT + "EVENT_REPEAT_END] \n"
+            + "[" + PREFIX_STOP_REPEAT + "EVENT_REPEAT_END] \n\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_MODULE + "CS2103 "
             + PREFIX_NAME + "Tutorial "
@@ -63,7 +63,8 @@ public class AddEventCommand extends Command {
             + PREFIX_VENUE + "COM1-B103 "
             + PREFIX_REPEAT + "YES "
             + PREFIX_FREQUENCY + "2 "
-            + PREFIX_STOP_REPEAT + "2020-05-08";
+            + PREFIX_STOP_REPEAT + "2020-05-08"
+            + "\nRefer to the UserGuide for more details!";
 
     private final Event toAdd;
     private final Name name;
