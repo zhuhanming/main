@@ -186,6 +186,11 @@ public class Event implements Displayable {
                 && otherEvent.getEventType().equals(getEventType());
     }
 
+    public boolean isAfterEvent(Event otherEvent) {
+        return this.getEventStart().isAfter(otherEvent.getEventEnd());
+
+    }
+
     /**
      * Returns a string for debugging purposes.
      *
