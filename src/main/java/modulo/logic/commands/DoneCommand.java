@@ -31,11 +31,11 @@ public class DoneCommand extends Command {
     public static final String COMMAND_WORD = "done";
 
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Complete a deadline. "
-            + "Parameters: "
-            + "(if viewing Event) "
-            + "INDEX "
-            + "Parameters: (else) "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Complete a deadline.\n"
+            + "Parameters:\n"
+            + "1. (if viewing Event) "
+            + "INDEX \n"
+            + "2. (otherwise) "
             + "INDEX "
             + PREFIX_MODULE + "MODULE "
             + PREFIX_EVENT + "EVENT_NAME"
