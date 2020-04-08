@@ -1,4 +1,4 @@
-package modulo.logic;
+package modulo.logic.parser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -7,7 +7,6 @@ import java.time.LocalDate;
 
 import org.junit.jupiter.api.Test;
 
-import modulo.logic.parser.AcademicYearParser;
 import modulo.logic.parser.exceptions.ParseException;
 
 public class AcademicYearParserTest {

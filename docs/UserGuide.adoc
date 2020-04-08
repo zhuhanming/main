@@ -308,7 +308,7 @@ At least one incomplete deadline.
 Exports all events and deadlines into a `.ics` file.
 File will be named `modulo.ics` inside the export directory.
 
-If no directory is provided, Modulo will deposit the `.ics` file into the `data` folder.
+If no directory is provided, by default Modulo will deposit the `.ics` file into the `data` folder.
 
 * `.ics` file will be generated with the Singapore (Asia) timezone.
 * Event entity will be converted as VEVENT.
@@ -324,7 +324,6 @@ Example:
 *****
 * If the given export directory does not exist, it will be created.
 So do be careful with the given directory!
-* The directory must end with a `/`.
 *****
 
 [[Delete]]
