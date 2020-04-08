@@ -36,8 +36,9 @@ public class DoneCommandParser implements Parser<DoneCommand> {
 
         Index index;
         try {
-            index = ParserUtil.parseIndex(argMultimap.getPreamble());
-        } catch (ParseException pe) {
+            int indexInteger = Integer.parseInt(argMultimap.getPreamble());
+            index = ParserUtil.parseIndex(Integer.toString(indexInteger));
+        } catch (NumberFormatException pe) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DoneCommand.MESSAGE_USAGE), pe);
         }
 
