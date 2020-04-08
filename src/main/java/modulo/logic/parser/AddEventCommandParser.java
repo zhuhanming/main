@@ -1,12 +1,7 @@
 package modulo.logic.parser;
 
 import static modulo.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static modulo.logic.parser.CliSyntax.PREFIX_END_DATETIME;
-import static modulo.logic.parser.CliSyntax.PREFIX_MODULE;
-import static modulo.logic.parser.CliSyntax.PREFIX_NAME;
-import static modulo.logic.parser.CliSyntax.PREFIX_REPEAT;
-import static modulo.logic.parser.CliSyntax.PREFIX_START_DATETIME;
-import static modulo.logic.parser.CliSyntax.PREFIX_VENUE;
+import static modulo.logic.parser.CliSyntax.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -42,7 +37,8 @@ public class AddEventCommandParser implements Parser<AddEventCommand> {
      */
     public AddEventCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_MODULE, PREFIX_NAME,
-                PREFIX_START_DATETIME, PREFIX_END_DATETIME, PREFIX_VENUE, PREFIX_REPEAT);
+                PREFIX_START_DATETIME, PREFIX_END_DATETIME,
+                PREFIX_VENUE, PREFIX_REPEAT, PREFIX_FREQUENCY, PREFIX_STOP_REPEAT);
 
         Supplier<ParseException> parseExceptionSupplier = () -> new ParseException(
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddEventCommand.MESSAGE_USAGE));
