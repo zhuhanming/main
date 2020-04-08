@@ -37,6 +37,9 @@ public class AcademicYear implements Comparable<AcademicYear> {
             throw new ParseException("Academic end year must be 1 year after the start year!");
         }
         this.semester = Integer.parseInt(semester);
+        if (this.semester != 1 && this.semester != 2) {
+            throw new ParseException("Semester must be either 1 or 2!");
+        }
         LocalDate[] dates = AcademicYearParser.parseAcademicYear(this.startYear, this.semester);
         this.startDate = dates[0];
         this.endDate = dates[1];
