@@ -1,7 +1,14 @@
 package modulo.logic.parser;
 
 import static modulo.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static modulo.logic.parser.CliSyntax.*;
+import static modulo.logic.parser.CliSyntax.PREFIX_END_DATETIME;
+import static modulo.logic.parser.CliSyntax.PREFIX_FREQUENCY;
+import static modulo.logic.parser.CliSyntax.PREFIX_MODULE;
+import static modulo.logic.parser.CliSyntax.PREFIX_NAME;
+import static modulo.logic.parser.CliSyntax.PREFIX_REPEAT;
+import static modulo.logic.parser.CliSyntax.PREFIX_START_DATETIME;
+import static modulo.logic.parser.CliSyntax.PREFIX_STOP_REPEAT;
+import static modulo.logic.parser.CliSyntax.PREFIX_VENUE;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

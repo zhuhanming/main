@@ -124,7 +124,8 @@ public class AddDeadlineCommand extends Command {
         Deadline referenceDeadline = new Deadline(name, parentEvent);
         Event actualParentEvent = model.findEvent(parentEvent);
         for (Event event : events) {
-            if ((event.equals(actualParentEvent) || event.isAfterEvent(actualParentEvent)) && !event.containsDeadline(referenceDeadline)) {
+            if ((event.equals(actualParentEvent) || event.isAfterEvent(actualParentEvent))
+                    && !event.containsDeadline(referenceDeadline)) {
                 Deadline currentToAdd = new Deadline(name, event);
                 event.addDeadline(currentToAdd);
             }
