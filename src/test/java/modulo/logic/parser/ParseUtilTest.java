@@ -14,6 +14,9 @@ import modulo.model.Name;
 import modulo.model.event.Location;
 import modulo.model.module.ModuleCode;
 
+/**
+ * class contains test coses for different input parsering.
+ */
 public class ParseUtilTest {
     public static final DateTimeFormatter DATETIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 

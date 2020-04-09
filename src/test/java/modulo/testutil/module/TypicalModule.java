@@ -49,7 +49,7 @@ public class TypicalModule {
     } // prevents instantiation
 
     /**
-     * Returns an {@code InventorySystem} with all the typical persons.
+     * Returns an {@code Modulo} with all the typical modulo.
      */
     public static Modulo getModulo() {
         Modulo ab = new Modulo();

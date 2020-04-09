@@ -11,6 +11,9 @@ import org.junit.jupiter.api.Test;
 
 import modulo.testutil.module.ModuleBuilder;
 
+/**
+ * test caese for {@code Module}'s {@code Name} matches any of the keywords given.
+ */
 public class NameContainsKeywordPredicateTest {
 
     @Test
