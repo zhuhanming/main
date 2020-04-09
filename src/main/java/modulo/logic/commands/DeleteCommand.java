@@ -106,6 +106,10 @@ public class DeleteCommand extends Command {
                     numberOfItemsDeleted++;
                     model.deleteEvent((Event) eventObject);
                 }
+
+                if (numberOfItemsDeleted == 0) {
+                    return new CommandResult(String.format(Messages.MESSAGE_NO_EVENT_DELETED, predicate.toString()));
+                }
                 assert predicate != null;
                 if (predicate.toString().equals(predicateStringForDeleteAll)) {
                     return new CommandResult(String.format(Messages.MESSAGE_DELETE_ALL_EVENTS_SUCCESS,
@@ -125,6 +129,11 @@ public class DeleteCommand extends Command {
                     model.deleteModule(module);
                 }
                 assert predicate != null;
+
+                if (numberOfItemsDeleted == 0) {
+                    return new CommandResult(String.format(Messages.MESSAGE_NO_MODULE_DELETED, predicate.toString()));
+                }
+
                 if (predicate.toString().equals(predicateStringForDeleteAll)) {
                     model.unsetFocusedDisplayable();
                     return new CommandResult(String.format(Messages.MESSAGE_DELETE_ALL_MODULES_SUCCESS,

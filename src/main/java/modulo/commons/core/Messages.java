@@ -13,6 +13,9 @@ public class Messages {
     public static final String MESSAGE_MODULE_DOES_NOT_EXIST = "The module you want does not exist!";
     public static final String MESSAGE_DUPLICATE_MODULE = "This module has been added before!";
     public static final String MESSAGE_CANNOT_ADD_DEADLINE_TO_MODULE = "You cannot add deadlines to modules!";
+    public static final String MESSAGE_NO_MODULE_DELETED = "As there are no Modules containing %1$s\n"
+            + "No Modules have been deleted";
+
 
     // EVENT-RELATED
     public static final String MESSAGE_EVENT_DOES_NOT_EXIST = "The event you want does not exist!";
@@ -20,6 +23,8 @@ public class Messages {
     public static final String MESSAGE_CANNOT_ADD_EVENT_TO_EVENT = "You cannot add events to events!";
     public static final String MESSAGE_INVALID_EVENT_TYPE = "Event type is not recognised!";
     public static final String MESSAGE_EVENT_NOT_SELECTED = "Please select an event to delete deadlines from!";
+    public static final String MESSAGE_NO_EVENT_DELETED = "As there are no Events containing %1$s\n"
+            + "No Events have been deleted";
 
     // DEADLINE-RELATED
     public static final String MESSAGE_DEADLINE_DOES_NOT_EXIST = "The deadline you want does not exist!";
@@ -65,7 +70,7 @@ public class Messages {
     public static final String MESSAGE_MODULE_LISTED_OVERVIEW = "%1$d modules listed containing %2$s!";
     public static final String MESSAGE_SHOWING_MODULES = "Showing modules!";
     public static final String MESSAGE_SHOWING_ALL_MODULES = "Showing all modules!";
-    public static final String MESSAGE_SINGLE_MODULE_DELETE_SUCCESS = "Deleted module: %1$s";
+    public static final String MESSAGE_SINGLE_MODULE_DELETE_SUCCESS = "Deleted module:\n%1$s";
     public static final String MESSAGE_MUTIPLE_MODULES_DELETE_SUCCESS = "%1$s Modules containing: "
             + "%2$s has been deleted";
     public static final String MESSAGE_DELETE_ALL_MODULES_SUCCESS = "Deleted all %1$s modules!";
@@ -75,17 +80,17 @@ public class Messages {
     public static final String MESSAGE_EVENT_LISTED_OVERVIEW = "%1$d events listed containing %2$s!";
     public static final String MESSAGE_SHOWING_EVENTS = "Showing Events!";
     public static final String MESSAGE_SHOWING_ALL_EVENTS = "Showing All Events!";
-    public static final String MESSAGE_SINGLE_EVENT_DELETE_SUCCESS = "Deleted module: %1$s";
+    public static final String MESSAGE_SINGLE_EVENT_DELETE_SUCCESS = "Deleted event:\n%1$s";
     public static final String MESSAGE_MUTIPLE_EVENTS_DELETE_SUCCESS = "%1$s Events containing: %2$s has been deleted";
     public static final String MESSAGE_DELETE_ALL_EVENTS_SUCCESS = "Deleted all %1$s events!";
 
     // DEADLINE-RELATED
     public static final String MESSAGE_DEADLINE_ADDED = "New deadline added: %1$s";
-    public static final String MESSAGE_COMPLETED_DEADLINE = "Completed the deadline: %1$s";
-    public static final String MESSAGE_UNCOMPLETED_DEADLINE = "Marked this deadline incomplete: %1$s";
-    public static final String MESSAGE_COMPLETED_DEADLINE_DELETE_SUCCESS = "Deleted deadline: %1$s. "
+    public static final String MESSAGE_COMPLETED_DEADLINE = "Completed the deadline:\n%1$s";
+    public static final String MESSAGE_UNCOMPLETED_DEADLINE = "Marked this deadline incomplete:\n%1$s";
+    public static final String MESSAGE_COMPLETED_DEADLINE_DELETE_SUCCESS = "Deleted deadline:\n%1$s. "
             + "\nGood job it is completed!";
-    public static final String MESSAGE_INCOMPLETE_DEADLINE_DELETE_SUCCESS = "Deleted deadline: %1$s! "
+    public static final String MESSAGE_INCOMPLETE_DEADLINE_DELETE_SUCCESS = "Deleted deadline:\n%1$s! "
             + "\nI notice its uncompleted - Dont give up!";
     public static final String MESSAGE_ALL_DEADLINE_DELETE_SUCCESS = "All deadlines for %1$s has been deleted!";
 

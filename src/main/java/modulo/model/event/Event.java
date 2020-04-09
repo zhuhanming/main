@@ -187,6 +187,15 @@ public class Event implements Displayable {
     }
 
     /**
+     * Returns a boolean value to check if this event is after another event.
+     * @param otherEvent The other event to compare with.
+     * @return boolean value depending if the current event is after the other event.
+     */
+    public boolean isAfterEvent(Event otherEvent) {
+        return this.getEventStart().isAfter(otherEvent.getEventEnd());
+    }
+
+    /**
      * Returns a string for debugging purposes.
      *
      * @return String for debugging purposes.
