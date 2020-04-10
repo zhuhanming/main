@@ -52,8 +52,7 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
             if (trimmedArgs.equals("all")) {
                 return new DeleteCommand(new NameContainsKeywordsPredicate(Collections.singletonList("")), false);
             }
-            String[] nameKeywords = {trimmedArgs};
-            return new DeleteCommand(new NameContainsKeywordsPredicate(Arrays.asList(nameKeywords)), false);
+            return new DeleteCommand(new NameContainsKeywordsPredicate(Collections.singletonList(trimmedArgs)), false);
         }
     }
 
