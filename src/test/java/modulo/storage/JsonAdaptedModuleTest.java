@@ -17,7 +17,7 @@ import modulo.model.module.ModuleCode;
 import modulo.model.module.PartialModule;
 
 public class JsonAdaptedModuleTest {
-
+    private static final String INVALID_MODULE_CODE = " HELLO";
     private static final String INVALID_ACADEMIC_YEAR = "123456123";
 
     private static final String VALID_MODULE_CODE = CS1231S.getModuleCode().toString();
@@ -32,6 +32,13 @@ public class JsonAdaptedModuleTest {
         Module expectedResult = new PartialModule(CS1231S.getModuleCode(), CS1231S.getAcademicYear(),
                 CS1231S.getEvents());
         assertEquals(expectedResult, module.toModelType());
+    }
+
+    @Test
+    public void toModelType_invalidModuleCode_throwsIllegalValueException() {
+        JsonAdaptedModule module = new JsonAdaptedModule(INVALID_MODULE_CODE, VALID_ACADEMIC_YEAR, VALID_EVENTS);
+        String expectedMessage = ModuleCode.MESSAGE_CONSTRAINTS;
+        assertThrows(IllegalValueException.class, expectedMessage, module::toModelType);
     }
 
     @Test
