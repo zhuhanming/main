@@ -48,31 +48,31 @@ public class StorageManager implements Storage {
     // ================ AddressBook methods ==============================
 
     @Override
-    public Path getCalendarFilePath() {
-        return moduloStorage.getCalendarFilePath();
+    public Path getModuloFilePath() {
+        return moduloStorage.getModuloFilePath();
     }
 
     @Override
-    public Optional<ReadOnlyModulo> readCalendar() throws DataConversionException, IOException {
-        return readCalendar(moduloStorage.getCalendarFilePath());
+    public Optional<ReadOnlyModulo> readModulo() throws DataConversionException, IOException {
+        return readModulo(moduloStorage.getModuloFilePath());
     }
 
     @Override
-    public Optional<ReadOnlyModulo> readCalendar(Path filePath) throws DataConversionException, IOException {
+    public Optional<ReadOnlyModulo> readModulo(Path filePath) throws DataConversionException, IOException {
         logger.fine("Attempting to read data from file: " + filePath);
-        return moduloStorage.readCalendar(filePath);
+        return moduloStorage.readModulo(filePath);
     }
 
     @Override
-    public void saveCalendar(ReadOnlyModulo calendar) throws IOException {
-        System.out.println("calendar " + calendar);
-        saveCalendar(calendar, moduloStorage.getCalendarFilePath());
+    public void saveModulo(ReadOnlyModulo modulo) throws IOException {
+        System.out.println("calendar " + modulo);
+        saveModulo(modulo, moduloStorage.getModuloFilePath());
     }
 
     @Override
-    public void saveCalendar(ReadOnlyModulo calendar, Path filePath) throws IOException {
+    public void saveModulo(ReadOnlyModulo modulo, Path filePath) throws IOException {
         logger.fine("Attempting to write to data file: " + filePath);
-        moduloStorage.saveCalendar(calendar, filePath);
+        moduloStorage.saveModulo(modulo, filePath);
     }
 
 }

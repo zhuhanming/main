@@ -37,15 +37,17 @@ public class ModelManager implements Model {
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
+     *
+     * @param modulo    Modulo to read from.
+     * @param userPrefs User prefs to read from.
      */
-    public ModelManager(ReadOnlyModulo calendar, ReadOnlyUserPrefs userPrefs) {
+    public ModelManager(ReadOnlyModulo modulo, ReadOnlyUserPrefs userPrefs) {
         super();
-        requireAllNonNull(calendar, userPrefs);
+        requireAllNonNull(modulo, userPrefs);
 
-        logger.fine("Initializing with calendar: " + calendar + " and user prefs " + userPrefs);
-        this.modulo = new Modulo(calendar);
+        logger.fine("Initializing with Modulo: " + modulo + " and user prefs " + userPrefs);
+        this.modulo = new Modulo(modulo);
         this.userPrefs = new UserPrefs(userPrefs);
-
 
         filteredEvents = new FilteredList<>(this.modulo.getEventList());
         filteredModules = new FilteredList<>(this.modulo.getModuleList());
@@ -82,14 +84,14 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public Path getCalendarFilePath() {
+    public Path getModuloFilePath() {
         return userPrefs.getModuloFilePath();
     }
 
     @Override
-    public void setCalendarFilePath(Path calendarFilePath) {
-        requireNonNull(calendarFilePath);
-        userPrefs.setModuloFilePath(calendarFilePath);
+    public void setModuloFilePath(Path moduloFilePath) {
+        requireNonNull(moduloFilePath);
+        userPrefs.setModuloFilePath(moduloFilePath);
     }
 
     //=========== Modulo ================================================================================
@@ -151,11 +153,6 @@ public class ModelManager implements Model {
             }
         }
         return result;
-    }
-
-    @Override
-    public Event getEvent(Event toFind) {
-        return null;
     }
 
     @Override
@@ -262,10 +259,10 @@ public class ModelManager implements Model {
     @Override
     public void updateFilteredDisplayableList(Predicate<Displayable> predicate) {
         requireNonNull(predicate);
-        FilteredList<? extends Displayable> filteredList = new FilteredList<>(focusedFilteredDisplayables, predicate);
-        focusedFilteredDisplayables = filteredList;
+        focusedFilteredDisplayables = new FilteredList<>(focusedFilteredDisplayables, predicate);
     }
 
+    @Override
     public Object[] getFilteredDisplayableList(Predicate<Displayable> predicate) {
         requireNonNull(predicate);
         updateFilteredDisplayableList(predicate);
@@ -274,20 +271,11 @@ public class ModelManager implements Model {
         return focusFilteredDisplayableCopy;
     }
 
-    /**
-     * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of {@code
-     * versionedAddressBook}
-     */
     @Override
     public ObservableList<Event> getFilteredEventList() {
         return filteredEvents;
     }
 
-    /**
-     * retrieve selected event (but the method is not called here )
-     *
-     * @return
-     */
     @Override
     public Displayable getFocusedDisplayable() {
         return focusedDisplayable;
@@ -305,15 +293,10 @@ public class ModelManager implements Model {
         currentDisplayableType = DisplayableType.EVENT;
     }
 
-    /**
-     * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of {@code
-     * versionedAddressBook}
-     */
     @Override
     public ObservableList<Module> getFilteredModuleList() {
         return filteredModules;
     }
-
 
     @Override
     public void updateFilteredModuleList(Predicate<Module> predicate) {
@@ -326,7 +309,6 @@ public class ModelManager implements Model {
     public ObservableList<? extends Displayable> getFilteredFocusedList() {
         return focusedFilteredDisplayables;
     }
-
 
     @Override
     public boolean equals(Object obj) {

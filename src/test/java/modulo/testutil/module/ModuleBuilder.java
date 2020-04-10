@@ -1,10 +1,13 @@
 package modulo.testutil.module;
 
-import modulo.logic.parser.exceptions.ParseException;
+import java.util.List;
+
 import modulo.model.Name;
+import modulo.model.event.Event;
 import modulo.model.module.AcademicYear;
 import modulo.model.module.Module;
 import modulo.model.module.ModuleCode;
+import modulo.model.module.exceptions.AcademicYearException;
 
 
 /**
@@ -22,19 +25,21 @@ public class ModuleBuilder {
     private ModuleCode moduleCode;
     private AcademicYear academicYear;
     private String description;
+    private List<Event> events;
 
     public ModuleBuilder() {
         name = new Name(DEFAULT_MODULE_NAME);
         moduleCode = new ModuleCode(DEFAULT_MODULE_CODE);
         try {
             academicYear = new AcademicYear(DEFAULT_ACADEMIC_YEAR, DEFAULT_SEMESTER);
-        } catch (ParseException e) {
+        } catch (AcademicYearException e) {
             e.printStackTrace();
         }
         description = DEFAULT_DESCRIPTION;
+        events = null;
     }
 
-    public ModuleBuilder(Module moduleToCopy) throws ParseException {
+    public ModuleBuilder(Module moduleToCopy) {
         name = moduleToCopy.getName();
         moduleCode = moduleToCopy.getModuleCode();
         academicYear = moduleToCopy.getAcademicYear();
@@ -42,7 +47,7 @@ public class ModuleBuilder {
     }
 
     /**
-     * Sets the {@code Name} of the {@code Module} that we are building.
+     * Sets the {@code Name} of the module that we are building.
      */
     public ModuleBuilder withModuleName(String name) {
         this.name = new Name(name);
@@ -50,7 +55,7 @@ public class ModuleBuilder {
     }
 
     /**
-     * Parses the {@code ModuleCode} into a {@code Module>} that we are building.
+     * Parses the {@code ModuleCode} for the module that we are building.
      */
     public ModuleBuilder withModuleCode(String moduleCode) {
         this.moduleCode = new ModuleCode(moduleCode);
@@ -59,29 +64,41 @@ public class ModuleBuilder {
 
 
     /**
-     * Parses the {@code AcademicYear and semester } into a {@code Set<Tag>} a that we are building.
+     * Parses the {@code startYear}, {@code endYear} and {@code semester} into an {@code AcademicYear} for the module we
+     * are building.
      */
-    public ModuleBuilder withAcademicYear(String academicYear, String semester) {
+    public ModuleBuilder withAcademicYear(int startYear, int endYear, int semester) {
         try {
-            this.academicYear = new AcademicYear(academicYear, semester);
-        } catch (ParseException e) {
+            this.academicYear = new AcademicYear(startYear, endYear, semester);
+        } catch (AcademicYearException e) {
             e.printStackTrace();
         }
         return this;
     }
 
     /**
-     * Parses the {@code description} into a {@code Module} and set it to the {@code Person} that we are building.
+     * Sets the {@code description} for the module that we are building.
      */
     public ModuleBuilder withDescription(String description) {
         this.description = description;
         return this;
     }
 
-
-    public Module build() {
-        return new Module(moduleCode, name, academicYear, description);
+    /**
+     * Sets the {@code events} for the module that we are building.
+     */
+    public ModuleBuilder withEvents(List<Event> events) {
+        this.events = events;
+        return this;
     }
 
-
+    /**
+     * Builds the module with the given inputs.
+     */
+    public Module build() {
+        if (this.events == null) {
+            return new Module(moduleCode, name, academicYear, description);
+        }
+        return new Module(moduleCode, name, academicYear, description, events);
+    }
 }

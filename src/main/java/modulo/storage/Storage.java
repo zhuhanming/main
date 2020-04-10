@@ -21,12 +21,12 @@ public interface Storage extends ModuloStorage, UserPrefsStorage {
     void saveUserPrefs(ReadOnlyUserPrefs userPrefs) throws IOException;
 
     @Override
-    Path getCalendarFilePath();
+    Path getModuloFilePath();
 
     @Override
-    Optional<ReadOnlyModulo> readCalendar() throws DataConversionException, IOException;
+    Optional<ReadOnlyModulo> readModulo() throws DataConversionException, IOException;
 
     @Override
-    void saveCalendar(ReadOnlyModulo calendar) throws IOException;
+    void saveModulo(ReadOnlyModulo modulo) throws IOException;
 
 }

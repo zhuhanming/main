@@ -12,6 +12,9 @@ import modulo.model.event.Event;
 
 /**
  * Represents a module in Modulo. Guarantees: details are present and not null, field values are validated, immutable.
+ * <p>
+ * <p>
+ * TODO: The current implementation results in 2 sources of truth for events. May need to remove events under modules.
  */
 public class Module implements Displayable {
 
@@ -26,6 +29,15 @@ public class Module implements Displayable {
     // Data fields
     private List<Event> events;
 
+    /**
+     * Constructs a {@code Module} with a given module code, name, academic year and description. An empty list of
+     * events will be created.
+     *
+     * @param moduleCode   Module code.
+     * @param name         Name of module.
+     * @param academicYear Academic year of the module.
+     * @param description  Description of the module.
+     */
     public Module(ModuleCode moduleCode, Name name, AcademicYear academicYear, String description) {
         requireAllNonNull(moduleCode, name, academicYear, description);
         this.moduleCode = moduleCode;
@@ -35,6 +47,16 @@ public class Module implements Displayable {
         this.events = new ArrayList<>();
     }
 
+    /**
+     * Constructs a {@code Module} with a given module code, name, academic year, description, and an existing list of
+     * events.
+     *
+     * @param moduleCode   Module code.
+     * @param name         Name of module.
+     * @param academicYear Academic year of the module.
+     * @param description  Description of the module.
+     * @param events       List of events for this module.
+     */
     public Module(ModuleCode moduleCode, Name name, AcademicYear academicYear, String description,
                   List<Event> events) {
         requireAllNonNull(moduleCode, name, academicYear, description);
@@ -44,9 +66,6 @@ public class Module implements Displayable {
         this.description = description;
         this.events = new ArrayList<>();
         this.events.addAll(events);
-    }
-
-    public Module() {
     }
 
     public ModuleCode getModuleCode() {
@@ -69,16 +88,27 @@ public class Module implements Displayable {
         return description;
     }
 
+    /**
+     * Adds an event to the list of events under this module.
+     *
+     * @param event Event to add.
+     */
     public void addEvent(Event event) {
         events.add(event);
     }
 
+    /**
+     * Removes an event from the list of events under this module.
+     *
+     * @param event Event to remove.
+     */
     public void deleteEvent(Event event) {
         events.remove(event);
     }
 
     /**
-     * Returns true if both modules have the same identity.
+     * Returns true if both modules have the same identity. This is a loose check based on module code, name and
+     * academic year.
      *
      * @param otherModule Other module to compare with.
      * @return boolean value denoting whether the two modules are equal.
@@ -93,13 +123,12 @@ public class Module implements Displayable {
         }
     }
 
-
     /**
      * Matches the module based on the loose criteria of naming.
      * <p>TODO: Add support for academic year matching subsequently.
      *
-     * @param otherModule Module to compare with
-     * @return boolean value on whether this matches
+     * @param otherModule Module to compare with.
+     * @return boolean value on whether this matches.
      */
     public boolean matchModule(Module otherModule) {
         return this.moduleCode.equals(otherModule.getModuleCode());
@@ -108,6 +137,8 @@ public class Module implements Displayable {
     /**
      * Returns true if both modules have the same identity and data fields. This defines a stronger notion of equality
      * between two modules.
+     *
+     * @param other Other object to check with.
      */
     @Override
     public boolean equals(Object other) {

@@ -27,6 +27,11 @@ public class AddModuleStatefulLogicManager implements StatefulLogic {
     private final List<EventType> eventTypes;
     private Module module;
 
+    /**
+     * Initialises a state-less stateful logic that helps to handle module event population.
+     *
+     * @param model Model to interact with.
+     */
     public AddModuleStatefulLogicManager(Model model) {
         this.model = model;
         this.eventTypes = new ArrayList<>();
@@ -68,11 +73,6 @@ public class AddModuleStatefulLogicManager implements StatefulLogic {
         return this.eventTypes.size() > 0;
     }
 
-    /**
-     * Sets the state of the stateful logic manager.
-     *
-     * @param commandResult CommandResult to load state from.
-     */
     @Override
     public void setStateWithCommandResult(CommandResult commandResult) {
         assert commandResult instanceof AddModuleCommandResult;
@@ -85,6 +85,9 @@ public class AddModuleStatefulLogicManager implements StatefulLogic {
         }
     }
 
+    /**
+     * Resets the state of the stateful logic.
+     */
     private void clearState() {
         this.module = null;
         this.eventTypes.clear();

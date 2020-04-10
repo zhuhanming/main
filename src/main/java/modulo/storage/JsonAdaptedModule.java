@@ -13,6 +13,7 @@ import modulo.model.module.AcademicYear;
 import modulo.model.module.Module;
 import modulo.model.module.ModuleCode;
 import modulo.model.module.PartialModule;
+import modulo.model.module.exceptions.AcademicYearException;
 
 /**
  * Jackson-friendly version of {@link Module}.
@@ -75,7 +76,12 @@ class JsonAdaptedModule {
                     AcademicYear.class.getSimpleName()));
         }
 
-        final AcademicYear modelAcademicYear = AcademicYear.fromString(academicYear);
+        final AcademicYear modelAcademicYear;
+        try {
+            modelAcademicYear = AcademicYear.fromString(academicYear);
+        } catch (AcademicYearException e) {
+            throw new IllegalValueException(e.getMessage());
+        }
 
         return new PartialModule(modelModuleCode, modelAcademicYear, modelEvents);
     }

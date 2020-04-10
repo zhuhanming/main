@@ -12,6 +12,7 @@ import modulo.logic.commands.AddModuleCommand;
 import modulo.logic.parser.exceptions.ParseException;
 import modulo.model.module.AcademicYear;
 import modulo.model.module.ModuleCode;
+import modulo.model.module.exceptions.AcademicYearException;
 
 /**
  * Parses input arguments and creates a new AddModuleCommand object
@@ -43,7 +44,7 @@ public class AddModuleCommandParser implements Parser<AddModuleCommand> {
         AcademicYear academicYear;
         try {
             academicYear = getAcademicYear(argMultimap);
-        } catch (ParseException pe) {
+        } catch (AcademicYearException pe) {
             throw new ParseException(
                     pe.getMessage() == null
                             ? String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddModuleCommand.MESSAGE_USAGE)
@@ -70,9 +71,9 @@ public class AddModuleCommandParser implements Parser<AddModuleCommand> {
      *
      * @param argumentMultimap User input multimap.
      * @return Academic year from the user input.
-     * @throws ParseException If the user input is invalid.
+     * @throws AcademicYearException If the user input is invalid.
      */
-    private static AcademicYear getAcademicYear(ArgumentMultimap argumentMultimap) throws ParseException {
+    private static AcademicYear getAcademicYear(ArgumentMultimap argumentMultimap) throws AcademicYearException {
         AcademicYear academicYear = AcademicYear.now();
 
         if (argumentMultimap.getValue(PREFIX_ACADEMIC_YEAR).isPresent()
@@ -80,7 +81,7 @@ public class AddModuleCommandParser implements Parser<AddModuleCommand> {
             academicYear = new AcademicYear(argumentMultimap.getValue(PREFIX_ACADEMIC_YEAR).get(),
                     argumentMultimap.getValue(PREFIX_SEMESTER).get());
         } else if (argumentMultimap.getValue(PREFIX_SEMESTER).isPresent()) {
-            academicYear = new AcademicYear(AcademicYear.now().getStartYear(),
+            academicYear = new AcademicYear(AcademicYear.now().getStartYear(), AcademicYear.now().getEndYear(),
                     Integer.parseInt(argumentMultimap.getValue(PREFIX_SEMESTER).get()));
         } else if (argumentMultimap.getValue(PREFIX_ACADEMIC_YEAR).isPresent()) {
             academicYear = new AcademicYear(argumentMultimap.getValue(PREFIX_ACADEMIC_YEAR).get(),

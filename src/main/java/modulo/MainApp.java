@@ -81,7 +81,7 @@ public class MainApp extends Application {
 
 
         try {
-            calendarOptional = storage.readCalendar();
+            calendarOptional = storage.readModulo();
             if (calendarOptional.isEmpty()) {
                 logger.info("Data file not found. Will be starting with a sample Calendar");
             }

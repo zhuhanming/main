@@ -1,6 +1,5 @@
 package modulo.model.util;
 
-import modulo.logic.parser.exceptions.ParseException;
 import modulo.model.Modulo;
 import modulo.model.Name;
 import modulo.model.ReadOnlyModulo;
@@ -13,10 +12,10 @@ import modulo.model.module.ModuleCode;
 import modulo.model.module.PartialModule;
 
 /**
- * Contains utility methods for populating {@code Calendar} with sample data.
+ * Contains utility methods for populating {@code Modulo} with sample data.
  */
 public class SampleDataUtil {
-    public static Module[] getSampleModules() throws ParseException {
+    public static Module[] getSampleModules() {
         Module cs2103 = new PartialModule(new ModuleCode("CS2103"), AcademicYear.now());
         Module ger1000 = new PartialModule(new ModuleCode("GER1000"), AcademicYear.now());
 
@@ -31,13 +30,9 @@ public class SampleDataUtil {
 
     public static ReadOnlyModulo getSampleCalendar() {
         Modulo sampleModulo = new Modulo();
-        try {
-            for (Module sampleModule : getSampleModules()) {
-                sampleModulo.addModuleFromStorage(sampleModule);
-            }
-            return sampleModulo;
-        } catch (ParseException e) {
-            return sampleModulo;
+        for (Module sampleModule : getSampleModules()) {
+            sampleModulo.addModuleFromStorage(sampleModule);
         }
+        return sampleModulo;
     }
 }

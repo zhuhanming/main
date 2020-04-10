@@ -1,6 +1,6 @@
 package modulo.testutil.event;
 
-import static modulo.testutil.module.TypicalModule.CS2103;
+import static modulo.testutil.module.TypicalModules.CS2103;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,21 +13,21 @@ import modulo.model.event.Event;
 /**
  * A utility class containing a list of {@code Module} objects to be used in tests..
  */
-public class TypicalEvent {
+public class TypicalEvents {
 
     public static final Event TUTORIAL_1 = new EventBuilder().withName("Tutorial 1").withEventStart("2020-01-15 09:00")
             .withEventEnd("2020-01-15 10:00").withEventType("TUTORIAL").withLocation("COM1-B103")
-            .withParentModlule(CS2103).build();
+            .withParentModule(CS2103).build();
 
     public static final Event LECTURE_1 = new EventBuilder().withName("Lecture 1").withEventStart("2019-01-17 14:00")
             .withEventEnd("2019-01-15 16:00").withEventType("LECTURE").withLocation("I3-AUD")
-            .withParentModlule(CS2103).build();
+            .withParentModule(CS2103).build();
 
     public static final Event TUTORIAL_2 = new EventBuilder().withName("Tutorial 2").withEventStart("2019-01-22 09:00")
             .withEventEnd("2019-01-22 10:00").withEventType("TUTORIAL").withLocation("COM1-B103")
-            .withParentModlule(CS2103).build();
+            .withParentModule(CS2103).build();
 
-    private TypicalEvent() {
+    private TypicalEvents() {
     } // prevents instantiation
 
     /**
@@ -44,6 +44,4 @@ public class TypicalEvent {
     public static List<Event> getTypicalEvent() {
         return new ArrayList<>(Arrays.asList(TUTORIAL_1, LECTURE_1, TUTORIAL_2));
     }
-
-
 }
