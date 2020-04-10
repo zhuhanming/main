@@ -71,14 +71,16 @@ public class AddModuleCommand extends Command {
         // Creating the state for the stateful logic later.
         List<EventType> eventTypeList = ModuleLibrary.getEventTypesOfModule(addedModule);
         String feedbackToUser = String.format(MESSAGE_MODULE_ADDED, addedModule);
+        String newPlaceholderText = null;
 
         if (eventTypeList.size() > 0) {
             EventType firstEventType = eventTypeList.get(0);
             feedbackToUser += "\n\nEnter slot for " + addedModule.getModuleCode().toString()
                     + " " + firstEventType.toString() + ":";
+            newPlaceholderText = "Enter " + firstEventType.toString().toLowerCase() + " slot here...";
         }
 
-        return new AddModuleCommandResult(feedbackToUser, addedModule, eventTypeList);
+        return new AddModuleCommandResult(feedbackToUser, addedModule, eventTypeList, newPlaceholderText);
     }
 
     @Override

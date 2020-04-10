@@ -82,21 +82,20 @@ public class ModuleLibrary {
      * @return {@code AddEventCommand} to execute.
      * @throws EventNotFoundException Event cannot be found.
      */
-    public static AddEventCommand getAddEventCommandToExecute(Module module, EventType eventType,
-                                                              String eventSlot) throws EventNotFoundException {
+    public static List<AddEventCommand> getAddEventCommandToExecute(Module module, EventType eventType,
+                                                                    String eventSlot) throws EventNotFoundException {
         try {
             JsonArray timetable = getTimetable(module);
-            JsonObject lesson = null;
+            List<JsonObject> lessons = new ArrayList<>();
             for (int i = 0; i < timetable.size(); i++) {
                 JsonObject selectLesson = timetable.get(i).getAsJsonObject();
                 String lessonType = selectLesson.get("lessonType").getAsString();
                 String classNumber = selectLesson.get("classNo").getAsString();
                 if (EventType.parseEventType(lessonType) == eventType && areSameEventSlot(classNumber, eventSlot)) {
-                    lesson = selectLesson;
-                    break;
+                    lessons.add(selectLesson);
                 }
             }
-            if (lesson == null) {
+            if (lessons.size() == 0) {
                 String sampleClassNumber = null;
                 for (int i = 0; i < timetable.size(); i++) {
                     JsonObject selectLesson = timetable.get(i).getAsJsonObject();
@@ -111,31 +110,35 @@ public class ModuleLibrary {
                         ? ""
                         : "A sample slot input would be: " + sampleClassNumber);
             }
-            JsonArray weeks = lesson.getAsJsonArray("weeks");
-            String day = lesson.get("day").getAsString().toUpperCase();
-            String startTime = lesson.get("startTime").getAsString();
-            String endTime = lesson.get("endTime").getAsString();
-            String location = lesson.get("venue").getAsString();
-            AcademicYear academicYear = module.getAcademicYear();
-            LocalDate eventDay = academicYear.getStartDate()
-                    .plusWeeks(weeks.get(0).getAsInt() - 1)
-                    .with(TemporalAdjusters.nextOrSame(DayOfWeek.valueOf(day)));
-            LocalDateTime eventStart = eventDay.atTime(Integer.parseInt(startTime.substring(0, 2)),
-                    Integer.parseInt(startTime.substring(2, 4)));
-            LocalDateTime eventEnd = eventDay.atTime(Integer.parseInt(endTime.substring(0, 2)),
-                    Integer.parseInt(endTime.substring(2, 4)));
-            boolean isRepeated = false;
-            TemporalAmount frequency = null;
-            LocalDate endRepeatDate = eventDay;
-            if (weeks.size() > 1) {
-                frequency = Period.ofWeeks(weeks.get(1).getAsInt() - weeks.get(0).getAsInt());
-                isRepeated = true;
-                endRepeatDate = endRepeatDate.plusWeeks(weeks.get(weeks.size() - 1).getAsInt()
-                        - weeks.get(0).getAsInt());
+            List<AddEventCommand> results = new ArrayList<>();
+            for (JsonObject lesson : lessons) {
+                JsonArray weeks = lesson.getAsJsonArray("weeks");
+                String day = lesson.get("day").getAsString().toUpperCase();
+                String startTime = lesson.get("startTime").getAsString();
+                String endTime = lesson.get("endTime").getAsString();
+                String location = lesson.get("venue").getAsString();
+                AcademicYear academicYear = module.getAcademicYear();
+                LocalDate eventDay = academicYear.getStartDate()
+                        .plusWeeks(weeks.get(0).getAsInt() - 1)
+                        .with(TemporalAdjusters.nextOrSame(DayOfWeek.valueOf(day)));
+                LocalDateTime eventStart = eventDay.atTime(Integer.parseInt(startTime.substring(0, 2)),
+                        Integer.parseInt(startTime.substring(2, 4)));
+                LocalDateTime eventEnd = eventDay.atTime(Integer.parseInt(endTime.substring(0, 2)),
+                        Integer.parseInt(endTime.substring(2, 4)));
+                boolean isRepeated = false;
+                TemporalAmount frequency = null;
+                LocalDate endRepeatDate = eventDay;
+                if (weeks.size() > 1) {
+                    frequency = Period.ofWeeks(weeks.get(1).getAsInt() - weeks.get(0).getAsInt());
+                    isRepeated = true;
+                    endRepeatDate = endRepeatDate.plusWeeks(weeks.get(weeks.size() - 1).getAsInt()
+                            - weeks.get(0).getAsInt());
+                }
+                Event eventToAdd = new Event(new Name(eventType.toString()), eventType,
+                        eventStart, eventEnd, module, new Location(location));
+                results.add(new AddEventCommand(eventToAdd, isRepeated, endRepeatDate, frequency));
             }
-            Event eventToAdd = new Event(new Name(eventType.toString()), eventType,
-                    eventStart, eventEnd, module, new Location(location));
-            return new AddEventCommand(eventToAdd, isRepeated, endRepeatDate, frequency);
+            return results;
         } catch (IOException e) {
             throw new EventNotFoundException();
         }
