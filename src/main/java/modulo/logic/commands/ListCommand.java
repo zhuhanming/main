@@ -54,4 +54,18 @@ public class ListCommand extends Command {
         }
 
     }
+
+    /**
+     * Compares if another object is equal to this ListCommand.
+     *
+     * @param other another object to be compared to this ListCommand.
+     * @return true if the object is equal to this ViewCommand, false otherwise.
+     */
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || ((other instanceof ListCommand // instanceof handles nulls
+                && ((ListCommand) other).displayableType == this.displayableType)
+                && ((ListCommand) other).toShowAll == this.toShowAll);
+    }
 }
