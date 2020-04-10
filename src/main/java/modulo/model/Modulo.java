@@ -38,7 +38,7 @@ public class Modulo implements ReadOnlyModulo {
     }
 
     /**
-     * Creates a Calendar using the items in the {@code toBeCopied}
+     * Creates a Modulo using the items in the {@code toBeCopied}
      */
     public Modulo(ReadOnlyModulo toBeCopied) {
         this();
@@ -48,7 +48,7 @@ public class Modulo implements ReadOnlyModulo {
     //// list overwrite operations
 
     /**
-     * Replaces the contents of the person list with {@code modules}. {@code modules} must not contain duplicate
+     * Replaces the contents of the module list with {@code modules}. {@code modules} must not contain duplicate
      * modules.
      */
     public void setModules(List<Module> modules) {
@@ -56,15 +56,14 @@ public class Modulo implements ReadOnlyModulo {
     }
 
     /**
-     * Replaces the contents of the person list with {@code persons}. {@code persons} must not contain duplicate
-     * persons.
+     * Replaces the contents of the event list with {@code events}. {@code events} must not contain duplicate events.
      */
     public void setEvents(List<Event> events) {
         this.events.setEvents(events);
     }
 
     /**
-     * Resets the existing data of this {@code AddressBook} with {@code newData}.
+     * Resets the existing data of this {@code Modulo} with {@code newData}.
      */
     public void resetData(ReadOnlyModulo newData) {
         requireNonNull(newData);
@@ -76,23 +75,36 @@ public class Modulo implements ReadOnlyModulo {
     // module-level operations
 
     /**
-     * Returns true if a person with the same identity as {@code person} exists in the address book.
+     * Returns true if a module with the given {@code moduleCode} and {@code academicYear} exists in Modulo.
      */
     public boolean hasModule(ModuleCode moduleCode, AcademicYear academicYear) {
         requireAllNonNull(moduleCode, academicYear);
         return modules.contains(moduleCode, academicYear);
     }
 
+    /**
+     * Adds a module to Modulo using the {@code moduleCode} and {@code academicYear}.
+     *
+     * @param moduleCode   Module code of the module.
+     * @param academicYear Academic year.
+     */
     public void addModule(ModuleCode moduleCode, AcademicYear academicYear) {
         modules.addModule(moduleCode, academicYear);
     }
 
+    /**
+     * Returns an optional containing the module required.
+     *
+     * @param moduleCode   Module code of the module required.
+     * @param academicYear Academic year of the module.
+     * @return Optional containing the module.
+     */
     public Optional<Module> getModule(ModuleCode moduleCode, AcademicYear academicYear) {
         return modules.getModule(moduleCode, academicYear);
     }
 
     /**
-     * Adds a module to the calendar. The module must not already exist in the calendar.
+     * Adds a module to Modulo. The module must not already exist in Modulo.
      */
     public void addModuleFromStorage(Module module) {
         modules.addModule(module.getModuleCode(), module.getAcademicYear());
@@ -106,9 +118,8 @@ public class Modulo implements ReadOnlyModulo {
     }
 
     /**
-     * Replaces the given person {@code target} in the list with {@code editedPerson}. {@code target} must exist in the
-     * address book. The person identity of {@code editedPerson} must not be the same as another existing person in the
-     * address book.
+     * Replaces the given module {@code target} in the list with {@code editedModule}. {@code target} must exist in
+     * Modulo. The module identity of {@code editedModule} must not be the same as another existing module in Modulo.
      */
     public void setModule(Module target, Module editedModule) {
         requireNonNull(editedModule);
@@ -117,7 +128,7 @@ public class Modulo implements ReadOnlyModulo {
     }
 
     /**
-     * Removes {@code key} from the {@code Calendar}. {@code key} must exist in the calendar.
+     * Removes {@code key} from {@code Modulo}. {@code key} must exist in {@code Modulo}.
      */
     public void removeModule(Module key) {
         modules.remove(key);
@@ -127,9 +138,8 @@ public class Modulo implements ReadOnlyModulo {
     // event-level operations
 
     /**
-     * Replaces the given person {@code target} in the list with {@code editedPerson}. {@code target} must exist in the
-     * address book. The person identity of {@code editedPerson} must not be the same as another existing person in the
-     * address book.
+     * Replaces the given event {@code target} in the list with {@code editedEvent}. {@code target} must exist in
+     * Modulo. The event identity of {@code editedEvent} must not be the same as another existing event in Modulo.
      */
     public void setEvent(Event target, Event editedEvent) {
         requireNonNull(editedEvent);
@@ -137,7 +147,7 @@ public class Modulo implements ReadOnlyModulo {
     }
 
     /**
-     * Returns true if a person with the same identity as {@code person} exists in the address book.
+     * Returns true if an event with the same identity as {@code event} exists in Modulo.
      */
     public boolean hasEvent(Event event) {
         requireNonNull(event);
@@ -146,7 +156,7 @@ public class Modulo implements ReadOnlyModulo {
     }
 
     /**
-     * Adds a person to the address book. The person must not already exist in the address book.
+     * Adds an event to Modulo. The event must not already exist in Modulo.
      */
     public void addEvent(Event event) {
         events.add(event);
@@ -154,14 +164,10 @@ public class Modulo implements ReadOnlyModulo {
 
 
     /**
-     * Removes {@code key} from this {@code AddressBook}. {@code key} must exist in the address book.
+     * Removes {@code key} from this {@code Modulo}. {@code key} must exist in Modulo.
      */
     public void removeEvent(Event key) {
         events.remove(key);
-    }
-
-    public Event getEvent(Event event) {
-        return events.getEvent(event);
     }
 
     //// util methods
