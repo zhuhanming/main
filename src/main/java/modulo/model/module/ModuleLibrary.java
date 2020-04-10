@@ -43,9 +43,7 @@ public class ModuleLibrary {
             Name name = new Name(moduleNeeded.get("title").getAsString());
             String description = moduleNeeded.get("description").getAsString();
             return new Module(moduleCode, name, academicYear, description);
-        } catch (NullPointerException e) {
-            throw new ModuleNotFoundException();
-        } catch (IOException e) {
+        } catch (NullPointerException | IOException e) {
             throw new ModuleNotFoundException();
         }
     }
@@ -75,6 +73,15 @@ public class ModuleLibrary {
         }
     }
 
+    /**
+     * Gets an add event command for execution, with the details loaded from the json files.
+     *
+     * @param module    Module which the event belongs to.
+     * @param eventType Event type to search for.
+     * @param eventSlot Slot of the event.
+     * @return {@code AddEventCommand} to execute.
+     * @throws EventNotFoundException Event cannot be found.
+     */
     public static AddEventCommand getAddEventCommandToExecute(Module module, EventType eventType,
                                                               String eventSlot) throws EventNotFoundException {
         try {
