@@ -27,7 +27,6 @@ public class Event implements Displayable {
 
     // Data Fields
     private List<Deadline> deadlines;
-    private boolean isOver;
 
     public Event(Name name, EventType eventType, LocalDateTime eventStart,
                  LocalDateTime eventEnd, Module parentModule, Location location) {
@@ -37,7 +36,6 @@ public class Event implements Displayable {
         this.eventStart = eventStart;
         this.eventEnd = eventEnd;
         this.parentModule = parentModule;
-        this.isOver = LocalDateTime.now().isAfter(eventEnd);
         this.location = location;
         this.deadlines = new ArrayList<>();
         this.deadlines.add(new Deadline(new Name(this.eventType.getDefaultDeadlineDescription()), this));
@@ -51,7 +49,6 @@ public class Event implements Displayable {
         this.eventStart = eventStart;
         this.eventEnd = eventEnd;
         this.parentModule = parentModule;
-        this.isOver = LocalDateTime.now().isAfter(eventEnd);
         this.location = location;
         this.deadlines = deadlines;
     }
@@ -66,10 +63,6 @@ public class Event implements Displayable {
 
     public List<Deadline> getDeadlines() {
         return deadlines;
-    }
-
-    public boolean getIsOver() {
-        return isOver;
     }
 
     public Module getParentModule() {
@@ -178,11 +171,11 @@ public class Event implements Displayable {
 
         Event otherEvent = (Event) other;
         return otherEvent.getName().equals(getName())
-                && otherEvent.getParentModule().equals(getParentModule())
+                && otherEvent.getParentModule().getModuleCode().equals(getParentModule().getModuleCode())
+                && otherEvent.getParentModule().getAcademicYear().equals(getParentModule().getAcademicYear())
                 && otherEvent.getDeadlines().equals(getDeadlines())
                 && otherEvent.getEventEnd().equals(getEventEnd())
                 && otherEvent.getEventStart().equals(getEventStart())
-                && otherEvent.getIsOver() == getIsOver()
                 && otherEvent.getEventType().equals(getEventType());
     }
 
