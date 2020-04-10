@@ -1,6 +1,7 @@
 package modulo.storage;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,8 +15,8 @@ import modulo.model.deadline.Deadline;
  */
 public class JsonAdaptedDeadline {
 
-
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Deadline's %s field is missing!";
+    public static final String INVALID_DUE_TIME_FORMAT = "Invalid datetime format for the deadline due time!";
 
     private final String name;
     private final String dueTime;
@@ -26,11 +27,11 @@ public class JsonAdaptedDeadline {
      */
     @JsonCreator
     public JsonAdaptedDeadline(@JsonProperty("name") String name,
-                               @JsonProperty("dueTime") LocalDateTime dueTime,
-                               @JsonProperty("isCompleted") boolean isCompleted) {
+                               @JsonProperty("dueTime") String dueTime,
+                               @JsonProperty("isCompleted") String isCompleted) {
         this.name = name;
-        this.dueTime = dueTime.toString();
-        this.isCompleted = String.valueOf(isCompleted);
+        this.dueTime = dueTime;
+        this.isCompleted = isCompleted;
     }
 
     /**
@@ -59,7 +60,12 @@ public class JsonAdaptedDeadline {
         if (dueTime == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "Deadline Due Time"));
         }
-        final LocalDateTime modelDueTime = LocalDateTime.parse(dueTime);
+        final LocalDateTime modelDueTime;
+        try {
+            modelDueTime = LocalDateTime.parse(dueTime);
+        } catch (DateTimeParseException e) {
+            throw new IllegalValueException(INVALID_DUE_TIME_FORMAT);
+        }
 
         if (isCompleted == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "Deadline Completion Status"));
