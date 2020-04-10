@@ -9,21 +9,20 @@ import static modulo.logic.commands.CommandTestUtil.INVALID_CODE_DESC;
 import static modulo.logic.commands.CommandTestUtil.NAME_DESC_CS2105;
 import static modulo.logic.commands.CommandTestUtil.SEMESTER_DESC_CS2103;
 import static modulo.logic.commands.CommandTestUtil.SEMESTER_DESC_CS2105;
-import static modulo.logic.commands.CommandTestUtil.VALID_ACADEMICYEAR_CS2103;
-import static modulo.logic.commands.CommandTestUtil.VALID_ACADEMICYEAR_CS2105;
+import static modulo.logic.commands.CommandTestUtil.VALID_ACADEMIC_END_YEAR_CS2103;
+import static modulo.logic.commands.CommandTestUtil.VALID_ACADEMIC_START_YEAR_CS2103;
 import static modulo.logic.commands.CommandTestUtil.VALID_CODE_CS2103;
 import static modulo.logic.commands.CommandTestUtil.VALID_CODE_CS2105;
 import static modulo.logic.commands.CommandTestUtil.VALID_SEMESTER_CS2103;
 import static modulo.logic.commands.CommandTestUtil.VALID_SEMESTER_CS2105;
 import static modulo.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static modulo.logic.parser.CommandParserTestUtil.assertParseSuccess;
-import static modulo.testutil.module.TypicalModule.CS2103;
+import static modulo.testutil.module.TypicalModules.CS2103;
 
 import org.junit.jupiter.api.Test;
 
 import modulo.logic.commands.AddModuleCommand;
 import modulo.logic.parser.AddModuleCommandParser;
-import modulo.logic.parser.exceptions.ParseException;
 import modulo.model.module.AcademicYear;
 import modulo.model.module.Module;
 import modulo.model.module.ModuleCode;
@@ -38,23 +37,15 @@ public class AddModuleCommandParserTest {
     @Test
     public void parse_allFieldsPresent_success() {
         Module expectedModule = null;
-        try {
-            expectedModule = new ModuleBuilder(CS2103).build();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        expectedModule = new ModuleBuilder(CS2103).build();
 
         // whitespace only preamble
-        try {
-            assertParseSuccess(parser, CODE_DESC_CS2103
-                            + ACEDEMICYEAR_DESC_CS2103
-                            + SEMESTER_DESC_CS2103,
-                    new AddModuleCommand(new ModuleCode(VALID_CODE_CS2103), new AcademicYear(VALID_ACADEMICYEAR_CS2103,
-                            VALID_SEMESTER_CS2103)));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
+        assertParseSuccess(parser, CODE_DESC_CS2103
+                        + ACEDEMICYEAR_DESC_CS2103
+                        + SEMESTER_DESC_CS2103,
+                new AddModuleCommand(new ModuleCode(VALID_CODE_CS2103),
+                        new AcademicYear(VALID_ACADEMIC_START_YEAR_CS2103,
+                                VALID_ACADEMIC_END_YEAR_CS2103, VALID_SEMESTER_CS2103)));
     }
 
     @Test
@@ -75,7 +66,7 @@ public class AddModuleCommandParserTest {
                 expectedMessage);
 
         // all prefixes missing
-        assertParseFailure(parser, VALID_CODE_CS2105 + VALID_ACADEMICYEAR_CS2105 + VALID_SEMESTER_CS2105,
+        assertParseFailure(parser, VALID_CODE_CS2105 + VALID_ACADEMIC_START_YEAR_CS2103 + VALID_SEMESTER_CS2105,
                 expectedMessage);
     }
 

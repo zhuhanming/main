@@ -18,6 +18,7 @@ import org.junit.jupiter.api.io.TempDir;
 
 import modulo.logic.commands.AddModuleCommand;
 import modulo.logic.commands.CommandResult;
+import modulo.logic.commands.ListCommand;
 import modulo.logic.commands.exceptions.CommandException;
 import modulo.logic.parser.exceptions.ParseException;
 import modulo.model.Model;
@@ -59,11 +60,11 @@ public class LogicManagerTest {
         assertCommandException(deleteCommand, MESSAGE_INVALID_DELETE_INDEX);
     }
 
-//    @Test
-//    public void execute_validCommand_success() throws Exception {
-//        String listCommand = ListCommand.COMMAND_WORD;
-//        assertCommandSuccess(listCommand, ListCommand.MESSAGE_SUCCESS, model);
-//    }
+    @Test
+    public void execute_validCommand_success() throws Exception {
+        String listCommand = ListCommand.COMMAND_WORD;
+        assertCommandSuccess(listCommand, ListCommand.MESSAGE_SUCCESS, model);
+    }
 
     @Test
     public void execute_storageThrowsIoException_throwsCommandException() {

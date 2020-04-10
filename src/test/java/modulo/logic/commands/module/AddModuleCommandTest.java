@@ -122,13 +122,13 @@ public class AddModuleCommandTest {
         }
 
         @Override
-        public Path getCalendarFilePath() {
-            throw new AssertionError("This method should not be called.");
+        public Path getModuloFilePath() {
+            return null;
         }
 
         @Override
-        public void setCalendarFilePath(Path addressBookFilePath) {
-            throw new AssertionError("This method should not be called.");
+        public void setModuloFilePath(Path moduloFilePath) {
+
         }
 
         @Override
@@ -275,11 +275,6 @@ public class AddModuleCommandTest {
         public List<Event> findAllEvents(Event toFind) {
             return null;
         }
-
-        @Override
-        public Event getEvent(Event toFind) {
-            return null;
-        }
     }
 
     /**
@@ -302,7 +297,8 @@ public class AddModuleCommandTest {
             // hasModule does not take in module object as input param,
             String ac = (academicYear.getStartYear()) + "/" + (academicYear.getEndYear());
             Module m = new ModuleBuilder().withModuleCode(moduleCode.moduleCode)
-                    .withAcademicYear(ac, Integer.toString(academicYear.getSemester())).build();
+                    .withAcademicYear(academicYear.getStartYear(), academicYear.getEndYear(),
+                            academicYear.getSemester()).build();
             return module.isSameModule(m);
         }
     }
@@ -322,7 +318,8 @@ public class AddModuleCommandTest {
             requireNonNull(academicYear);
             String ac = (academicYear.getStartYear()) + "/" + (academicYear.getEndYear());
             Module module = new ModuleBuilder().withModuleCode(moduleCode.moduleCode)
-                    .withAcademicYear(ac, Integer.toString(academicYear.getSemester())).build();
+                    .withAcademicYear(academicYear.getStartYear(),
+                            academicYear.getEndYear(), academicYear.getSemester()).build();
             modulesAdded.add(module);
             m.addModule(moduleCode, academicYear);
         }
