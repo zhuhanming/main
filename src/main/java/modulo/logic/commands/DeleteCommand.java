@@ -82,9 +82,9 @@ public class DeleteCommand extends Command {
                             false, false, true, true, null);
 
                 } catch (ClassCastException | NullPointerException e) {
-                    return new CommandResult(Messages.MESSAGE_EVENT_NOT_SELECTED);
+                    throw new CommandException(Messages.MESSAGE_EVENT_NOT_SELECTED);
                 } catch (IndexOutOfBoundsException e) {
-                    return new CommandResult(Messages.MESSAGE_INVALID_DELETE_INDEX);
+                    throw new CommandException(Messages.MESSAGE_INVALID_DELETE_INDEX);
                 }
             }
         } else {
@@ -95,7 +95,7 @@ public class DeleteCommand extends Command {
                     return new CommandResult(String.format(Messages.MESSAGE_ALL_DEADLINE_DELETE_SUCCESS,
                             displayedEvent), false, false, true, true, null);
                 } catch (ClassCastException | NullPointerException e) {
-                    return new CommandResult(Messages.MESSAGE_EVENT_NOT_SELECTED);
+                    throw new CommandException(Messages.MESSAGE_EVENT_NOT_SELECTED);
                 }
             }
             Object[] list = model.getFilteredDisplayableList(predicate);
@@ -108,7 +108,7 @@ public class DeleteCommand extends Command {
                 }
 
                 if (numberOfItemsDeleted == 0) {
-                    return new CommandResult(String.format(Messages.MESSAGE_NO_EVENT_DELETED, predicate.toString()));
+                    throw new CommandException(String.format(Messages.MESSAGE_NO_EVENT_DELETED, predicate.toString()));
                 }
                 assert predicate != null;
                 if (predicate.toString().equals(predicateStringForDeleteAll)) {
@@ -131,7 +131,7 @@ public class DeleteCommand extends Command {
                 assert predicate != null;
 
                 if (numberOfItemsDeleted == 0) {
-                    return new CommandResult(String.format(Messages.MESSAGE_NO_MODULE_DELETED, predicate.toString()));
+                    throw new CommandException(String.format(Messages.MESSAGE_NO_MODULE_DELETED, predicate.toString()));
                 }
 
                 if (predicate.toString().equals(predicateStringForDeleteAll)) {
@@ -154,7 +154,7 @@ public class DeleteCommand extends Command {
      * @param model  Original Model object.
      * @param module Module that contains the events to be deleted.
      */
-    private void deleteEventsOfModule(Model model, Module module) {
+    public void deleteEventsOfModule(Model model, Module module) {
         int count = 0;
         while (count < model.getFilteredEventList().size()) {
 
@@ -177,9 +177,11 @@ public class DeleteCommand extends Command {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof DeleteCommand // instanceof handles nulls
-                && (((targetIndex != null && ((DeleteCommand) other).targetIndex != null)
-                && targetIndex.equals(((DeleteCommand) other).targetIndex))
+                && (((targetIndex != null && ((DeleteCommand) other).targetIndex != null) //true
+                && targetIndex.equals(((DeleteCommand) other).targetIndex))               //true
                 || ((predicate != null && ((DeleteCommand) other).predicate != null)
-                && predicate.equals(((DeleteCommand) other).predicate)))); // state check
+                && predicate.equals(((DeleteCommand) other).predicate)))
+                && isDeadline == ((DeleteCommand) other).isDeadline); // state check
     }
+
 }
