@@ -9,7 +9,7 @@ import modulo.model.displayable.Displayable;
 import modulo.model.module.AcademicYear;
 
 /**
- * Class to section events out by date.
+ * Class to section events out by date and modules out by academic year.
  */
 public class Title implements Displayable {
     private static final DateTimeFormatter MONTH_FORMAT = DateTimeFormatter.ofPattern("MMM d");
@@ -18,6 +18,11 @@ public class Title implements Displayable {
 
     private String title;
 
+    /**
+     * Constructs a title using a datetime object.
+     *
+     * @param localDateTime Datetime object for construction.
+     */
     public Title(LocalDateTime localDateTime) {
         LocalDateTime currentDateTime = LocalDateTime.now();
         long differenceInDays = DAYS.between(localDateTime.toLocalDate(), currentDateTime.toLocalDate());
@@ -52,10 +57,20 @@ public class Title implements Displayable {
         }
     }
 
+    /**
+     * Constructs a title from an {@code AcademicYear} object.
+     *
+     * @param academicYear Academic year to construct the title from.
+     */
     public Title(AcademicYear academicYear) {
         this.title = academicYear.toModuleCardFormat();
     }
 
+    /**
+     * Returns the title.
+     *
+     * @return The title.
+     */
     public String getTitle() {
         return title;
     }
