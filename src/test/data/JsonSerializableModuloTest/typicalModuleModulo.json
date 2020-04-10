@@ -1,0 +1,20 @@
+{
+  "_comment": "Modulo save file which contains the same Module values as in TypicalModule#getTypicalModulo()",
+  "modules": [
+    {
+      "moduleCode": "CS1010E",
+      "academicYear": "2019/2020+2",
+      "events": []
+    },
+    {
+      "moduleCode": "CS2103",
+      "academicYear": "2019/2020+2",
+      "events": []
+    },
+    {
+      "moduleCode": "CS2105",
+      "academicYear": "2020/2021+1",
+      "events": []
+    }
+  ]
+}
