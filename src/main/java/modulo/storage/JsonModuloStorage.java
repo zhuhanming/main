@@ -27,22 +27,22 @@ public class JsonModuloStorage implements ModuloStorage {
         this.filePath = filePath;
     }
 
-    public Path getCalendarFilePath() {
+    public Path getModuloFilePath() {
         return filePath;
     }
 
     @Override
-    public Optional<ReadOnlyModulo> readCalendar() throws DataConversionException {
-        return readCalendar(filePath);
+    public Optional<ReadOnlyModulo> readModulo() throws DataConversionException {
+        return readModulo(filePath);
     }
 
     /**
-     * Similar to {@link #readCalendar()}.
+     * Similar to {@link #readModulo()}.
      *
      * @param filePath location of the data. Cannot be null.
      * @throws DataConversionException if the file is not in the correct format.
      */
-    public Optional<ReadOnlyModulo> readCalendar(Path filePath) throws DataConversionException {
+    public Optional<ReadOnlyModulo> readModulo(Path filePath) throws DataConversionException {
         requireNonNull(filePath);
 
         Optional<JsonSerializableModulo> jsonSerializableCalendar = JsonUtil.readJsonFile(
@@ -60,21 +60,21 @@ public class JsonModuloStorage implements ModuloStorage {
     }
 
     @Override
-    public void saveCalendar(ReadOnlyModulo calendar) throws IOException {
-        saveCalendar(calendar, filePath);
+    public void saveModulo(ReadOnlyModulo modulo) throws IOException {
+        saveModulo(modulo, filePath);
     }
 
     /**
-     * Similar to {@link #saveCalendar(ReadOnlyModulo)}.
+     * Similar to {@link #saveModulo(ReadOnlyModulo)}.
      *
      * @param filePath location of the data. Cannot be null.
      */
-    public void saveCalendar(ReadOnlyModulo calendar, Path filePath) throws IOException {
-        requireNonNull(calendar);
+    public void saveModulo(ReadOnlyModulo modulo, Path filePath) throws IOException {
+        requireNonNull(modulo);
         requireNonNull(filePath);
 
         FileUtil.createIfMissing(filePath);
-        JsonUtil.saveJsonFile(new JsonSerializableModulo(calendar), filePath);
+        JsonUtil.saveJsonFile(new JsonSerializableModulo(modulo), filePath);
     }
 
 }
