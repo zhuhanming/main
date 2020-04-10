@@ -1,6 +1,7 @@
 package modulo.storage;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,6 +20,7 @@ import modulo.model.module.AcademicYear;
 import modulo.model.module.Module;
 import modulo.model.module.ModuleCode;
 import modulo.model.module.PartialModule;
+import modulo.model.module.exceptions.AcademicYearException;
 
 /**
  * Jackson-friendly version of {@link Event}.
@@ -26,6 +28,8 @@ import modulo.model.module.PartialModule;
 class JsonAdaptedEvent {
 
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Event's %s field is missing!";
+    public static final String INVALID_START_DATE_TIME_FORMAT = "Invalid datetime format for the event start time!";
+    public static final String INVALID_END_DATE_TIME_FORMAT = "Invalid datetime format for the event end time!";
 
     private final String name;
     private final String eventType;
@@ -100,27 +104,34 @@ class JsonAdaptedEvent {
                     EventType.class.getSimpleName()));
         }
 
-        EventType parsedEventType;
-        try {
-            parsedEventType = EventType.parseEventType(eventType);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalValueException(EventType.getMessageConstraints());
-        }
-        final EventType modelEventType = parsedEventType;
+        final EventType modelEventType = EventType.parseEventType(eventType);
 
         if (eventStart == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "Event Start Date"));
         }
-        final LocalDateTime modelEventStart = LocalDateTime.parse(eventStart);
+        final LocalDateTime modelEventStart;
+        try {
+            modelEventStart = LocalDateTime.parse(eventStart);
+        } catch (DateTimeParseException e) {
+            throw new IllegalValueException(INVALID_START_DATE_TIME_FORMAT);
+        }
 
         if (eventEnd == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "Event End Date"));
         }
-        final LocalDateTime modelEventEnd = LocalDateTime.parse(eventEnd);
-
+        final LocalDateTime modelEventEnd;
+        try {
+            modelEventEnd = LocalDateTime.parse(eventEnd);
+        } catch (DateTimeParseException e) {
+            throw new IllegalValueException(INVALID_END_DATE_TIME_FORMAT);
+        }
 
         if (parentModuleCode == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Module.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    ModuleCode.class.getSimpleName()));
+        }
+        if (!ModuleCode.isValidModuleCode(parentModuleCode)) {
+            throw new IllegalValueException(ModuleCode.MESSAGE_CONSTRAINTS);
         }
         final ModuleCode modelModuleCode = new ModuleCode(parentModuleCode);
 
@@ -128,13 +139,22 @@ class JsonAdaptedEvent {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
                     Location.class.getSimpleName()));
         }
+        if (!Location.isValidLocation(location)) {
+            throw new IllegalValueException(Location.MESSAGE_CONSTRAINTS);
+        }
         final Location modelLocation = new Location(location);
 
         if (academicYear == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
                     AcademicYear.class.getSimpleName()));
         }
-        final AcademicYear modelAcademicYear = AcademicYear.fromString(academicYear);
+        final AcademicYear modelAcademicYear;
+
+        try {
+            modelAcademicYear = AcademicYear.fromString(academicYear);
+        } catch (AcademicYearException e) {
+            throw new IllegalValueException(e.getMessage());
+        }
 
         Module modelParentModule = new PartialModule(modelModuleCode, modelAcademicYear);
 

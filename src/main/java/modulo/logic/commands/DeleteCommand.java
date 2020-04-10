@@ -108,6 +108,7 @@ public class DeleteCommand extends Command {
                 }
 
                 if (numberOfItemsDeleted == 0) {
+                    assert predicate != null;
                     return new CommandResult(String.format(Messages.MESSAGE_NO_EVENT_DELETED, predicate.toString()));
                 }
                 assert predicate != null;

@@ -19,8 +19,6 @@ public enum EventType {
     LABORATORY("Prepare for laboratory in advance", "Laboratory", "lab"),
     USER_ADDED("Prepare for this event", "");
 
-    private static final String MESSAGE_CONSTRAINTS = "Your event type is not recognised!";
-
     private String[] recognisedNames;
     private String defaultDeadlineDescription;
     private String genericName;
@@ -36,15 +34,6 @@ public enum EventType {
         this.defaultDeadlineDescription = defaultDeadlineDescription;
         this.genericName = genericName;
         this.recognisedNames = names;
-    }
-
-    /**
-     * Returns the message on the constraints for event types.
-     *
-     * @return Message on constraints.
-     */
-    public static String getMessageConstraints() {
-        return MESSAGE_CONSTRAINTS;
     }
 
     /**
