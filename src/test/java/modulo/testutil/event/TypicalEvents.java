@@ -11,7 +11,7 @@ import modulo.model.event.Event;
 
 
 /**
- * A utility class containing a list of {@code Module} objects to be used in tests..
+ * A utility class containing a list of {@code Event} objects to be used in tests.
  */
 public class TypicalEvents {
 
@@ -31,7 +31,7 @@ public class TypicalEvents {
     } // prevents instantiation
 
     /**
-     * Returns an {@code InventorySystem} with all the typical persons.
+     * Returns an {@code InventorySystem} with all the typical events.
      */
     public static Modulo getModulo() {
         Modulo ab = new Modulo();
