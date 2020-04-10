@@ -5,8 +5,8 @@ import static java.util.Objects.requireNonNull;
 import modulo.commons.util.AppUtil;
 
 /**
- * Represents a Person's address in the address book. Guarantees: immutable; is valid as declared in {@link
- * #isValidLocation(String)}
+ * Represents an Event's location in the address book. Guarantees: immutable; is valid as declared in {@link
+ * #isValidLocation(String)}.
  */
 public class Location {
 
