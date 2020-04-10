@@ -45,22 +45,25 @@ public class AddModuleStatefulLogicManager implements StatefulLogic {
         eventSlot = commandText.trim().toLowerCase();
 
         EventType eventType = this.eventTypes.remove(0);
-        AddEventCommand addEventCommand;
+        List<AddEventCommand> addEventCommands;
         try {
-            addEventCommand = ModuleLibrary.getAddEventCommandToExecute(this.module, eventType, eventSlot);
+            addEventCommands = ModuleLibrary.getAddEventCommandToExecute(this.module, eventType, eventSlot);
         } catch (EventNotFoundException e) {
             this.eventTypes.add(0, eventType);
             throw new ParseException(String.format(MESSAGE_INVALID_SLOT_NUMBER, this.eventTypes.get(0).toString())
                     + "\n" + e.getMessage());
         }
-        addEventCommand.execute(model);
+        for (AddEventCommand command : addEventCommands) {
+            command.execute(model);
+        }
         if (this.eventTypes.size() != 0) {
             return new CommandResult("Enter slot for " + module.getModuleCode().toString()
-                    + " " + this.eventTypes.get(0).toString() + ":", false, false, true, true, null);
+                    + " " + this.eventTypes.get(0).toString() + ":", false, false, true, true, null,
+                    "Enter " + this.eventTypes.get(0).toString().toLowerCase() + " slot here...");
         }
         clearState();
         model.setFilteredFocusedList(DisplayableType.MODULE);
-        return new CommandResult(MESSAGE_ALL_EVENTS_ADDED, false, false, true, true, null);
+        return new CommandResult(MESSAGE_ALL_EVENTS_ADDED, false, false, true, true, null, null);
     }
 
     /**

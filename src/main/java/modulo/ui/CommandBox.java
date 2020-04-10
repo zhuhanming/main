@@ -14,6 +14,7 @@ import modulo.logic.parser.exceptions.ParseException;
  */
 public class CommandBox extends UiPart<Region> {
 
+    public static final String DEFAULT_PLACEHOLDER_TEXT = "Enter command here...";
     public static final String ERROR_STYLE_CLASS = "error";
     private static final String FXML = "CommandBox.fxml";
 
@@ -27,6 +28,20 @@ public class CommandBox extends UiPart<Region> {
         this.commandExecutor = commandExecutor;
         // calls #setStyleToDefault() whenever there is a change to the text of the command box.
         commandTextField.textProperty().addListener((unused1, unused2, unused3) -> setStyleToDefault());
+    }
+
+    /**
+     * Updates the placeholder text of the user input field.
+     */
+    public void updatePlaceholder(String newPlaceholderText) {
+        commandTextField.setPromptText(newPlaceholderText);
+    }
+
+    /**
+     * Returns the current placeholder text of the user input field.
+     */
+    public String getPlaceholder() {
+        return commandTextField.getPromptText();
     }
 
     /**
