@@ -22,6 +22,12 @@ public class Deadline implements Displayable {
     // Data fields
     private boolean isCompleted;
 
+    /**
+     * Constructs a deadline with a given name and parent event to get the due time from.
+     *
+     * @param name        Name of deadline.
+     * @param parentEvent Parent event.
+     */
     public Deadline(Name name, Event parentEvent) {
         requireAllNonNull(name, parentEvent);
         this.name = name;
@@ -29,6 +35,13 @@ public class Deadline implements Displayable {
         this.isCompleted = false;
     }
 
+    /**
+     * Constructs a deadline with a given name, due time and completion status.
+     *
+     * @param name        Name of deadline.
+     * @param dueTime     Due time of deadline.
+     * @param isCompleted Completion status.
+     */
     public Deadline(Name name, LocalDateTime dueTime, boolean isCompleted) {
         requireAllNonNull(name, dueTime);
         this.name = name;
@@ -48,21 +61,17 @@ public class Deadline implements Displayable {
         return dueTime;
     }
 
+    /**
+     * Sets the completion status of the deadline. Unfortunately, this makes the deadline an immutable object.
+     *
+     * @param completed New completion status of the deadline.
+     */
     public void setCompleted(boolean completed) {
         isCompleted = completed;
     }
 
     /**
-     * Returns a string for debugging purposes.
-     *
-     * @return String for debugging purposes.
-     */
-    public String toDebugString() {
-        return " | " + "DEADLINE" + " | " + name + " || ";
-    }
-
-    /**
-     * Returns true if both deadlines have the same identity.
+     * Returns true if both deadlines have the same identity. This is not a strong check.
      *
      * @param otherDeadline The deadline to compare to.
      * @return boolean value denoting whether the two deadlines are the same deadline.

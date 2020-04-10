@@ -12,6 +12,7 @@ import modulo.commons.exceptions.IllegalValueException;
 import modulo.model.Modulo;
 import modulo.model.ReadOnlyModulo;
 import modulo.model.module.Module;
+import modulo.model.module.exceptions.ModuleNotFoundException;
 
 /**
  * An immutable Modulo that is serializable to JSON format.
@@ -55,7 +56,11 @@ class JsonSerializableModulo {
             if (modulo.hasModule(module.getModuleCode(), module.getAcademicYear())) {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_MODULE);
             }
-            modulo.addModuleFromStorage(module);
+            try {
+                modulo.addModuleFromStorage(module);
+            } catch (ModuleNotFoundException e) {
+                throw new IllegalValueException(e.getMessage());
+            }
         }
         return modulo;
     }

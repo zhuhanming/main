@@ -38,26 +38,56 @@ public class IcsDeadline {
                 + "END:" + ICS_ITEM_TYPE + System.lineSeparator();
     }
 
+    /**
+     * Returns the String {@code due} of the Ics deadline.
+     *
+     * @return String representing the due datetime of the deadline.
+     */
     public String getDue() {
         return due;
     }
 
+    /**
+     * Sets the String {@code due} of the Ics deadline.
+     *
+     * @param due String representing the due datetime of the deadline.
+     */
     public void setDue(String due) {
         this.due = due;
     }
 
+    /**
+     * Returns the String {@code summary} of the Ics deadline.
+     *
+     * @return String representing the summary of the deadline.
+     */
     public String getSummary() {
         return summary;
     }
 
+    /**
+     * Sets the String {@code summary} of the Ics deadline.
+     *
+     * @param summary String representing the summary of the deadline.
+     */
     public void setSummary(String summary) {
         this.summary = summary;
     }
 
+    /**
+     * Returns the String {@code status} of the Ics deadline.
+     *
+     * @return String representing the status of the deadline.
+     */
     public String getStatus() {
         return status;
     }
 
+    /**
+     * Sets the String {@code status} of the Ics deadline.
+     *
+     * @param status String representing the status of the deadline.
+     */
     public void setStatus(String status) {
         this.status = status;
     }

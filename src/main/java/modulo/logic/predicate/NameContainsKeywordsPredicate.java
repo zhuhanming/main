@@ -11,6 +11,11 @@ import modulo.model.displayable.Displayable;
 public class NameContainsKeywordsPredicate implements Predicate<Displayable> {
     private final List<String> keywords;
 
+    /**
+     * Constructs a predicate that checks if a displayable contains certain keywords.
+     *
+     * @param keywords Keywords to find.
+     */
     public NameContainsKeywordsPredicate(List<String> keywords) {
         this.keywords = keywords;
     }

@@ -1,7 +1,7 @@
 package modulo.model;
 
 import static modulo.testutil.Assert.assertThrows;
-import static modulo.testutil.module.TypicalModule.CS2103;
+import static modulo.testutil.module.TypicalModules.CS2103;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -55,14 +55,14 @@ public class ModelManagerTest {
 
     @Test
     public void setCalendarFilePath_nullPath_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> modelManager.setCalendarFilePath(null));
+        assertThrows(NullPointerException.class, () -> modelManager.setModuloFilePath(null));
     }
 
     @Test
     public void setCalendarFilePath_validPath_setsCalendarFilePath() {
         Path path = Paths.get("address/book/file/path");
-        modelManager.setCalendarFilePath(path);
-        assertEquals(path, modelManager.getCalendarFilePath());
+        modelManager.setModuloFilePath(path);
+        assertEquals(path, modelManager.getModuloFilePath());
     }
 
     @Test
@@ -72,7 +72,7 @@ public class ModelManagerTest {
 
     @Test
     public void hasModule_moduleNotInModulo_returnsFalse() throws ParseException {
-        assertFalse(modelManager.hasModule(new ModuleCode("CS2222"), new AcademicYear(21, 2)));
+        assertFalse(modelManager.hasModule(new ModuleCode("CS2222"), new AcademicYear(2021, 2022, 2)));
     }
 
     @Test

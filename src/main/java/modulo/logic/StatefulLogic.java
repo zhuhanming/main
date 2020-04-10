@@ -18,7 +18,17 @@ public interface StatefulLogic {
      */
     CommandResult execute(String commandText) throws CommandException, ParseException;
 
+    /**
+     * Returns a boolean denoting whether the {@code StatefulLogic} still has state.
+     *
+     * @return Boolean representing whether the {@code StatefulLogic} still has state.
+     */
     boolean hasState();
 
+    /**
+     * Sets the state of the {@code StatefulLogic} using a specific {@code CommandResult}.
+     *
+     * @param commandResult CommandResult to load state from.
+     */
     void setStateWithCommandResult(CommandResult commandResult);
 }

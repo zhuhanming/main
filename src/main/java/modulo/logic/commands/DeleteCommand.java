@@ -81,10 +81,7 @@ public class DeleteCommand extends Command {
                             Messages.MESSAGE_INCOMPLETE_DEADLINE_DELETE_SUCCESS, itemToDelete),
                             false, false, true, true, null);
 
-
-                } catch (ClassCastException e) {
-                    return new CommandResult(Messages.MESSAGE_EVENT_NOT_SELECTED);
-                } catch (NullPointerException e) {
+                } catch (ClassCastException | NullPointerException e) {
                     return new CommandResult(Messages.MESSAGE_EVENT_NOT_SELECTED);
                 } catch (IndexOutOfBoundsException e) {
                     return new CommandResult(Messages.MESSAGE_INVALID_DELETE_INDEX);
@@ -92,15 +89,12 @@ public class DeleteCommand extends Command {
             }
         } else {
             if (isDeadline) {
-
                 try {
                     Event displayedEvent = (Event) model.getFocusedDisplayable();
                     displayedEvent.removeAllDeadlines();
                     return new CommandResult(String.format(Messages.MESSAGE_ALL_DEADLINE_DELETE_SUCCESS,
                             displayedEvent), false, false, true, true, null);
-                } catch (ClassCastException e) {
-                    return new CommandResult(Messages.MESSAGE_EVENT_NOT_SELECTED);
-                } catch (NullPointerException e) {
+                } catch (ClassCastException | NullPointerException e) {
                     return new CommandResult(Messages.MESSAGE_EVENT_NOT_SELECTED);
                 }
             }

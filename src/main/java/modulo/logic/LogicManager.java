@@ -62,7 +62,7 @@ public class LogicManager implements Logic {
         }
 
         try {
-            storage.saveCalendar(model.getModulo());
+            storage.saveModulo(model.getModulo());
         } catch (IOException ioe) {
             throw new CommandException(FILE_OPS_ERROR_MESSAGE + ioe, ioe);
         }
@@ -92,7 +92,7 @@ public class LogicManager implements Logic {
 
     @Override
     public Path getModuloFilePath() {
-        return model.getCalendarFilePath();
+        return model.getModuloFilePath();
     }
 
     @Override

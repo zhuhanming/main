@@ -32,7 +32,7 @@ public class UniqueModuleList implements Iterable<Module> {
             FXCollections.unmodifiableObservableList(internalList);
 
     /**
-     * Returns true if the list contains an equivalent person as the given argument.
+     * Returns true if the list contains an equivalent module as the given argument.
      */
     public boolean contains(Module toCheck) {
         requireNonNull(toCheck);
@@ -95,8 +95,8 @@ public class UniqueModuleList implements Iterable<Module> {
     }
 
     /**
-     * Replaces the person {@code target} in the list with {@code editedPerson}. {@code target} must exist in the list.
-     * The person identity of {@code editedPerson} must not be the same as another existing person in the list.
+     * Replaces the module {@code target} in the list with {@code editedModule}. {@code target} must exist in the list.
+     * The module identity of {@code editedModule} must not be the same as another existing module in the list.
      */
     public void setModule(Module target, Module editedModule) {
         requireAllNonNull(target, editedModule);
@@ -119,9 +119,13 @@ public class UniqueModuleList implements Iterable<Module> {
      */
     public void remove(Module toRemove) {
         requireNonNull(toRemove);
-        if (!internalList.remove(toRemove)) {
-            throw new ModuleNotFoundException();
+        for (Module module : internalList) {
+            if (module.isSameModule(toRemove)) {
+                internalList.remove(module);
+                return;
+            }
         }
+        throw new ModuleNotFoundException();
     }
 
     /**
@@ -171,12 +175,12 @@ public class UniqueModuleList implements Iterable<Module> {
     }
 
     /**
-     * Returns true if {@code persons} contains only unique persons.
+     * Returns true if {@code modules} contains only unique modules.
      */
-    private boolean modulesAreUnique(List<Module> moduleItems) {
-        for (int i = 0; i < moduleItems.size() - 1; i++) {
-            for (int j = i + 1; j < moduleItems.size(); j++) {
-                if (moduleItems.get(i).isSameModule(moduleItems.get(j))) {
+    private boolean modulesAreUnique(List<Module> modules) {
+        for (int i = 0; i < modules.size() - 1; i++) {
+            for (int j = i + 1; j < modules.size(); j++) {
+                if (modules.get(i).isSameModule(modules.get(j))) {
                     return false;
                 }
             }

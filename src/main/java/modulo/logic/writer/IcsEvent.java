@@ -24,6 +24,11 @@ public class IcsEvent {
     private List<IcsDeadline> deadlineList;
     private boolean isRecurring;
 
+    /**
+     * Creates an {@code IcsEvent} from a given {@code Event}.
+     *
+     * @param event Event to create the object from.
+     */
     public IcsEvent(Event event) {
         uid = UUID.randomUUID().toString();
         dtstart = event.getEventStart().format(DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'"));

@@ -1,8 +1,8 @@
 package modulo.model.event;
 
 import static modulo.testutil.Assert.assertThrows;
-import static modulo.testutil.event.TypicalEvent.TUTORIAL_1;
-import static modulo.testutil.event.TypicalEvent.TUTORIAL_2;
+import static modulo.testutil.event.TypicalEvents.TUTORIAL_1;
+import static modulo.testutil.event.TypicalEvents.TUTORIAL_2;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
