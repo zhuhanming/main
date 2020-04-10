@@ -3,8 +3,8 @@ package modulo.model;
 import static modulo.logic.commands.CommandTestUtil.VALID_CODE_CS2103;
 import static modulo.logic.commands.CommandTestUtil.VALID_NAME_CS2103;
 import static modulo.testutil.Assert.assertThrows;
-import static modulo.testutil.module.TypicalModule.CS2103;
-import static modulo.testutil.module.TypicalModule.getModulo;
+import static modulo.testutil.module.TypicalModules.CS2103;
+import static modulo.testutil.module.TypicalModules.getTypicalModulo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -41,7 +41,7 @@ public class ModuloTest {
 
     @Test
     public void resetData_withValidReadOnlyModulo_replacesData() {
-        Modulo newData = getModulo();
+        Modulo newData = getTypicalModulo();
         modulo.resetData(newData);
         assertEquals(newData, modulo);
     }

@@ -1,11 +1,12 @@
 package modulo.model.module;
 
-import static modulo.logic.commands.CommandTestUtil.VALID_ACADEMICYEAR_CS2105;
+import static modulo.logic.commands.CommandTestUtil.VALID_ACADEMIC_END_YEAR_CS2105;
+import static modulo.logic.commands.CommandTestUtil.VALID_ACADEMIC_START_YEAR_CS2105;
 import static modulo.logic.commands.CommandTestUtil.VALID_DESCRIPTION_CS2105;
 import static modulo.logic.commands.CommandTestUtil.VALID_SEMESTER_CS2105;
 import static modulo.testutil.Assert.assertThrows;
-import static modulo.testutil.module.TypicalModule.CS2103;
-import static modulo.testutil.module.TypicalModule.CS2105;
+import static modulo.testutil.module.TypicalModules.CS2103;
+import static modulo.testutil.module.TypicalModules.CS2105;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -16,7 +17,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import modulo.logic.parser.exceptions.ParseException;
 import modulo.model.module.exceptions.DuplicateModuleException;
 import modulo.model.module.exceptions.ModuleNotFoundException;
 import modulo.testutil.module.ModuleBuilder;
@@ -43,7 +43,7 @@ public class UniqueModuleListTest {
 
     // not sure what to compare here
     @Test
-    public void contains_personWithSameIdentityFieldsInList_returnsTrue() throws ParseException {
+    public void contains_personWithSameIdentityFieldsInList_returnsTrue() {
         uniqueModuleList.add(CS2103);
         Module editedCS2103 = new ModuleBuilder(CS2103).withDescription(VALID_DESCRIPTION_CS2105).build();
         assertTrue(uniqueModuleList.contains(editedCS2103));
@@ -85,10 +85,11 @@ public class UniqueModuleListTest {
     }
 
     @Test
-    public void setModule_editedModuleHasSameIdentity_success() throws ParseException {
+    public void setModule_editedModuleHasSameIdentity_success() {
         uniqueModuleList.add(CS2103);
         Module editedCS2103 = new ModuleBuilder(CS2103)
-                .withAcademicYear(VALID_ACADEMICYEAR_CS2105, VALID_SEMESTER_CS2105)
+                .withAcademicYear(VALID_ACADEMIC_START_YEAR_CS2105, VALID_ACADEMIC_END_YEAR_CS2105,
+                        VALID_SEMESTER_CS2105)
                 .withDescription(VALID_DESCRIPTION_CS2105).build();
         uniqueModuleList.setModule(CS2103, editedCS2103);
         UniqueModuleList expectedUniqueModuleList = new UniqueModuleList();

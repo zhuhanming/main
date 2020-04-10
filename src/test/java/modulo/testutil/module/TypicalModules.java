@@ -1,7 +1,9 @@
 package modulo.testutil.module;
 
-import static modulo.logic.commands.CommandTestUtil.VALID_ACADEMICYEAR_CS2103;
-import static modulo.logic.commands.CommandTestUtil.VALID_ACADEMICYEAR_CS2105;
+import static modulo.logic.commands.CommandTestUtil.VALID_ACADEMIC_END_YEAR_CS2103;
+import static modulo.logic.commands.CommandTestUtil.VALID_ACADEMIC_END_YEAR_CS2105;
+import static modulo.logic.commands.CommandTestUtil.VALID_ACADEMIC_START_YEAR_CS2103;
+import static modulo.logic.commands.CommandTestUtil.VALID_ACADEMIC_START_YEAR_CS2105;
 import static modulo.logic.commands.CommandTestUtil.VALID_CODE_CS2103;
 import static modulo.logic.commands.CommandTestUtil.VALID_CODE_CS2105;
 import static modulo.logic.commands.CommandTestUtil.VALID_DESCRIPTION_CS2103;
@@ -21,37 +23,48 @@ import modulo.model.module.Module;
 /**
  * A utility class containing a list of {@code Module} objects to be used in tests..
  */
-public class TypicalModule {
+public class TypicalModules {
 
     public static final Module CS1010E = new ModuleBuilder().withModuleCode("CS1010E")
             .withModuleName("Programming Methodology")
-            .withAcademicYear(2019 / 2020, 2)
+            .withAcademicYear(2019, 2020, 2)
             .withDescription("This module introduces the fundamental concepts of problem solving by "
                     + "computing and programming using an imperative programming language.").build();
 
+    public static final Module CS1231S = new ModuleBuilder().withModuleCode("CS1231S")
+            .withAcademicYear(2019, 2020, 2)
+            .build();
 
     /**
-     * Manually added - Module's details found int in {@code CommandTestUtil}
+     * Manually added
+     */
+    public static final Module GER1000 = new ModuleBuilder().withModuleCode("GER1000")
+            .withAcademicYear(2019, 2020, 2).build();
+    public static final Module IS1103 = new ModuleBuilder().withModuleCode("IS1103")
+            .withAcademicYear(2020, 2021, 1).build();
+
+    /**
+     * Manually added - Module details found in {@code CommandTestUtil}
      */
     public static final Module CS2103 = new ModuleBuilder().withModuleCode(VALID_CODE_CS2103)
             .withModuleName(VALID_NAME_CS2103)
-            .withAcademicYear(VALID_ACADEMICYEAR_CS2103, VALID_SEMESTER_CS2103)
+            .withAcademicYear(VALID_ACADEMIC_START_YEAR_CS2103, VALID_ACADEMIC_END_YEAR_CS2103, VALID_SEMESTER_CS2103)
             .withDescription(VALID_DESCRIPTION_CS2103).build();
 
     public static final Module CS2105 = new ModuleBuilder()
             .withModuleCode(VALID_CODE_CS2105)
             .withModuleName(VALID_NAME_CS2105)
-            .withAcademicYear(VALID_ACADEMICYEAR_CS2105, VALID_SEMESTER_CS2105)
+            .withAcademicYear(VALID_ACADEMIC_START_YEAR_CS2105, VALID_ACADEMIC_END_YEAR_CS2105, VALID_SEMESTER_CS2105)
             .withDescription(VALID_DESCRIPTION_CS2105).build();
 
 
-    private TypicalModule() {
+    private TypicalModules() {
     } // prevents instantiation
 
     /**
-     * Returns an {@code InventorySystem} with all the typical persons.
+     * Returns an {@code InventorySystem} with all the typical modules.
      */
-    public static Modulo getModulo() {
+    public static Modulo getTypicalModulo() {
         Modulo ab = new Modulo();
         for (Module module : getTypicalModule()) {
             ab.addModule(module.getModuleCode(), module.getAcademicYear());

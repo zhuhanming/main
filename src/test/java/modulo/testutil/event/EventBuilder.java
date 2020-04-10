@@ -1,6 +1,6 @@
 package modulo.testutil.event;
 
-import static modulo.testutil.module.TypicalModule.CS2103;
+import static modulo.testutil.module.TypicalModules.CS2103;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -19,7 +19,7 @@ public class EventBuilder {
     public static final DateTimeFormatter DATETIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     public static final String DEFAULT_EVENT_NAME = "Tutorial 1";
-    public static final String DEFAULT_EVENT_TYPE = "TUTORIAL";
+    public static final EventType DEFAULT_EVENT_TYPE = EventType.TUTORIAL;
     public static final LocalDateTime DEFAULT_EVENT_START = LocalDateTime.parse("2020-01-15 09:00", DATETIME_FORMAT);
     public static final LocalDateTime DEFAULT_EVENT_END = LocalDateTime.parse("2020-01-15 10:00", DATETIME_FORMAT);
     public static final Module DEFAULT_MODULE = CS2103;
@@ -34,7 +34,7 @@ public class EventBuilder {
 
     public EventBuilder() {
         name = new Name(DEFAULT_EVENT_NAME);
-        eventType = EventType.parseEventType(DEFAULT_EVENT_TYPE);
+        eventType = DEFAULT_EVENT_TYPE;
         eventStart = DEFAULT_EVENT_START;
         eventEnd = DEFAULT_EVENT_END;
         parentModule = DEFAULT_MODULE;
@@ -42,7 +42,7 @@ public class EventBuilder {
     }
 
     /**
-     * Initializes the PersonBuilder with the data of {@code personToCopy}.
+     * Initializes the EventBuilder with the data of {@code eventToCopy}.
      */
     public EventBuilder(Event eventToCopy) {
         name = eventToCopy.getName();
@@ -54,7 +54,7 @@ public class EventBuilder {
     }
 
     /**
-     * Sets the {@code Name} of the {@code Person} that we are building.
+     * Sets the {@code Name} of the event that we are building.
      */
     public EventBuilder withName(String name) {
         this.name = new Name(name);
@@ -62,7 +62,7 @@ public class EventBuilder {
     }
 
     /**
-     * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code Person} that we are building.
+     * Sets the {@code EventType} of the event that we are building.
      */
     public EventBuilder withEventType(String eventType) {
         this.eventType = EventType.parseEventType(eventType);
@@ -70,7 +70,7 @@ public class EventBuilder {
     }
 
     /**
-     * Sets the {@code Address} of the {@code Person} that we are building.
+     * Sets the {@code eventStart} of the event that we are building.
      */
     public EventBuilder withEventStart(String eventStart) {
         this.eventStart = LocalDateTime.parse(eventStart, DATETIME_FORMAT);
@@ -78,7 +78,7 @@ public class EventBuilder {
     }
 
     /**
-     * Sets the {@code Phone} of the {@code Person} that we are building.
+     * Sets the {@code eventEnd} of the person that we are building.
      */
     public EventBuilder withEventEnd(String eventEnd) {
         this.eventEnd = LocalDateTime.parse(eventEnd, DATETIME_FORMAT);
@@ -86,7 +86,7 @@ public class EventBuilder {
     }
 
     /**
-     * Sets the {@code Phone} of the {@code Person} that we are building.
+     * Sets the {@code Location} of the event that we are building.
      */
     public EventBuilder withLocation(String location) {
         this.location = new Location(location);
@@ -95,10 +95,10 @@ public class EventBuilder {
 
 
     /**
-     * Sets the {@code Email} of the {@code Person} that we are building.
+     * Sets the {@code parentModule} of the event that we are building.
      */
-    public EventBuilder withParentModlule(Module parentModlule) {
-        this.parentModule = parentModlule;
+    public EventBuilder withParentModule(Module parentModule) {
+        this.parentModule = parentModule;
         return this;
     }
 
