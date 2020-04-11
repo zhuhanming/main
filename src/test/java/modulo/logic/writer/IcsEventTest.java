@@ -75,7 +75,8 @@ public class IcsEventTest {
         }
         IcsEvent icsEvent = new IcsEvent(event);
         icsEvent.setUid(uuid);
-
+        System.out.println(icsEvent.toIcsString());
+        System.out.println(icsString);
         assertTrue(icsEvent.toIcsString().equals(icsString));
     }
 }
