@@ -29,7 +29,7 @@ public class JsonSerializableModuloTest {
         JsonSerializableModulo dataFromFile = JsonUtil.readJsonFile(TYPICAL_MODULE_FILE,
                 JsonSerializableModulo.class).get();
         Modulo addressBookFromFile = dataFromFile.toModelType();
-        Modulo typicalPersonsAddressBook = TypicalModules.getTypicalModulo();
+        Modulo typicalPersonsAddressBook = TypicalModules.getTypicalModuloModulesOnly();
         assertEquals(addressBookFromFile, typicalPersonsAddressBook);
     }
 
