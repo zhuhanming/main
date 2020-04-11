@@ -241,10 +241,6 @@ public class AddModuleCommandTest {
             return null;
         }
 
-        @Override
-        public void setFilteredFocusedListShowAll(DisplayableType displayableType) {
-
-        }
 
         @Override
         public boolean isSameFocusedDisplayable(Displayable displayable) {
