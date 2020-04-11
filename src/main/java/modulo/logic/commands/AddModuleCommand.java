@@ -5,9 +5,7 @@ import static modulo.commons.core.Messages.MESSAGE_DUPLICATE_MODULE;
 import static modulo.commons.core.Messages.MESSAGE_MODULE_ADDED;
 import static modulo.commons.core.Messages.MESSAGE_MODULE_DOES_NOT_EXIST;
 import static modulo.commons.util.CollectionUtil.requireAllNonNull;
-import static modulo.logic.parser.CliSyntax.PREFIX_ACADEMIC_YEAR;
 import static modulo.logic.parser.CliSyntax.PREFIX_MODULE;
-import static modulo.logic.parser.CliSyntax.PREFIX_SEMESTER;
 
 import java.util.List;
 
@@ -31,13 +29,9 @@ public class AddModuleCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a module to Modulo. "
             + "Parameters: "
             + PREFIX_MODULE + "MODULE "
-            + "[" + PREFIX_ACADEMIC_YEAR + "ACADEMIC YEAR] "
-            + "[" + PREFIX_SEMESTER + "SEMESTER] "
             + "\n"
             + "Example: " + COMMAND_WORD + " "
-            + PREFIX_MODULE + "CS2103 "
-            + PREFIX_ACADEMIC_YEAR + "2019/2020 "
-            + PREFIX_SEMESTER + "2 ";
+            + PREFIX_MODULE + "CS2103 ";
 
     private final ModuleCode moduleCode;
     private final AcademicYear academicYear;

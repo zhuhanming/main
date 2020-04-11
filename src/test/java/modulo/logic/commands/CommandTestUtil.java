@@ -29,24 +29,16 @@ public class CommandTestUtil<DESC_CS2103> {
     public static final int VALID_ACADEMIC_START_YEAR_CS2103 = 2019;
     public static final int VALID_ACADEMIC_END_YEAR_CS2103 = 2020;
     public static final int VALID_SEMESTER_CS2103 = 2;
-    public static final int VALID_ACADEMIC_START_YEAR_CS2105 = 2020;
-    public static final int VALID_ACADEMIC_END_YEAR_CS2105 = 2021;
-    public static final int VALID_SEMESTER_CS2105 = 1;
+    public static final int VALID_ACADEMIC_START_YEAR_CS2105 = 2019;
+    public static final int VALID_ACADEMIC_END_YEAR_CS2105 = 2020;
+    public static final int VALID_SEMESTER_CS2105 = 2;
     public static final String VALID_DESCRIPTION_CS2103 = "This module introduces the necessary conceptual and "
             + "analytical tools for systematic and rigorous development of software systems";
     public static final String VALID_DESCRIPTION_CS2105 = "This module aims to provide a broad introduction to "
             + "computer networks and network application programming.";
 
     public static final String CODE_DESC_CS2103 = " " + PREFIX_MODULE + VALID_CODE_CS2103;
-    public static final String CODE_DESC_CS2105 = " " + PREFIX_MODULE + VALID_CODE_CS2105;
-    public static final String NAME_DESC_CS2103 = " " + PREFIX_NAME + VALID_NAME_CS2103;
-    public static final String NAME_DESC_CS2105 = " " + PREFIX_NAME + VALID_NAME_CS2105;
-    public static final String ACEDEMICYEAR_DESC_CS2103 = " " + PREFIX_ACADEMIC_YEAR + VALID_ACADEMIC_START_YEAR_CS2103
-            + "/" + VALID_ACADEMIC_END_YEAR_CS2103;
-    public static final String ACEDEMICYEAR_DESC_CS2105 = " " + PREFIX_ACADEMIC_YEAR + VALID_ACADEMIC_START_YEAR_CS2105
-            + "/" + VALID_ACADEMIC_END_YEAR_CS2105;
     public static final String SEMESTER_DESC_CS2103 = " " + PREFIX_SEMESTER + VALID_SEMESTER_CS2103;
-    public static final String SEMESTER_DESC_CS2105 = " " + PREFIX_SEMESTER + VALID_SEMESTER_CS2105;
 
     public static final String INVALID_MODULE_CODE_CS2000 = "cs2000";
     public static final String INVALID_CODE_DESC = " " + PREFIX_MODULE + "CS210&"; // '&' not allowed in module code.
