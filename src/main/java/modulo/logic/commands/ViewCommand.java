@@ -52,4 +52,17 @@ public class ViewCommand extends Command {
         model.setFocusedDisplayable(itemToView);
         return new CommandResult(String.format(MESSAGE_VIEW_ITEM_SUCCESS, itemToView), index);
     }
+
+    /**
+     * Compares if another object is equal to this ViewCommand.
+     *
+     * @param other another object to be compared to this ViewCommand.
+     * @return true if the object is equal to this ViewCommand, false otherwise.
+     */
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof ViewCommand // instanceof handles nulls
+                && ((ViewCommand) other).index.getZeroBased() == this.index.getZeroBased());
+    }
 }

@@ -3,8 +3,6 @@ package modulo.logic.parser;
 import static modulo.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static modulo.logic.parser.CliSyntax.PREFIX_DEADLINE;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.stream.Stream;
 
 import modulo.commons.core.index.Index;
@@ -38,7 +36,7 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
 
         if (arePrefixesPresent(argMultimap, PREFIX_DEADLINE)) {
             if (argMultimap.getValue(PREFIX_DEADLINE).get().equals("all")) {
-                return new DeleteCommand(new NameContainsKeywordsPredicate(Collections.singletonList("")), true);
+                return new DeleteCommand(new NameContainsKeywordsPredicate(""), true);
             }
             Index deadlineIndex = ParserUtil.parseIndex(argMultimap.getValue(PREFIX_DEADLINE).get());
             return new DeleteCommand(deadlineIndex, true);
@@ -50,10 +48,9 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
             return new DeleteCommand(index, false);
         } catch (NumberFormatException e) {
             if (trimmedArgs.equals("all")) {
-                return new DeleteCommand(new NameContainsKeywordsPredicate(Collections.singletonList("")), false);
+                return new DeleteCommand(new NameContainsKeywordsPredicate(""), false);
             }
-            String[] nameKeywords = {trimmedArgs};
-            return new DeleteCommand(new NameContainsKeywordsPredicate(Arrays.asList(nameKeywords)), false);
+            return new DeleteCommand(new NameContainsKeywordsPredicate(trimmedArgs), false);
         }
     }
 

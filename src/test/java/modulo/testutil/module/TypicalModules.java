@@ -18,7 +18,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import modulo.model.Modulo;
+import modulo.model.module.AcademicYear;
 import modulo.model.module.Module;
+import modulo.model.module.ModuleCode;
+import modulo.model.module.PartialModule;
 
 /**
  * A utility class containing a list of {@code Module} objects to be used in tests..
@@ -56,6 +59,12 @@ public class TypicalModules {
             .withModuleName(VALID_NAME_CS2105)
             .withAcademicYear(VALID_ACADEMIC_START_YEAR_CS2105, VALID_ACADEMIC_END_YEAR_CS2105, VALID_SEMESTER_CS2105)
             .withDescription(VALID_DESCRIPTION_CS2105).build();
+
+    /**
+     *  Partial Modules for testing
+     */
+    public static final Module PARTIAL_MODULE_CS1231S = new PartialModule(new ModuleCode("CS1231S"),
+            new AcademicYear(2019, 2020, 2));
 
 
     private TypicalModules() {
