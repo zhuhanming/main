@@ -189,49 +189,30 @@ Examples:
 Adds a Homework deadline to the nearest upcoming tutorial of CS2103
 
 [[List]]
-=== Displaying events and modules that have yet to pass: `list`
-
-Shows the list of future events or modules happening from the current date onwards.
-This allows you to toggle between the two lists, as well as hide events or modules that have already passed. +
-
-You can always check which list you're viewing by looking at the menu bar above:
-
-image::MenuButtons.png[width="500"]
-
-Format: `list event` OR `list module`
-
-Shorthands:
-
-* `list e` +
-Same behaviour as `list event` - lists all the events happening from the current date onwards under the left display panel.
-* `list m` +
-Same behaviour as `list module` - lists all the modules happening from the current date onwards under the left display panel.
-
-****
-* This is the default list filter!
-****
-
-[[ListAll]]
-=== Displaying all events and modules: `list all`
+=== Displaying events or modules on Modulo: `list`
 
 Shows a list of all events or modules in the left panel of Modulo.
 This helps you to toggle between the two lists. +
 
-Format: `list all event` OR `list all module`
+image::MenuButtons.png[width="500"]
+
+
+You can always check which list you're viewing by looking at the menu bar above:
+
+Format: `list events` OR `list modules`
 
 Shorthands:
 
-* `list all e` +
-Same behaviour as `list all event` - lists all the events under the left display panel
+* `list event` / `list e` +
+Same behaviour as `list events` - lists all the events on the left display panel.
+* `list module` / `list m` +
+Same behaviour as `list modules` - lists all the modules on the left display panel.
 
-* `list all m` +
-Same behaviour as `list all module` - Shows all the modules under the left display panel
 
 ****
 * Lists all events or modules recorded in Modulo.
-* For events, this would include events that have already passed.
-* Do note that adding deadlines to these past events may result in unexpected behaviour.
-Do see the above section on <<AddingDeadline,adding a deadline>> for more information.
+* Switching of the lists can also be done by clicking the 'Modules' or 'Events' buttons
+at the top of the left display panel.
 ****
 
 [[Find]]
