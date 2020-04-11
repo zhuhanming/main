@@ -153,12 +153,17 @@
     -fx-background-color: transparent;
 }
 
-.eventDuration, .moduleAcadYear, .eventLocation {
+.eventDuration, .moduleAcadYear, .eventLocation, .eventCardCompletionStatus {
     -fx-padding: 0 0 0 10;
+    -fx-text-fill: #ADABBC;
 }
 
-.eventLocation, .eventDuration, .moduleAcadYear {
-    -fx-text-fill: #ADABBC;
+.eventCardCompletionStatus {
+    -fx-text-fill: #EE117F;
+}
+
+.eventCardCompletionStatus.completed {
+    -fx-text-fill: #00AF8C;
 }
 
 /** Right Panel **/
