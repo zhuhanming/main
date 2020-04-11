@@ -3,6 +3,7 @@ package modulo.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import javafx.collections.ObservableList;
+
 import modulo.commons.core.Messages;
 import modulo.commons.core.index.Index;
 import modulo.logic.commands.exceptions.CommandException;
@@ -178,7 +179,7 @@ public class DeleteCommand extends Command {
         return other == this // short circuit if same object
                 || (other instanceof DeleteCommand // instanceof handles nulls
                 && (((targetIndex != null && ((DeleteCommand) other).targetIndex != null) //true
-                && targetIndex.equals(((DeleteCommand) other).targetIndex))               //true
+                && targetIndex.equals(((DeleteCommand) other).targetIndex)) //true
                 || ((predicate != null && ((DeleteCommand) other).predicate != null)
                 && predicate.equals(((DeleteCommand) other).predicate)))
                 && isDeadline == ((DeleteCommand) other).isDeadline); // state check
