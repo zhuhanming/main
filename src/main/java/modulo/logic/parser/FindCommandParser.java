@@ -2,8 +2,6 @@ package modulo.logic.parser;
 
 import static modulo.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
-import java.util.Arrays;
-
 import modulo.logic.commands.FindCommand;
 import modulo.logic.parser.exceptions.ParseException;
 import modulo.logic.predicate.NameContainsKeywordsPredicate;
@@ -28,8 +26,6 @@ public class FindCommandParser implements Parser<FindCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
 
-        String[] nameKeywords = {trimmedArgs};
-
-        return new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList(nameKeywords)));
+        return new FindCommand(new NameContainsKeywordsPredicate(trimmedArgs));
     }
 }
