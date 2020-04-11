@@ -1,7 +1,7 @@
 package modulo.ui;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.logging.Logger;
 
 import javafx.collections.FXCollections;
@@ -53,16 +53,20 @@ public class ListPanel extends UiPart<Region> {
         if (displayableList.size() == 0) {
             return result;
         }
-        LocalDateTime currentDateTime = ((Event) displayableList.get(0)).getEventStart();
-        LocalDate currentDate = currentDateTime.toLocalDate();
-        result.add(0, new Title(currentDateTime));
+        LocalDate currentDate = ((Event) displayableList.get(0)).getEventStart().toLocalDate();
+        LocalDate startDate = AcademicYear.now().getStartDate();
+        while (ChronoUnit.WEEKS.between(startDate, currentDate) > 0) {
+            startDate = startDate.plusWeeks(1);
+        }
+        result.add(0, new Title(startDate));
         for (int i = 0; i < displayableList.size(); i++) {
             Event event = (Event) displayableList.get(i);
-            LocalDateTime localDateTime = event.getEventStart();
-            LocalDate localDate = localDateTime.toLocalDate();
-            if (!localDate.isEqual(currentDate)) {
-                result.add(new Title(localDateTime));
-                currentDate = localDate;
+            LocalDate localDate = event.getEventStart().toLocalDate();
+            if (ChronoUnit.WEEKS.between(startDate, localDate) > 0) {
+                while (ChronoUnit.WEEKS.between(startDate, localDate) > 0) {
+                    startDate = startDate.plusWeeks(1);
+                }
+                result.add(new Title(startDate));
             }
             result.add(new DisplayablePair<>(event, i));
         }

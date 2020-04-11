@@ -16,6 +16,7 @@ import modulo.model.event.Event;
 import modulo.model.event.EventType;
 import modulo.model.event.Location;
 import modulo.model.event.PartialEvent;
+import modulo.model.event.Slot;
 import modulo.model.module.AcademicYear;
 import modulo.model.module.Module;
 import modulo.model.module.ModuleCode;
@@ -37,6 +38,7 @@ class JsonAdaptedEvent {
     private final String eventEnd;
     private final String parentModuleCode;
     private final String academicYear;
+    private final String slot;
     private final String location;
     private final List<JsonAdaptedDeadline> deadlines = new ArrayList<>();
 
@@ -50,6 +52,7 @@ class JsonAdaptedEvent {
                             @JsonProperty("parentModuleCode") String parentModuleCode,
                             @JsonProperty("academicYear") String academicYear,
                             @JsonProperty("location") String location,
+                            @JsonProperty("slot") String slot,
                             @JsonProperty("deadlines") List<JsonAdaptedDeadline> deadlines) {
         this.name = name;
         this.eventType = eventType;
@@ -58,6 +61,7 @@ class JsonAdaptedEvent {
         this.parentModuleCode = parentModuleCode;
         this.academicYear = academicYear;
         this.location = location;
+        this.slot = slot;
         if (deadlines != null) {
             this.deadlines.addAll(deadlines);
         }
@@ -75,6 +79,7 @@ class JsonAdaptedEvent {
         parentModuleCode = source.getParentModule().getModuleCode().toString();
         academicYear = source.getParentModule().getAcademicYear().toString();
         location = source.getLocation().toString();
+        slot = source.getSlot() == null ? "null" : source.getSlot().toString();
         deadlines.addAll(source.getDeadlines().stream()
                 .map(JsonAdaptedDeadline::new)
                 .collect(Collectors.toList()));
@@ -156,10 +161,18 @@ class JsonAdaptedEvent {
             throw new IllegalValueException(e.getMessage());
         }
 
+        if (slot == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Slot.class.getSimpleName()));
+        }
+        if (!Slot.isValidSlot(slot)) {
+            throw new IllegalValueException(Slot.MESSAGE_CONSTRAINTS);
+        }
+        final Slot modelSlot = slot.equals("null") ? null : new Slot(slot);
+
         Module modelParentModule = new PartialModule(modelModuleCode, modelAcademicYear);
 
         return new PartialEvent(modelName, modelEventType, modelEventStart, modelEventEnd, modelParentModule,
-                modelLocation, eventDeadlines);
+                modelLocation, eventDeadlines, modelSlot);
     }
 
 }

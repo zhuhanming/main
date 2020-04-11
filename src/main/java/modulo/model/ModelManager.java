@@ -190,7 +190,7 @@ public class ModelManager implements Model {
         requireNonNull(toFind);
         List<Module> moduleList = modulo.getModuleList();
         for (Module module : moduleList) {
-            if (module.matchModule(toFind)) {
+            if (module.isSameModule(toFind)) {
                 return module;
             }
         }
@@ -234,7 +234,7 @@ public class ModelManager implements Model {
     @Override
     public void setFilteredFocusedList(DisplayableType displayableType) {
         if (displayableType == DisplayableType.EVENT) {
-            updateFilteredEventList(PREDICATE_SHOW_UPCOMING_EVENTS);
+            updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
             focusedFilteredDisplayables = filteredEvents;
         } else if (displayableType == DisplayableType.MODULE) {
             updateFilteredModuleList(PREDICATE_SHOW_ALL_MODULES);

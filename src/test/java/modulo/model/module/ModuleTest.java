@@ -40,9 +40,9 @@ public class ModuleTest {
                 .build();
         assertFalse(CS2103.isSameModule(editedCS2103));
 
-        // different module name -> returns false
+        // different module name -> returns true
         editedCS2103 = new ModuleBuilder(CS2103).withModuleName(VALID_NAME_CS2105).build();
-        assertFalse(CS2103.isSameModule(editedCS2103));
+        assertTrue(CS2103.isSameModule(editedCS2103));
 
         // same module name, same module code , different attributes(description) -> returns true
         editedCS2103 = new ModuleBuilder(CS2103).withDescription(VALID_DESCRIPTION_CS2105).build();

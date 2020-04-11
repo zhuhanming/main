@@ -19,7 +19,8 @@ public class Messages {
 
     // EVENT-RELATED
     public static final String MESSAGE_EVENT_DOES_NOT_EXIST = "The event you want does not exist!";
-    public static final String MESSAGE_DUPLICATE_EVENT = "This event already exists for this module!";
+    public static final String MESSAGE_DUPLICATE_EVENT = "You cannot have two events of the same name under one "
+            + "module!";
     public static final String MESSAGE_CANNOT_ADD_EVENT_TO_EVENT = "You cannot add events to events!";
     public static final String MESSAGE_INVALID_EVENT_TYPE = "Event type is not recognised!";
     public static final String MESSAGE_EVENT_NOT_SELECTED = "Please select an event to delete deadlines from!";
@@ -100,7 +101,7 @@ public class Messages {
     public static final String MESSAGE_EXPORT_SUCCESS = "Modulo successfully exported as a .ics file!";
     public static final String MESSAGE_ITEM_LISTED_OVERVIEW = "%1$d items listed containing %2$d!";
     public static final String MESSAGE_SHOWING_HELP = "Opened help window.";
-    public static final String MESSAGE_VIEW_ITEM_SUCCESS = "%1$s \nis in view!";
+    public static final String MESSAGE_VIEW_ITEM_SUCCESS = "%1$s is in view!";
     public static final String MESSAGE_CLEARED_VIEW = "Cleared your view!";
     public static final String MESSAGE_ZERO_ITEMS_LISTED = "No items containing %1$s has been found";
 

@@ -1,9 +1,8 @@
 package modulo.model;
 
-import static java.time.temporal.ChronoUnit.DAYS;
-
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 import modulo.model.displayable.Displayable;
 import modulo.model.module.AcademicYear;
@@ -21,40 +20,12 @@ public class Title implements Displayable {
     /**
      * Constructs a title using a datetime object.
      *
-     * @param localDateTime Datetime object for construction.
+     * @param localDate Date object for construction.
      */
-    public Title(LocalDateTime localDateTime) {
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        long differenceInDays = DAYS.between(localDateTime.toLocalDate(), currentDateTime.toLocalDate());
-        boolean isToday = differenceInDays == 0;
-        boolean isOneDayDifference = Math.abs(differenceInDays) == 1;
-        boolean isDifferentYear = localDateTime.getYear() != currentDateTime.getYear();
-        if (localDateTime.isBefore(currentDateTime)) {
-            if (isToday) {
-                this.title = "Today";
-            } else if (isOneDayDifference) {
-                // isYesterday
-                this.title = "Yesterday";
-            } else if (isDifferentYear) {
-                this.title = localDateTime.format(MONTH_YEAR_FORMAT);
-            } else {
-                this.title = localDateTime.format(MONTH_FORMAT);
-            }
-        } else {
-            boolean isThisWeek = differenceInDays > -7;
-            if (isToday) {
-                this.title = "Today";
-            } else if (isOneDayDifference) {
-                // isTomorrow
-                this.title = "Tomorrow";
-            } else if (isThisWeek) {
-                this.title = localDateTime.format(WEEKDAY_FORMAT);
-            } else if (isDifferentYear) {
-                this.title = localDateTime.format(MONTH_YEAR_FORMAT);
-            } else {
-                this.title = localDateTime.format(MONTH_FORMAT);
-            }
-        }
+    public Title(LocalDate localDate) {
+        LocalDate startDate = AcademicYear.now().getStartDate();
+        int weekNumber = (int) ChronoUnit.WEEKS.between(startDate, localDate);
+        this.title = processWeekNumber(weekNumber);
     }
 
     /**
@@ -73,5 +44,20 @@ public class Title implements Displayable {
      */
     public String getTitle() {
         return title;
+    }
+
+    /**
+     * Returns a Title String for the given week number.
+     *
+     * @param weekNumber Week number to process.
+     * @return String for the title.
+     */
+    private String processWeekNumber(int weekNumber) {
+        if (weekNumber == 6) {
+            return "Recess Week";
+        } else if (weekNumber > 6) {
+            return "Week " + weekNumber;
+        }
+        return "Week " + (weekNumber + 1);
     }
 }

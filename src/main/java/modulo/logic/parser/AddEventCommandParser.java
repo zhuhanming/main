@@ -80,7 +80,7 @@ public class AddEventCommandParser implements Parser<AddEventCommand> {
         ModuleCode moduleCode = ParserUtil.parseModuleCode(argMultimap.getValue(PREFIX_MODULE).get());
         Module module = new PartialModule(moduleCode);
         Event event = new PartialEvent(name, eventType, startDateTime, endDateTime, location, module);
-        return new AddEventCommand(event, isRepeated, endRepeatDate, frequency);
+        return new AddEventCommand(event, isRepeated, endRepeatDate, frequency, null);
     }
 
     /**

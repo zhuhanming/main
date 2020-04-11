@@ -35,7 +35,12 @@
                                 <Region fx:constant="USE_PREF_SIZE"/>
                             </minWidth>
                         </Label>
-                        <!-- Module is already inserted as part of tags in EventCard.java-->
+                        <Label fx:id="isCompleted" styleClass="eventCardCompletionStatus" text="\$isCompleted">
+                            <minWidth>
+                                <!-- Ensures that the label text is never truncated -->
+                                <Region fx:constant="USE_PREF_SIZE"/>
+                            </minWidth>
+                        </Label>
                         <Label fx:id="startDate" styleClass="cell_small_label, eventDuration" text="\$startDate">
                             <minWidth>
                                 <!-- Ensures that the label text is never truncated -->

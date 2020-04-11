@@ -21,6 +21,7 @@ import modulo.model.Name;
 import modulo.model.event.Event;
 import modulo.model.event.EventType;
 import modulo.model.event.Location;
+import modulo.model.event.Slot;
 import modulo.model.event.exceptions.EventNotFoundException;
 import modulo.model.module.exceptions.ModuleNotFoundException;
 
@@ -111,6 +112,7 @@ public class ModuleLibrary {
                         : "A sample slot input would be: " + sampleClassNumber);
             }
             List<AddEventCommand> results = new ArrayList<>();
+            char suffix = 'A';
             for (JsonObject lesson : lessons) {
                 JsonArray weeks = lesson.getAsJsonArray("weeks");
                 String day = lesson.get("day").getAsString().toUpperCase();
@@ -135,8 +137,9 @@ public class ModuleLibrary {
                             - weeks.get(0).getAsInt());
                 }
                 Event eventToAdd = new Event(new Name(eventType.toString()), eventType,
-                        eventStart, eventEnd, module, new Location(location));
-                results.add(new AddEventCommand(eventToAdd, isRepeated, endRepeatDate, frequency));
+                        eventStart, eventEnd, module, new Location(location), new Slot(eventSlot));
+                results.add(new AddEventCommand(eventToAdd, isRepeated, endRepeatDate, frequency,
+                        lessons.size() > 1 ? suffix++ : null));
             }
             return results;
         } catch (IOException e) {
