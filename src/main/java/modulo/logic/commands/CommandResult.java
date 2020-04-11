@@ -150,7 +150,7 @@ public class CommandResult {
                 && toExit == otherCommandResult.toExit
                 && toUpdateRightPanel == otherCommandResult.toUpdateRightPanel
                 && toUpdateLeftPanel == otherCommandResult.toUpdateLeftPanel
-                && indexToShow.equals(otherCommandResult.indexToShow);
+                && indexToShow == (otherCommandResult.indexToShow);
     }
 
     @Override
