@@ -118,21 +118,10 @@ public class Module implements Displayable {
             return true;
         } else {
             return otherModule.getModuleCode().equals(this.getModuleCode())
-                    && otherModule.getName().equals(this.getName())
-                    && otherModule.getAcademicYear().toString().equals(this.getAcademicYear().toString());
+                    && otherModule.getAcademicYear().equals(this.getAcademicYear());
         }
     }
 
-    /**
-     * Matches the module based on the loose criteria of naming.
-     * <p>TODO: Add support for academic year matching subsequently.
-     *
-     * @param otherModule Module to compare with.
-     * @return boolean value on whether this matches.
-     */
-    public boolean matchModule(Module otherModule) {
-        return this.moduleCode.equals(otherModule.getModuleCode());
-    }
 
     /**
      * Returns true if both modules have the same identity and data fields. This defines a stronger notion of equality
