@@ -40,7 +40,7 @@ public class IcsEvent {
         deadlineList = event.getDeadlines().stream().map(deadline -> {
             descriptionString.append(deadline.getDueTime()
                     .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))).append(" - ")
-                    .append(deadline.getName()).append("\n");
+                    .append(deadline.getName()).append(System.lineSeparator());
             return new IcsDeadline(deadline);
         }).collect(Collectors.toList());
         this.description = descriptionString.toString();
@@ -70,6 +70,34 @@ public class IcsEvent {
         }
         output.append("END:" + ICS_ITEM_TYPE).append(System.lineSeparator());
         return output.toString();
+    }
+
+    public static String getIcsItemType() {
+        return ICS_ITEM_TYPE;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String getDtstart() {
+        return dtstart;
+    }
+
+    public String getDtend() {
+        return dtend;
+    }
+
+    public IcsRRule getIcsRRule() {
+        return icsRRule;
+    }
+
+    public List<IcsDeadline> getDeadlineList() {
+        return deadlineList;
     }
 
     public String getSummary() {
