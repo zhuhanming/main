@@ -8,6 +8,9 @@ import org.junit.jupiter.api.Test;
 import modulo.model.Model;
 import modulo.model.ModelManager;
 
+/**
+ * class to test on help command.
+ */
 public class HelpCommandTest {
     private Model model = new ModelManager();
     private Model expectedModel = new ModelManager();

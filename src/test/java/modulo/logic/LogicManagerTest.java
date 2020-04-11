@@ -1,6 +1,7 @@
 package modulo.logic;
 
 import static modulo.commons.core.Messages.MESSAGE_INVALID_DELETE_INDEX;
+import static modulo.commons.core.Messages.MESSAGE_SHOWING_ALL_MODULES;
 import static modulo.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static modulo.logic.commands.CommandTestUtil.ACEDEMICYEAR_DESC_CS2103;
 import static modulo.logic.commands.CommandTestUtil.CODE_DESC_CS2103;
@@ -31,6 +32,9 @@ import modulo.storage.JsonUserPrefsStorage;
 import modulo.storage.StorageManager;
 import modulo.testutil.module.ModuleBuilder;
 
+/**
+ * tests case on valid command and storage exception of logic Manager
+ */
 public class LogicManagerTest {
     private static final IOException DUMMY_IO_EXCEPTION = new IOException("dummy exception");
     @TempDir
@@ -42,7 +46,7 @@ public class LogicManagerTest {
     @BeforeEach
     public void setUp() {
         JsonModuloStorage moduloStorage =
-                new JsonModuloStorage(temporaryFolder.resolve("addressBook.json"));
+                new JsonModuloStorage(temporaryFolder.resolve("modulo.json"));
         JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(temporaryFolder.resolve("userPrefs.json"));
         StorageManager storage = new StorageManager(moduloStorage, userPrefsStorage);
         logic = new LogicManager(model, storage);
@@ -62,15 +66,15 @@ public class LogicManagerTest {
 
     @Test
     public void execute_validCommand_success() throws Exception {
-        String listCommand = ListCommand.COMMAND_WORD;
-        assertCommandSuccess(listCommand, ListCommand.MESSAGE_SUCCESS, model);
+        String listCommand = ListCommand.COMMAND_WORD + " all module";
+        assertCommandSuccess(listCommand, MESSAGE_SHOWING_ALL_MODULES, model);
     }
 
     @Test
     public void execute_storageThrowsIoException_throwsCommandException() {
         // Setup LogicManager with JsonAddressBookIoExceptionThrowingStub
         JsonModuloStorage moduloStorage =
-                new JsonAddressBookIoExceptionThrowingStub(temporaryFolder.resolve("ioExceptionAddressBook.json"));
+                new JsonAddressBookIoExceptionThrowingStub(temporaryFolder.resolve("ioExceptionModulo.json"));
         JsonUserPrefsStorage userPrefsStorage =
                 new JsonUserPrefsStorage(temporaryFolder.resolve("ioExceptionUserPrefs.json"));
         StorageManager storage = new StorageManager(moduloStorage, userPrefsStorage);

@@ -36,7 +36,7 @@ import modulo.model.module.ModuleLibrary;
 import modulo.testutil.module.ModuleBuilder;
 
 /**
- * class to test on add module command
+ * class to test on adding module command
  */
 public class AddModuleCommandTest {
 
@@ -308,10 +308,12 @@ public class AddModuleCommandTest {
      */
     private class ModelStubAcceptingModuleAdded extends ModelStub {
         final ArrayList<Module> modulesAdded = new ArrayList<>();
-        // TODO: Need Review on this part, use Modulo to add module otherwise it will throw module does not exists.
+        // TODO: Need Review on this part, have to use Modulo to add module otherwise
+        //  it will throw module does not exists.
         private final Modulo m = new Modulo();
 
-        //TODO: Review on this part - addModule in Model does not take Module object
+        //TODO: Review on this part - addModule in Model does not take a Module object
+        // Have to create or retrieve from modulo.
         @Override
         public void addModule(ModuleCode moduleCode, AcademicYear academicYear) {
             requireNonNull(moduleCode);
