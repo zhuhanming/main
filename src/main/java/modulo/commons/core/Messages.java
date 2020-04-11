@@ -100,7 +100,7 @@ public class Messages {
     public static final String MESSAGE_EXPORT_SUCCESS = "Modulo successfully exported as a .ics file!";
     public static final String MESSAGE_ITEM_LISTED_OVERVIEW = "%1$d items listed containing %2$d!";
     public static final String MESSAGE_SHOWING_HELP = "Opened help window.";
-    public static final String MESSAGE_VIEW_ITEM_SUCCESS = "%1$s \nis in view!";
+    public static final String MESSAGE_VIEW_ITEM_SUCCESS = "%1$s is in view!";
     public static final String MESSAGE_CLEARED_VIEW = "Cleared your view!";
     public static final String MESSAGE_ZERO_ITEMS_LISTED = "No items containing %1$s has been found";
 
