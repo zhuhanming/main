@@ -10,8 +10,6 @@ import static modulo.testutil.Assert.assertThrows;
 import static modulo.testutil.TypicalIndexesUtils.INDEX_FIRST_ITEM;
 import static modulo.testutil.TypicalIndexesUtils.INDEX_THOUSANDTH_ITEM;
 
-import java.util.Arrays;
-
 import org.junit.jupiter.api.Test;
 
 import modulo.logic.commands.DeleteCommand;
@@ -59,23 +57,23 @@ public class DeleteCommandParserTest {
 
     @Test
     public void parse_inputIsInvalidString_returnsDeleteCommand() {
-        DeleteCommand expectedDeleteCommand = new DeleteCommand(new NameContainsKeywordsPredicate(
-                Arrays.asList(INVALID_MODULE_CODE_CS2000)), false);
+        DeleteCommand expectedDeleteCommand = new DeleteCommand(new NameContainsKeywordsPredicate((
+                INVALID_MODULE_CODE_CS2000)), false);
         assertParseSuccess(deleteCommandParser, INVALID_MODULE_CODE_CS2000, expectedDeleteCommand);
     }
 
     @Test
     public void parse_inputIsAll_returnsDeleteCommand() {
         DeleteCommand expectedDeleteCommand =
-                new DeleteCommand(new NameContainsKeywordsPredicate(Arrays.asList("")), false);
+                new DeleteCommand(new NameContainsKeywordsPredicate(""), false);
         assertParseSuccess(deleteCommandParser, "all", expectedDeleteCommand);
     }
 
     @Test
     public void parse_inputIsValidString_returnsDeleteCommand() {
         DeleteCommand expectedDeleteCommand =
-                new DeleteCommand(new NameContainsKeywordsPredicate(Arrays.asList(
-                        VALID_CODE_CS2103_LOWER_CASE)), false);
+                new DeleteCommand(new NameContainsKeywordsPredicate(
+                        VALID_CODE_CS2103_LOWER_CASE), false);
         assertParseSuccess(deleteCommandParser, "CS2103", expectedDeleteCommand);
     }
 
@@ -94,7 +92,7 @@ public class DeleteCommandParserTest {
     @Test
     public void parse_inputDeleteDeadlineAll_returnsDeleteCommand() throws ParseException {
         DeleteCommand expectedDeleteCommand =
-                new DeleteCommand(new NameContainsKeywordsPredicate(Arrays.asList("")), true);
+                new DeleteCommand(new NameContainsKeywordsPredicate(""), true);
         assertParseSuccess(deleteCommandParser, " d/all", expectedDeleteCommand);
 
     }
