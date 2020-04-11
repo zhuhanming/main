@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import modulo.logic.commands.AddDeadlineCommand;
 import modulo.logic.commands.AddEventCommand;
 import modulo.logic.commands.AddModuleCommand;
+import modulo.logic.commands.ClearCommand;
 import modulo.logic.commands.Command;
 import modulo.logic.commands.DeleteCommand;
 import modulo.logic.commands.DoneCommand;
@@ -81,6 +82,9 @@ public class ModuloParser {
 
         case ViewCommand.COMMAND_WORD:
             return new ViewCommandParser().parse(arguments);
+
+        case ClearCommand.COMMAND_WORD:
+            return new ClearCommand();
 
         default:
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
