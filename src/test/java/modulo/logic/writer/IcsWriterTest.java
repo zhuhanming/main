@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -27,8 +28,8 @@ public class IcsWriterTest {
     @Test
     public void writeIcsFile_invalidDirectory_createsDirectory() {
         try {
-            IcsWriter.writeIcsFile(Paths.get("ABCD:\\data"), new ArrayList<>());
-            File file = new File("ABCD:\\data/modulo.ics");
+            IcsWriter.writeIcsFile(Paths.get("ABCD://data"), new ArrayList<>());
+            File file = new File("ABCD://data/modulo.ics");
             assertTrue(file.exists());
         } catch (IOException e) {
             fail();
@@ -38,8 +39,8 @@ public class IcsWriterTest {
     @AfterAll
     public static void cleanUpTestFiles() {
         try {
-            deleteDirectory("ABCD:\\data");
-        } catch (IOException e) {
+            deleteDirectory("ABCD://data");
+        } catch (IOException | InvalidPathException e) {
             // Nothing
         }
     }
@@ -50,7 +51,7 @@ public class IcsWriterTest {
      * @param path Path to delete.
      * @throws IOException If the file cannot be found.
      */
-    private static void deleteDirectory(String path) throws IOException {
+    private static void deleteDirectory(String path) throws IOException, InvalidPathException {
         Path rootPath = Paths.get(path);
         try (Stream<Path> walk = Files.walk(rootPath)) {
             walk.sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
