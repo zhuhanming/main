@@ -1,6 +1,9 @@
 package modulo.model.event;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 import java.util.List;
 
 import modulo.model.Name;
@@ -14,7 +17,8 @@ import modulo.model.module.Module;
  */
 public class PartialEvent extends Event {
     public PartialEvent(Name eventName, EventType eventType, Module parentModule, Location location) {
-        super(eventName, eventType, LocalDateTime.now(), LocalDateTime.now(), parentModule, location);
+        super(eventName, eventType, LocalDateTime.of(LocalDate.now(), LocalTime.NOON),
+                LocalDateTime.of(LocalDate.now(), LocalTime.NOON.plusHours(1)), parentModule, location);
     }
 
     public PartialEvent(Name eventName, EventType eventType, LocalDateTime eventStart, LocalDateTime eventEnd,
