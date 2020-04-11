@@ -4,8 +4,6 @@ import static modulo.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static modulo.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static modulo.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
-import java.util.Arrays;
-
 import org.junit.jupiter.api.Test;
 
 import modulo.logic.commands.FindCommand;
@@ -24,7 +22,7 @@ public class FindCommandParserTest {
     public void parse_validArgs_returnsFindCommand() {
         // no leading and trailing whitespaces
         FindCommand expectedFindCommand =
-                new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList("cs")));
+                new FindCommand(new NameContainsKeywordsPredicate("cs"));
         assertParseSuccess(parser, "CS", expectedFindCommand);
 
         // multiple whitespaces between keywords
