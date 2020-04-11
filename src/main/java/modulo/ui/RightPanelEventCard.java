@@ -39,10 +39,10 @@ public class RightPanelEventCard extends UiPart<Region> {
         super(FXML);
         this.event = event;
         id.setText(displayedIndex + ". ");
-        name.setText(event.getName().fullName);
-        startDate.setText(event.getEventStart().format(DateTimeFormatter.ofPattern("EEE h a")) + " - "
+        name.setText(event.getEventType().toString());
+        startDate.setText(event.getSlot() == null ? "" : "Slot " + event.getSlot().toString());
+        endDate.setText(event.getEventStart().format(DateTimeFormatter.ofPattern("EEE h a")) + " - "
                 + event.getEventEnd().format(DateTimeFormatter.ofPattern("h a")));
-        endDate.setText(event.getLocation().toString());
     }
 
     @Override
