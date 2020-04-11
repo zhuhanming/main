@@ -16,6 +16,7 @@ public class CommandBox extends UiPart<Region> {
 
     public static final String DEFAULT_PLACEHOLDER_TEXT = "Enter command here...";
     public static final String ERROR_STYLE_CLASS = "error";
+    public static final String STATEFUL_STYLE_CLASS = "stateful";
     private static final String FXML = "CommandBox.fxml";
 
     private final CommandExecutor commandExecutor;
@@ -27,7 +28,7 @@ public class CommandBox extends UiPart<Region> {
         super(FXML);
         this.commandExecutor = commandExecutor;
         // calls #setStyleToDefault() whenever there is a change to the text of the command box.
-        commandTextField.textProperty().addListener((unused1, unused2, unused3) -> setStyleToDefault());
+        commandTextField.textProperty().addListener((unused1, unused2, unused3) -> setStyleToIndicateSuccess());
     }
 
     /**
@@ -35,6 +36,11 @@ public class CommandBox extends UiPart<Region> {
      */
     public void updatePlaceholder(String newPlaceholderText) {
         commandTextField.setPromptText(newPlaceholderText);
+        if (newPlaceholderText.equals(DEFAULT_PLACEHOLDER_TEXT)) {
+            setStyleToIndicateStatelessCommand();
+        } else {
+            setStyleToIndicateStatefulCommand();
+        }
     }
 
     /**
@@ -58,10 +64,17 @@ public class CommandBox extends UiPart<Region> {
     }
 
     /**
-     * Sets the command box style to use the default style.
+     * Sets the command box style to use the style for an error-less command.
      */
-    private void setStyleToDefault() {
+    private void setStyleToIndicateSuccess() {
         commandTextField.getStyleClass().remove(ERROR_STYLE_CLASS);
+    }
+
+    /**
+     * Sets the command box style to use the style for a stateful command.
+     */
+    private void setStyleToIndicateStatelessCommand() {
+        commandTextField.getStyleClass().remove(STATEFUL_STYLE_CLASS);
     }
 
     /**
@@ -69,12 +82,21 @@ public class CommandBox extends UiPart<Region> {
      */
     private void setStyleToIndicateCommandFailure() {
         ObservableList<String> styleClass = commandTextField.getStyleClass();
-
         if (styleClass.contains(ERROR_STYLE_CLASS)) {
             return;
         }
-
         styleClass.add(ERROR_STYLE_CLASS);
+    }
+
+    /**
+     * Sets the command box style to indicate a stateful command.
+     */
+    private void setStyleToIndicateStatefulCommand() {
+        ObservableList<String> styleClass = commandTextField.getStyleClass();
+        if (styleClass.contains(STATEFUL_STYLE_CLASS)) {
+            return;
+        }
+        styleClass.add(STATEFUL_STYLE_CLASS);
     }
 
     /**
