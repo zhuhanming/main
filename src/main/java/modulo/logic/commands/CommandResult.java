@@ -38,6 +38,11 @@ public class CommandResult {
      */
     private final Index indexToShow;
 
+    /**
+     * New placeholder text for user input field.
+     */
+    private final String newPlaceholderText;
+
 
     /**
      * Constructs a {@code CommandResult} with all fields.
@@ -50,13 +55,14 @@ public class CommandResult {
      * @param indexToShow        The index to highlight for UI.
      */
     public CommandResult(String feedbackToUser, boolean toShowHelp, boolean toExit, boolean toUpdateLeftPanel,
-                         boolean toUpdateRightPanel, Index indexToShow) {
+                         boolean toUpdateRightPanel, Index indexToShow, String newPlaceholderText) {
         this.feedbackToUser = requireNonNull(feedbackToUser);
         this.toShowHelp = toShowHelp;
         this.toExit = toExit;
         this.toUpdateLeftPanel = toUpdateLeftPanel;
         this.toUpdateRightPanel = toUpdateRightPanel;
         this.indexToShow = indexToShow;
+        this.newPlaceholderText = newPlaceholderText;
     }
 
     /**
@@ -66,7 +72,7 @@ public class CommandResult {
      * @param indexToShow    Index to focus on.
      */
     public CommandResult(String feedbackToUser, Index indexToShow) {
-        this(feedbackToUser, false, false, false, true, indexToShow);
+        this(feedbackToUser, false, false, false, true, indexToShow, null);
     }
 
     /**
@@ -76,7 +82,7 @@ public class CommandResult {
      * @param feedbackToUser Feedback to show to user.
      */
     public CommandResult(String feedbackToUser) {
-        this(feedbackToUser, false, false, false, false, null);
+        this(feedbackToUser, false, false, false, false, null, null);
     }
 
     /**
@@ -133,6 +139,15 @@ public class CommandResult {
         return indexToShow;
     }
 
+    /**
+     * Returns the new placeholder text to display.
+     *
+     * @return Placeholder text.
+     */
+    public String getNewPlaceholderText() {
+        return newPlaceholderText;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -150,7 +165,7 @@ public class CommandResult {
                 && toExit == otherCommandResult.toExit
                 && toUpdateRightPanel == otherCommandResult.toUpdateRightPanel
                 && toUpdateLeftPanel == otherCommandResult.toUpdateLeftPanel
-                && indexToShow.equals(otherCommandResult.indexToShow);
+                && indexToShow == (otherCommandResult.indexToShow);
     }
 
     @Override

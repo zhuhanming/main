@@ -38,18 +38,18 @@ public class FindCommand extends Command {
         if (model.getFilteredFocusedList().size() == 0) {
             return new CommandResult(
                     String.format(MESSAGE_ZERO_ITEMS_LISTED, predicate.toString())
-                            + RETURN_TO_ORIGINAL_LIST_INSTRUCTION, false, false, true, true, null);
+                            + RETURN_TO_ORIGINAL_LIST_INSTRUCTION, false, false, true, true, null, null);
         }
         if (model.getCurrentDisplayableType() == DisplayableType.EVENT) {
             return new CommandResult(
                     String.format(MESSAGE_EVENT_LISTED_OVERVIEW, model.getFilteredFocusedList().size(),
                             predicate.toString()) + RETURN_TO_ORIGINAL_LIST_INSTRUCTION,
-                    false, false, true, true, null);
+                    false, false, true, true, null, null);
         } else {
             return new CommandResult(
                     String.format(MESSAGE_MODULE_LISTED_OVERVIEW, model.getFilteredFocusedList().size(),
                             predicate.toString()) + RETURN_TO_ORIGINAL_LIST_INSTRUCTION,
-                    false, false, true, true, null);
+                    false, false, true, true, null, null);
         }
     }
 

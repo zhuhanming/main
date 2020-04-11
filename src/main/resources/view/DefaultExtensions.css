@@ -1,3 +1,9 @@
 .error {
     -fx-text-fill: #EE117F !important; /* The error class should always override the default text-fill style */
 }
+
+#commandTextField.stateful {
+    -fx-background-color: #e4f3f1;
+    -fx-text-fill: #00AF8C;
+    -fx-prompt-text-fill: #00AF8C;
+}

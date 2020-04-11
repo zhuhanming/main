@@ -40,7 +40,7 @@ public class ViewCommand extends Command {
 
         if (index == null) {
             model.unsetFocusedDisplayable();
-            return new CommandResult(MESSAGE_CLEARED_VIEW, false, false, true, true, null);
+            return new CommandResult(MESSAGE_CLEARED_VIEW, false, false, true, true, null, null);
         }
 
         ObservableList<?> lastShownList = model.getFilteredFocusedList();

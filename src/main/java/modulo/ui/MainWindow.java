@@ -36,6 +36,7 @@ public class MainWindow extends UiPart<Stage> {
     private HelpWindow helpWindow;
     private DescriptionWindow descriptionWindow;
     private RightPanel rightPanel;
+    private CommandBox commandBox;
 
     @FXML
     private StackPane commandBoxPlaceholder;
@@ -103,7 +104,7 @@ public class MainWindow extends UiPart<Stage> {
         rightPanel = new RightPanel(logic.getFocusedDisplayable(), this);
         slideWindowListPlaceholder.getChildren().add(rightPanel.getRoot());
 
-        CommandBox commandBox = new CommandBox(this::executeCommand);
+        commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
 
         if (logic.getFilteredFocusedList().size() == 0) {
@@ -199,6 +200,11 @@ public class MainWindow extends UiPart<Stage> {
             }
             if (commandResult.getIndexToShow() != null) {
                 listPanel.selectDisplayable(commandResult.getIndexToShow());
+            }
+            if (commandResult.getNewPlaceholderText() != null) {
+                commandBox.updatePlaceholder(commandResult.getNewPlaceholderText());
+            } else if (!commandBox.getPlaceholder().equals(CommandBox.DEFAULT_PLACEHOLDER_TEXT)) {
+                commandBox.updatePlaceholder(CommandBox.DEFAULT_PLACEHOLDER_TEXT);
             }
             return commandResult;
         } catch (CommandException | ParseException e) {

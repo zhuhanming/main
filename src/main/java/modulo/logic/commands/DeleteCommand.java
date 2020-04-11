@@ -60,13 +60,13 @@ public class DeleteCommand extends Command {
                     Event event = (Event) itemToDelete;
                     model.deleteEvent(event);
                     return new CommandResult(String.format(Messages.MESSAGE_SINGLE_EVENT_DELETE_SUCCESS, itemToDelete),
-                            false, false, true, true, null);
+                            false, false, true, true, null, null);
                 } else if (displayableType == DisplayableType.MODULE) {
                     Module module = (Module) itemToDelete;
                     deleteEventsOfModule(model, module);
                     model.deleteModule((Module) itemToDelete);
                     return new CommandResult(String.format(Messages.MESSAGE_SINGLE_MODULE_DELETE_SUCCESS, itemToDelete),
-                            false, false, true, true, null);
+                            false, false, true, true, null, null);
                 }
             } else {
                 try {
@@ -76,10 +76,10 @@ public class DeleteCommand extends Command {
                     displayedEvent.removeDeadline(itemToDelete);
                     return (itemToDelete.isCompleted()) ? new CommandResult(String.format(
                             Messages.MESSAGE_COMPLETED_DEADLINE_DELETE_SUCCESS, itemToDelete),
-                            false, false, true, true, null)
+                            false, false, true, true, null, null)
                             : new CommandResult(String.format(
                             Messages.MESSAGE_INCOMPLETE_DEADLINE_DELETE_SUCCESS, itemToDelete),
-                            false, false, true, true, null);
+                            false, false, true, true, null, null);
 
                 } catch (ClassCastException | NullPointerException e) {
                     throw new CommandException(Messages.MESSAGE_EVENT_NOT_SELECTED);
@@ -93,7 +93,7 @@ public class DeleteCommand extends Command {
                     Event displayedEvent = (Event) model.getFocusedDisplayable();
                     displayedEvent.removeAllDeadlines();
                     return new CommandResult(String.format(Messages.MESSAGE_ALL_DEADLINE_DELETE_SUCCESS,
-                            displayedEvent), false, false, true, true, null);
+                            displayedEvent), false, false, true, true, null, null);
                 } catch (ClassCastException | NullPointerException e) {
                     throw new CommandException(Messages.MESSAGE_EVENT_NOT_SELECTED);
                 }
@@ -114,11 +114,11 @@ public class DeleteCommand extends Command {
                 if (predicate.toString().equals(predicateStringForDeleteAll)) {
                     return new CommandResult(String.format(Messages.MESSAGE_DELETE_ALL_EVENTS_SUCCESS,
                             numberOfItemsDeleted),
-                            false, false, true, true, null);
+                            false, false, true, true, null, null);
                 } else {
                     return new CommandResult(String.format(
                             Messages.MESSAGE_MUTIPLE_EVENTS_DELETE_SUCCESS, numberOfItemsDeleted, predicate.toString()),
-                            false, false, true, true, null);
+                            false, false, true, true, null, null);
                 }
             } else if (displayableType == DisplayableType.MODULE) {
                 for (Object moduleObject : list) {
@@ -138,11 +138,11 @@ public class DeleteCommand extends Command {
                     model.unsetFocusedDisplayable();
                     return new CommandResult(String.format(Messages.MESSAGE_DELETE_ALL_MODULES_SUCCESS,
                             numberOfItemsDeleted),
-                            false, false, true, true, null);
+                            false, false, true, true, null, null);
                 }
                 return new CommandResult(String.format(
                         Messages.MESSAGE_MUTIPLE_MODULES_DELETE_SUCCESS, numberOfItemsDeleted,
-                        predicate.toString()), false, false, true, true, null);
+                        predicate.toString()), false, false, true, true, null, null);
             }
         }
         return new CommandResult(Messages.MESSAGE_ERROR);
