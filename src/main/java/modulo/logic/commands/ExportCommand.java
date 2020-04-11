@@ -59,4 +59,8 @@ public class ExportCommand extends Command {
 
         return new CommandResult(MESSAGE_EXPORT_SUCCESS);
     }
+
+    public Path getExportDirectory() {
+        return exportDirectory;
+    }
 }
