@@ -187,7 +187,7 @@ public class AddEventCommand extends Command {
                  start = start.plus(frequency), end = end.plus(frequency)) {
                 Event nextEvent = new Event(new Name(actualEvent.getName().toString() + " " + eventNumber
                         + (suffix == null ? "" : suffix.toString())), actualEvent.getEventType(), start, end,
-                        actualModule, actualEvent.getLocation());
+                        actualModule, actualEvent.getLocation(), actualEvent.getSlot());
                 if (!model.hasEvent(nextEvent)) {
                     actualModule.addEvent(nextEvent);
                     model.addEvent(nextEvent);
