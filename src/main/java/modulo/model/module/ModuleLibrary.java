@@ -41,7 +41,9 @@ public class ModuleLibrary {
             throws ModuleNotFoundException {
         try {
             JsonObject moduleNeeded = getModule(moduleCode);
-            Name name = new Name(moduleNeeded.get("title").getAsString());
+            System.out.println(moduleNeeded);
+            System.out.println(moduleNeeded.get("title"));
+            Name name = new Name(Name.cleanNameString(moduleNeeded.get("title").getAsString()));
             String description = moduleNeeded.get("description").getAsString();
             return new Module(moduleCode, name, academicYear, description);
         } catch (NullPointerException | IOException e) {
@@ -88,12 +90,14 @@ public class ModuleLibrary {
         try {
             JsonArray timetable = getTimetable(module);
             List<JsonObject> lessons = new ArrayList<>();
+            String validEventSlot = null;
             for (int i = 0; i < timetable.size(); i++) {
                 JsonObject selectLesson = timetable.get(i).getAsJsonObject();
                 String lessonType = selectLesson.get("lessonType").getAsString();
                 String classNumber = selectLesson.get("classNo").getAsString();
                 if (EventType.parseEventType(lessonType) == eventType && areSameEventSlot(classNumber, eventSlot)) {
                     lessons.add(selectLesson);
+                    validEventSlot = classNumber;
                 }
             }
             if (lessons.size() == 0) {
@@ -111,6 +115,7 @@ public class ModuleLibrary {
                         ? ""
                         : "A sample slot input would be: " + sampleClassNumber);
             }
+            assert validEventSlot != null;
             List<AddEventCommand> results = new ArrayList<>();
             char suffix = 'A';
             for (JsonObject lesson : lessons) {
@@ -137,7 +142,7 @@ public class ModuleLibrary {
                             - weeks.get(0).getAsInt());
                 }
                 Event eventToAdd = new Event(new Name(eventType.toString()), eventType,
-                        eventStart, eventEnd, module, new Location(location), new Slot(eventSlot));
+                        eventStart, eventEnd, module, new Location(location), new Slot(validEventSlot));
                 results.add(new AddEventCommand(eventToAdd, isRepeated, endRepeatDate, frequency,
                         lessons.size() > 1 ? suffix++ : null));
             }
