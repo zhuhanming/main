@@ -11,7 +11,7 @@ import modulo.model.ModelManager;
 /**
  * class to test on exit commands
  */
-public class ExitCommandTestUtil {
+public class ExitCommandTest {
 
     private Model model = new ModelManager();
     private Model expectedModel = new ModelManager();
