@@ -18,10 +18,10 @@ public class ListCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Lists out the specified items.\n"
             + "Parameters: "
-            + "[all] "
-            + "event/module "
+            + "list "
+            + "events/modules "
             + "\n"
-            + "Example: " + COMMAND_WORD + " all event";
+            + "Example: " + COMMAND_WORD + " events";
 
     private DisplayableType displayableType;
     /**
@@ -33,11 +33,9 @@ public class ListCommand extends Command {
      * Creates a {@code ListCommand} that lists out the items of the given displayable type.
      *
      * @param displayableType Type of item to display.
-     * @param toShowAll       Whether to show all of that type.
      */
-    public ListCommand(DisplayableType displayableType, boolean toShowAll) {
+    public ListCommand(DisplayableType displayableType) {
         this.displayableType = displayableType;
-        this.toShowAll = toShowAll;
     }
 
     @Override
