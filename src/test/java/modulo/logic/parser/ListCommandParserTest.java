@@ -23,13 +23,17 @@ public class ListCommandParserTest {
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListCommand.MESSAGE_USAGE));
         assertParseFailure(parser, "  invalidText  ",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "  module invalidText  ",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "  event invalidText  ",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListCommand.MESSAGE_USAGE));
     }
 
     @Test
     public void parseValidArgs_listModules_returnsListCommand() {
         // no leading and trailing whitespaces
         ListCommand expectedListCommand =
-                new ListCommand(DisplayableType.EVENT, false);
+                new ListCommand(DisplayableType.EVENT);
         assertParseSuccess(parser, "e", expectedListCommand);
         // multiple whitespaces between keywords
         assertParseSuccess(parser, "  e  ", expectedListCommand);
@@ -37,13 +41,17 @@ public class ListCommandParserTest {
         assertParseSuccess(parser, "event", expectedListCommand);
         // multiple whitespaces between keywords
         assertParseSuccess(parser, " event     ", expectedListCommand);
+
+        assertParseSuccess(parser, "events", expectedListCommand);
+        // multiple whitespaces between keywords
+        assertParseSuccess(parser, " events     ", expectedListCommand);
     }
 
     @Test
     public void parseValidArgs_listEvents_returnsListCommand() {
         // no leading and trailing whitespaces
         ListCommand expectedListCommand =
-                new ListCommand(DisplayableType.MODULE, false);
+                new ListCommand(DisplayableType.MODULE);
         assertParseSuccess(parser, "m", expectedListCommand);
         // multiple whitespaces between keywords
         assertParseSuccess(parser, "  m     ", expectedListCommand);
@@ -51,34 +59,9 @@ public class ListCommandParserTest {
         assertParseSuccess(parser, "module", expectedListCommand);
         // multiple whitespaces between keywords
         assertParseSuccess(parser, " module     ", expectedListCommand);
-    }
 
-    @Test
-    public void parseValidArgs_listAllModules_returnsListCommand() {
-        // no leading and trailing whitespaces
-        ListCommand expectedListCommand =
-                new ListCommand(DisplayableType.MODULE, true);
-        assertParseSuccess(parser, "all m", expectedListCommand);
+        assertParseSuccess(parser, "modules", expectedListCommand);
         // multiple whitespaces between keywords
-        assertParseSuccess(parser, "   all m   ", expectedListCommand);
-
-        assertParseSuccess(parser, "all module", expectedListCommand);
-        // multiple whitespaces between keywords
-        assertParseSuccess(parser, " all module     ", expectedListCommand);
-
-    }
-
-    @Test
-    public void parseValidArgs_listAllEvents_returnsListCommand() {
-        // no leading and trailing whitespaces
-        ListCommand expectedListCommand =
-                new ListCommand(DisplayableType.EVENT, true);
-        assertParseSuccess(parser, "all e", expectedListCommand);
-        // multiple whitespaces between keywords
-        assertParseSuccess(parser, "  all e    ", expectedListCommand);
-
-        assertParseSuccess(parser, "all event", expectedListCommand);
-        // multiple whitespaces between keywords
-        assertParseSuccess(parser, "  all event     ", expectedListCommand);
+        assertParseSuccess(parser, " modules     ", expectedListCommand);
     }
 }
