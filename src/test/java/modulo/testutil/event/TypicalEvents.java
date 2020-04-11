@@ -7,7 +7,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import modulo.model.Modulo;
+import modulo.model.Name;
 import modulo.model.event.Event;
+import modulo.model.event.EventType;
+import modulo.model.event.Location;
+import modulo.model.event.PartialEvent;
+import modulo.testutil.module.TypicalModules;
 
 
 /**
@@ -26,6 +31,12 @@ public class TypicalEvents {
     public static final Event TUTORIAL_2 = new EventBuilder().withName("Tutorial 2").withEventStart("2019-01-22 09:00")
             .withEventEnd("2019-01-22 10:00").withEventType("TUTORIAL").withLocation("COM1-B103")
             .withParentModule(CS2103).build();
+
+    /**
+     * Partial Event for testing
+     */
+    public static final Event PARTIAL_EVENT_TUTORIAL_1 = new PartialEvent(new Name("Tutorial 1"), EventType.TUTORIAL,
+            TypicalModules.PARTIAL_MODULE_CS1231S, new Location("Arbitrary Location"));
 
     private TypicalEvents() {
     } // prevents instantiation
