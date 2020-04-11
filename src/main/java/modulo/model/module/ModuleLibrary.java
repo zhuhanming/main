@@ -156,7 +156,7 @@ public class ModuleLibrary {
      * Checks if user provided {@code eventSlot} matches the {@code classNumber}.
      *
      * @param classNumber Class number from JSON.
-     * @param eventSlot   Event slot
+     * @param eventSlot   Event slot.
      * @return Boolean representing whether they match.
      */
     private static boolean areSameEventSlot(String classNumber, String eventSlot) {
@@ -165,33 +165,18 @@ public class ModuleLibrary {
             return true;
         }
         while (loweredClassNumber.length() > 0 && eventSlot.length() > 0
-                && loweredClassNumber.charAt(0) == eventSlot.charAt(0)) {
+                && loweredClassNumber.charAt(0) == eventSlot.charAt(0)
+                && Character.isLetter(loweredClassNumber.charAt(0))) {
             loweredClassNumber = loweredClassNumber.substring(1);
             eventSlot = eventSlot.substring(1);
         }
-        while (loweredClassNumber.length() > 0 && eventSlot.length() > 0
-                && loweredClassNumber.charAt(loweredClassNumber.length() - 1)
-                == eventSlot.charAt(eventSlot.length() - 1)) {
-            loweredClassNumber = loweredClassNumber.substring(0, loweredClassNumber.length() - 1);
-            eventSlot = eventSlot.substring(0, eventSlot.length() - 1);
+        while (eventSlot.length() > loweredClassNumber.length() && eventSlot.charAt(0) == '0') {
+            eventSlot = eventSlot.substring(1);
         }
-        if (loweredClassNumber.length() > eventSlot.length()) {
-            for (int i = 0; i < loweredClassNumber.length(); i++) {
-                if (loweredClassNumber.charAt(i) != '0') {
-                    return false;
-                }
-            }
-            return true;
-        } else if (eventSlot.length() > loweredClassNumber.length()) {
-            for (int i = 0; i < eventSlot.length(); i++) {
-                if (eventSlot.charAt(i) != '0') {
-                    return false;
-                }
-            }
-            return true;
-        } else {
-            return eventSlot.equalsIgnoreCase(loweredClassNumber);
+        while (loweredClassNumber.length() > eventSlot.length() && loweredClassNumber.charAt(0) == '0') {
+            loweredClassNumber = loweredClassNumber.substring(1);
         }
+        return eventSlot.equalsIgnoreCase(loweredClassNumber);
     }
 
     private static JsonObject getModule(ModuleCode moduleCode) throws IOException {
