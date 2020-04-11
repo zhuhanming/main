@@ -87,7 +87,6 @@ public class DeleteCommandParserTest {
         assertParseFailure(deleteCommandParser, " d/",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
     }
-    // TODO: Solve bug for reading 'd/' inputs
 
     @Test
     public void parse_inputDeleteDeadlineAll_returnsDeleteCommand() throws ParseException {
