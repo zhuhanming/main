@@ -18,8 +18,8 @@ public class PartialEvent extends Event {
     }
 
     public PartialEvent(Name eventName, EventType eventType, LocalDateTime eventStart, LocalDateTime eventEnd,
-                        Module parentModule, Location location, List<Deadline> deadlines) {
-        super(eventName, eventType, eventStart, eventEnd, parentModule, location, deadlines);
+                        Module parentModule, Location location, List<Deadline> deadlines, Slot slot) {
+        super(eventName, eventType, eventStart, eventEnd, parentModule, location, deadlines, slot);
     }
 
     public PartialEvent(Name eventName, EventType eventType, LocalDateTime eventStart,
