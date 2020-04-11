@@ -2,8 +2,6 @@ package modulo.logic.parser;
 
 import static modulo.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
-import java.util.Arrays;
-
 import modulo.logic.commands.ListCommand;
 import modulo.logic.parser.exceptions.ParseException;
 import modulo.model.displayable.DisplayableType;
