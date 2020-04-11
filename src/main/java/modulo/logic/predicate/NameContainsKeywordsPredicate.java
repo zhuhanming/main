@@ -3,6 +3,7 @@ package modulo.logic.predicate;
 import java.util.List;
 import java.util.function.Predicate;
 
+import modulo.commons.util.StringUtil;
 import modulo.model.displayable.Displayable;
 
 /**
@@ -22,12 +23,15 @@ public class NameContainsKeywordsPredicate implements Predicate<Displayable> {
 
     @Override
     public boolean test(Displayable displayable) {
-        for (String keyword : keywords) {
-            if (!displayable.toString().trim().toLowerCase().contains(keyword)) {
-                return false;
-            }
-        }
-        return true;
+        System.out.println("Displayable is " + displayable.toString());
+        /**
+         for (String keyword : keywords) {
+         if (!displayable.toString().trim().toLowerCase().contains(keyword.toLowerCase())) {
+         return false;
+         }
+         }*/
+        return keywords.stream()
+                .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(displayable.toString().trim(), keyword));
     }
 
     @Override
