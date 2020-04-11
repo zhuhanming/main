@@ -62,7 +62,7 @@ public class IcsEventTest {
                 + "SUMMARY:TestDeadline2" + System.lineSeparator()
                 + "STATUS:NEEDS-ACTION" + System.lineSeparator()
                 + "END:VTODO" + System.lineSeparator()
-                + "END:VEVENT" + System.lineSeparator();
+                + "END:VEVENT" + "\n";
 
         Module module = new Module(new ModuleCode("CS2103"), new Name("Software Engineering"),
                 new AcademicYear(2019, 2020, 2), "Software Engineering",
