@@ -79,7 +79,7 @@ class JsonAdaptedEvent {
         parentModuleCode = source.getParentModule().getModuleCode().toString();
         academicYear = source.getParentModule().getAcademicYear().toString();
         location = source.getLocation().toString();
-        slot = source.getSlot().toString();
+        slot = source.getSlot() == null ? "null" : source.getSlot().toString();
         deadlines.addAll(source.getDeadlines().stream()
                 .map(JsonAdaptedDeadline::new)
                 .collect(Collectors.toList()));
@@ -161,15 +161,13 @@ class JsonAdaptedEvent {
             throw new IllegalValueException(e.getMessage());
         }
 
-        final Slot modelSlot;
         if (slot == null) {
-            modelSlot = null;
-        } else {
-            if (!Slot.isValidSlot(slot)) {
-                throw new IllegalValueException(Slot.MESSAGE_CONSTRAINTS);
-            }
-            modelSlot = new Slot(slot);
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Slot.class.getSimpleName()));
         }
+        if (!Slot.isValidSlot(slot)) {
+            throw new IllegalValueException(Slot.MESSAGE_CONSTRAINTS);
+        }
+        final Slot modelSlot = slot.equals("null") ? null : new Slot(slot);
 
         Module modelParentModule = new PartialModule(modelModuleCode, modelAcademicYear);
 

@@ -19,7 +19,8 @@ public class Messages {
 
     // EVENT-RELATED
     public static final String MESSAGE_EVENT_DOES_NOT_EXIST = "The event you want does not exist!";
-    public static final String MESSAGE_DUPLICATE_EVENT = "This event already exists for this module!";
+    public static final String MESSAGE_DUPLICATE_EVENT = "You cannot have two events of the same name under one "
+            + "module!";
     public static final String MESSAGE_CANNOT_ADD_EVENT_TO_EVENT = "You cannot add events to events!";
     public static final String MESSAGE_INVALID_EVENT_TYPE = "Event type is not recognised!";
     public static final String MESSAGE_EVENT_NOT_SELECTED = "Please select an event to delete deadlines from!";
