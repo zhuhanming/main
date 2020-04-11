@@ -1,6 +1,7 @@
 package modulo.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+
 import static modulo.commons.core.Messages.MESSAGE_CANNOT_COMPLETE_EVENT;
 import static modulo.commons.core.Messages.MESSAGE_COMPLETED_DEADLINE;
 import static modulo.commons.core.Messages.MESSAGE_DEADLINE_DOES_NOT_EXIST;
@@ -102,5 +103,17 @@ public class DoneCommand extends Command {
         } catch (IndexOutOfBoundsException e) {
             throw new CommandException(MESSAGE_DEADLINE_DOES_NOT_EXIST);
         }
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this.toCheckEvent == null && ((DoneCommand) other).toCheckEvent == null
+                && this.toCheckModule == null && ((DoneCommand) other).toCheckModule == null) {
+            return this.index.getZeroBased() == ((DoneCommand) other).index.getZeroBased();
+        }
+        return other == this // short circuit if same object
+                || ((this.toCheckEvent.equals(((DoneCommand) other).toCheckEvent))
+                && (this.toCheckModule.equals(((DoneCommand) other).toCheckModule))
+                && (this.index.getZeroBased() == ((DoneCommand) other).index.getZeroBased()));
     }
 }
