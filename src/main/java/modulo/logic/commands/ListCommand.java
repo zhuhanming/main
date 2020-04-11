@@ -46,11 +46,11 @@ public class ListCommand extends Command {
         if (toShowAll) {
             model.setFilteredFocusedListShowAll(displayableType);
             return new CommandResult(displayableType == DisplayableType.MODULE ? MESSAGE_SHOWING_ALL_MODULES
-                    : MESSAGE_SHOWING_ALL_EVENTS, false, false, true, false, null);
+                    : MESSAGE_SHOWING_ALL_EVENTS, false, false, true, false, null, null);
         } else {
             model.setFilteredFocusedList(displayableType);
             return new CommandResult(displayableType == DisplayableType.MODULE ? MESSAGE_SHOWING_MODULES
-                    : MESSAGE_SHOWING_EVENTS, false, false, true, false, null);
+                    : MESSAGE_SHOWING_EVENTS, false, false, true, false, null, null);
         }
 
     }

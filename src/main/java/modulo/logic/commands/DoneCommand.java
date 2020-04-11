@@ -73,7 +73,7 @@ public class DoneCommand extends Command {
                 isDeadlineOriginallyComplete = deadlineToComplete.isCompleted();
                 deadlineToComplete.setCompleted(!isDeadlineOriginallyComplete);
                 return new CommandResult(String.format(isDeadlineOriginallyComplete ? MESSAGE_UNCOMPLETED_DEADLINE
-                        : MESSAGE_COMPLETED_DEADLINE, deadlineToComplete), false, false, false, true, null);
+                        : MESSAGE_COMPLETED_DEADLINE, deadlineToComplete), false, false, false, true, null, null);
             } else if (focusedDisplayable != null) {
                 throw new CommandException(MESSAGE_CANNOT_COMPLETE_EVENT);
             } else {
@@ -98,7 +98,7 @@ public class DoneCommand extends Command {
             isDeadlineOriginallyComplete = deadlineToComplete.isCompleted();
             deadlineToComplete.setCompleted(!isDeadlineOriginallyComplete);
             return new CommandResult(String.format(isDeadlineOriginallyComplete ? MESSAGE_UNCOMPLETED_DEADLINE
-                    : MESSAGE_COMPLETED_DEADLINE, deadlineToComplete), false, false, false, true, null);
+                    : MESSAGE_COMPLETED_DEADLINE, deadlineToComplete), false, false, false, true, null, null);
         } catch (IndexOutOfBoundsException e) {
             throw new CommandException(MESSAGE_DEADLINE_DOES_NOT_EXIST);
         }

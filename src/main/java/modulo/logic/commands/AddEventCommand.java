@@ -193,7 +193,7 @@ public class AddEventCommand extends Command {
             actualModule.addEvent(actualEvent);
             model.addEvent(actualEvent);
         }
-        return new CommandResult(String.format(MESSAGE_EVENT_ADDED, actualEvent), false, false, true, true, null);
+        return new CommandResult(String.format(MESSAGE_EVENT_ADDED, actualEvent), false, false, true, true, null, null);
     }
 
     @Override

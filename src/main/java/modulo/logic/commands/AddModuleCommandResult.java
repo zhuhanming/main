@@ -19,8 +19,9 @@ public class AddModuleCommandResult extends CommandResult {
      * @param module         Module that was added.
      * @param eventTypes     Types of classes that the module has.
      */
-    public AddModuleCommandResult(String feedbackToUser, Module module, List<EventType> eventTypes) {
-        super(feedbackToUser, false, false, true, true, null);
+    public AddModuleCommandResult(String feedbackToUser, Module module, List<EventType> eventTypes,
+                                  String newPlaceholderText) {
+        super(feedbackToUser, false, false, true, true, null, newPlaceholderText);
         this.module = module;
         this.eventTypes = eventTypes;
     }
