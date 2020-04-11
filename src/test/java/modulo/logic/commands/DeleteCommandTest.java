@@ -8,8 +8,6 @@ import static modulo.testutil.TypicalIndexesUtils.INDEX_SECOND_ITEM;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Collections;
-
 import org.junit.jupiter.api.Test;
 
 import javafx.collections.ObservableList;
@@ -120,7 +118,7 @@ public class DeleteCommandTest {
         model.updateFilteredEventList(Model.PREDICATE_SHOW_ALL_EVENTS);
         model.setFilteredFocusedList(DisplayableType.EVENT);
 
-        NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate(Collections.singletonList("tut"));
+        NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate("tut");
         DeleteCommand deleteCommand = new DeleteCommand(predicate, false);
 
         Model expectedModel = new ModelManager(model.getModulo(), model.getUserPrefs());
@@ -145,7 +143,7 @@ public class DeleteCommandTest {
         model.updateFilteredModuleList(Model.PREDICATE_SHOW_ALL_MODULES);
         model.setFilteredFocusedList(DisplayableType.MODULE);
 
-        NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate(Collections.singletonList("cs"));
+        NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate("cs");
         DeleteCommand deleteCommand = new DeleteCommand(predicate, false);
 
         Model expectedModel = new ModelManager(model.getModulo(), model.getUserPrefs());
@@ -238,7 +236,7 @@ public class DeleteCommandTest {
         model.updateFilteredEventList(Model.PREDICATE_SHOW_ALL_EVENTS);
         model.setFilteredFocusedList(DisplayableType.EVENT);
 
-        NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate(Collections.singletonList(""));
+        NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate("");
         DeleteCommand deleteCommand = new DeleteCommand(predicate, false);
 
         Model expectedModel = new ModelManager(model.getModulo(), model.getUserPrefs());
@@ -263,7 +261,7 @@ public class DeleteCommandTest {
         model.updateFilteredModuleList(Model.PREDICATE_SHOW_ALL_MODULES);
         model.setFilteredFocusedList(DisplayableType.MODULE);
 
-        NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate(Collections.singletonList(""));
+        NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate("");
         DeleteCommand deleteCommand = new DeleteCommand(predicate, false);
 
         Model expectedModel = new ModelManager(model.getModulo(), model.getUserPrefs());
@@ -292,7 +290,7 @@ public class DeleteCommandTest {
         model.setFilteredFocusedList(DisplayableType.EVENT);
         model.setFocusedDisplayable(model.getFilteredEventList().get(0));
 
-        NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate(Collections.singletonList(""));
+        NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate("");
 
         DeleteCommand deleteCommand = new DeleteCommand(predicate, true);
 
@@ -315,7 +313,7 @@ public class DeleteCommandTest {
         model.setFilteredFocusedList(DisplayableType.EVENT);
 
         NameContainsKeywordsPredicate predicate =
-                new NameContainsKeywordsPredicate(Collections.singletonList("invalidArgument"));
+                new NameContainsKeywordsPredicate("invalidArgument");
         DeleteCommand deleteCommand = new DeleteCommand(predicate, false);
 
         Model expectedModel = new ModelManager(model.getModulo(), model.getUserPrefs());
@@ -332,7 +330,7 @@ public class DeleteCommandTest {
         model.setFilteredFocusedList(DisplayableType.MODULE);
 
         NameContainsKeywordsPredicate predicate =
-                new NameContainsKeywordsPredicate(Collections.singletonList("invalidArgument"));
+                new NameContainsKeywordsPredicate("invalidArgument");
         DeleteCommand deleteCommand = new DeleteCommand(predicate, false);
 
         Model expectedModel = new ModelManager(model.getModulo(), model.getUserPrefs());
@@ -353,9 +351,9 @@ public class DeleteCommandTest {
         DeleteCommand deleteDeadlineSecondCommand = new DeleteCommand(INDEX_SECOND_ITEM, true);
 
         DeleteCommand deleteDeadlineMultipleItemsCommand = new DeleteCommand(
-                new NameContainsKeywordsPredicate(Collections.singletonList("valid")), true);
+                new NameContainsKeywordsPredicate("valid"), true);
         DeleteCommand deleteMultipleItemsCommand = new DeleteCommand(
-                new NameContainsKeywordsPredicate(Collections.singletonList("otherArg")), true);
+                new NameContainsKeywordsPredicate("otherArg"), true);
 
         // same object -> returns true
         assertTrue(deleteFirstCommand.equals(deleteFirstCommand));
