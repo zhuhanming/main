@@ -1,8 +1,6 @@
 package modulo.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static modulo.commons.core.Messages.MESSAGE_SHOWING_ALL_EVENTS;
-import static modulo.commons.core.Messages.MESSAGE_SHOWING_ALL_MODULES;
 import static modulo.commons.core.Messages.MESSAGE_SHOWING_EVENTS;
 import static modulo.commons.core.Messages.MESSAGE_SHOWING_MODULES;
 
@@ -24,10 +22,6 @@ public class ListCommand extends Command {
             + "Example: " + COMMAND_WORD + " events";
 
     private DisplayableType displayableType;
-    /**
-     * Whether to show all elements of specified type.
-     */
-    private boolean toShowAll;
 
     /**
      * Creates a {@code ListCommand} that lists out the items of the given displayable type.
@@ -41,17 +35,12 @@ public class ListCommand extends Command {
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
-        if (toShowAll) {
-            model.setFilteredFocusedListShowAll(displayableType);
-            return new CommandResult(displayableType == DisplayableType.MODULE ? MESSAGE_SHOWING_ALL_MODULES
-                    : MESSAGE_SHOWING_ALL_EVENTS, false, false, true, false, null, null);
-        } else {
-            model.setFilteredFocusedList(displayableType);
-            return new CommandResult(displayableType == DisplayableType.MODULE ? MESSAGE_SHOWING_MODULES
-                    : MESSAGE_SHOWING_EVENTS, false, false, true, false, null, null);
-        }
-
+        model.setFilteredFocusedList(displayableType);
+        return new CommandResult(displayableType == DisplayableType.MODULE ? MESSAGE_SHOWING_MODULES
+                : MESSAGE_SHOWING_EVENTS, false, false, true, false, null, null);
     }
+
+
 
     /**
      * Compares if another object is equal to this ListCommand.
@@ -63,7 +52,6 @@ public class ListCommand extends Command {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || ((other instanceof ListCommand // instanceof handles nulls
-                && ((ListCommand) other).displayableType == this.displayableType)
-                && ((ListCommand) other).toShowAll == this.toShowAll);
+                && ((ListCommand) other).displayableType == this.displayableType));
     }
 }
