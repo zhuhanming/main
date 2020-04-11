@@ -1,7 +1,7 @@
 package modulo.logic;
 
 import static modulo.commons.core.Messages.MESSAGE_INVALID_DELETE_INDEX;
-import static modulo.commons.core.Messages.MESSAGE_SHOWING_ALL_MODULES;
+import static modulo.commons.core.Messages.MESSAGE_SHOWING_MODULES;
 import static modulo.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static modulo.logic.commands.CommandTestUtil.CODE_DESC_CS2103;
 import static modulo.testutil.Assert.assertThrows;
@@ -64,8 +64,8 @@ public class LogicManagerTest {
 
     @Test
     public void execute_validCommand_success() throws Exception {
-        String listCommand = ListCommand.COMMAND_WORD + " all module";
-        assertCommandSuccess(listCommand, MESSAGE_SHOWING_ALL_MODULES, model);
+        String listCommand = ListCommand.COMMAND_WORD + " module";
+        assertCommandSuccess(listCommand, MESSAGE_SHOWING_MODULES, model);
     }
 
     @Test
