@@ -28,8 +28,8 @@ public class IcsWriterTest {
     @Test
     public void writeIcsFile_invalidDirectory_createsDirectory() {
         try {
-            IcsWriter.writeIcsFile(Paths.get("ABCD://data"), new ArrayList<>());
-            File file = new File("ABCD://data/modulo.ics");
+            IcsWriter.writeIcsFile(Paths.get("ABCD/data"), new ArrayList<>());
+            File file = new File("ABCD/data/modulo.ics");
             assertTrue(file.exists());
         } catch (IOException e) {
             fail();
@@ -39,7 +39,7 @@ public class IcsWriterTest {
     @AfterAll
     public static void cleanUpTestFiles() {
         try {
-            deleteDirectory("ABCD://data");
+            deleteDirectory("ABCD/data");
         } catch (IOException | InvalidPathException e) {
             // Nothing
         }
