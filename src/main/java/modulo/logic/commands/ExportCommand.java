@@ -49,18 +49,28 @@ public class ExportCommand extends Command {
         if (exportDirectory == null) {
             exportDirectory = model.getUserPrefs().getIcsFilePath();
         }
-
         try {
             IcsWriter.writeIcsFile(exportDirectory, model.getModulo().getEventList());
         } catch (IOException e) {
             e.printStackTrace();
             throw new CommandException(MESSAGE_EXPORT_FAILED);
         }
-
         return new CommandResult(MESSAGE_EXPORT_SUCCESS);
     }
 
     public Path getExportDirectory() {
         return exportDirectory;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        ExportCommand otherCommand = (ExportCommand) other;
+
+        if (this.exportDirectory == null && otherCommand.exportDirectory == null) {
+            return true;
+        }
+        return other == this // short circuit if same object
+                || (other instanceof ExportCommand // instanceof handles nulls
+                && (exportDirectory.equals(otherCommand.exportDirectory))); // state check
     }
 }
