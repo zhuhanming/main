@@ -28,8 +28,7 @@ public class AddModuleCommandParser implements Parser<AddModuleCommand> {
      * @throws ParseException if the user input does not conform the expected format.
      */
     public AddModuleCommand parse(String args) throws ParseException {
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_MODULE,
-                PREFIX_ACADEMIC_YEAR, PREFIX_SEMESTER);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_MODULE);
 
         Supplier<ParseException> parseExceptionSupplier = () -> new ParseException(String.format(
                 MESSAGE_INVALID_COMMAND_FORMAT, AddModuleCommand.MESSAGE_USAGE));
@@ -41,15 +40,7 @@ public class AddModuleCommandParser implements Parser<AddModuleCommand> {
         ModuleCode moduleCode = ParserUtil.parseModuleCode(argMultimap.getValue(PREFIX_MODULE)
                 .orElseThrow(parseExceptionSupplier));
 
-        AcademicYear academicYear;
-        try {
-            academicYear = getAcademicYear(argMultimap);
-        } catch (AcademicYearException pe) {
-            throw new ParseException(
-                    pe.getMessage() == null
-                            ? String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddModuleCommand.MESSAGE_USAGE)
-                            : pe.getMessage(), pe);
-        }
+        AcademicYear academicYear = AcademicYear.now();
 
         return new AddModuleCommand(moduleCode, academicYear);
     }

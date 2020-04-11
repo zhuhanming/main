@@ -1,32 +1,22 @@
 package modulo.logic.parser.module;
 
 import static modulo.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static modulo.logic.commands.CommandTestUtil.ACEDEMICYEAR_DESC_CS2103;
-import static modulo.logic.commands.CommandTestUtil.ACEDEMICYEAR_DESC_CS2105;
 import static modulo.logic.commands.CommandTestUtil.CODE_DESC_CS2103;
-import static modulo.logic.commands.CommandTestUtil.INVALID_ACEDEMICYEAR_DESC;
 import static modulo.logic.commands.CommandTestUtil.INVALID_CODE_DESC;
-import static modulo.logic.commands.CommandTestUtil.NAME_DESC_CS2105;
-import static modulo.logic.commands.CommandTestUtil.SEMESTER_DESC_CS2103;
-import static modulo.logic.commands.CommandTestUtil.SEMESTER_DESC_CS2105;
 import static modulo.logic.commands.CommandTestUtil.VALID_ACADEMIC_END_YEAR_CS2103;
 import static modulo.logic.commands.CommandTestUtil.VALID_ACADEMIC_START_YEAR_CS2103;
 import static modulo.logic.commands.CommandTestUtil.VALID_CODE_CS2103;
 import static modulo.logic.commands.CommandTestUtil.VALID_CODE_CS2105;
 import static modulo.logic.commands.CommandTestUtil.VALID_SEMESTER_CS2103;
-import static modulo.logic.commands.CommandTestUtil.VALID_SEMESTER_CS2105;
 import static modulo.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static modulo.logic.parser.CommandParserTestUtil.assertParseSuccess;
-import static modulo.testutil.module.TypicalModules.CS2103;
 
 import org.junit.jupiter.api.Test;
 
 import modulo.logic.commands.AddModuleCommand;
 import modulo.logic.parser.AddModuleCommandParser;
 import modulo.model.module.AcademicYear;
-import modulo.model.module.Module;
 import modulo.model.module.ModuleCode;
-import modulo.testutil.module.ModuleBuilder;
 
 /**
  * class to test on parser of module command.
@@ -36,13 +26,8 @@ public class AddModuleCommandParserTest {
 
     @Test
     public void parse_allFieldsPresent_success() {
-        Module expectedModule = null;
-        expectedModule = new ModuleBuilder(CS2103).build();
-
         // whitespace only preamble
-        assertParseSuccess(parser, CODE_DESC_CS2103
-                        + ACEDEMICYEAR_DESC_CS2103
-                        + SEMESTER_DESC_CS2103,
+        assertParseSuccess(parser, CODE_DESC_CS2103,
                 new AddModuleCommand(new ModuleCode(VALID_CODE_CS2103),
                         new AcademicYear(VALID_ACADEMIC_START_YEAR_CS2103,
                                 VALID_ACADEMIC_END_YEAR_CS2103, VALID_SEMESTER_CS2103)));
@@ -54,38 +39,12 @@ public class AddModuleCommandParserTest {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddModuleCommand.MESSAGE_USAGE);
 
         // missing module code prefix
-        assertParseFailure(parser, ACEDEMICYEAR_DESC_CS2105 + SEMESTER_DESC_CS2105,
-                expectedMessage);
-
-        // missing academic year prefix
-        assertParseFailure(parser, NAME_DESC_CS2105 + SEMESTER_DESC_CS2105,
-                expectedMessage);
-
-        // missing semester prefix
-        assertParseFailure(parser, NAME_DESC_CS2105 + ACEDEMICYEAR_DESC_CS2105,
-                expectedMessage);
-
-        // all prefixes missing
-        assertParseFailure(parser, VALID_CODE_CS2105 + VALID_ACADEMIC_START_YEAR_CS2103 + VALID_SEMESTER_CS2105,
-                expectedMessage);
+        assertParseFailure(parser, VALID_CODE_CS2105, expectedMessage);
     }
 
     @Test
     public void parse_invalidValue_failure() {
         // invalid module code
-        assertParseFailure(parser, INVALID_CODE_DESC + ACEDEMICYEAR_DESC_CS2105 + SEMESTER_DESC_CS2103,
-                ModuleCode.MESSAGE_CONSTRAINTS);
-
-        /** invalid semester
-         assertParseFailure(parser, CODE_DESC_CS2105 + INVALID_ACEDEMICYEAR_DESC + VALID_SEMESTER_CS2105,
-         AcademicYear.MESSAGE_CONSTRAINTS);
-
-         assertParseFailure(parser, CODE_DESC_CS2105 + ACEDEMICYEAR_DESC_CS2105 + INVALID_SEMESTER_DESC,
-         AcademicYear.MESSAGE_CONSTRAINTS);
-         */
-
-        // two invalid values, only first invalid value reported
-        assertParseFailure(parser, INVALID_CODE_DESC + INVALID_ACEDEMICYEAR_DESC + VALID_SEMESTER_CS2105,
-                ModuleCode.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser, INVALID_CODE_DESC, ModuleCode.MESSAGE_CONSTRAINTS);
     }
 }

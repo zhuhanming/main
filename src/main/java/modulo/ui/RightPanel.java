@@ -1,5 +1,8 @@
 package modulo.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -38,13 +41,35 @@ public class RightPanel extends UiPart<Region> {
         if (displayable instanceof Event) {
             deadlineListView.setItems(FXCollections.observableArrayList(((Event) displayable).getDeadlines()));
         } else if (displayable instanceof Module) {
-            deadlineListView.setItems(FXCollections.observableArrayList(((Module) displayable).getEvents()));
+            deadlineListView.setItems(FXCollections.observableArrayList(
+                    processEvents(((Module) displayable).getEvents())));
         } else {
             deadlineListView.setItems(FXCollections.emptyObservableList());
         }
         rightPanelDescription = new RightPanelDescription(displayable, mainWindow);
         slideEventCard.getChildren().setAll(rightPanelDescription.getRoot());
         deadlineListView.setCellFactory(listView -> new ListViewCell(mainWindow));
+    }
+
+    /**
+     * Processes the events of a module.
+     *
+     * @param events Events of the module.
+     * @return List of processed events.
+     */
+    private List<Event> processEvents(List<Event> events) {
+        return events.stream()
+                .filter(e -> e.getSlot() != null)
+                .reduce(new ArrayList<>(), (l, e) -> {
+                            if (l.stream().noneMatch(x -> x.getEventType().equals(e.getEventType()))) {
+                                l.add(e);
+                            }
+                            return l;
+                        }, (a, b) -> {
+                            a.addAll(b);
+                            return a;
+                        }
+                );
     }
 
     /**

@@ -20,6 +20,7 @@ public class AcademicYear implements Comparable<AcademicYear> {
 
     private LocalDate startDate;
     private LocalDate endDate;
+    private LocalDate recessWeekStartDate;
 
     /**
      * Constructs an {@code AcademicYear} using start year, end year and semester integers.
@@ -44,6 +45,7 @@ public class AcademicYear implements Comparable<AcademicYear> {
         }
         this.startDate = dates[0];
         this.endDate = dates[1];
+        this.recessWeekStartDate = startDate.plusWeeks(6);
     }
 
     /**
@@ -73,6 +75,7 @@ public class AcademicYear implements Comparable<AcademicYear> {
         }
         this.startDate = dates[0];
         this.endDate = dates[1];
+        this.recessWeekStartDate = startDate.plusWeeks(6);
     }
 
     /**
@@ -109,6 +112,10 @@ public class AcademicYear implements Comparable<AcademicYear> {
 
     public int getSemester() {
         return semester;
+    }
+
+    public LocalDate getRecessWeekStartDate() {
+        return recessWeekStartDate;
     }
 
     /**

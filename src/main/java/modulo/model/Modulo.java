@@ -111,7 +111,7 @@ public class Modulo implements ReadOnlyModulo {
         Module actualModule = modules.getModule(module.getModuleCode(), module.getAcademicYear()).get();
         for (Event event : module.getEvents()) {
             Event actualEvent = new Event(event.getName(), event.getEventType(), event.getEventStart(),
-                    event.getEventEnd(), actualModule, event.getLocation(), event.getDeadlines());
+                    event.getEventEnd(), actualModule, event.getLocation(), event.getDeadlines(), event.getSlot());
             actualModule.addEvent(actualEvent);
             addEvent(actualEvent);
         }

@@ -37,6 +37,26 @@ public class Name {
         return test.matches(VALIDATION_REGEX);
     }
 
+    /**
+     * Cleans an input string to be suitable for module name usage.
+     *
+     * @param text Module name.
+     * @return Cleaned module name.
+     */
+    public static String cleanNameString(String text) {
+        String result = "";
+        for (int i = 0, length = text.length(); i < length; i++) {
+            if (!String.valueOf(text.charAt(i)).matches(VALIDATION_REGEX)) {
+                if (result.charAt(result.length() - 1) != ' ') {
+                    result += " ";
+                }
+            } else {
+                result += text.charAt(i);
+            }
+        }
+        return result.trim();
+    }
+
 
     @Override
     public String toString() {

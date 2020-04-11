@@ -3,9 +3,7 @@ package modulo.logic;
 import static modulo.commons.core.Messages.MESSAGE_INVALID_DELETE_INDEX;
 import static modulo.commons.core.Messages.MESSAGE_SHOWING_ALL_MODULES;
 import static modulo.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
-import static modulo.logic.commands.CommandTestUtil.ACEDEMICYEAR_DESC_CS2103;
 import static modulo.logic.commands.CommandTestUtil.CODE_DESC_CS2103;
-import static modulo.logic.commands.CommandTestUtil.SEMESTER_DESC_CS2103;
 import static modulo.testutil.Assert.assertThrows;
 import static modulo.testutil.module.TypicalModules.CS2103;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -81,8 +79,7 @@ public class LogicManagerTest {
         logic = new LogicManager(model, storage);
 
         // Execute add command
-        String addCommand = AddModuleCommand.COMMAND_WORD + CODE_DESC_CS2103
-                + ACEDEMICYEAR_DESC_CS2103 + SEMESTER_DESC_CS2103;
+        String addCommand = AddModuleCommand.COMMAND_WORD + CODE_DESC_CS2103;
         Module expectedModule = new ModuleBuilder(CS2103).build();
         ModelManager expectedModel = new ModelManager();
         expectedModel.addModule(expectedModule.getModuleCode(), expectedModule.getAcademicYear());
@@ -96,10 +93,8 @@ public class LogicManagerTest {
     }
 
     /**
-     * Executes the command and confirms that
-     * - no exceptions are thrown <br>
-     * - the feedback message is equal to {@code expectedMessage} <br>
-     * - the internal model manager state is the same as that in {@code expectedModel} <br>
+     * Executes the command and confirms that - no exceptions are thrown <br> - the feedback message is equal to {@code
+     * expectedMessage} <br> - the internal model manager state is the same as that in {@code expectedModel} <br>
      *
      * @see #assertCommandFailure(String, Class, String, Model)
      */
@@ -140,10 +135,9 @@ public class LogicManagerTest {
     }
 
     /**
-     * Executes the command and confirms that
-     * - the {@code expectedException} is thrown <br>
-     * - the resulting error message is equal to {@code expectedMessage} <br>
-     * - the internal model manager state is the same as that in {@code expectedModel} <br>
+     * Executes the command and confirms that - the {@code expectedException} is thrown <br> - the resulting error
+     * message is equal to {@code expectedMessage} <br> - the internal model manager state is the same as that in {@code
+     * expectedModel} <br>
      *
      * @see #assertCommandSuccess(String, String, Model)
      */

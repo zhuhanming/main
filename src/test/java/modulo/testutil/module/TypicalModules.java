@@ -44,7 +44,7 @@ public class TypicalModules {
     public static final Module GER1000 = new ModuleBuilder().withModuleCode("GER1000")
             .withAcademicYear(2019, 2020, 2).build();
     public static final Module IS1103 = new ModuleBuilder().withModuleCode("IS1103")
-            .withAcademicYear(2020, 2021, 1).build();
+            .withAcademicYear(2019, 2020, 2).build();
 
     /**
      * Manually added - Module details found in {@code CommandTestUtil}
@@ -61,7 +61,7 @@ public class TypicalModules {
             .withDescription(VALID_DESCRIPTION_CS2105).build();
 
     /**
-     *  Partial Modules for testing
+     * Partial Modules for testing
      */
     public static final Module PARTIAL_MODULE_CS1231S = new PartialModule(new ModuleCode("CS1231S"),
             new AcademicYear(2019, 2020, 2));
