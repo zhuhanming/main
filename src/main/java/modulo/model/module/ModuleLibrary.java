@@ -29,6 +29,9 @@ import modulo.model.module.exceptions.ModuleNotFoundException;
  * Interfacing class between the app and the module JSON files.
  */
 public class ModuleLibrary {
+    public static final String INVALID_EVENT_TYPE = "It seems that events of this type do not exist for this module!";
+    public static final String SAMPLE_SLOT = "A sample slot input would be: %1s";
+
     /**
      * Creates a module based on the code and academic year given, with data from the module json files.
      *
@@ -110,10 +113,9 @@ public class ModuleLibrary {
                     }
                 }
                 throw new EventNotFoundException(sampleClassNumber == null
-                        ? ""
-                        : "A sample slot input would be: " + sampleClassNumber);
+                        ? INVALID_EVENT_TYPE
+                        : String.format(SAMPLE_SLOT, sampleClassNumber));
             }
-            assert validEventSlot != null;
             List<AddEventCommand> results = new ArrayList<>();
             char suffix = 'A';
             for (JsonObject lesson : lessons) {
@@ -182,7 +184,11 @@ public class ModuleLibrary {
         InputStream jsonFileStream = MainApp.class.getResourceAsStream("/modules/" + firstCharacter + "Modules.json");
         byte[] content = jsonFileStream.readAllBytes();
         JsonObject jsonObject = JsonParser.parseString(new String(content)).getAsJsonObject();
-        return jsonObject.get(moduleCode.toString()).getAsJsonObject();
+        try {
+            return jsonObject.get(moduleCode.toString()).getAsJsonObject();
+        } catch (NullPointerException e) {
+            throw new ModuleNotFoundException();
+        }
     }
 
     private static JsonArray getTimetable(Module module) throws IOException {
