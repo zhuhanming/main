@@ -84,7 +84,7 @@ public class AddDeadlineCommandTest {
 
         CommandResult expectedResult = new CommandResult(String.format(MESSAGE_DEADLINE_ADDED,
                 VALID_NAME_DEADLINE_LECTURE), false, false,
-                false, true, null, null);
+                true, true, null, null);
 
         assertCommandSuccess(addDeadlineCommand, model, expectedResult, expectedModel);
     }
@@ -124,7 +124,7 @@ public class AddDeadlineCommandTest {
 
         CommandResult expectedResult = new CommandResult(String.format(MESSAGE_DEADLINE_ADDED,
                 VALID_NAME_DEADLINE_LECTURE), false, false,
-                false, true, null, null);
+                true, true, null, null);
         assertCommandSuccess(addDeadlineCommand, model, expectedResult, expectedModel);
     }
 
@@ -137,7 +137,7 @@ public class AddDeadlineCommandTest {
 
         CommandResult expectedResult = new CommandResult(String.format(MESSAGE_DEADLINE_ADDED,
                 VALID_NAME_DEADLINE_LECTURE),
-                false, false, false, true, null, null);
+                false, false, true, true, null, null);
         assertCommandSuccess(addDeadlineCommand, model, expectedResult, expectedModel);
     }
 
