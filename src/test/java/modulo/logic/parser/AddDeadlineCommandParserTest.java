@@ -11,7 +11,7 @@ import static modulo.logic.commands.CommandTestUtil.VALID_REPEAT_BOOL;
 
 import static modulo.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static modulo.logic.parser.CommandParserTestUtil.assertParseSuccess;
-import static modulo.testutil.event.TypicalEvents.PARTIAL_EVENT_TUTORIAL_1;
+import static modulo.testutil.event.TypicalEvents.PARTIAL_EVENT_TUTORIAL_1_CS1231S;
 
 import org.junit.jupiter.api.Test;
 
@@ -61,10 +61,12 @@ public class AddDeadlineCommandParserTest {
     public void parse_validArgumentsAllFieldsPresent_success() {
         // All fields entered
         assertParseSuccess(parser, CODE_DESC_CS1231S + EVENT_DESC_TUTORIAL_1 + DEADLINE_DESC_ONE + REPEAT,
-                new AddDeadlineCommand(new Name(VALID_DEADLINE_ONE), PARTIAL_EVENT_TUTORIAL_1, VALID_REPEAT_BOOL));
+                new AddDeadlineCommand(new Name(VALID_DEADLINE_ONE), PARTIAL_EVENT_TUTORIAL_1_CS1231S,
+                        VALID_REPEAT_BOOL));
         // All fields entered with additional whitespaces
         assertParseSuccess(parser, "   " + CODE_DESC_CS1231S + "   "
                         + EVENT_DESC_TUTORIAL_1 + "   " + DEADLINE_DESC_ONE + "   " + REPEAT,
-                new AddDeadlineCommand(new Name(VALID_DEADLINE_ONE), PARTIAL_EVENT_TUTORIAL_1, VALID_REPEAT_BOOL));
+                new AddDeadlineCommand(new Name(VALID_DEADLINE_ONE), PARTIAL_EVENT_TUTORIAL_1_CS1231S,
+                        VALID_REPEAT_BOOL));
     }
 }
