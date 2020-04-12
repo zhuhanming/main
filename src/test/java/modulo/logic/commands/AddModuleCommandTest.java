@@ -1,4 +1,4 @@
-package modulo.logic.commands.module;
+package modulo.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static modulo.commons.core.Messages.MESSAGE_DUPLICATE_MODULE;
@@ -18,8 +18,6 @@ import org.junit.jupiter.api.Test;
 
 import javafx.collections.ObservableList;
 import modulo.commons.core.GuiSettings;
-import modulo.logic.commands.AddModuleCommand;
-import modulo.logic.commands.CommandResult;
 import modulo.logic.commands.exceptions.CommandException;
 import modulo.model.Model;
 import modulo.model.Modulo;
