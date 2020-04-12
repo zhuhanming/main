@@ -12,6 +12,9 @@ import modulo.model.Modulo;
 public class ClearCommand extends Command {
     public static final String COMMAND_WORD = "clear";
 
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Clears all data from Modulo.\n"
+            + "Example: " + COMMAND_WORD;
+
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);

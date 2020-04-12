@@ -1,9 +1,9 @@
 package modulo.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static modulo.logic.parser.CliSyntax.PREFIX_DEADLINE;
 
 import javafx.collections.ObservableList;
-
 import modulo.commons.core.Messages;
 import modulo.commons.core.index.Index;
 import modulo.logic.commands.exceptions.CommandException;
@@ -22,9 +22,14 @@ public class DeleteCommand extends Command {
 
     public static final String COMMAND_WORD = "delete";
     private static final String predicateStringForDeleteAll = "\"\"";
-    public static final String MESSAGE_USAGE = "Arguments must be an index or a String!\n"
-            + "Example: \n1. " + COMMAND_WORD + " 1 (deletes event / module)\n2. "
-            + COMMAND_WORD + " d/1 (deletes deadline)";
+    public static final String MESSAGE_USAGE = "Delete module/event: "
+            + COMMAND_WORD
+            + " [INDEX OR SEARCH_TERM] \n"
+            + "Delete deadline: "
+            + COMMAND_WORD + " "
+            + PREFIX_DEADLINE + "INDEX\n"
+            + "Example (Event): " + COMMAND_WORD + " Tutorial\n"
+            + "Example (Deadline): " + COMMAND_WORD + " d/1";
 
 
     private final Index targetIndex;
@@ -109,6 +114,7 @@ public class DeleteCommand extends Command {
                 }
 
                 if (numberOfItemsDeleted == 0) {
+                    assert predicate != null;
                     throw new CommandException(String.format(Messages.MESSAGE_NO_EVENT_DELETED, predicate.toString()));
                 }
                 assert predicate != null;
