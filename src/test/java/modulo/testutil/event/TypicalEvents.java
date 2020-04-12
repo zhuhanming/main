@@ -32,6 +32,10 @@ public class TypicalEvents {
             .withEventEnd("2019-01-22 10:00").withEventType("TUTORIAL").withLocation("COM1-B103")
             .withParentModule(CS2103).build();
 
+    public static final Event TUTORIAL_3 = new EventBuilder().withName("Tutorial 3").withEventStart("2019-01-22 09:00")
+            .withEventEnd("2019-01-22 10:00").withEventType("TUTORIAL").withLocation("COM1-B103")
+            .withParentModule(CS2103).build();
+
     /**
      * Partial Event for testing
      */
