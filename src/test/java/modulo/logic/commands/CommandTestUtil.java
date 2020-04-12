@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modulo.logic.commands.exceptions.CommandException;
+import modulo.logic.predicate.NameContainsKeywordsPredicate;
 import modulo.model.Model;
 import modulo.model.Modulo;
 import modulo.model.module.Module;
@@ -70,6 +71,9 @@ public class CommandTestUtil<DESC_CS2103> {
     public static final String INVALID_ACEDEMICYEAR_DESC = " " + PREFIX_ACADEMIC_YEAR + 2021 / 2022;
     // invalid semester 3
     public static final String INVALID_SEMESTER_DESC = " " + PREFIX_SEMESTER + 3;
+
+    public static final NameContainsKeywordsPredicate VALID_PREDICATE_CS2103 =
+            new NameContainsKeywordsPredicate("cs2103");
 
     /**
      * Executes the given {@code command}, confirms that <br> - the returned {@link CommandResult} matches {@code
