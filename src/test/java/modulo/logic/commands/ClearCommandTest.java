@@ -1,12 +1,10 @@
-package modulo.logic.commands.module;
+package modulo.logic.commands;
 
 import static modulo.commons.core.Messages.MESSAGE_MODULO_CLEARED;
 import static modulo.logic.commands.CommandTestUtil.assertCommandSuccess;
 
 import org.junit.jupiter.api.Test;
 
-import modulo.logic.commands.ClearCommand;
-import modulo.logic.commands.CommandResult;
 import modulo.model.Model;
 import modulo.model.ModelManager;
 import modulo.model.Modulo;
