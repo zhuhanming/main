@@ -116,6 +116,7 @@ public class ModuleLibrary {
                         ? INVALID_EVENT_TYPE
                         : String.format(SAMPLE_SLOT, sampleClassNumber));
             }
+            lessons.sort(ModuleLibrary::compareBetweenTwoLessons);
             List<AddEventCommand> results = new ArrayList<>();
             char suffix = 'A';
             for (JsonObject lesson : lessons) {
@@ -150,6 +151,37 @@ public class ModuleLibrary {
         } catch (IOException e) {
             throw new EventNotFoundException();
         }
+    }
+
+    /**
+     * Compares two lessons based on start time.
+     *
+     * @param a First lesson.
+     * @param b Second lesson.
+     * @return Integer for ordering.
+     */
+    private static int compareBetweenTwoLessons(JsonObject a, JsonObject b) {
+        AcademicYear academicYear = AcademicYear.now();
+
+        String aDay = a.get("day").getAsString().toUpperCase();
+        JsonArray aWeeks = a.getAsJsonArray("weeks");
+        String aStartTime = a.get("startTime").getAsString();
+        LocalDate aEventDay = academicYear.getStartDate()
+                .plusWeeks(aWeeks.get(0).getAsInt() - 1)
+                .with(TemporalAdjusters.nextOrSame(DayOfWeek.valueOf(aDay)));
+        LocalDateTime aEventStart = aEventDay.atTime(Integer.parseInt(aStartTime.substring(0, 2)),
+                Integer.parseInt(aStartTime.substring(2, 4)));
+
+        String bDay = b.get("day").getAsString().toUpperCase();
+        JsonArray bWeeks = b.getAsJsonArray("weeks");
+        String bStartTime = b.get("startTime").getAsString();
+        LocalDate bEventDay = academicYear.getStartDate()
+                .plusWeeks(bWeeks.get(0).getAsInt() - 1)
+                .with(TemporalAdjusters.nextOrSame(DayOfWeek.valueOf(bDay)));
+        LocalDateTime bEventStart = bEventDay.atTime(Integer.parseInt(bStartTime.substring(0, 2)),
+                Integer.parseInt(bStartTime.substring(2, 4)));
+
+        return aEventStart.compareTo(bEventStart);
     }
 
     /**
