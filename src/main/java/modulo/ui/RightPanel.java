@@ -1,6 +1,7 @@
 package modulo.ui;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import javafx.collections.FXCollections;
@@ -58,10 +59,12 @@ public class RightPanel extends UiPart<Region> {
      * @return List of processed events.
      */
     private List<Event> processEvents(List<Event> events) {
-        return events.stream()
+        List<Event> results = events.stream()
                 .filter(e -> e.getSlot() != null)
                 .reduce(new ArrayList<>(), (l, e) -> {
-                            if (l.stream().noneMatch(x -> x.getEventType().equals(e.getEventType()))) {
+                            if (l.stream().noneMatch(x -> x.getEventType().equals(e.getEventType())
+                                    && x.getEventStart().getDayOfWeek().equals(e.getEventStart().getDayOfWeek())
+                                    && x.getEventStart().toLocalTime().equals(e.getEventStart().toLocalTime()))) {
                                 l.add(e);
                             }
                             return l;
@@ -70,6 +73,9 @@ public class RightPanel extends UiPart<Region> {
                             return a;
                         }
                 );
+
+        results.sort(Comparator.comparing(Event::getEventType));
+        return results;
     }
 
     /**

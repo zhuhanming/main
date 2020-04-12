@@ -2,6 +2,7 @@ package modulo.ui;
 
 import java.util.logging.Logger;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
@@ -16,6 +17,8 @@ import modulo.logic.commands.exceptions.CommandException;
 import modulo.logic.parser.exceptions.ParseException;
 import modulo.model.displayable.DisplayableType;
 import modulo.model.event.Event;
+import modulo.model.module.Module;
+import modulo.model.module.ModuleCode;
 
 /**
  * The Main Window. Provides the basic application layout containing a menu bar and space where other JavaFX elements
@@ -24,6 +27,9 @@ import modulo.model.event.Event;
 public class MainWindow extends UiPart<Stage> {
 
     private static final String FXML = "MainWindow.fxml";
+
+    private static final String[] colourClassStrings = {"purple", "red", "darkblue", "orange", "lightblue", "green",
+        "pink", "amber"};
 
     private final Logger logger = LogsCenter.getLogger(getClass());
 
@@ -317,5 +323,15 @@ public class MainWindow extends UiPart<Stage> {
             logger.info("Invalid command: done " + (index + 1));
             resultDisplay.setFeedbackToUser(e.getMessage());
         }
+    }
+
+    public String getTagColourClass(ModuleCode moduleCode) {
+        ObservableList<Module> modules = logic.getModulo().getModuleList();
+        for (int i = 0; i < modules.size(); i++) {
+            if (modules.get(i).getModuleCode().equals(moduleCode)) {
+                return colourClassStrings[i % 8];
+            }
+        }
+        return "purple";
     }
 }
