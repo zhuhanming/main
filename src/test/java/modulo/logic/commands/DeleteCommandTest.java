@@ -9,10 +9,12 @@ import static modulo.testutil.TypicalIndexesUtils.INDEX_SECOND_ITEM;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.function.Predicate;
+
 import org.junit.jupiter.api.Test;
 
-import java.util.function.Predicate;
 import javafx.collections.ObservableList;
+
 import modulo.commons.core.Messages;
 import modulo.commons.core.index.Index;
 import modulo.logic.predicate.NameContainsKeywordsPredicate;
@@ -87,7 +89,7 @@ public class DeleteCommandTest {
     /**
     * Invalid index deletion while having an unfiltered event list on the left panel.
     */
-     @Test
+    @Test
     public void executeInvalidIndexDeletion_unFilteredEventList_throwsCommandException() {
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredEventList().size() + 1);
         DeleteCommand deleteCommand = new DeleteCommand(outOfBoundIndex, false);
@@ -98,7 +100,7 @@ public class DeleteCommandTest {
     /**
     * Invalid index deletion while having an unfiltered module list on the left panel.
     */
-     @Test
+    @Test
     public void executeInvalidIndexDeletion_unFilteredModuleList_throwsCommandException() {
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredModuleList().size() + 1);
         DeleteCommand deleteCommand = new DeleteCommand(outOfBoundIndex, false);
