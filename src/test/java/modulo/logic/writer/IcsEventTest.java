@@ -1,6 +1,6 @@
 package modulo.logic.writer;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -67,7 +67,7 @@ public class IcsEventTest {
 
         Module module = new Module(new ModuleCode("CS2103"), new Name("Software Engineering"),
                 new AcademicYear(2019, 2020, 2), "Software Engineering",
-                new ArrayList<Event>());
+                new ArrayList<>());
         Event event = new Event(new Name("TestEvent"), EventType.TUTORIAL, currentDateTime, currentDateTime,
                 module, new Location("TestLocation"));
         event.removeAllDeadlines();
@@ -79,9 +79,9 @@ public class IcsEventTest {
         String result = icsEvent.toIcsString();
 
         // Due to potential minuscule differences in time created
-        if (result.charAt(87) != icsString.charAt(87)) {
-            icsString = icsString.substring(0, 87) + result.charAt(87) + icsString.substring(88);
+        if (!result.substring(84, 90).equals(icsString.substring(84, 90))) {
+            icsString = icsString.substring(0, 84) + result.substring(84, 90) + icsString.substring(90);
         }
-        assertTrue(result.equals(icsString));
+        assertEquals(result, icsString);
     }
 }
