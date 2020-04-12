@@ -13,6 +13,7 @@ import static modulo.logic.parser.CliSyntax.PREFIX_STOP_REPEAT;
 import static modulo.logic.parser.CliSyntax.PREFIX_VENUE;
 import static modulo.testutil.Assert.assertThrows;
 import static modulo.testutil.TypicalIndexesUtils.INDEX_FIRST_ITEM;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -20,8 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.collections.ObservableList;
+
 import modulo.commons.core.index.Index;
 import modulo.logic.commands.exceptions.CommandException;
+import modulo.logic.predicate.NameContainsKeywordsPredicate;
 import modulo.model.Model;
 import modulo.model.Modulo;
 import modulo.model.displayable.Displayable;
