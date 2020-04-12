@@ -22,8 +22,6 @@ public interface Model {
     /**
      * {@code Predicates} for the two lists.
      */
-    Predicate<Event> PREDICATE_SHOW_UPCOMING_EVENTS = event -> !event
-            .getEventStart().toLocalDate().isBefore(LocalDate.now());
     Predicate<Event> PREDICATE_SHOW_ALL_EVENTS = unused -> true;
     Predicate<Module> PREDICATE_SHOW_ALL_MODULES = unused -> true;
 
