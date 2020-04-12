@@ -99,7 +99,7 @@ public class AddDeadlineCommand extends Command {
                 }
                 parentEvent.addDeadline(toAdd);
                 return new CommandResult(String.format(MESSAGE_DEADLINE_ADDED, toAdd), false, false,
-                        false, true, null, null);
+                        true, true, null, null);
             }
         } else {
             // Add deadline to a referenced Event.
@@ -114,7 +114,7 @@ public class AddDeadlineCommand extends Command {
                 }
                 actualParentEvent.addDeadline(toAdd);
                 return new CommandResult(String.format(MESSAGE_DEADLINE_ADDED, toAdd), false, false,
-                        false, true, null, null);
+                        true, true, null, null);
             }
         }
 
@@ -134,7 +134,7 @@ public class AddDeadlineCommand extends Command {
             }
         }
         return new CommandResult(String.format(MESSAGE_DEADLINE_ADDED, referenceDeadline),
-                false, false, false, true, null, null);
+                false, false, true, true, null, null);
     }
 
     @Override
