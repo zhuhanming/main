@@ -4,9 +4,8 @@ import static modulo.logic.commands.CommandTestUtil.assertCommandFailure;
 import static modulo.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static modulo.testutil.TypicalIndexesUtils.INDEX_FIRST_ITEM;
 import static modulo.testutil.TypicalIndexesUtils.INDEX_SECOND_ITEM;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.jupiter.api.Test;
 
@@ -26,8 +25,7 @@ import modulo.testutil.module.TypicalModules;
 
 
 /**
- * Contains integration tests (interaction with the Model) and unit tests for
- * {@code DeleteCommand}.
+ * Contains integration tests (interaction with the Model) and unit tests for {@code DeleteCommand}.
  */
 public class DeleteCommandTest {
 
@@ -250,12 +248,13 @@ public class DeleteCommandTest {
             expectedModel.deleteEvent((Event) eventObject);
         }
         CommandResult expectedResult = new CommandResult(String.format(
-                Messages.MESSAGE_DELETE_ALL_EVENTS_SUCCESS, numberOfItemsDeleted, predicate.toString()),
+                Messages.MESSAGE_DELETE_ALL_EVENTS_SUCCESS, numberOfItemsDeleted),
                 false, false, true, true, null, null);
 
 
         assertCommandSuccess(deleteCommand, model, expectedResult, expectedModel);
     }
+
     @Test
     public void executeValidDeleteAllModules_unFilteredModuleList_success() {
         model.updateFilteredModuleList(Model.PREDICATE_SHOW_ALL_MODULES);
@@ -277,7 +276,7 @@ public class DeleteCommandTest {
             expectedModel.deleteModule(module);
         }
         CommandResult expectedResult = new CommandResult(String.format(
-                Messages.MESSAGE_DELETE_ALL_MODULES_SUCCESS, numberOfItemsDeleted, predicate.toString()),
+                Messages.MESSAGE_DELETE_ALL_MODULES_SUCCESS, numberOfItemsDeleted),
                 false, false, true, true, null, null);
 
 
@@ -356,35 +355,35 @@ public class DeleteCommandTest {
                 new NameContainsKeywordsPredicate("otherArg"), true);
 
         // same object -> returns true
-        assertTrue(deleteFirstCommand.equals(deleteFirstCommand));
+        assertEquals(deleteFirstCommand, deleteFirstCommand);
 
         // same object -> returns true
-        assertTrue(deleteDeadlineFirstCommand.equals(deleteDeadlineFirstCommand));
+        assertEquals(deleteDeadlineFirstCommand, deleteDeadlineFirstCommand);
 
         // same variables -> returns true
         DeleteCommand deleteDeadlineFirstCommandCopy = new DeleteCommand(INDEX_FIRST_ITEM, true);
-        assertTrue(deleteDeadlineFirstCommand.equals(deleteDeadlineFirstCommandCopy));
+        assertEquals(deleteDeadlineFirstCommand, deleteDeadlineFirstCommandCopy);
 
         // same variables -> returns true
         DeleteCommand deleteFirstCommandCopy = new DeleteCommand(INDEX_FIRST_ITEM, false);
-        assertTrue(deleteFirstCommand.equals(deleteFirstCommandCopy));
+        assertEquals(deleteFirstCommand, deleteFirstCommandCopy);
 
         // different types -> returns false
-        assertFalse(deleteFirstCommand.equals(1));
+        assertNotEquals(1, deleteFirstCommand);
 
         // null -> returns false
-        assertFalse(deleteFirstCommand.equals(null));
+        assertNotEquals(deleteFirstCommand, null);
 
         // different index -> returns false
-        assertFalse(deleteFirstCommand.equals(deleteSecondCommand));
+        assertNotEquals(deleteFirstCommand, deleteSecondCommand);
 
         // different item to delete -> returns false
-        assertFalse(deleteDeadlineFirstCommand.equals(deleteFirstCommand));
+        assertNotEquals(deleteDeadlineFirstCommand, deleteFirstCommand);
 
         // different deadline index -> returns false
-        assertFalse(deleteDeadlineFirstCommand.equals(deleteDeadlineSecondCommand));
+        assertNotEquals(deleteDeadlineFirstCommand, deleteDeadlineSecondCommand);
 
         // different predicate -> returns false
-        assertFalse(deleteDeadlineMultipleItemsCommand.equals(deleteMultipleItemsCommand));
+        assertNotEquals(deleteDeadlineMultipleItemsCommand, deleteMultipleItemsCommand);
     }
 }

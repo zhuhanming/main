@@ -43,20 +43,20 @@ public class ConfigUtilTest {
 
         Config expected = getTypicalConfig();
 
-        Config actual = read("TypicalConfig.json").get();
+        Config actual = read("TypicalConfig.json").orElseThrow();
         assertEquals(expected, actual);
     }
 
     @Test
     public void read_valuesMissingFromFile_defaultValuesUsed() throws DataConversionException {
-        Config actual = read("EmptyConfig.json").get();
+        Config actual = read("EmptyConfig.json").orElseThrow();
         assertEquals(new Config(), actual);
     }
 
     @Test
     public void read_extraValuesInFile_extraValuesIgnored() throws DataConversionException {
         Config expected = getTypicalConfig();
-        Config actual = read("ExtraValuesConfig.json").get();
+        Config actual = read("ExtraValuesConfig.json").orElseThrow();
 
         assertEquals(expected, actual);
     }
@@ -91,13 +91,13 @@ public class ConfigUtilTest {
 
         //Try writing when the file doesn't exist
         ConfigUtil.saveConfig(original, configFilePath);
-        Config readBack = ConfigUtil.readConfig(configFilePath).get();
+        Config readBack = ConfigUtil.readConfig(configFilePath).orElseThrow();
         assertEquals(original, readBack);
 
         //Try saving when the file exists
         original.setLogLevel(Level.FINE);
         ConfigUtil.saveConfig(original, configFilePath);
-        readBack = ConfigUtil.readConfig(configFilePath).get();
+        readBack = ConfigUtil.readConfig(configFilePath).orElseThrow();
         assertEquals(original, readBack);
     }
 

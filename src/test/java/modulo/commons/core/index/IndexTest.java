@@ -2,7 +2,6 @@ package modulo.commons.core.index;
 
 import static modulo.testutil.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.jupiter.api.Test;
@@ -49,7 +48,7 @@ public class IndexTest {
         assertEquals(fifthPersonIndex, fifthPersonIndex);
 
         // null -> returns false
-        assertFalse(fifthPersonIndex == null);
+        assertNotEquals(fifthPersonIndex, null);
 
         // different types -> returns false
         assertNotEquals(5.0f, fifthPersonIndex);

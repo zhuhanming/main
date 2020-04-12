@@ -55,8 +55,6 @@ public class IcsWriterTest {
         Path rootPath = Paths.get(path);
         try (Stream<Path> walk = Files.walk(rootPath)) {
             walk.sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
-        } catch (IOException e) {
-            throw e;
         }
     }
 }

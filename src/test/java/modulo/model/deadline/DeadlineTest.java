@@ -78,7 +78,7 @@ public class DeadlineTest {
         assertEquals(testDeadlineOne, testDeadlineOne);
 
         // null -> returns false
-        assertFalse(testDeadlineOne.equals(null));
+        assertNotEquals(testDeadlineOne, null);
 
         // different type -> returns false
         assertNotEquals(5, testDeadlineOne);

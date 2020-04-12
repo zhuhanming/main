@@ -19,12 +19,6 @@ import modulo.testutil.module.ModuleBuilder;
 
 public class ModuleTest {
 
-    /**
-     * @Test public void asObservableList_modifyList_throwsUnsupportedOperationException() throws ParseException
-     *         { Module module = new ModuleBuilder().build(); assertThrows(UnsupportedOperationException.class, () ->
-     *         module.getEvents().remove(0)); }
-     */
-
     @Test
     public void testIsSameModule() {
         // same object -> returns true
@@ -59,7 +53,7 @@ public class ModuleTest {
         assertEquals(CS2103, CS2103);
 
         // null -> returns false
-        assertFalse(CS2103.equals(null));
+        assertNotEquals(CS2103, null);
 
         // different type -> returns false
         assertNotEquals(5, CS2103);

@@ -135,7 +135,7 @@ public class JsonUserPrefsStorageTest {
 
 
     @Test
-    public void getUserPrefs_allInOrder_success() throws DataConversionException {
+    public void getUserPrefs_allInOrder_success() {
         Path prefsFilePath = addToTestDataPathIfNotNull("TypicalUserPref.json");
         JsonUserPrefsStorage jsonUserPrefsStorage = new JsonUserPrefsStorage(prefsFilePath);
         assertEquals(prefsFilePath, jsonUserPrefsStorage.getUserPrefsFilePath());

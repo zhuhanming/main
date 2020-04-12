@@ -12,7 +12,6 @@ import java.nio.file.Paths;
 import org.junit.jupiter.api.Test;
 
 import modulo.commons.core.GuiSettings;
-import modulo.logic.parser.exceptions.ParseException;
 import modulo.model.module.AcademicYear;
 import modulo.model.module.ModuleCode;
 
@@ -71,7 +70,7 @@ public class ModelManagerTest {
     }
 
     @Test
-    public void hasModule_moduleNotInModulo_returnsFalse() throws ParseException {
+    public void hasModule_moduleNotInModulo_returnsFalse() {
         assertFalse(modelManager.hasModule(new ModuleCode("CS2222"), new AcademicYear(2021, 2022, 2)));
     }
 
