@@ -48,8 +48,10 @@ public class RightPanelDescription extends UiPart<Region> {
             name.setWrapText(true);
             startDate.setText(this.eventViewed.getEventStart().format(DateTimeFormatter.ofPattern("d MMMM yyyy, h a"))
                     + " - " + this.eventViewed.getEventEnd().format(DateTimeFormatter.ofPattern("h a")));
-            module.setText(this.eventViewed.getParentModule().getModuleCode().moduleCode);
-            module.getStyleClass().remove("hidden");
+            module.setText(this.eventViewed.getParentModule().getModuleCode().toString());
+            module.getStyleClass().clear();
+            module.getStyleClass().addAll(mainWindow.getTagColourClass(
+                    eventViewed.getParentModule().getModuleCode()), "moduleCode");
             boolean areAllDeadlinesCompleted = this.eventViewed.getDeadlines().stream().allMatch(Deadline::isCompleted);
             completionStatus.setText(areAllDeadlinesCompleted ? "Deadlines Complete" : "Deadlines Incomplete");
             completionStatus.getStyleClass().remove("hidden");
@@ -66,7 +68,8 @@ public class RightPanelDescription extends UiPart<Region> {
             name.setWrapText(true);
             startDate.setText(this.moduleViewed.getAcademicYear().toModuleCardFormat());
             module.setText(this.moduleViewed.getModuleCode().moduleCode);
-            module.getStyleClass().remove("hidden");
+            module.getStyleClass().clear();
+            module.getStyleClass().addAll(mainWindow.getTagColourClass(moduleViewed.getModuleCode()), "moduleCode");
             completionStatus.setText("");
             if (!completionStatus.getStyleClass().contains("hidden")) {
                 completionStatus.getStyleClass().add("hidden");

@@ -158,10 +158,14 @@ public class ListPanel extends UiPart<Region> {
                 DisplayablePair item = (DisplayablePair) listItem;
                 Integer index = ((Integer) item.getSecond());
                 if (item.getFirst() instanceof Event) {
-                    setGraphic(new EventCard((Event) item.getFirst(), index + 1).getRoot());
+                    Event event = (Event) item.getFirst();
+                    setGraphic(new EventCard(event, index + 1,
+                            mainWindow.getTagColourClass(event.getParentModule().getModuleCode())).getRoot());
                 } else {
                     assert item.getFirst() instanceof Module;
-                    setGraphic(new ModuleCard((Module) item.getFirst(), index + 1).getRoot());
+                    Module module = (Module) item.getFirst();
+                    setGraphic(new ModuleCard(module, index + 1,
+                            mainWindow.getTagColourClass(module.getModuleCode())).getRoot());
                 }
                 setOnMouseClicked(event -> mainWindow.handleListClick(index));
                 setDisable(false);

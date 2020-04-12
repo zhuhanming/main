@@ -150,7 +150,7 @@
 }
 
 .moduleCode.hidden {
-    -fx-background-color: transparent;
+    -fx-background-color: transparent !important;
 }
 
 .eventDuration, .moduleAcadYear, .eventLocation, .eventCardCompletionStatus {

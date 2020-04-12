@@ -7,3 +7,35 @@
     -fx-text-fill: #00AF8C;
     -fx-prompt-text-fill: #00AF8C;
 }
+
+.orange {
+    -fx-background-color: #EF7811 !important;
+}
+
+.red {
+    -fx-background-color: #E03872 !important;
+}
+
+.darkblue {
+    -fx-background-color: #4242E4 !important;
+}
+
+.lightblue {
+    -fx-background-color: #0F9DE8 !important;
+}
+
+.green {
+    -fx-background-color: #2BBF17 !important;
+}
+
+.purple {
+    -fx-background-color: #6842E4 !important;
+}
+
+.amber {
+    -fx-background-color: #E25B5B !important;
+}
+
+.pink {
+    -fx-background-color: #D960EF !important;
+}
