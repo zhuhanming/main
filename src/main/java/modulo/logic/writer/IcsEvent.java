@@ -72,32 +72,8 @@ public class IcsEvent {
         return output.toString();
     }
 
-    public static String getIcsItemType() {
-        return ICS_ITEM_TYPE;
-    }
-
-    public String getUid() {
-        return uid;
-    }
-
     public void setUid(String uid) {
         this.uid = uid;
-    }
-
-    public String getDtstart() {
-        return dtstart;
-    }
-
-    public String getDtend() {
-        return dtend;
-    }
-
-    public IcsRRule getIcsRRule() {
-        return icsRRule;
-    }
-
-    public List<IcsDeadline> getDeadlineList() {
-        return deadlineList;
     }
 
     public String getSummary() {
