@@ -20,8 +20,7 @@ public class FindCommand extends Command {
             + "\ncontain any of the specified keywords.\n"
             + "Example: " + COMMAND_WORD + " CS";
     public static final String RETURN_TO_ORIGINAL_LIST_INSTRUCTION = "\nTo return to the original list view, try:\n"
-            + "1. list event / list module\n"
-            + "2. list all event/ list all module";
+            + "list events / list modules";
 
     private final NameContainsKeywordsPredicate predicate;
 
