@@ -22,6 +22,7 @@ import modulo.model.module.AcademicYear;
 import modulo.model.module.Module;
 import modulo.model.module.ModuleCode;
 import modulo.model.module.PartialModule;
+import modulo.testutil.event.TypicalEvents;
 
 /**
  * A utility class containing a list of {@code Module} objects to be used in tests..
@@ -73,12 +74,18 @@ public class TypicalModules {
     /**
      * Returns an {@code InventorySystem} with all the typical modules.
      */
-    public static Modulo getTypicalModulo() {
-        Modulo ab = new Modulo();
+    public static Modulo getTypicalModuloModulesOnly() {
+        Modulo modulo = new Modulo();
         for (Module module : getTypicalModule()) {
-            ab.addModule(module.getModuleCode(), module.getAcademicYear());
+            modulo.addModule(module.getModuleCode(), module.getAcademicYear());
         }
-        return ab;
+        return modulo;
+    }
+
+    public static Modulo getTypicalModulo() {
+        Modulo modulo = getTypicalModuloModulesOnly();
+        modulo.setEvents(TypicalEvents.getTypicalEvent());
+        return modulo;
     }
 
     public static List<Module> getTypicalModule() {

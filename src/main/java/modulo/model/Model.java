@@ -197,13 +197,6 @@ public interface Model {
     DisplayableType getCurrentDisplayableType();
 
     /**
-     * Sets the type of list to be in focus and show all items in that list.
-     *
-     * @param displayableType Type of list to be shown.
-     */
-    void setFilteredFocusedListShowAll(DisplayableType displayableType);
-
-    /**
      * Checks if the focused displayable is the same as {@code displayable}.
      *
      * @param displayable Displayable to check.

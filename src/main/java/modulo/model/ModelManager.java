@@ -242,17 +242,6 @@ public class ModelManager implements Model {
         }
     }
 
-    @Override
-    public void setFilteredFocusedListShowAll(DisplayableType displayableType) {
-        if (displayableType == DisplayableType.EVENT) {
-            updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
-            focusedFilteredDisplayables = filteredEvents;
-        } else if (displayableType == DisplayableType.MODULE) {
-            updateFilteredModuleList(PREDICATE_SHOW_ALL_MODULES);
-            focusedFilteredDisplayables = filteredModules;
-        }
-    }
-
 
     //=========== Filtered Person List Accessors =============================================================
 

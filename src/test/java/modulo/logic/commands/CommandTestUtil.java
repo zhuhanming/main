@@ -1,9 +1,12 @@
 package modulo.logic.commands;
 
 import static modulo.logic.parser.CliSyntax.PREFIX_ACADEMIC_YEAR;
+import static modulo.logic.parser.CliSyntax.PREFIX_EVENT;
 import static modulo.logic.parser.CliSyntax.PREFIX_MODULE;
 import static modulo.logic.parser.CliSyntax.PREFIX_NAME;
+import static modulo.logic.parser.CliSyntax.PREFIX_REPEAT;
 import static modulo.logic.parser.CliSyntax.PREFIX_SEMESTER;
+
 import static modulo.testutil.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -24,6 +27,7 @@ public class CommandTestUtil<DESC_CS2103> {
     public static final String VALID_CODE_CS2103 = "CS2103";
     public static final String VALID_CODE_CS2103_LOWER_CASE = "cs2103";
     public static final String VALID_CODE_CS2105 = "CS2105";
+    public static final String VALID_CODE_CS1231S = "CS1231S";
     public static final String VALID_NAME_CS2103 = "Software Engineering";
     public static final String VALID_NAME_CS2105 = "Introduction to Computer Networking";
     public static final int VALID_ACADEMIC_START_YEAR_CS2103 = 2019;
@@ -32,12 +36,30 @@ public class CommandTestUtil<DESC_CS2103> {
     public static final int VALID_ACADEMIC_START_YEAR_CS2105 = 2019;
     public static final int VALID_ACADEMIC_END_YEAR_CS2105 = 2020;
     public static final int VALID_SEMESTER_CS2105 = 2;
+    public static final String VALID_EVENT_TUTORIAL_1 = "Tutorial 1";
+
     public static final String VALID_DESCRIPTION_CS2103 = "This module introduces the necessary conceptual and "
             + "analytical tools for systematic and rigorous development of software systems";
     public static final String VALID_DESCRIPTION_CS2105 = "This module aims to provide a broad introduction to "
             + "computer networks and network application programming.";
+    public static final String VALID_DEADLINE_ONE = "Complete tutorial Questions";
+    public static final String VALID_REPEAT = "YES";
+    public static final String VALID_NO_REPEAT = "NO";
 
+    public static final boolean VALID_REPEAT_BOOL = true;
+    public static final boolean VALID_NO_REPEAT_BOOL = false;
+
+    public static final String REPEAT = " " + PREFIX_REPEAT + VALID_REPEAT;
+    public static final String NO_REPEAT = " " + PREFIX_REPEAT + VALID_NO_REPEAT;
+    public static final String EVENT_DESC_TUTORIAL_1 = " " + PREFIX_EVENT + VALID_EVENT_TUTORIAL_1;
+    public static final String DEADLINE_DESC_ONE = " " + PREFIX_NAME + VALID_DEADLINE_ONE;
     public static final String CODE_DESC_CS2103 = " " + PREFIX_MODULE + VALID_CODE_CS2103;
+
+    public static final String CODE_DESC_CS1231S = " " + PREFIX_MODULE + VALID_CODE_CS1231S;
+    public static final String CODE_DESC_CS2105 = " " + PREFIX_MODULE + VALID_CODE_CS2105;
+    public static final String NAME_DESC_CS2103 = " " + PREFIX_NAME + VALID_NAME_CS2103;
+    public static final String NAME_DESC_CS2105 = " " + PREFIX_NAME + VALID_NAME_CS2105;
+
     public static final String SEMESTER_DESC_CS2103 = " " + PREFIX_SEMESTER + VALID_SEMESTER_CS2103;
 
     public static final String INVALID_MODULE_CODE_CS2000 = "cs2000";
