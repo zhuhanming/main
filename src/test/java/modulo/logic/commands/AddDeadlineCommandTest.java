@@ -79,8 +79,6 @@ public class AddDeadlineCommandTest {
     }
 
 
-
-
     @Test
     public void executeParentEventNotNull_modelContainsNoSuchEvent_throwsCommandException() {
         Model expectedModel = new ModelManager(model.getModulo(), model.getUserPrefs());
@@ -94,14 +92,6 @@ public class AddDeadlineCommandTest {
         assertCommandFailure(addDeadlineCommand, expectedModel, Messages.MESSAGE_EVENT_DOES_NOT_EXIST);
     }
 
-    @Test
-    public void executeParentEventNotNull_isRepeatedFalseEventContainsDeadline_throwsCommandException() {
-        AddDeadlineCommand addDeadlineCommand = new AddDeadlineCommand(new Name(VALID_NAME_DEADLINE_LECTURE_STANDARD),
-                LECTURE_1, false);
-        Model expectedModel = new ModelManager(model.getModulo(), model.getUserPrefs());
-
-        assertCommandFailure(addDeadlineCommand, expectedModel, Messages.MESSAGE_DUPLICATE_DEADLINE);
-    }
 
     @Test
     public void executeParentEventNotNull_isRepeatedFalse_success() {
