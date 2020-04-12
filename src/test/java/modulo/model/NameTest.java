@@ -45,4 +45,11 @@ public class NameTest {
         String cleanedName = "Business Communication BBA Exciting";
         assertEquals(cleanedName, Name.cleanNameString(originalName));
     }
+
+    @Test
+    public void testHashCode() {
+        String testString = "This is a name";
+        Name testName = new Name(testString);
+        assertEquals(testString.hashCode(), testName.hashCode());
+    }
 }
