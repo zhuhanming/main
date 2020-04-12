@@ -2,6 +2,7 @@ package modulo.storage;
 
 import static modulo.storage.JsonAdaptedModule.MISSING_FIELD_MESSAGE_FORMAT;
 import static modulo.testutil.Assert.assertThrows;
+import static modulo.testutil.event.TypicalEvents.TUTORIAL_1;
 import static modulo.testutil.module.TypicalModules.CS1231S;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -11,6 +12,7 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
 import modulo.commons.exceptions.IllegalValueException;
+import modulo.model.event.PartialEvent;
 import modulo.model.module.AcademicYear;
 import modulo.model.module.Module;
 import modulo.model.module.ModuleCode;
@@ -60,5 +62,17 @@ public class JsonAdaptedModuleTest {
         JsonAdaptedModule module = new JsonAdaptedModule(VALID_MODULE_CODE, null, VALID_EVENTS);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, AcademicYear.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, module::toModelType);
+    }
+
+    @Test
+    public void toModelType_withEvents_success() throws IllegalValueException {
+        VALID_EVENTS.add(new JsonAdaptedEvent(TUTORIAL_1));
+        JsonAdaptedModule module = new JsonAdaptedModule(VALID_MODULE_CODE, VALID_ACADEMIC_YEAR, VALID_EVENTS);
+        PartialEvent expectedEvent = new PartialEvent(TUTORIAL_1.getName(), TUTORIAL_1.getEventType(),
+                TUTORIAL_1.getEventStart(), TUTORIAL_1.getEventEnd(), TUTORIAL_1.getParentModule(),
+                TUTORIAL_1.getLocation(), TUTORIAL_1.getDeadlines(), TUTORIAL_1.getSlot());
+        Module actualModule = module.toModelType();
+        assertEquals(actualModule.getEvents().size(), 1);
+        assertEquals(actualModule.getEvents().get(0), expectedEvent);
     }
 }

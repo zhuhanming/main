@@ -1,7 +1,9 @@
 package modulo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashMap;
@@ -35,6 +37,19 @@ public class AppParametersTest {
         parametersStub.namedParameters.put("config", "a\0");
         expected.setConfigPath(null);
         assertEquals(expected, AppParameters.parse(parametersStub));
+    }
+
+    @Test
+    public void testEquals() {
+        assertEquals(expected, expected);
+        assertNotEquals(expected, null);
+    }
+
+    @Test
+    public void testHashCode() {
+        expected.setConfigPath(Paths.get("config.json"));
+        Path configPath = expected.getConfigPath();
+        assertEquals(configPath.hashCode(), expected.hashCode());
     }
 
     private static class ParametersStub extends Application.Parameters {

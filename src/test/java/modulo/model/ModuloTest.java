@@ -3,6 +3,7 @@ package modulo.model;
 import static modulo.logic.commands.CommandTestUtil.VALID_CODE_CS2103;
 import static modulo.logic.commands.CommandTestUtil.VALID_NAME_CS2103;
 import static modulo.testutil.Assert.assertThrows;
+import static modulo.testutil.event.TypicalEvents.TUTORIAL_1;
 import static modulo.testutil.module.TypicalModules.CS2103;
 import static modulo.testutil.module.TypicalModules.getTypicalModulo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,7 +19,6 @@ import org.junit.jupiter.api.Test;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import modulo.logic.parser.exceptions.ParseException;
 import modulo.model.event.Event;
 import modulo.model.module.Module;
 import modulo.model.module.exceptions.DuplicateModuleException;
@@ -49,7 +49,7 @@ public class ModuloTest {
     }
 
     @Test
-    public void resetData_withDuplicateModule_throwsDuplicateModuleException() throws ParseException {
+    public void resetData_withDuplicateModule_throwsDuplicateModuleException() {
         // Two persons with the same identity fields
         Module editedCS2103 = new ModuleBuilder(CS2103).withModuleCode(VALID_CODE_CS2103)
                 .build();
@@ -65,18 +65,29 @@ public class ModuloTest {
     }
 
     @Test
-    public void hasPerson_personNotInAddressBook_returnsFalse() throws ParseException {
+    public void hasModule_moduleNotInModulo_returnsFalse() {
         assertFalse(modulo.hasModule(CS2103.getModuleCode(), CS2103.getAcademicYear()));
     }
 
     @Test
-    public void hasPerson_personInAddressBook_returnsTrue() {
+    public void hasModule_moduleInModulo_returnsTrue() {
         modulo.addModuleFromStorage(CS2103);
         assertTrue(modulo.hasModule(CS2103.getModuleCode(), CS2103.getAcademicYear()));
     }
 
     @Test
-    public void hasPerson_personWithSameIdentityFieldsInAddressBook_returnsTrue() throws ParseException {
+    public void addModuleFromStorage_moduleWithEvents_eventsAdded() {
+        Module duplicateCs2103 = new ModuleBuilder(CS2103).build();
+        duplicateCs2103.addEvent(TUTORIAL_1);
+        modulo.addModuleFromStorage(duplicateCs2103);
+        Module newCs2103 = modulo.getModule(CS2103.getModuleCode(), CS2103.getAcademicYear()).orElseThrow();
+        assertEquals(newCs2103.getEvents().size(), 1);
+        Event newTutorial = newCs2103.getEvents().get(0);
+        assertEquals(TUTORIAL_1, newTutorial);
+    }
+
+    @Test
+    public void hasModule_moduleWithSameIdentityFieldsInModulo_returnsTrue() {
         modulo.addModuleFromStorage(CS2103);
         Module editedModule = new ModuleBuilder(CS2103).withModuleCode(VALID_CODE_CS2103)
                 .withModuleName(VALID_NAME_CS2103)
@@ -85,7 +96,7 @@ public class ModuloTest {
     }
 
     @Test
-    public void getPersonList_modifyList_throwsUnsupportedOperationException() {
+    public void getModuleList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> modulo.getModuleList().remove(0));
     }
 
