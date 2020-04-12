@@ -2,6 +2,7 @@ package modulo.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static modulo.commons.core.Messages.MESSAGE_CANNOT_ADD_DEADLINE_TO_MODULE;
+import static modulo.commons.core.Messages.MESSAGE_CANNOT_CREATE_DEADLINE_FOR_CUSTOM_EVENTS;
 import static modulo.commons.core.Messages.MESSAGE_DEADLINE_ADDED;
 import static modulo.commons.core.Messages.MESSAGE_DUPLICATE_DEADLINE;
 import static modulo.commons.core.Messages.MESSAGE_EVENT_DOES_NOT_EXIST;
@@ -18,6 +19,7 @@ import modulo.model.Name;
 import modulo.model.deadline.Deadline;
 import modulo.model.displayable.Displayable;
 import modulo.model.event.Event;
+import modulo.model.event.EventType;
 import modulo.model.module.Module;
 
 
@@ -30,25 +32,19 @@ public class AddDeadlineCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a deadline to Modulo. "
             + "Parameters: "
-            + "(if viewing Event) "
-            + PREFIX_NAME + "NAME "
-            + "[" + PREFIX_REPEAT + "YES/NO] "
-            + "Parameters: (else) "
-            + PREFIX_MODULE + "MODULE "
+            + PREFIX_MODULE + "MODULE_CODE "
             + PREFIX_EVENT + "EVENT_NAME "
-            + PREFIX_NAME + "NAME "
+            + PREFIX_NAME + "DEADLINE_NAME "
             + "[" + PREFIX_REPEAT + "YES/NO]\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_MODULE + "CS2103 "
-            + PREFIX_EVENT + "Tutorial "
+            + PREFIX_EVENT + "Tutorial 2 "
             + PREFIX_NAME + "Complete tutorial questions "
             + PREFIX_REPEAT + "YES";
-
 
     private Event parentEvent;
     private final boolean isRepeated;
     private final Name name;
-
 
     /**
      * Creates an AddDeadlineCommand to add a deadline to a specified {@code Event}.
@@ -125,6 +121,11 @@ public class AddDeadlineCommand extends Command {
         List<Event> events = model.findAllEvents(parentEvent);
         Deadline referenceDeadline = new Deadline(name, parentEvent);
         Event actualParentEvent = model.findEvent(parentEvent);
+
+        if (isRepeated && actualParentEvent.getEventType() == EventType.USER_ADDED) {
+            throw new CommandException(MESSAGE_CANNOT_CREATE_DEADLINE_FOR_CUSTOM_EVENTS);
+        }
+
         for (Event event : events) {
             if ((event.equals(actualParentEvent) || event.isAfterEvent(actualParentEvent))
                     && !event.containsDeadline(referenceDeadline)) {

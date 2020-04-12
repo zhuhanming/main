@@ -1,7 +1,6 @@
 package modulo.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-
 import static modulo.commons.core.Messages.MESSAGE_CANNOT_COMPLETE_EVENT;
 import static modulo.commons.core.Messages.MESSAGE_COMPLETED_DEADLINE;
 import static modulo.commons.core.Messages.MESSAGE_DEADLINE_DOES_NOT_EXIST;
@@ -33,17 +32,14 @@ public class DoneCommand extends Command {
 
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Complete a deadline.\n"
-            + "Parameters:\n"
-            + "1. (if viewing Event) "
-            + "INDEX \n"
-            + "2. (otherwise) "
+            + "Parameters: "
             + "INDEX "
-            + PREFIX_MODULE + "MODULE "
+            + PREFIX_MODULE + "MODULE_CODE "
             + PREFIX_EVENT + "EVENT_NAME"
             + "\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_MODULE + "CS2103 "
-            + PREFIX_EVENT + "Tutorial";
+            + PREFIX_EVENT + "Tutorial 2";
 
     private final Module toCheckModule;
     private final Event toCheckEvent;

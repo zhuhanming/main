@@ -39,23 +39,14 @@ public class AddEventCommand extends Command {
     public static final String COMMAND_WORD = "event";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a event to Modulo. "
-            + "Parameters:\n"
-            + "1. (if viewing module) "
+            + "Parameters: "
+            + PREFIX_MODULE + "MODULE_CODE "
             + PREFIX_NAME + "EVENT_NAME "
-            + PREFIX_START_DATETIME + "START DATETIME "
-            + PREFIX_END_DATETIME + "END DATETIME "
-            + PREFIX_VENUE + "VENUE "
-            + "[" + PREFIX_REPEAT + "TO REPEAT] "
-            + "[" + PREFIX_FREQUENCY + "FREQ (WEEKS)] "
-            + "[" + PREFIX_STOP_REPEAT + "EVENT_REPEAT_END]\n"
-            + "2. (otherwise) "
-            + PREFIX_MODULE + "MODULE CODE "
-            + PREFIX_NAME + "EVENT_NAME "
-            + PREFIX_START_DATETIME + "EVENT_START_DATETIME "
-            + PREFIX_END_DATETIME + "EVENT_END_DATETIME "
+            + PREFIX_START_DATETIME + "START_DATETIME "
+            + PREFIX_END_DATETIME + "END_DATETIME "
             + PREFIX_VENUE + "VENUE "
             + "[" + PREFIX_REPEAT + "YES/NO] "
-            + "[" + PREFIX_STOP_REPEAT + "EVENT_REPEAT_END] \n\n"
+            + "[" + PREFIX_STOP_REPEAT + "REPEAT_END_DATE]\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_MODULE + "CS2103 "
             + PREFIX_NAME + "Tutorial "
@@ -65,7 +56,7 @@ public class AddEventCommand extends Command {
             + PREFIX_REPEAT + "YES "
             + PREFIX_FREQUENCY + "2 "
             + PREFIX_STOP_REPEAT + "2020-05-08"
-            + "\nRefer to the UserGuide for more details!";
+            + "\nRefer to the User Guide for more details!";
 
     private final Event toAdd;
     private final Name name;
