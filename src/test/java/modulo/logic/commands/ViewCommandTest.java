@@ -2,6 +2,8 @@ package modulo.logic.commands;
 
 import static modulo.logic.commands.CommandTestUtil.assertCommandFailure;
 import static modulo.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static modulo.logic.commands.CommandTestUtil.showEventAtIndex;
+import static modulo.logic.commands.CommandTestUtil.showModuleAtIndex;
 import static modulo.testutil.TypicalIndexesUtils.INDEX_FIRST_ITEM;
 
 import org.junit.jupiter.api.Test;
@@ -22,6 +24,8 @@ public class ViewCommandTest {
 
     @Test
     public void executeViewValidIndex_unFilteredList_success() {
+
+
         ObservableList<? extends Displayable> lastShownList = model.getFilteredFocusedList();
         Displayable itemToView = lastShownList.get(INDEX_FIRST_ITEM.getZeroBased());
         model.setFocusedDisplayable(itemToView);
@@ -36,6 +40,7 @@ public class ViewCommandTest {
 
     @Test
     public void executeInvalidViewIndex_unFilteredEventList_throwsCommandException() {
+
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredEventList().size() + 1);
         ViewCommand viewCommand = new ViewCommand(outOfBoundIndex);
         assertCommandFailure(viewCommand, model, Messages.MESSAGE_INVALID_VIEW_INDEX);
@@ -43,6 +48,7 @@ public class ViewCommandTest {
 
     @Test
     public void executeInvalidViewIndex_unFilteredModuleList_throwsCommandException() {
+
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredModuleList().size() + 1);
         ViewCommand viewCommand = new ViewCommand(outOfBoundIndex);
 
@@ -51,6 +57,7 @@ public class ViewCommandTest {
 
     @Test
     public void executeViewValidIndex_unEventFilteredList_success() {
+        showEventAtIndex(model, INDEX_FIRST_ITEM);
         model.updateFilteredEventList(Model.PREDICATE_SHOW_ALL_EVENTS);
         model.setFilteredFocusedList(DisplayableType.EVENT);
         ObservableList<? extends Displayable> lastShownList = model.getFilteredFocusedList();
@@ -69,6 +76,7 @@ public class ViewCommandTest {
 
     @Test
     public void executeViewValidIndex_unModuleFilteredList_success() {
+        showModuleAtIndex(model, INDEX_FIRST_ITEM);
         model.updateFilteredModuleList(Model.PREDICATE_SHOW_ALL_MODULES);
         model.setFilteredFocusedList(DisplayableType.MODULE);
         ObservableList<? extends Displayable> lastShownList = model.getFilteredFocusedList();
