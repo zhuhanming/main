@@ -67,6 +67,7 @@ public class CommandTestUtil<DESC_CS2103> {
     public static final String VALID_NAME_EVENT_TUTORIAL_1 = "Tutorial 1";
     public static final String VALID_NAME_DEADLINE_TUTORIAL = "Finish up tutorial homework";
     public static final String VALID_NAME_DEADLINE_LECTURE = "Prepare for lecture by reading slides";
+    public static final String VALID_NAME_DEADLINE_LECTURE_STANDARD = "Prepare for lecture in advance";
     public static final String VALID_DEADLINE_ONE = "Complete tutorial Questions";
     public static final String VALID_REPEAT = "YES";
     public static final String VALID_NO_REPEAT = "NO";
