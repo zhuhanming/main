@@ -4,7 +4,8 @@ import static modulo.testutil.Assert.assertThrows;
 import static modulo.testutil.module.TypicalModules.CS2103;
 import static modulo.testutil.module.TypicalModules.GER1000;
 import static modulo.testutil.module.TypicalModules.IS1103;
-import static modulo.testutil.module.TypicalModules.getTypicalModulo;
+import static modulo.testutil.module.TypicalModules.getTypicalModuloModulesOnly;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -64,7 +65,7 @@ public class JsonModuloStorageTest {
     @Test
     public void readAndSaveModulo_allInOrder_success() throws Exception {
         Path filePath = testFolder.resolve("TempModulo.json");
-        Modulo original = getTypicalModulo();
+        Modulo original = getTypicalModuloModulesOnly();
         JsonModuloStorage jsonModuloStorage = new JsonModuloStorage(filePath);
 
         // Save in new file and read back

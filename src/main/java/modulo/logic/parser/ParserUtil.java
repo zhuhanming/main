@@ -58,7 +58,6 @@ public class ParserUtil {
     public static Name parseName(String name) throws ParseException {
         requireNonNull(name);
         String trimmedName = name.trim();
-        System.out.println("Trimmed " + trimmedName);
         if (!Name.isValidName(trimmedName)) {
             throw new ParseException(Name.MESSAGE_CONSTRAINTS);
         }
@@ -162,9 +161,11 @@ public class ParserUtil {
      */
     public static DisplayableType parseDisplayableType(String displayableType) throws ParseException {
         String cleanedDisplayableType = displayableType.toLowerCase().trim();
-        if (cleanedDisplayableType.equals("m") || cleanedDisplayableType.contains("module")) {
+        if (cleanedDisplayableType.equals("m") || cleanedDisplayableType.equals("module")
+                || cleanedDisplayableType.equals("modules")) {
             return DisplayableType.MODULE;
-        } else if (cleanedDisplayableType.equals("e") || cleanedDisplayableType.contains("event")) {
+        } else if (cleanedDisplayableType.equals("e") || cleanedDisplayableType.equals("event")
+                || cleanedDisplayableType.equals("events")) {
             return DisplayableType.EVENT;
         }
         throw new ParseException(MESSAGE_INVALID_DISPLAYABLE_TYPE);
