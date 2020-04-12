@@ -1,5 +1,6 @@
 package modulo.logic.commands;
 
+import static modulo.logic.commands.CommandTestUtil.VALID_PREDICATE_CS2103;
 import static modulo.logic.commands.CommandTestUtil.assertCommandFailure;
 import static modulo.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static modulo.testutil.TypicalIndexesUtils.INDEX_FIRST_ITEM;
@@ -7,9 +8,12 @@ import static modulo.testutil.TypicalIndexesUtils.INDEX_SECOND_ITEM;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import java.util.function.Predicate;
+
 import org.junit.jupiter.api.Test;
 
 import javafx.collections.ObservableList;
+
 import modulo.commons.core.Messages;
 import modulo.commons.core.index.Index;
 import modulo.logic.predicate.NameContainsKeywordsPredicate;
@@ -31,6 +35,9 @@ public class DeleteCommandTest {
 
     private Model model = new ModelManager(TypicalModules.getTypicalModulo(), new UserPrefs());
 
+    /**
+     * Valid index deletion while having an unfiltered event list on the left panel.
+     */
     @Test
     public void executeValidIndexDeletion_unFilteredEventList_success() {
         model.updateFilteredEventList(Model.PREDICATE_SHOW_ALL_EVENTS);
@@ -51,6 +58,10 @@ public class DeleteCommandTest {
         assertCommandSuccess(deleteCommand, model, expectedResult, expectedModel);
     }
 
+
+    /**
+     * Valid index deletion while having an unfiltered module list on the left panel.
+     */
     @Test
     public void executeValidIndexDeletion_unFilteredModuleList_success() {
         model.updateFilteredModuleList(Model.PREDICATE_SHOW_ALL_MODULES);
@@ -73,7 +84,9 @@ public class DeleteCommandTest {
         assertCommandSuccess(deleteCommand, model, expectedResult, expectedModel);
     }
 
-
+    /**
+    * Invalid index deletion while having an unfiltered event list on the left panel.
+    */
     @Test
     public void executeInvalidIndexDeletion_unFilteredEventList_throwsCommandException() {
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredEventList().size() + 1);
@@ -82,7 +95,9 @@ public class DeleteCommandTest {
         assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_DELETE_INDEX);
     }
 
-
+    /**
+    * Invalid index deletion while having an unfiltered module list on the left panel.
+    */
     @Test
     public void executeInvalidIndexDeletion_unFilteredModuleList_throwsCommandException() {
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredModuleList().size() + 1);
@@ -91,9 +106,12 @@ public class DeleteCommandTest {
         assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_DELETE_INDEX);
     }
 
+    /**
+     * Valid index deletion while having a filtered module list on the left panel.
+     */
     @Test
-    public void executeValidIndexDeletion_filteredUpcomingEventList_success() {
-        model.updateFilteredEventList(Model.PREDICATE_SHOW_UPCOMING_EVENTS);
+    public void executeValidIndexDeletion_filteredEventList_success() {
+        model.updateFilteredEventList((Predicate) VALID_PREDICATE_CS2103);
         model.setFilteredFocusedList(DisplayableType.EVENT);
         ObservableList<? extends Displayable> lastShownList = model.getFilteredFocusedList();
         Event eventToDelete = (Event) lastShownList.get(INDEX_FIRST_ITEM.getZeroBased());
@@ -111,6 +129,9 @@ public class DeleteCommandTest {
         assertCommandSuccess(deleteCommand, model, expectedResult, expectedModel);
     }
 
+    /**
+     * Deletion of multiple modules with a valid string input while the left panel shows events.
+     */
     @Test
     public void executeValidMultipleItemsDeletion_unFilteredEventList_success() {
         model.updateFilteredEventList(Model.PREDICATE_SHOW_ALL_EVENTS);
@@ -136,8 +157,11 @@ public class DeleteCommandTest {
         assertCommandSuccess(deleteCommand, model, expectedResult, expectedModel);
     }
 
+    /**
+     * Deletion of multiple modules with a valid string input while the left panel shows modules.
+     */
     @Test
-    public void executeValidMultipleItemsDeletion_filteredModuleList_success() {
+    public void executeValidMultipleItemsDeletion_unFilteredModuleList_success() {
         model.updateFilteredModuleList(Model.PREDICATE_SHOW_ALL_MODULES);
         model.setFilteredFocusedList(DisplayableType.MODULE);
 
@@ -166,9 +190,12 @@ public class DeleteCommandTest {
         assertCommandSuccess(deleteCommand, model, expectedResult, expectedModel);
     }
 
+    /**
+     * Invalid index deletion while a filtered event list is shown on the left panel.
+     */
     @Test
-    public void executeInvalidIndexDeletion_filteredUpcomingEventList_throwsCommandException() {
-        model.updateFilteredEventList(Model.PREDICATE_SHOW_UPCOMING_EVENTS);
+    public void executeInvalidIndexDeletion_filteredEventList_throwsCommandException() {
+        model.updateFilteredEventList((Predicate) VALID_PREDICATE_CS2103);
         model.setFilteredFocusedList(DisplayableType.EVENT);
 
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredEventList().size() + 1);
@@ -176,6 +203,10 @@ public class DeleteCommandTest {
         assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_DELETE_INDEX);
     }
 
+    /**
+     * Left panel shows events but event is not selected on the right panel despite valid index deadline input,
+     * causing CommandException to be thrown.
+     */
     @Test
     public void executeValidIndexDeadlineDeletion_unFilteredEventListEventNotSelected_throwsCommandException() {
         model.updateFilteredEventList(Model.PREDICATE_SHOW_ALL_EVENTS);
@@ -185,6 +216,10 @@ public class DeleteCommandTest {
         assertCommandFailure(deleteCommand, model, Messages.MESSAGE_EVENT_NOT_SELECTED);
     }
 
+    /**
+     * Left panel shows modules but event is not selected on the right panel despite valid index deadline input,
+     * causing CommandException to be thrown.
+     */
     @Test
     public void executeValidIndexDeadlineDeletion_unFilteredModuleListEventNotSelected_throwsCommandException() {
         model.updateFilteredModuleList(Model.PREDICATE_SHOW_ALL_MODULES);
@@ -195,9 +230,13 @@ public class DeleteCommandTest {
         assertCommandFailure(deleteCommand, model, Messages.MESSAGE_EVENT_NOT_SELECTED);
     }
 
+    /**
+     * Valid deadline deletion with valid index input while a list of filtered events are shown on the left panel
+     * and while an event is on focus on the right panel.
+     */
     @Test
-    public void executeValidIndexDeadlineDeletion_filteredUpcomingEventList_success() {
-        model.updateFilteredEventList(Model.PREDICATE_SHOW_UPCOMING_EVENTS);
+    public void executeValidIndexDeadlineDeletion_filteredEventList_success() {
+        model.updateFilteredEventList((Predicate) VALID_PREDICATE_CS2103);
         model.setFilteredFocusedList(DisplayableType.EVENT);
         model.setFocusedDisplayable(model.getFilteredEventList().get(0));
 
@@ -205,7 +244,7 @@ public class DeleteCommandTest {
 
 
         Model expectedModel = new ModelManager(model.getModulo(), model.getUserPrefs());
-        expectedModel.updateFilteredEventList(Model.PREDICATE_SHOW_UPCOMING_EVENTS);
+        expectedModel.updateFilteredEventList((Predicate) VALID_PREDICATE_CS2103);
         expectedModel.setFilteredFocusedList(DisplayableType.EVENT);
         expectedModel.setFocusedDisplayable(expectedModel.getFilteredEventList().get(0));
 
@@ -218,9 +257,13 @@ public class DeleteCommandTest {
         assertCommandSuccess(deleteCommand, model, expectedResult, expectedModel);
     }
 
+    /**
+     * Invalid deadline deletion with invalid index input while a list of filtered events are shown on the left panel
+     * and while an event is on focus on the right panel.
+     */
     @Test
-    public void executeInvalidIndexDeadlineDeletion_filteredUpcomingEventList_throwsCommandException() {
-        model.updateFilteredEventList(Model.PREDICATE_SHOW_UPCOMING_EVENTS);
+    public void executeInvalidIndexDeadlineDeletion_filteredEventList_throwsCommandException() {
+        model.updateFilteredEventList((Predicate) VALID_PREDICATE_CS2103);
         model.setFilteredFocusedList(DisplayableType.EVENT);
         model.setFocusedDisplayable(model.getFilteredEventList().get(0));
 
@@ -229,8 +272,11 @@ public class DeleteCommandTest {
         assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_DELETE_INDEX);
     }
 
+    /**
+     * Valid deletion of all events while an unfiltered event list is shown on the left panel.
+     */
     @Test
-    public void executeValidDeleteAllEvents_unFilteredUpcomingEventList_success() {
+    public void executeValidDeleteAllEvents_unFilteredEventList_success() {
         model.updateFilteredEventList(Model.PREDICATE_SHOW_ALL_EVENTS);
         model.setFilteredFocusedList(DisplayableType.EVENT);
 
@@ -255,6 +301,9 @@ public class DeleteCommandTest {
         assertCommandSuccess(deleteCommand, model, expectedResult, expectedModel);
     }
 
+    /**
+     * Valid deletion of all modules while an unfiltered module list is shown on the left panel.
+     */
     @Test
     public void executeValidDeleteAllModules_unFilteredModuleList_success() {
         model.updateFilteredModuleList(Model.PREDICATE_SHOW_ALL_MODULES);
@@ -283,9 +332,13 @@ public class DeleteCommandTest {
         assertCommandSuccess(deleteCommand, model, expectedResult, expectedModel);
     }
 
+    /**
+     * Valid deletion of all deadlines while an unfiltered event list is shown on the left panel and an
+     * event is on focus on the right panel.
+     */
     @Test
     public void executeValidDeleteAllDeadlines_filteredUpcomingEventList_success() {
-        model.updateFilteredEventList(Model.PREDICATE_SHOW_UPCOMING_EVENTS);
+        model.updateFilteredEventList(Model.PREDICATE_SHOW_ALL_EVENTS);
         model.setFilteredFocusedList(DisplayableType.EVENT);
         model.setFocusedDisplayable(model.getFilteredEventList().get(0));
 
@@ -295,7 +348,7 @@ public class DeleteCommandTest {
 
 
         Model expectedModel = new ModelManager(model.getModulo(), model.getUserPrefs());
-        expectedModel.updateFilteredEventList(Model.PREDICATE_SHOW_UPCOMING_EVENTS);
+        expectedModel.updateFilteredEventList(Model.PREDICATE_SHOW_ALL_EVENTS);
         expectedModel.setFilteredFocusedList(DisplayableType.EVENT);
         expectedModel.setFocusedDisplayable(expectedModel.getFilteredEventList().get(0));
 
@@ -306,6 +359,9 @@ public class DeleteCommandTest {
         assertCommandSuccess(deleteCommand, model, expectedResult, expectedModel);
     }
 
+    /**
+     * Invalid predicate causing no event to be deleted.
+     */
     @Test
     public void executeInvalidPredicate_noEventDeleted_throwCommandException() {
         model.updateFilteredEventList(Model.PREDICATE_SHOW_ALL_EVENTS);
@@ -323,6 +379,9 @@ public class DeleteCommandTest {
                 predicate.toString()));
     }
 
+    /**
+     * Invalid predicate causing no module to be deleted.
+     */
     @Test
     public void executeInvalidPredicate_noModuleDeleted_throwCommandException() {
         model.updateFilteredModuleList(Model.PREDICATE_SHOW_ALL_MODULES);
@@ -340,7 +399,9 @@ public class DeleteCommandTest {
                 predicate.toString()));
     }
 
-
+    /**
+     * Test for DeleteCommand equals function.
+     */
     @Test
     public void equals() {
 

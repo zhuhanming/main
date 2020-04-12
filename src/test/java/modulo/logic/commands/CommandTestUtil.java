@@ -13,6 +13,7 @@ import static modulo.logic.parser.CliSyntax.PREFIX_STOP_REPEAT;
 import static modulo.logic.parser.CliSyntax.PREFIX_VENUE;
 import static modulo.testutil.Assert.assertThrows;
 import static modulo.testutil.TypicalIndexesUtils.INDEX_FIRST_ITEM;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -20,8 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.collections.ObservableList;
+
 import modulo.commons.core.index.Index;
 import modulo.logic.commands.exceptions.CommandException;
+import modulo.logic.predicate.NameContainsKeywordsPredicate;
 import modulo.model.Model;
 import modulo.model.Modulo;
 import modulo.model.displayable.Displayable;
@@ -67,8 +70,10 @@ public class CommandTestUtil<DESC_CS2103> {
 
     // --------- Input String for Deadline --------- //
     public static final String VALID_NAME_EVENT_TUTORIAL_1 = "Tutorial 1";
+    public static final String VALID_NAME_EVENT_TUTORIAL_10 = "Tutorial 10";
     public static final String VALID_NAME_DEADLINE_TUTORIAL = "Finish up tutorial homework";
     public static final String VALID_NAME_DEADLINE_LECTURE = "Prepare for lecture by reading slides";
+    public static final String VALID_NAME_DEADLINE_LECTURE_STANDARD = "Prepare for lecture in advance";
     public static final String VALID_DEADLINE_ONE = "Complete tutorial Questions";
     public static final String VALID_REPEAT = "YES";
     public static final String VALID_NO_REPEAT = "NO";
@@ -101,6 +106,9 @@ public class CommandTestUtil<DESC_CS2103> {
     public static final String STOP_REPEAT_DESC_TUTORIAL = " " + PREFIX_STOP_REPEAT + VALID_STOP_REPEAT_TUTORIAL;
     // ------------ END of Input String for Add Event ------------ //
 
+    public static final NameContainsKeywordsPredicate VALID_PREDICATE_CS2103 =
+            new NameContainsKeywordsPredicate("cs2103");
+
     /**
      * Executes the given {@code command}, confirms that <br> - the returned {@link CommandResult} matches {@code
      * expectedCommandResult} <br> - the {@code actualModel} matches {@code expectedModel}
@@ -126,7 +134,6 @@ public class CommandTestUtil<DESC_CS2103> {
         // only do so by copying its components.
         Modulo expectedModulo = new Modulo(actualModel.getModulo());
         List<Module> expectedFilteredList = new ArrayList<>(actualModel.getFilteredModuleList());
-
         assertThrows(CommandException.class, expectedMessage, () -> command.execute(actualModel));
         assertEquals(expectedModulo, actualModel.getModulo());
         assertEquals(expectedFilteredList, actualModel.getFilteredModuleList());

@@ -32,11 +32,31 @@ public class TypicalEvents {
             .withEventEnd("2019-01-22 10:00").withEventType("TUTORIAL").withLocation("COM1-B103")
             .withParentModule(CS2103).build();
 
+    public static final Event TUTORIAL_3 = new EventBuilder().withName("Tutorial 3").withEventStart("2019-01-22 09:00")
+            .withEventEnd("2019-01-22 10:00").withEventType("TUTORIAL").withLocation("COM1-B103")
+            .withParentModule(CS2103).build();
+
+    public static final Event TUTORIAL_INVALID_DATE = new EventBuilder().withName("Tutorial 1")
+            .withEventStart("2019-05-15 09:00")
+            .withEventEnd("2019-05-15 10:00").withEventType("TUTORIAL").withLocation("COM1-B103")
+            .withParentModule(CS2103).build();
+
+    public static final Event TUTORIAL_INVALID_TIME = new EventBuilder().withName("Tutorial 1")
+            .withEventStart("2019-03-15 11:00")
+            .withEventEnd("2019-03-15 10:00").withEventType("TUTORIAL").withLocation("COM1-B103")
+            .withParentModule(CS2103).build();
+
     /**
      * Partial Event for testing
      */
-    public static final Event PARTIAL_EVENT_TUTORIAL_1 = new PartialEvent(new Name("Tutorial 1"), EventType.TUTORIAL,
-            TypicalModules.PARTIAL_MODULE_CS1231S, new Location("Arbitrary Location"));
+    public static final Event PARTIAL_EVENT_TUTORIAL_1_CS1231S = new PartialEvent(new Name("Tutorial 1"),
+            EventType.TUTORIAL, TypicalModules.PARTIAL_MODULE_CS1231S, new Location("Arbitrary Location"));
+
+    public static final Event PARTIAL_EVENT_TUTORIAL_1_CS2103 = new PartialEvent(new Name("Tutorial 1"),
+            EventType.TUTORIAL, TypicalModules.PARTIAL_MODULE_CS2103, new Location("Arbitrary Location"));
+
+    public static final Event PARTIAL_EVENT_TUTORIAL_10_CS2103 = new PartialEvent(new Name("Tutorial 10"),
+            EventType.TUTORIAL, TypicalModules.PARTIAL_MODULE_CS2103, new Location("Arbitrary Location"));
 
     private TypicalEvents() {
     } // prevents instantiation

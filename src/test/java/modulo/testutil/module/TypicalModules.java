@@ -67,6 +67,9 @@ public class TypicalModules {
     public static final Module PARTIAL_MODULE_CS1231S = new PartialModule(new ModuleCode("CS1231S"),
             new AcademicYear(2019, 2020, 2));
 
+    public static final Module PARTIAL_MODULE_CS2103 = new PartialModule(new ModuleCode("CS2103"),
+            new AcademicYear(2019, 2020, 2));
+
 
     private TypicalModules() {
     } // prevents instantiation
