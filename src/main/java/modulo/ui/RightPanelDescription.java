@@ -45,6 +45,7 @@ public class RightPanelDescription extends UiPart<Region> {
             this.eventViewed = (Event) eventOrModule;
             this.moduleViewed = null;
             name.setText(this.eventViewed.getName().toString());
+            name.setWrapText(true);
             startDate.setText(this.eventViewed.getEventStart().format(DateTimeFormatter.ofPattern("d MMMM yyyy, h a"))
                     + " - " + this.eventViewed.getEventEnd().format(DateTimeFormatter.ofPattern("h a")));
             module.setText(this.eventViewed.getParentModule().getModuleCode().moduleCode);
@@ -62,6 +63,7 @@ public class RightPanelDescription extends UiPart<Region> {
             this.moduleViewed = (Module) eventOrModule;
             this.eventViewed = null;
             name.setText((this.moduleViewed.getName().toString()));
+            name.setWrapText(true);
             startDate.setText(this.moduleViewed.getAcademicYear().toModuleCardFormat());
             module.setText(this.moduleViewed.getModuleCode().moduleCode);
             module.getStyleClass().remove("hidden");
@@ -75,7 +77,7 @@ public class RightPanelDescription extends UiPart<Region> {
                 venue.getStyleClass().add("moduleDescription");
             }
             venue.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> openDescription());
-            eventTypeDescription.setText("Events under this module:");
+            eventTypeDescription.setText("Official events under this module:");
         } else {
             this.eventViewed = null;
             this.moduleViewed = null;

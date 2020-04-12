@@ -34,6 +34,8 @@ public class UniqueEventList implements Iterable<Event> {
     private final ObservableList<Event> internalList = FXCollections.observableArrayList();
     private final ObservableList<Event> internalUnmodifiableList =
             FXCollections.unmodifiableObservableList(internalList);
+
+    // For future expansion: if more comparators were introduced.
     private Comparator<Event> comparatorToUse = DEFAULT_START_DATE_COMPARATOR;
 
 

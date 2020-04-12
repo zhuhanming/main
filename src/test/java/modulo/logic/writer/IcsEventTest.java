@@ -23,6 +23,7 @@ public class IcsEventTest {
     @Test
     public void toIcsString_validEvent_success() {
         LocalDateTime currentDateTime = LocalDateTime.now();
+        String repeatDayOfWeek = currentDateTime.getDayOfWeek().toString().toUpperCase().substring(0, 2);
 
         String uuid = UUID.randomUUID().toString();
         String icsString = "BEGIN:VEVENT" + System.lineSeparator()
@@ -34,7 +35,7 @@ public class IcsEventTest {
                 + currentDateTime.format(DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'")) + System.lineSeparator()
                 + "DTEND;TZID=Asia/Singapore:"
                 + currentDateTime.format(DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'")) + System.lineSeparator()
-                + "RRULE:FREQ=WEEKLY;COUNT=1;BYDAY=SA" + System.lineSeparator()
+                + "RRULE:FREQ=WEEKLY;COUNT=1;BYDAY=" + repeatDayOfWeek + System.lineSeparator()
                 + "SUMMARY:TestEvent" + System.lineSeparator()
                 + "DESCRIPTION:"
                 + currentDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + " - TestDeadline0"
@@ -75,8 +76,8 @@ public class IcsEventTest {
         }
         IcsEvent icsEvent = new IcsEvent(event);
         icsEvent.setUid(uuid);
-        System.out.println(icsEvent.toIcsString());
         System.out.println(icsString);
+        System.out.println(icsEvent.toIcsString());
         assertTrue(icsEvent.toIcsString().equals(icsString));
     }
 }

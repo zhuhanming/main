@@ -22,6 +22,7 @@ import modulo.model.module.AcademicYear;
 import modulo.model.module.Module;
 import modulo.model.module.ModuleCode;
 import modulo.model.module.PartialModule;
+import modulo.testutil.event.TypicalEvents;
 
 /**
  * A utility class containing a list of {@code Module} objects to be used in tests..
@@ -44,7 +45,7 @@ public class TypicalModules {
     public static final Module GER1000 = new ModuleBuilder().withModuleCode("GER1000")
             .withAcademicYear(2019, 2020, 2).build();
     public static final Module IS1103 = new ModuleBuilder().withModuleCode("IS1103")
-            .withAcademicYear(2020, 2021, 1).build();
+            .withAcademicYear(2019, 2020, 2).build();
 
     /**
      * Manually added - Module details found in {@code CommandTestUtil}
@@ -61,7 +62,7 @@ public class TypicalModules {
             .withDescription(VALID_DESCRIPTION_CS2105).build();
 
     /**
-     *  Partial Modules for testing
+     * Partial Modules for testing
      */
     public static final Module PARTIAL_MODULE_CS1231S = new PartialModule(new ModuleCode("CS1231S"),
             new AcademicYear(2019, 2020, 2));
@@ -73,12 +74,18 @@ public class TypicalModules {
     /**
      * Returns an {@code InventorySystem} with all the typical modules.
      */
-    public static Modulo getTypicalModulo() {
-        Modulo ab = new Modulo();
+    public static Modulo getTypicalModuloModulesOnly() {
+        Modulo modulo = new Modulo();
         for (Module module : getTypicalModule()) {
-            ab.addModule(module.getModuleCode(), module.getAcademicYear());
+            modulo.addModule(module.getModuleCode(), module.getAcademicYear());
         }
-        return ab;
+        return modulo;
+    }
+
+    public static Modulo getTypicalModulo() {
+        Modulo modulo = getTypicalModuloModulesOnly();
+        modulo.setEvents(TypicalEvents.getTypicalEvent());
+        return modulo;
     }
 
     public static List<Module> getTypicalModule() {

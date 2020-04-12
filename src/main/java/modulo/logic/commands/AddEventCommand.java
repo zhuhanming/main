@@ -28,6 +28,7 @@ import modulo.model.displayable.Displayable;
 import modulo.model.event.Event;
 import modulo.model.event.EventType;
 import modulo.model.event.Location;
+import modulo.model.module.AcademicYear;
 import modulo.model.module.Module;
 
 
@@ -75,6 +76,7 @@ public class AddEventCommand extends Command {
     private final TemporalAmount frequency;
     private final Location location;
     private final EventType eventType;
+    private final Character suffix;
 
     /**
      * Creates an AddEventCommand to add an Event to a specified Module. The module data is stored within the event
@@ -85,7 +87,8 @@ public class AddEventCommand extends Command {
      * @param endRepeatDate End {@code LocalDateTime} of the event.
      * @param frequency     Frequency of repeat.
      */
-    public AddEventCommand(Event event, boolean isRepeated, LocalDate endRepeatDate, TemporalAmount frequency) {
+    public AddEventCommand(Event event, boolean isRepeated, LocalDate endRepeatDate, TemporalAmount frequency,
+                           Character suffix) {
         requireAllNonNull(event, frequency);
         this.toAdd = event;
         this.endRepeatDate = endRepeatDate;
@@ -96,6 +99,7 @@ public class AddEventCommand extends Command {
         this.endDateTime = null;
         this.location = null;
         this.eventType = null;
+        this.suffix = suffix;
     }
 
     /**
@@ -121,6 +125,7 @@ public class AddEventCommand extends Command {
         this.endRepeatDate = endRepeatDate;
         this.eventType = eventType;
         this.frequency = frequency;
+        this.suffix = null;
     }
 
     @Override
@@ -155,7 +160,7 @@ public class AddEventCommand extends Command {
                         toAdd.getEventEnd().toString().replace('T', ' ')));
             }
             actualEvent = new Event(toAdd.getName(), toAdd.getEventType(), toAdd.getEventStart(),
-                    toAdd.getEventEnd(), actualModule, toAdd.getLocation());
+                    toAdd.getEventEnd(), actualModule, toAdd.getLocation(), toAdd.getSlot());
 
         }
 
@@ -178,11 +183,19 @@ public class AddEventCommand extends Command {
 
         if (isRepeated) {
             int eventNumber = 1;
+            AcademicYear academicYear = actualEvent.getParentModule().getAcademicYear();
             for (LocalDateTime start = actualEvent.getEventStart(), end = actualEvent.getEventEnd();
                  !start.toLocalDate().isAfter(endRepeatDate) && !end.toLocalDate().isAfter(endRepeatDate);
                  start = start.plus(frequency), end = end.plus(frequency)) {
-                Event nextEvent = new Event(new Name(actualEvent.getName().toString() + " " + eventNumber),
-                        actualEvent.getEventType(), start, end, actualModule, actualEvent.getLocation());
+                if (actualEvent.getSlot() != null
+                        && start.toLocalDate().isAfter(academicYear.getRecessWeekStartDate().minusDays(1))
+                        && start.toLocalDate().isBefore(academicYear.getRecessWeekStartDate().plusDays(7))) {
+                    start = start.plusWeeks(1);
+                    endRepeatDate = endRepeatDate.plusWeeks(1);
+                }
+                Event nextEvent = new Event(new Name(actualEvent.getName().toString() + " " + eventNumber
+                        + (suffix == null ? "" : suffix.toString())), actualEvent.getEventType(), start, end,
+                        actualModule, actualEvent.getLocation(), actualEvent.getSlot());
                 if (!model.hasEvent(nextEvent)) {
                     actualModule.addEvent(nextEvent);
                     model.addEvent(nextEvent);

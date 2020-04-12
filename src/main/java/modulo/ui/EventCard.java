@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import modulo.model.deadline.Deadline;
 import modulo.model.event.Event;
 
 /**
@@ -36,6 +37,8 @@ public class EventCard extends UiPart<Region> {
     private Label endDate;
     @FXML
     private Label moduleCode;
+    @FXML
+    private Label isCompleted;
 
     public EventCard(Event event, int displayedIndex) {
         super(FXML);
@@ -46,13 +49,13 @@ public class EventCard extends UiPart<Region> {
                 + event.getEventEnd().format(DateTimeFormatter.ofPattern("h a")));
         endDate.setText(event.getLocation().toString());
         moduleCode.setText(event.getParentModule().getModuleCode().toString());
-
-        /*
-        Future extension if want to add additional tags:
-        person.getTags().stream()
-                .sorted(Comparator.comparing(tag -> tag.tagName))
-                .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
-        */
+        boolean areAllDeadlinesCompleted = event.getDeadlines().stream().allMatch(Deadline::isCompleted);
+        isCompleted.setText(areAllDeadlinesCompleted ? "\u2713" : "\u2718"); // tick or cross depending on status
+        if (!isCompleted.getStyleClass().contains("completed") && areAllDeadlinesCompleted) {
+            isCompleted.getStyleClass().add("completed");
+        } else if (!areAllDeadlinesCompleted) {
+            isCompleted.getStyleClass().remove("completed");
+        }
     }
 
     @Override

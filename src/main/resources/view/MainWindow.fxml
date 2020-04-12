@@ -43,46 +43,42 @@
                         </HBox.margin>
                     </Button>
                 </HBox>
-                <SplitPane VBox.vgrow="ALWAYS">
-                    <items>
-                        <VBox minWidth="450">
-                            <StackPane fx:id="commandBoxPlaceholder" maxWidth="900" styleClass="pane-with-border"
-                                       VBox.vgrow="NEVER">
-                                <padding>
-                                    <Insets left="10" right="10" top="10"/>
-                                </padding>
-                            </StackPane>
+                <HBox VBox.vgrow="ALWAYS">
+                    <VBox minWidth="450">
+                        <StackPane fx:id="commandBoxPlaceholder" maxWidth="900" styleClass="pane-with-border"
+                                   VBox.vgrow="NEVER">
+                            <padding>
+                                <Insets left="10" right="10" top="10"/>
+                            </padding>
+                        </StackPane>
 
-                            <StackPane fx:id="resultDisplayPlaceholder" maxHeight="100" maxWidth="900" minHeight="120"
-                                       prefHeight="120" styleClass="pane-with-border" VBox.vgrow="NEVER">
-                                <padding>
-                                    <Insets left="10" right="10" top="10"/>
-                                </padding>
-                            </StackPane>
+                        <StackPane fx:id="resultDisplayPlaceholder" maxHeight="100" maxWidth="900" minHeight="120"
+                                   prefHeight="120" styleClass="pane-with-border" VBox.vgrow="NEVER">
+                            <padding>
+                                <Insets left="10" right="10" top="10"/>
+                            </padding>
+                        </StackPane>
 
-                            <VBox fx:id="eventList" maxWidth="900" prefWidth="900" styleClass="pane-with-border"
-                                  VBox.vgrow="ALWAYS">
-                                <padding>
-                                    <Insets bottom="10" left="10" right="10" top="10"/>
-                                </padding>
-                                <StackPane fx:id="listPanelPlaceholder" VBox.vgrow="ALWAYS"/>
-                            </VBox>
+                        <VBox fx:id="eventList" maxWidth="900" prefWidth="900" styleClass="pane-with-border"
+                              VBox.vgrow="ALWAYS">
+                            <padding>
+                                <Insets bottom="10" left="10" right="10" top="10"/>
+                            </padding>
+                            <StackPane fx:id="listPanelPlaceholder" VBox.vgrow="ALWAYS"/>
                         </VBox>
-                    </items>
-                    <items>
-                        <HBox>
-                            <VBox maxWidth="900" prefWidth="900" styleClass="pane-with-border"
-                                  VBox.vgrow="ALWAYS">
-                                <padding>
-                                    <Insets bottom="10" left="10" right="10" top="10"/>
-                                </padding>
-                                <StackPane fx:id="slideWindowListPlaceholder" VBox.vgrow="ALWAYS"
-                                           maxWidth="900" prefWidth="900">
-                                </StackPane>
-                            </VBox>
-                        </HBox>
-                    </items>
-                </SplitPane>
+                    </VBox>
+                    <HBox>
+                        <VBox maxWidth="900" prefWidth="900" styleClass="pane-with-border"
+                              VBox.vgrow="ALWAYS">
+                            <padding>
+                                <Insets bottom="10" left="10" right="10" top="10"/>
+                            </padding>
+                            <StackPane fx:id="slideWindowListPlaceholder" VBox.vgrow="ALWAYS"
+                                       maxWidth="900" prefWidth="900">
+                            </StackPane>
+                        </VBox>
+                    </HBox>
+                </HBox>
                 <StackPane fx:id="statusbarPlaceholder" VBox.vgrow="NEVER"/>
             </VBox>
         </Scene>

@@ -9,6 +9,7 @@ import modulo.model.Name;
 import modulo.model.event.Event;
 import modulo.model.event.EventType;
 import modulo.model.event.Location;
+import modulo.model.event.Slot;
 import modulo.model.module.Module;
 
 /**
@@ -24,6 +25,7 @@ public class EventBuilder {
     public static final LocalDateTime DEFAULT_EVENT_END = LocalDateTime.parse("2020-01-15 10:00", DATETIME_FORMAT);
     public static final Module DEFAULT_MODULE = CS2103;
     public static final String DEFAULT_MODULE_VENUE = "COM1-B103";
+    public static final String DEFAULT_SLOT = "T04";
 
     private Name name;
     private EventType eventType;
@@ -31,6 +33,7 @@ public class EventBuilder {
     private LocalDateTime eventEnd;
     private Module parentModule;
     private Location location;
+    private Slot slot;
 
     public EventBuilder() {
         name = new Name(DEFAULT_EVENT_NAME);
@@ -39,6 +42,7 @@ public class EventBuilder {
         eventEnd = DEFAULT_EVENT_END;
         parentModule = DEFAULT_MODULE;
         location = new Location(DEFAULT_MODULE_VENUE);
+        slot = new Slot(DEFAULT_SLOT);
     }
 
     /**
@@ -51,6 +55,7 @@ public class EventBuilder {
         eventEnd = eventToCopy.getEventEnd();
         parentModule = eventToCopy.getParentModule();
         location = eventToCopy.getLocation();
+        slot = eventToCopy.getSlot();
     }
 
     /**
@@ -102,7 +107,15 @@ public class EventBuilder {
         return this;
     }
 
+    /**
+     * Sets the {@code slot} of the event that we are building.
+     */
+    public EventBuilder withSlot(String slot) {
+        this.slot = new Slot(slot);
+        return this;
+    }
+
     public Event build() {
-        return new Event(name, eventType, eventStart, eventEnd, parentModule, location);
+        return new Event(name, eventType, eventStart, eventEnd, parentModule, location, slot);
     }
 }

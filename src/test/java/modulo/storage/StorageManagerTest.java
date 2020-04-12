@@ -1,6 +1,7 @@
 package modulo.storage;
 
-import static modulo.testutil.module.TypicalModules.getTypicalModulo;
+import static modulo.testutil.module.TypicalModules.getTypicalModuloModulesOnly;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -58,7 +59,7 @@ public class StorageManagerTest {
          * {@link JsonModuloStorage} class.
          * More extensive testing of UserPref saving/reading is done in {@link JsonModuloStorageTest} class.
          */
-        Modulo original = getTypicalModulo();
+        Modulo original = getTypicalModuloModulesOnly();
         storageManager.saveModulo(original);
         if (storageManager.readModulo().isEmpty()) {
             fail();
@@ -71,5 +72,4 @@ public class StorageManagerTest {
     public void getModuloFilePath() {
         assertNotNull(storageManager.getModuloFilePath());
     }
-
 }

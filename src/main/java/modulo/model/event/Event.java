@@ -24,19 +24,34 @@ public class Event implements Displayable {
     private LocalDateTime eventEnd;
     private Module parentModule;
     private Location location;
+    private Slot slot = null;
 
     // Data Fields
     private List<Deadline> deadlines;
 
     public Event(Name name, EventType eventType, LocalDateTime eventStart,
                  LocalDateTime eventEnd, Module parentModule, Location location) {
-        requireAllNonNull(name, eventType, eventStart, eventEnd, parentModule);
+        requireAllNonNull(name, eventType, eventStart, eventEnd, parentModule, location);
         this.name = name;
         this.eventType = eventType;
         this.eventStart = eventStart;
         this.eventEnd = eventEnd;
         this.parentModule = parentModule;
         this.location = location;
+        this.deadlines = new ArrayList<>();
+        this.deadlines.add(new Deadline(new Name(this.eventType.getDefaultDeadlineDescription()), this));
+    }
+
+    public Event(Name name, EventType eventType, LocalDateTime eventStart,
+                 LocalDateTime eventEnd, Module parentModule, Location location, Slot slot) {
+        requireAllNonNull(name, eventType, eventStart, eventEnd, parentModule, location);
+        this.name = name;
+        this.eventType = eventType;
+        this.eventStart = eventStart;
+        this.eventEnd = eventEnd;
+        this.parentModule = parentModule;
+        this.location = location;
+        this.slot = slot;
         this.deadlines = new ArrayList<>();
         this.deadlines.add(new Deadline(new Name(this.eventType.getDefaultDeadlineDescription()), this));
     }
@@ -51,6 +66,19 @@ public class Event implements Displayable {
         this.parentModule = parentModule;
         this.location = location;
         this.deadlines = deadlines;
+    }
+
+    public Event(Name name, EventType eventType, LocalDateTime eventStart, LocalDateTime eventEnd,
+                 Module parentModule, Location location, List<Deadline> deadlines, Slot slot) {
+        requireAllNonNull(name, eventType, eventStart, eventEnd, parentModule, deadlines);
+        this.name = name;
+        this.eventType = eventType;
+        this.eventStart = eventStart;
+        this.eventEnd = eventEnd;
+        this.parentModule = parentModule;
+        this.location = location;
+        this.deadlines = deadlines;
+        this.slot = slot;
     }
 
     public EventType getEventType() {
@@ -80,6 +108,11 @@ public class Event implements Displayable {
     public Location getLocation() {
         return location;
     }
+
+    public Slot getSlot() {
+        return slot;
+    }
+
     // Data operations
 
     /**
@@ -135,8 +168,7 @@ public class Event implements Displayable {
         return otherEvent != null
                 && otherEvent.getName().toString().toLowerCase().equals(getName().toString().toLowerCase())
                 && otherEvent.getParentModule().getModuleCode().equals(getParentModule().getModuleCode())
-                && otherEvent.getParentModule().getAcademicYear().equals(getParentModule().getAcademicYear())
-                && otherEvent.getEventType().equals(getEventType());
+                && otherEvent.getParentModule().getAcademicYear().equals(getParentModule().getAcademicYear());
     }
 
     /**
@@ -181,6 +213,7 @@ public class Event implements Displayable {
 
     /**
      * Returns a boolean value to check if this event is after another event.
+     *
      * @param otherEvent The other event to compare with.
      * @return boolean value depending if the current event is after the other event.
      */

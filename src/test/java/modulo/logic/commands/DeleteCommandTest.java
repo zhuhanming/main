@@ -22,7 +22,7 @@ import modulo.model.displayable.Displayable;
 import modulo.model.displayable.DisplayableType;
 import modulo.model.event.Event;
 import modulo.model.module.Module;
-import modulo.model.util.SampleDataUtil;
+import modulo.testutil.module.TypicalModules;
 
 
 /**
@@ -31,7 +31,7 @@ import modulo.model.util.SampleDataUtil;
  */
 public class DeleteCommandTest {
 
-    private Model model = new ModelManager(SampleDataUtil.getSampleCalendar(), new UserPrefs());
+    private Model model = new ModelManager(TypicalModules.getTypicalModulo(), new UserPrefs());
 
     @Test
     public void executeValidIndexDeletion_unFilteredEventList_success() {
