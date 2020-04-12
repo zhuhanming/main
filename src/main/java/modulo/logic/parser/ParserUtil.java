@@ -12,8 +12,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.TemporalAmount;
 
 import modulo.commons.core.index.Index;
 import modulo.commons.util.StringUtil;
@@ -197,5 +199,27 @@ public class ParserUtil {
             throw new ParseException(Location.MESSAGE_CONSTRAINTS);
         }
         return new Location(trimmedLocation);
+    }
+
+    /**
+     * Parses a {@code String frequency} into a {@code TemporalAmount}. Leading and trailing whitespaces will be
+     * trimmed.
+     *
+     * @param frequency String provided by user.
+     * @return Frequency from the string provided.
+     * @throws ParseException If the given {@code frequency} is invalid.
+     */
+    public static TemporalAmount parseFrequency(String frequency) throws ParseException {
+        requireNonNull(frequency);
+        String trimmedFrequency = frequency.trim();
+        try {
+            int weeks = Integer.parseInt(trimmedFrequency);
+            if (weeks < 1) {
+                throw new ParseException("The minimum frequency must be 1 week!");
+            }
+            return Period.ofWeeks(weeks);
+        } catch (NumberFormatException e) {
+            throw new ParseException("The frequency must be an integer larger than zero!");
+        }
     }
 }
