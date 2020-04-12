@@ -6,7 +6,7 @@ import static modulo.logic.commands.CommandTestUtil.VALID_NAME_DEADLINE_LECTURE_
 import static modulo.logic.commands.CommandTestUtil.VALID_NAME_DEADLINE_TUTORIAL;
 import static modulo.logic.commands.CommandTestUtil.assertCommandFailure;
 import static modulo.logic.commands.CommandTestUtil.assertCommandSuccess;
-
+import static modulo.testutil.event.TypicalEvents.LECTURE_1;
 import static modulo.testutil.event.TypicalEvents.TUTORIAL_1;
 import static modulo.testutil.event.TypicalEvents.TUTORIAL_2;
 import static modulo.testutil.event.TypicalEvents.TUTORIAL_3;
@@ -62,17 +62,6 @@ public class AddDeadlineCommandTest {
         assertCommandFailure(addDeadlineCommand, expectedModel, Messages.MESSAGE_EVENT_DOES_NOT_EXIST);
     }
 
-
-    @Test
-    public void executeParentEventNull_isRepeatedFalseAndParentEventContainsDeadline_throwsCommandException() {
-        AddDeadlineCommand addDeadlineCommand = new AddDeadlineCommand(new Name(VALID_NAME_DEADLINE_LECTURE_STANDARD),
-                null, false);
-        Model expectedModel = new ModelManager(model.getModulo(), model.getUserPrefs());
-        expectedModel.setFocusedDisplayable(expectedModel.getFilteredEventList().get(0));
-
-        assertCommandFailure(addDeadlineCommand, expectedModel, Messages.MESSAGE_DUPLICATE_DEADLINE);
-    }
-
     @Test
     public void executeParentEventNull_isRepeatedTrue_success() {
         model.setFocusedDisplayable(model.getFilteredEventList().get(0));
@@ -104,7 +93,7 @@ public class AddDeadlineCommandTest {
                 TUTORIAL_3, true);
         assertCommandFailure(addDeadlineCommand, expectedModel, Messages.MESSAGE_EVENT_DOES_NOT_EXIST);
     }
-    /*
+
     @Test
     public void executeParentEventNotNull_isRepeatedFalseEventContainsDeadline_throwsCommandException() {
         AddDeadlineCommand addDeadlineCommand = new AddDeadlineCommand(new Name(VALID_NAME_DEADLINE_LECTURE_STANDARD),
@@ -113,7 +102,7 @@ public class AddDeadlineCommandTest {
 
         assertCommandFailure(addDeadlineCommand, expectedModel, Messages.MESSAGE_DUPLICATE_DEADLINE);
     }
-    */
+
     @Test
     public void executeParentEventNotNull_isRepeatedFalse_success() {
         Model expectedModel = new ModelManager(model.getModulo(), model.getUserPrefs());
