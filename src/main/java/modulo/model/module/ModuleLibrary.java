@@ -29,6 +29,9 @@ import modulo.model.module.exceptions.ModuleNotFoundException;
  * Interfacing class between the app and the module JSON files.
  */
 public class ModuleLibrary {
+    public static final String INVALID_EVENT_TYPE = "It seems that events of this type do not exist for this module!";
+    public static final String SAMPLE_SLOT = "A sample slot input would be: %1s";
+
     /**
      * Creates a module based on the code and academic year given, with data from the module json files.
      *
@@ -41,8 +44,6 @@ public class ModuleLibrary {
             throws ModuleNotFoundException {
         try {
             JsonObject moduleNeeded = getModule(moduleCode);
-            System.out.println(moduleNeeded);
-            System.out.println(moduleNeeded.get("title"));
             Name name = new Name(Name.cleanNameString(moduleNeeded.get("title").getAsString()));
             String description = moduleNeeded.get("description").getAsString();
             return new Module(moduleCode, name, academicYear, description);
@@ -112,10 +113,10 @@ public class ModuleLibrary {
                     }
                 }
                 throw new EventNotFoundException(sampleClassNumber == null
-                        ? ""
-                        : "A sample slot input would be: " + sampleClassNumber);
+                        ? INVALID_EVENT_TYPE
+                        : String.format(SAMPLE_SLOT, sampleClassNumber));
             }
-            assert validEventSlot != null;
+            lessons.sort(ModuleLibrary::compareBetweenTwoLessons);
             List<AddEventCommand> results = new ArrayList<>();
             char suffix = 'A';
             for (JsonObject lesson : lessons) {
@@ -153,10 +154,41 @@ public class ModuleLibrary {
     }
 
     /**
+     * Compares two lessons based on start time.
+     *
+     * @param a First lesson.
+     * @param b Second lesson.
+     * @return Integer for ordering.
+     */
+    private static int compareBetweenTwoLessons(JsonObject a, JsonObject b) {
+        AcademicYear academicYear = AcademicYear.now();
+
+        String aDay = a.get("day").getAsString().toUpperCase();
+        JsonArray aWeeks = a.getAsJsonArray("weeks");
+        String aStartTime = a.get("startTime").getAsString();
+        LocalDate aEventDay = academicYear.getStartDate()
+                .plusWeeks(aWeeks.get(0).getAsInt() - 1)
+                .with(TemporalAdjusters.nextOrSame(DayOfWeek.valueOf(aDay)));
+        LocalDateTime aEventStart = aEventDay.atTime(Integer.parseInt(aStartTime.substring(0, 2)),
+                Integer.parseInt(aStartTime.substring(2, 4)));
+
+        String bDay = b.get("day").getAsString().toUpperCase();
+        JsonArray bWeeks = b.getAsJsonArray("weeks");
+        String bStartTime = b.get("startTime").getAsString();
+        LocalDate bEventDay = academicYear.getStartDate()
+                .plusWeeks(bWeeks.get(0).getAsInt() - 1)
+                .with(TemporalAdjusters.nextOrSame(DayOfWeek.valueOf(bDay)));
+        LocalDateTime bEventStart = bEventDay.atTime(Integer.parseInt(bStartTime.substring(0, 2)),
+                Integer.parseInt(bStartTime.substring(2, 4)));
+
+        return aEventStart.compareTo(bEventStart);
+    }
+
+    /**
      * Checks if user provided {@code eventSlot} matches the {@code classNumber}.
      *
      * @param classNumber Class number from JSON.
-     * @param eventSlot   Event slot
+     * @param eventSlot   Event slot.
      * @return Boolean representing whether they match.
      */
     private static boolean areSameEventSlot(String classNumber, String eventSlot) {
@@ -165,33 +197,18 @@ public class ModuleLibrary {
             return true;
         }
         while (loweredClassNumber.length() > 0 && eventSlot.length() > 0
-                && loweredClassNumber.charAt(0) == eventSlot.charAt(0)) {
+                && loweredClassNumber.charAt(0) == eventSlot.charAt(0)
+                && Character.isLetter(loweredClassNumber.charAt(0))) {
             loweredClassNumber = loweredClassNumber.substring(1);
             eventSlot = eventSlot.substring(1);
         }
-        while (loweredClassNumber.length() > 0 && eventSlot.length() > 0
-                && loweredClassNumber.charAt(loweredClassNumber.length() - 1)
-                == eventSlot.charAt(eventSlot.length() - 1)) {
-            loweredClassNumber = loweredClassNumber.substring(0, loweredClassNumber.length() - 1);
-            eventSlot = eventSlot.substring(0, eventSlot.length() - 1);
+        while (eventSlot.length() > loweredClassNumber.length() && eventSlot.charAt(0) == '0') {
+            eventSlot = eventSlot.substring(1);
         }
-        if (loweredClassNumber.length() > eventSlot.length()) {
-            for (int i = 0; i < loweredClassNumber.length(); i++) {
-                if (loweredClassNumber.charAt(i) != '0') {
-                    return false;
-                }
-            }
-            return true;
-        } else if (eventSlot.length() > loweredClassNumber.length()) {
-            for (int i = 0; i < eventSlot.length(); i++) {
-                if (eventSlot.charAt(i) != '0') {
-                    return false;
-                }
-            }
-            return true;
-        } else {
-            return eventSlot.equalsIgnoreCase(loweredClassNumber);
+        while (loweredClassNumber.length() > eventSlot.length() && loweredClassNumber.charAt(0) == '0') {
+            loweredClassNumber = loweredClassNumber.substring(1);
         }
+        return eventSlot.equalsIgnoreCase(loweredClassNumber);
     }
 
     private static JsonObject getModule(ModuleCode moduleCode) throws IOException {
@@ -199,7 +216,11 @@ public class ModuleLibrary {
         InputStream jsonFileStream = MainApp.class.getResourceAsStream("/modules/" + firstCharacter + "Modules.json");
         byte[] content = jsonFileStream.readAllBytes();
         JsonObject jsonObject = JsonParser.parseString(new String(content)).getAsJsonObject();
-        return jsonObject.get(moduleCode.toString()).getAsJsonObject();
+        try {
+            return jsonObject.get(moduleCode.toString()).getAsJsonObject();
+        } catch (NullPointerException e) {
+            throw new ModuleNotFoundException();
+        }
     }
 
     private static JsonArray getTimetable(Module module) throws IOException {

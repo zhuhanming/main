@@ -1,6 +1,6 @@
 package modulo.logic.writer;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -23,6 +23,7 @@ public class IcsEventTest {
     @Test
     public void toIcsString_validEvent_success() {
         LocalDateTime currentDateTime = LocalDateTime.now();
+        String repeatDayOfWeek = currentDateTime.getDayOfWeek().toString().toUpperCase().substring(0, 2);
 
         String uuid = UUID.randomUUID().toString();
         String icsString = "BEGIN:VEVENT" + System.lineSeparator()
@@ -34,7 +35,7 @@ public class IcsEventTest {
                 + currentDateTime.format(DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'")) + System.lineSeparator()
                 + "DTEND;TZID=Asia/Singapore:"
                 + currentDateTime.format(DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'")) + System.lineSeparator()
-                + "RRULE:FREQ=WEEKLY;COUNT=1;BYDAY=SA" + System.lineSeparator()
+                + "RRULE:FREQ=WEEKLY;COUNT=1;BYDAY=" + repeatDayOfWeek + System.lineSeparator()
                 + "SUMMARY:TestEvent" + System.lineSeparator()
                 + "DESCRIPTION:"
                 + currentDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + " - TestDeadline0"
@@ -66,7 +67,7 @@ public class IcsEventTest {
 
         Module module = new Module(new ModuleCode("CS2103"), new Name("Software Engineering"),
                 new AcademicYear(2019, 2020, 2), "Software Engineering",
-                new ArrayList<Event>());
+                new ArrayList<>());
         Event event = new Event(new Name("TestEvent"), EventType.TUTORIAL, currentDateTime, currentDateTime,
                 module, new Location("TestLocation"));
         event.removeAllDeadlines();
@@ -75,8 +76,12 @@ public class IcsEventTest {
         }
         IcsEvent icsEvent = new IcsEvent(event);
         icsEvent.setUid(uuid);
-        System.out.println(icsEvent.toIcsString());
-        System.out.println(icsString);
-        assertTrue(icsEvent.toIcsString().equals(icsString));
+        String result = icsEvent.toIcsString();
+
+        // Due to potential minuscule differences in time created
+        if (!result.substring(84, 90).equals(icsString.substring(84, 90))) {
+            icsString = icsString.substring(0, 84) + result.substring(84, 90) + icsString.substring(90);
+        }
+        assertEquals(result, icsString);
     }
 }

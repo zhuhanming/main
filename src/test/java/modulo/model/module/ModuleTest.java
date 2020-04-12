@@ -26,12 +26,12 @@ public class ModuleTest {
      */
 
     @Test
-    public void isSamePerson() {
+    public void testIsSameModule() {
         // same object -> returns true
         assertTrue(CS2103.isSameModule(CS2103));
 
         // null -> returns false
-        // assert (CS2103.isSameModule(null));
+        assertFalse(CS2103.isSameModule(null));
 
         // different academic year and semester  -> returns false
         Module editedCS2103 = new ModuleBuilder(CS2105)
@@ -50,7 +50,7 @@ public class ModuleTest {
     }
 
     @Test
-    public void equals() {
+    public void testEquals() {
         // same values -> returns true
         Module cs2103Copy = new ModuleBuilder(CS2103).build();
         assertEquals(CS2103, cs2103Copy);

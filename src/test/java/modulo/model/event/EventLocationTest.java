@@ -13,13 +13,13 @@ public class EventLocationTest {
     }
 
     @Test
-    public void constructor_invalidName_throwsIllegalArgumentException() {
+    public void constructor_invalidLocation_throwsIllegalArgumentException() {
         String invalidName = "";
         assertThrows(IllegalArgumentException.class, () -> new Location(invalidName));
     }
 
     @Test
-    public void isValidName() {
+    public void isValidLocation() {
         // null name
         assertThrows(NullPointerException.class, () -> Location.isValidLocation(null));
 
@@ -30,6 +30,6 @@ public class EventLocationTest {
         // valid name
         assertTrue(Location.isValidLocation("Utown Tutorial")); // alphabets only
         assertTrue(Location.isValidLocation("12345")); // numbers only
-        assertTrue(Location.isValidLocation("COM1-B105")); // alphanumeric characters
+        assertTrue(Location.isValidLocation("COM1-B105")); // alphanumeric and special characters
     }
 }

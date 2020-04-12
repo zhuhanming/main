@@ -80,7 +80,8 @@ public class Deadline implements Displayable {
         if (otherDeadline == this) {
             return true;
         }
-        return otherDeadline.getName().equals(getName());
+        return otherDeadline != null
+                && otherDeadline.getName().equals(getName());
     }
 
     /**
@@ -99,6 +100,7 @@ public class Deadline implements Displayable {
 
         Deadline otherDeadline = (Deadline) other;
         return otherDeadline.getName().equals(getName())
+                && otherDeadline.getDueTime().equals(getDueTime())
                 && otherDeadline.isCompleted() == isCompleted();
     }
 

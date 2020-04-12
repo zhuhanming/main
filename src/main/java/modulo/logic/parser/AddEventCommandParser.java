@@ -12,7 +12,6 @@ import static modulo.logic.parser.CliSyntax.PREFIX_VENUE;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Period;
 import java.time.temporal.TemporalAmount;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -71,7 +70,7 @@ public class AddEventCommandParser implements Parser<AddEventCommand> {
         if (isRepeated && argMultimap.getValue(CliSyntax.PREFIX_STOP_REPEAT).isPresent()) {
             endRepeatDate = ParserUtil.parseDate(argMultimap.getValue(CliSyntax.PREFIX_STOP_REPEAT).get());
         }
-        TemporalAmount frequency = Period.ofDays(7);
+        TemporalAmount frequency = ParserUtil.parseFrequency(argMultimap.getValue(PREFIX_FREQUENCY).orElse("1"));
 
         if (argMultimap.getValue(PREFIX_MODULE).isEmpty()) {
             return new AddEventCommand(name, startDateTime, endDateTime, location, isRepeated,

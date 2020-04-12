@@ -213,8 +213,51 @@ public class AddEventCommand extends Command {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof AddEventCommand // instanceof handles nulls
-                && toAdd.equals(((AddEventCommand) other).toAdd)
-                && name.equals(((AddEventCommand) other).name));
+                && (sameCommandWithToAddEvent((AddEventCommand) other)
+                || sameCommandWithoutToAddEvent((AddEventCommand) other)));
+
+    }
+
+    /**
+     * Checks if two commands are the same, assuming that they are both constructed using an existing event.
+     *
+     * @param other Command to compare against.
+     * @return Boolean value denoting whether they are the same.
+     */
+    private boolean sameCommandWithToAddEvent(AddEventCommand other) {
+        boolean sameToAdd = toAdd != null && other.toAdd != null && toAdd.equals(other.toAdd);
+        boolean sameRepeatEndDate = (endRepeatDate == null && other.endRepeatDate == null)
+                || (endRepeatDate != null && other.endRepeatDate != null && endRepeatDate.equals(other.endRepeatDate));
+        boolean sameIsRepeated = isRepeated == other.isRepeated;
+        boolean sameFrequency = frequency.equals(other.frequency);
+        boolean sameSuffix = (suffix == null && other.suffix == null)
+                || (suffix != null && other.suffix != null && suffix.equals(other.suffix));
+        return sameToAdd && sameRepeatEndDate && sameIsRepeated && sameFrequency && sameSuffix;
+    }
+
+    /**
+     * Checks if two commands are the same, assuming that they are both constructed without an existing event. This
+     * checks the field equality.
+     *
+     * @param other Command to compare against.
+     * @return Boolean value denoting whether they are the same.
+     */
+    private boolean sameCommandWithoutToAddEvent(AddEventCommand other) {
+        boolean sameToAdd = toAdd == null && other.toAdd == null;
+        boolean sameName = name != null && other.name != null && name.equals(other.name);
+        boolean sameStartTime = startDateTime != null && other.startDateTime != null
+                && startDateTime.equals(other.startDateTime);
+        boolean sameEndTime = endDateTime != null && other.endDateTime != null
+                && endDateTime.equals(other.endDateTime);
+        boolean sameLocation = location != null && other.location != null && location.equals(other.location);
+        boolean sameIsRepeated = isRepeated == other.isRepeated;
+        boolean sameFrequency = frequency.equals(other.frequency);
+        boolean sameRepeatEndDate = (endRepeatDate == null && other.endRepeatDate == null)
+                || (endRepeatDate != null && other.endRepeatDate != null && endRepeatDate.equals(other.endRepeatDate));
+        boolean sameEventType = eventType != null && other.eventType != null && eventType.equals(other.eventType);
+        boolean sameSuffix = suffix == null && other.suffix == null;
+        return sameToAdd && sameName && sameStartTime && sameEndTime && sameLocation && sameIsRepeated && sameFrequency
+                && sameRepeatEndDate && sameEventType && sameSuffix;
     }
 
     /**
