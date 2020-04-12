@@ -135,7 +135,7 @@ public class AddEventCommand extends Command {
             }
             if (endDateTime.isBefore(startDateTime)) {
                 throw new CommandException(String.format(MESSAGE_ENDDATE_MUST_AFTER_STARTDATE,
-                        startDateTime.toString().replace('T', ' '), endDateTime).replace('T', ' '));
+                        startDateTime.toString().replace('T', ' '), endDateTime.toString().replace('T', ' ')));
             }
 
             actualModule = (Module) displayable;
@@ -153,10 +153,6 @@ public class AddEventCommand extends Command {
             actualEvent = new Event(toAdd.getName(), toAdd.getEventType(), toAdd.getEventStart(),
                     toAdd.getEventEnd(), actualModule, toAdd.getLocation(), toAdd.getSlot());
 
-        }
-
-        if (model.hasEvent(actualEvent)) {
-            throw new CommandException(MESSAGE_DUPLICATE_EVENT);
         }
 
         if (hasInvalidDateRange(actualEvent, actualModule)) {
