@@ -1,12 +1,11 @@
-package modulo.model.module;
+package modulo.model;
 
 import static modulo.testutil.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
-
-import modulo.model.Name;
 
 public class NameTest {
 
@@ -30,14 +29,20 @@ public class NameTest {
         assertFalse(Name.isValidName("")); // empty string
         assertFalse(Name.isValidName(" ")); // spaces only
         assertFalse(Name.isValidName("^")); // only non-alphanumeric characters
-        assertFalse(Name.isValidName("peter*")); // contains non-alphanumeric characters
+        assertFalse(Name.isValidName("#Tutorial")); // contains non-alphanumeric characters
 
         // valid name
-        assertTrue(Name.isValidName("peter jack")); // alphabets only
+        assertTrue(Name.isValidName("prepare lecture")); // alphabets only
         assertTrue(Name.isValidName("12345")); // numbers only
-        assertTrue(Name.isValidName("peter the 2nd")); // alphanumeric characters
-        assertTrue(Name.isValidName("Capital Tan")); // with capital letters
-        assertTrue(Name.isValidName("David Roger Jackson Ray Jr 2nd")); // long names
+        assertTrue(Name.isValidName("read chapter 2 before lecture 2")); // alphanumeric characters
+        assertTrue(Name.isValidName("Prepare for Tutorial")); // with capital letters
+        assertTrue(Name.isValidName("prepare for lecture by reading lecture notes")); // long names
     }
 
+    @Test
+    public void testCleanName() {
+        String originalName = "Business Communication (BBA) Exciting!";
+        String cleanedName = "Business Communication BBA Exciting";
+        assertEquals(cleanedName, Name.cleanNameString(originalName));
+    }
 }
