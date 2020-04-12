@@ -6,7 +6,6 @@ import static modulo.logic.commands.CommandTestUtil.VALID_NAME_DEADLINE_LECTURE_
 import static modulo.logic.commands.CommandTestUtil.VALID_NAME_DEADLINE_TUTORIAL;
 import static modulo.logic.commands.CommandTestUtil.assertCommandFailure;
 import static modulo.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static modulo.testutil.event.TypicalEvents.LECTURE_1;
 import static modulo.testutil.event.TypicalEvents.TUTORIAL_1;
 import static modulo.testutil.event.TypicalEvents.TUTORIAL_2;
 import static modulo.testutil.event.TypicalEvents.TUTORIAL_3;
