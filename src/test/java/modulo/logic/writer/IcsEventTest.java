@@ -78,10 +78,12 @@ public class IcsEventTest {
         icsEvent.setUid(uuid);
         String result = icsEvent.toIcsString();
 
-        // Due to potential minuscule differences in time created
-        if (!result.substring(84, 90).equals(icsString.substring(84, 90))) {
-            icsString = icsString.substring(0, 84) + result.substring(84, 90) + icsString.substring(90);
-        }
-        assertEquals(result, icsString);
+        String[] results = result.split("DTSTAMP");
+        String[] icsStrings = icsString.split("DTSTAMP");
+
+        assertEquals(results[0], icsStrings[0]);
+        results = results[1].split("DTSTART");
+        icsStrings = icsStrings[1].split("DTSTART");
+        assertEquals(results[1], icsStrings[1]);
     }
 }
