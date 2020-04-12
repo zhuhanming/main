@@ -29,7 +29,7 @@ public class MainWindow extends UiPart<Stage> {
     private static final String FXML = "MainWindow.fxml";
 
     private static final String[] colourClassStrings = {"purple", "red", "darkblue", "orange", "lightblue", "green",
-            "pink", "amber"};
+        "pink", "amber"};
 
     private final Logger logger = LogsCenter.getLogger(getClass());
 
