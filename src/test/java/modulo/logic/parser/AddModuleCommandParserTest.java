@@ -19,6 +19,9 @@ import modulo.model.module.Module;
 import modulo.model.module.ModuleCode;
 import modulo.testutil.module.ModuleBuilder;
 
+/**
+ * Test class to test the functionality of the AddModuleCommandParser.
+ */
 public class AddModuleCommandParserTest {
     private AddModuleCommandParser addModuleCommandParser = new AddModuleCommandParser();
 

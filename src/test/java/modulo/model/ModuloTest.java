@@ -24,7 +24,9 @@ import modulo.model.module.Module;
 import modulo.model.module.exceptions.DuplicateModuleException;
 import modulo.testutil.module.ModuleBuilder;
 
-
+/**
+ * Test class to test the functionality of the Modulo.
+ */
 public class ModuloTest {
 
     private final Modulo modulo = new Modulo();
