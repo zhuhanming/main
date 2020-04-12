@@ -171,4 +171,12 @@ public class JsonAdaptedEventTest {
         String expectedMessage = Slot.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, event::toModelType);
     }
+
+    @Test
+    public void toModelType_nullSlot_throwsIllegalValueException() {
+        JsonAdaptedEvent event = new JsonAdaptedEvent(VALID_NAME, VALID_EVENT_TYPE, VALID_EVENT_START,
+                VALID_EVENT_END, VALID_PARENT_MODULE_CODE, VALID_ACADEMIC_YEAR, VALID_LOCATION, null, VALID_DEADLINES);
+        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Slot.class.getSimpleName());
+        assertThrows(IllegalValueException.class, expectedMessage, event::toModelType);
+    }
 }
