@@ -12,18 +12,20 @@ import static modulo.logic.parser.CliSyntax.PREFIX_START_DATETIME;
 import static modulo.logic.parser.CliSyntax.PREFIX_STOP_REPEAT;
 import static modulo.logic.parser.CliSyntax.PREFIX_VENUE;
 import static modulo.testutil.Assert.assertThrows;
+import static modulo.testutil.TypicalIndexesUtils.INDEX_FIRST_ITEM;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.collections.ObservableList;
 import modulo.commons.core.index.Index;
 import modulo.logic.commands.exceptions.CommandException;
-import modulo.logic.predicate.NameContainsKeywordsPredicate;
 import modulo.model.Model;
 import modulo.model.Modulo;
-import modulo.model.event.Event;
+import modulo.model.displayable.Displayable;
+import modulo.model.displayable.DisplayableType;
 import modulo.model.module.Module;
 
 
@@ -135,38 +137,32 @@ public class CommandTestUtil<DESC_CS2103> {
     }
 
     /**
-     * Updates {@code model}'s filtered list to show only the person at the given {@code targetIndex} in the
-     * {@code model}'s address book.
+     * Updates {@code model}'s filtered list to show only the module at the given {@code targetIndex} in the
+     * {@code model}'s modulo.
      * <p>
-     * public static void showModuleAtIndex(Model model, Index targetIndex) {
-     * assertTrue(targetIndex.getZeroBased() < model.getFilteredModuleList().size());
-     * <p>
-     * Module module = model.getFilteredModuleList().get(targetIndex.getZeroBased());
-     * final String[] splitName = module.getName().fullName.split("\\s+");
-     * model.updateFilteredModuleList(new NameContainsKeywordsPredicate(Arrays.asList(splitName[0])));
-     * assertEquals(1, model.getFilteredModuleList().size());
-     * }
-     * <p>
-     * /**
-     * Updates {@code model}'s filtered list to show only the person at the given {@code targetIndex} in the
-     * {@code model}'s address book.
-     * <p>
-     * public static void showEventAtIndex(Model model, Index targetIndex) {
-     * assertTrue(targetIndex.getZeroBased() < model.getFilteredEventList().size());
-     * <p>
-     * Event event = model.getFilteredEventList().get(targetIndex.getZeroBased());
-     * final String[] splitName = event.getName().fullName.split("\\s+");
-     * model.updateFilteredModuleList(new NameContainsKeywordsPredicate(Arrays.asList(splitName[0])));
-     * assertEquals(1, model.getFilteredModuleList().size());
-     * }
      */
+    public static void showModuleAtIndex(Model model, Index targetIndex) {
+        assertTrue(targetIndex.getZeroBased() < model.getFilteredModuleList().size());
+        model.setFilteredFocusedList(DisplayableType.MODULE);
+        ObservableList<? extends Displayable> lastShownList = model.getFilteredFocusedList();
+        Displayable itemToView = lastShownList.get(INDEX_FIRST_ITEM.getZeroBased());
+        model.setFocusedDisplayable(itemToView);
+        assertEquals(itemToView, model.getFocusedDisplayable());
+    }
 
+
+    /**
+     * Updates {@code model}'s filtered list to show only the event at the given {@code targetIndex} in the
+     * {@code model}'s modulo.
+     * <p>
+     */
     public static void showEventAtIndex(Model model, Index targetIndex) {
         assertTrue(targetIndex.getZeroBased() < model.getFilteredEventList().size());
-        Event event = model.getFilteredEventList().get(targetIndex.getZeroBased());
-        final String[] splitName = event.getName().fullName.split("\\s+");
-        model.updateFilteredDisplayableList(new NameContainsKeywordsPredicate(splitName[0]));
-        assertEquals(1, model.getFilteredEventList().size());
+        model.setFilteredFocusedList(DisplayableType.EVENT);
+        ObservableList<? extends Displayable> lastShownList = model.getFilteredFocusedList();
+        Displayable itemToView = lastShownList.get(INDEX_FIRST_ITEM.getZeroBased());
+        model.setFocusedDisplayable(itemToView);
+        assertEquals(itemToView, model.getFocusedDisplayable());
     }
 
 

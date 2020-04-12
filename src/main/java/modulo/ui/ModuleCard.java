@@ -33,13 +33,15 @@ public class ModuleCard extends UiPart<Region> {
     @FXML
     private Label moduleCode;
 
-    public ModuleCard(Module module, int displayedIndex) {
+    public ModuleCard(Module module, int displayedIndex, String tagColorClass) {
         super(FXML);
         this.module = module;
         id.setText(displayedIndex + ". ");
         moduleName.setText(module.getName().toString());
         moduleAcadYear.setText(module.getAcademicYear().toModuleCardFormat());
         moduleCode.setText(module.getModuleCode().toString());
+        moduleCode.getStyleClass().clear();
+        moduleCode.getStyleClass().addAll(tagColorClass, "moduleCode");
     }
 
     @Override

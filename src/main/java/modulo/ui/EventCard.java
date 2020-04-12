@@ -40,7 +40,7 @@ public class EventCard extends UiPart<Region> {
     @FXML
     private Label isCompleted;
 
-    public EventCard(Event event, int displayedIndex) {
+    public EventCard(Event event, int displayedIndex, String tagColorClass) {
         super(FXML);
         this.event = event;
         id.setText(displayedIndex + ". ");
@@ -49,6 +49,8 @@ public class EventCard extends UiPart<Region> {
                 + event.getEventEnd().format(DateTimeFormatter.ofPattern("h a")));
         endDate.setText(event.getLocation().toString());
         moduleCode.setText(event.getParentModule().getModuleCode().toString());
+        moduleCode.getStyleClass().clear();
+        moduleCode.getStyleClass().addAll(tagColorClass, "moduleCode");
         boolean areAllDeadlinesCompleted = event.getDeadlines().stream().allMatch(Deadline::isCompleted);
         isCompleted.setText(areAllDeadlinesCompleted ? "\u2713" : "\u2718"); // tick or cross depending on status
         if (!isCompleted.getStyleClass().contains("completed") && areAllDeadlinesCompleted) {

@@ -236,7 +236,11 @@ public class ModuleLibrary {
             }
         }
         if (timetable == null) {
-            timetable = ((JsonObject) semesterData.get(0)).get("timetable").getAsJsonArray();
+            try {
+                timetable = ((JsonObject) semesterData.get(0)).get("timetable").getAsJsonArray();
+            } catch (IndexOutOfBoundsException e) {
+                return new JsonArray();
+            }
         }
         return timetable;
     }
