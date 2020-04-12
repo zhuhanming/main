@@ -41,8 +41,6 @@ public class ModuleLibrary {
             throws ModuleNotFoundException {
         try {
             JsonObject moduleNeeded = getModule(moduleCode);
-            System.out.println(moduleNeeded);
-            System.out.println(moduleNeeded.get("title"));
             Name name = new Name(Name.cleanNameString(moduleNeeded.get("title").getAsString()));
             String description = moduleNeeded.get("description").getAsString();
             return new Module(moduleCode, name, academicYear, description);
