@@ -67,7 +67,7 @@ public class DoneCommandParserTest {
     public void parse_validIndexArgsValidModuleArgsValidEventArgs_returnsDoneCommand() {
         // no leading and trailing whitespaces
         DoneCommand expectedDoneCommand =
-                new DoneCommand(TypicalModules.PARTIAL_MODULE_CS1231S, TypicalEvents.PARTIAL_EVENT_TUTORIAL_1,
+                new DoneCommand(TypicalModules.PARTIAL_MODULE_CS1231S, TypicalEvents.PARTIAL_EVENT_TUTORIAL_1_CS1231S,
                         INDEX_FIRST_ITEM);
         assertParseSuccess(parser, "1 m/CS1231S e/Tutorial 1", expectedDoneCommand);
     }
