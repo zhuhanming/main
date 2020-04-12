@@ -32,17 +32,13 @@ public class AddDeadlineCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a deadline to Modulo. "
             + "Parameters: "
-            + "(if viewing Event) "
-            + PREFIX_NAME + "NAME "
-            + "[" + PREFIX_REPEAT + "YES/NO] "
-            + "Parameters: (else) "
-            + PREFIX_MODULE + "MODULE "
+            + PREFIX_MODULE + "MODULE_CODE "
             + PREFIX_EVENT + "EVENT_NAME "
-            + PREFIX_NAME + "NAME "
+            + PREFIX_NAME + "DEADLINE_NAME "
             + "[" + PREFIX_REPEAT + "YES/NO]\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_MODULE + "CS2103 "
-            + PREFIX_EVENT + "Tutorial "
+            + PREFIX_EVENT + "Tutorial 2 "
             + PREFIX_NAME + "Complete tutorial questions "
             + PREFIX_REPEAT + "YES";
 

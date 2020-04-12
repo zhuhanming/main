@@ -28,7 +28,7 @@ public class AddModuleCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a module to Modulo. "
             + "Parameters: "
-            + PREFIX_MODULE + "MODULE "
+            + PREFIX_MODULE + "MODULE_CODE "
             + "\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_MODULE + "CS2103 ";

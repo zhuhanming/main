@@ -16,8 +16,8 @@ import modulo.model.displayable.DisplayableType;
 public class FindCommand extends Command {
 
     public static final String COMMAND_WORD = "find";
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all modules / events whose names"
-            + "\ncontain any of the specified keywords.\n"
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all modules / events whose names "
+            + "contain any of the specified keywords.\n"
             + "Example: " + COMMAND_WORD + " CS";
     public static final String RETURN_TO_ORIGINAL_LIST_INSTRUCTION = "\nTo return to the original list view, try:\n"
             + "list events / list modules";
