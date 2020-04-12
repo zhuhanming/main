@@ -77,6 +77,18 @@ public class AddDeadlineCommand extends Command {
         this.parentEvent = null;
     }
 
+    public Name get_name() {
+        return this.name;
+    }
+
+    public Event get_parentEvent() {
+        return this.parentEvent;
+    }
+
+    public boolean get_isRepeated() {
+        return this.isRepeated;
+    }
+
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
