@@ -117,8 +117,9 @@ public class Module implements Displayable {
         if (otherModule == this) {
             return true;
         } else {
-            return otherModule.getModuleCode().equals(this.getModuleCode())
-                    && otherModule.getAcademicYear().equals(this.getAcademicYear());
+            return otherModule != null
+                    && (otherModule.getModuleCode().equals(this.getModuleCode())
+                    && otherModule.getAcademicYear().equals(this.getAcademicYear()));
         }
     }
 
