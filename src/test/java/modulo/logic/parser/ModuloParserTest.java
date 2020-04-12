@@ -13,6 +13,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import modulo.logic.commands.AddModuleCommand;
+import modulo.logic.commands.ClearCommand;
 import modulo.logic.commands.DeleteCommand;
 import modulo.logic.commands.ExitCommand;
 import modulo.logic.commands.FindCommand;
@@ -34,14 +35,12 @@ public class ModuloParserTest {
         AddModuleCommand command = (AddModuleCommand) parser.parseCommand(ModuleUtil.getAddCommand(module));
         assertEquals(new AddModuleCommand(module.getModuleCode(), module.getAcademicYear()), command);
     }
-    //TODO: Wait for clear command to finish
 
-    /**
-     * @Test public void parseCommand_clear() throws Exception {
-     * assertTrue(parser.parseCommand(ClearCommand.COMMAND_WORD) instanceof ClearCommand);
-     * assertTrue(parser.parseCommand(ClearCommand.COMMAND_WORD) instanceof ClearCommand);
-     * }
-     */
+    @Test
+    public void parseCommand_clear() throws Exception {
+        assertTrue(parser.parseCommand(ClearCommand.COMMAND_WORD) instanceof ClearCommand);
+        assertTrue(parser.parseCommand(ClearCommand.COMMAND_WORD) instanceof ClearCommand);
+    }
 
     @Test
     public void parseCommand_delete() throws Exception {

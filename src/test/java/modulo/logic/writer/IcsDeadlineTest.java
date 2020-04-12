@@ -30,7 +30,7 @@ public class IcsDeadlineTest {
                 + "END:VTODO" + System.lineSeparator();
         Module module = new Module(new ModuleCode("CS2103"), new Name("Software Engineering"),
                 new AcademicYear(2019, 2020, 2), "Software Engineering",
-                new ArrayList<Event>());
+                new ArrayList<>());
         Event event = new Event(new Name("TestEvent"), EventType.TUTORIAL, currentDateTime, currentDateTime,
                 module, new Location("TestLocation"));
         Deadline deadline = new Deadline(new Name("TestDeadline"), event);

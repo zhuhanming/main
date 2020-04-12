@@ -89,7 +89,7 @@ public class DeleteCommandParserTest {
     }
 
     @Test
-    public void parse_inputDeleteDeadlineAll_returnsDeleteCommand() throws ParseException {
+    public void parse_inputDeleteDeadlineAll_returnsDeleteCommand() {
         DeleteCommand expectedDeleteCommand =
                 new DeleteCommand(new NameContainsKeywordsPredicate(""), true);
         assertParseSuccess(deleteCommandParser, " d/all", expectedDeleteCommand);

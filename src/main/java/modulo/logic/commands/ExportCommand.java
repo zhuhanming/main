@@ -23,7 +23,7 @@ public class ExportCommand extends Command {
             + "[" + PREFIX_DIRECTORY + "DIRECTORY]"
             + "\n"
             + "Example: " + COMMAND_WORD + " "
-            + PREFIX_DIRECTORY + "data/ ";
+            + PREFIX_DIRECTORY + "data/";
 
     private Path exportDirectory;
 

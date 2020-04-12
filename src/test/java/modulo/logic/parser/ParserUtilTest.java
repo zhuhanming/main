@@ -3,6 +3,7 @@ package modulo.logic.parser;
 import static modulo.testutil.TypicalIndexes.INDEX_FIRST_MODULE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -52,7 +53,7 @@ public class ParserUtilTest {
 
     @Test
     public void parseModuleName_null_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> ParserUtil.parseName((String) null));
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseName(null));
     }
 
     @Test
@@ -75,7 +76,7 @@ public class ParserUtilTest {
 
     @Test
     public void parseModuleCode_null_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> ParserUtil.parseModuleCode((String) null));
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseModuleCode(null));
     }
 
     @Test
@@ -98,7 +99,7 @@ public class ParserUtilTest {
 
     @Test
     public void parseEventName_null_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> ParserUtil.parseName((String) null));
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseName(null));
     }
 
     @Test
@@ -126,7 +127,7 @@ public class ParserUtilTest {
 
     @Test
     public void parseLocation_null_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> ParserUtil.parseLocation((String) null));
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseLocation(null));
     }
 
     @Test
@@ -159,8 +160,7 @@ public class ParserUtilTest {
 
     @Test
     public void parseEventRepeat_validValueWithoutWhitespace_returnsTag() throws Exception {
-        Boolean expectedRepeat = true;
-        assertEquals(expectedRepeat, ParserUtil.parseRepeat(VALID_EVENT_REPEAT));
+        assertTrue(ParserUtil.parseRepeat(VALID_EVENT_REPEAT));
     }
 
 }

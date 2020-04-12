@@ -41,7 +41,7 @@ public class ExportCommandParserTest {
 
 
     @Test
-    public void parse_invalidArgs_throwsParseException() throws ParseException {
+    public void parse_invalidArgs_throwsParseException() {
         assertThrows(ParseException.class, () -> exportCommandParser.parse(" invalid_input"));
         assertParseFailure(exportCommandParser, " invalid_input",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, ExportCommand.MESSAGE_USAGE));

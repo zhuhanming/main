@@ -1,7 +1,6 @@
 package modulo.model;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 import modulo.model.displayable.Displayable;
@@ -11,10 +10,6 @@ import modulo.model.module.AcademicYear;
  * Class to section events out by date and modules out by academic year.
  */
 public class Title implements Displayable {
-    private static final DateTimeFormatter MONTH_FORMAT = DateTimeFormatter.ofPattern("MMM d");
-    private static final DateTimeFormatter MONTH_YEAR_FORMAT = DateTimeFormatter.ofPattern("MMM d yyyy");
-    private static final DateTimeFormatter WEEKDAY_FORMAT = DateTimeFormatter.ofPattern("EEEE");
-
     private String title;
 
     /**

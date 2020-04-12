@@ -1,6 +1,8 @@
 package modulo.logic.predicate;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -22,20 +24,20 @@ public class NameContainsKeywordPredicateTest {
         NameContainsKeywordsPredicate secondPredicate = new NameContainsKeywordsPredicate(secondPredicateKeywordList);
 
         // same object -> returns true
-        assertTrue(firstPredicate.equals(firstPredicate));
+        assertEquals(firstPredicate, firstPredicate);
 
         // same keyword -> returns true
         NameContainsKeywordsPredicate firstPredicateCopy = new NameContainsKeywordsPredicate(firstPredicateKeywordList);
-        assertTrue(firstPredicate.equals(firstPredicateCopy));
+        assertEquals(firstPredicate, firstPredicateCopy);
 
         // different types -> returns false
-        assertFalse(firstPredicate.equals(1));
+        assertNotEquals(1, firstPredicate);
 
         // null -> returns false
-        assertFalse(firstPredicate.equals(null));
+        assertNotEquals(firstPredicate, null);
 
         // different keyword -> returns false
-        assertFalse(firstPredicate.equals(secondPredicate));
+        assertNotEquals(firstPredicate, secondPredicate);
     }
 
     @Test
@@ -66,7 +68,6 @@ public class NameContainsKeywordPredicateTest {
         // predicate contains keyword that matches -> return true
         predicate = new NameContainsKeywordsPredicate("2103");
         assertTrue(predicate.test(new ModuleBuilder().withModuleCode("CS2103").build()));
-
 
 
         // Testing of predicate for events

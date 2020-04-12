@@ -16,7 +16,6 @@ public class ListCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Lists out the specified items.\n"
             + "Parameters: "
-            + "list "
             + "events/modules "
             + "\n"
             + "Example: " + COMMAND_WORD + " events";
@@ -39,7 +38,6 @@ public class ListCommand extends Command {
         return new CommandResult(displayableType == DisplayableType.MODULE ? MESSAGE_SHOWING_MODULES
                 : MESSAGE_SHOWING_EVENTS, false, false, true, false, null, null);
     }
-
 
 
     /**

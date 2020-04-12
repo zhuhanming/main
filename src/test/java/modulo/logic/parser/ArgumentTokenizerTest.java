@@ -35,13 +35,13 @@ public class ArgumentTokenizerTest {
     }
 
     /**
-     * Asserts all the arguments in {@code argMultimap} with {@code prefix} match the {@code expectedValues}
-     * and only the last value is returned upon calling {@code ArgumentMultimap#getValue(Prefix)}.
+     * Asserts all the arguments in {@code argMultimap} with {@code prefix} match the {@code expectedValues} and only
+     * the last value is returned upon calling {@code ArgumentMultimap#getValue(Prefix)}.
      */
     private void assertArgumentPresent(ArgumentMultimap argMultimap, Prefix prefix, String... expectedValues) {
 
         // Verify the last value is returned
-        assertEquals(expectedValues[expectedValues.length - 1], argMultimap.getValue(prefix).get());
+        assertEquals(expectedValues[expectedValues.length - 1], argMultimap.getValue(prefix).orElseThrow());
 
         // Verify the number of values returned is as expected
         assertEquals(expectedValues.length, argMultimap.getAllValues(prefix).size());
@@ -109,7 +109,7 @@ public class ArgumentTokenizerTest {
         assertPreambleEmpty(argMultimap);
         assertArgumentAbsent(argMultimap, pSlash);
 
-        /** Also covers: testing for prefixes not specified as a prefix **/
+        /* Also covers: testing for prefixes not specified as a prefix */
         // Prefixes not previously given to the tokenizer should not return any values
         argsString = unknownPrefix + "some value";
         argMultimap = ArgumentTokenizer.tokenize(argsString, pSlash, dashT, hatQ);

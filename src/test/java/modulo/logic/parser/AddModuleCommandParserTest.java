@@ -1,13 +1,12 @@
 package modulo.logic.parser;
 
 import static modulo.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static modulo.logic.commands.CommandTestUtil.ACEDEMICYEAR_DESC_CS2103;
-import static modulo.logic.commands.CommandTestUtil.ACEDEMICYEAR_DESC_CS2105;
 import static modulo.logic.commands.CommandTestUtil.CODE_DESC_CS2103;
 import static modulo.logic.commands.CommandTestUtil.CODE_DESC_CS2105;
 import static modulo.logic.commands.CommandTestUtil.INVALID_CODE_DESC;
 import static modulo.logic.commands.CommandTestUtil.PREAMBLE_WHITESPACE;
-import static modulo.logic.commands.CommandTestUtil.SEMESTER_DESC_CS2103;
+import static modulo.logic.commands.CommandTestUtil.VALID_CODE_CS2105;
+import static modulo.logic.parser.CliSyntax.PREFIX_MODULE;
 import static modulo.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static modulo.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static modulo.testutil.module.TypicalModules.CS2103;
@@ -44,15 +43,17 @@ public class AddModuleCommandParserTest {
     @Test
     public void parse_compulsoryFieldMissing_failure() {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddModuleCommand.MESSAGE_USAGE);
+
         // missing module code prefix
-        assertParseFailure(addModuleCommandParser, ACEDEMICYEAR_DESC_CS2103 + SEMESTER_DESC_CS2103,
-                expectedMessage);
+        assertParseFailure(addModuleCommandParser, VALID_CODE_CS2105, expectedMessage);
+
+        // missing module code
+        assertParseFailure(addModuleCommandParser, PREFIX_MODULE.toString(), expectedMessage);
     }
 
     @Test
     public void parse_invalidValue_failure() {
         // invalid module code
-        assertParseFailure(addModuleCommandParser, INVALID_CODE_DESC + ACEDEMICYEAR_DESC_CS2105 + SEMESTER_DESC_CS2103,
-                ModuleCode.MESSAGE_CONSTRAINTS);
+        assertParseFailure(addModuleCommandParser, INVALID_CODE_DESC, ModuleCode.MESSAGE_CONSTRAINTS);
     }
 }

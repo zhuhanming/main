@@ -4,12 +4,11 @@ import static java.util.Objects.requireNonNull;
 import static modulo.commons.core.Messages.MESSAGE_DUPLICATE_MODULE;
 import static modulo.testutil.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -52,21 +51,21 @@ public class AddModuleCommandTest {
         AddModuleCommand addCS2105Command = new AddModuleCommand(cs2105.getModuleCode(), cs2105.getAcademicYear());
 
         // same object -> returns true
-        assertTrue(addCS2103Command.equals(addCS2103Command));
+        assertEquals(addCS2103Command, addCS2103Command);
 
         // same values -> returns true
         AddModuleCommand addCS2105CommandCopy = new AddModuleCommand(cs2105.getModuleCode(),
                 cs2105.getAcademicYear());
-        assertTrue(addCS2105Command.equals(addCS2105CommandCopy));
+        assertEquals(addCS2105Command, addCS2105CommandCopy);
 
         // different types -> returns false
-        assertFalse(addCS2103Command.equals(1));
+        assertNotEquals(1, addCS2103Command);
 
         // null -> returns false
-        assertFalse(addCS2103Command.equals(null));
+        assertNotEquals(addCS2103Command, null);
 
         // different person -> returns false
-        assertFalse(addCS2103Command.equals(addCS2105Command));
+        assertNotEquals(addCS2103Command, addCS2105Command);
     }
 
     @Test
@@ -81,7 +80,7 @@ public class AddModuleCommandTest {
         assertEquals(String.format(AddModuleCommand.MESSAGE_SUCCESS + "\n\nEnter slot for "
                 + validModule.getModuleCode().toString()
                 + " " + firstEventType.toString() + ":", validModule), commandResult.getFeedbackToUser());
-        assertEquals(Arrays.asList(validModule), modelStub.modulesAdded);
+        assertEquals(Collections.singletonList(validModule), modelStub.modulesAdded);
     }
 
     @Test
@@ -97,7 +96,7 @@ public class AddModuleCommandTest {
     /**
      * A default model stub that have all of the methods failing.
      */
-    private class ModelStub implements Model {
+    private static class ModelStub implements Model {
 
         @Override
         public void setUserPrefs(ReadOnlyUserPrefs userPrefs) {
@@ -274,7 +273,7 @@ public class AddModuleCommandTest {
     /**
      * A Model stub that contains a single person.
      */
-    private class ModelStubWithModule extends ModelStub {
+    private static class ModelStubWithModule extends ModelStub {
 
         private final Module module;
 

@@ -21,8 +21,6 @@ public class ModuleUtil {
      * Returns the part of command string for the given {@code module}'s details.
      */
     public static String getModuleDetails(Module module) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(PREFIX_MODULE + module.getModuleCode().moduleCode + " ");
-        return sb.toString();
+        return PREFIX_MODULE + module.getModuleCode().moduleCode + " ";
     }
 }

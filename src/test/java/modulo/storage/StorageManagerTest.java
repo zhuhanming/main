@@ -1,7 +1,6 @@
 package modulo.storage;
 
 import static modulo.testutil.module.TypicalModules.getTypicalModuloModulesOnly;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -71,5 +70,10 @@ public class StorageManagerTest {
     @Test
     public void getModuloFilePath() {
         assertNotNull(storageManager.getModuloFilePath());
+    }
+
+    @Test
+    public void getUserPrefsFilePath() {
+        assertNotNull(storageManager.getUserPrefsFilePath());
     }
 }

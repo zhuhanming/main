@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static modulo.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import javafx.collections.ObservableList;
@@ -199,6 +200,6 @@ public class Modulo implements ReadOnlyModulo {
 
     @Override
     public int hashCode() {
-        return events.hashCode();
+        return Objects.hash(events, modules);
     }
 }

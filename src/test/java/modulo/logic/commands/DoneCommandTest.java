@@ -29,13 +29,13 @@ public class DoneCommandTest {
     public void execute_invalidModule_throwsCommandException() {
         DoneCommand doneCommand = new DoneCommand(new Module(new ModuleCode("AB1234"), new Name("InvalidModule"),
                 new AcademicYear(2019, 2020, 2), "InvalidModule",
-                new ArrayList<Event>()), null, Index.fromOneBased(1));
+                new ArrayList<>()), null, Index.fromOneBased(1));
         assertThrows(CommandException.class, () -> doneCommand.execute(model));
     }
 
     @Test
     public void execute_invalidEvent_throwsCommandException() {
-        Module module = model.getModule(new ModuleCode("CS2103"), AcademicYear.now()).get();
+        Module module = model.getModule(new ModuleCode("CS2103"), AcademicYear.now()).orElseThrow();
         Event event = new Event(new Name("TestEvent"), EventType.TUTORIAL, LocalDateTime.now(), LocalDateTime.now(),
                 module, new Location("TestLocation"));
         DoneCommand doneCommand = new DoneCommand(module, event, Index.fromOneBased(1));
