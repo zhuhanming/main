@@ -1,0 +1,35 @@
+= ErnTekTeoh - Project Portfolio
+:site-section: AboutUs
+:imagesDir: ../images
+:stylesDir: ../stylesheets
+
+== PROJECT: Modulo
+
+---
+
+== Overview
+
+Modulo is for *NUS students* who *prefer to use a desktop app for managing their school work on a modular level*.
+It helps you to break down your modules into deadlines and track their progress. +
+
+== Summary of contributions
+
+* *Feature*: Export .ics file
+** Allows the user to export calendar as an .ics file compatible with common web calendar applications.
+
+* *Feature*: Add Deadline
+** Allows the user to add deadline to calendar
+
+* *Other contributions*:
+
+** Kickstart initial modifications of functional classes (e.g. LogicManager, ModelManager, AddressBook etc.)
+** Initial creation of entity classes
+** Help teammate review code on-site and provide suggestions to code
+** Write test cases for classes (ClearCommand, DoneCommand, ExportCommand, writer package)
+** Aid in debugging of issues raised during mock PE
+
+** Documentation:
+*** Implementation + sequence diagram for export command (DG)
+*** UseCase4 for export command (DG)
+*** UML diagram for Storage
+*** Feature description for export (UG)
