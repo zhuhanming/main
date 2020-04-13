@@ -319,7 +319,7 @@ image::Done_ActivityDiagram.png[]
 ** Pros: Easy to implement,not likely to create bugs.
 ** Cons: More steps required for user if she/he wants to complete different deadlines.
 
-* **Alternative 2 (current choice):** Done multiple deadlines at one time
+* **Alternative 2 :** Done multiple deadlines at one time
 ** Pros: More time consuming for user to complete list of deadline at one time.
 ** Cons: User input will be complex as it required to check for different modules and events then finally can set the status to be true.
 Difficult to troubleshoot if bugs occur.
