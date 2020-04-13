@@ -58,10 +58,10 @@ Note how the `Command::execute()` method shows polymorphic behavior.
 === Exercise: Add a polymorphic `isMutating` method
 
 * Add a method `boolean isMutating()` to the `Command` class.
-This method will return `true` for command types that mutate the data. e.g. `AddCommand`
-* Currently, AddressBook data are saved to the file after every command.
+This method will return `true` for command types that mutate the data. e.g. `AddModuleCommand`
+* Currently, Modulo data are saved to the file after every command.
 Take advantage of the the new method you added to limit file saving to only for command types that mutate data.
-i.e. `add` command should always save the data while `list` command should never save data to the file.
+i.e. `module` command should always save the data while `list` command should never save data to the file.
 
 [NOTE]
 ====

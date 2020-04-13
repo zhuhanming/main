@@ -1,0 +1,34 @@
+@startuml
+!include style.puml
+show members
+skinparam classAttributeFontColor #FFFFFFF
+skinparam classAttributeIconSize 0
+skinparam arrowThickness 1.1
+skinparam arrowColor LOGIC_COLOR_T4
+skinparam classBackgroundColor LOGIC_COLOR
+
+Package StatefulLogic {
+
+class StatefulLogic <<interface>> {
+    +hasState(): boolean
+    +setStateWithCommandResult(commandResult: CommandResult): void
+    +execute(commandText: String): CommandResult
+}
+
+class AddModuleStatefulLogicManager {
+    -module: Module
+}
+
+AddModuleStatefulLogicManager .up.|> StatefulLogic
+}
+
+Package Model {
+hide members
+class EventType <<enumeration>> MODEL_COLOR
+class Model MODEL_COLOR
+}
+
+AddModuleStatefulLogicManager "1"-right->"1" Model
+AddModuleStatefulLogicManager "1"-right-> "*" EventType
+
+@enduml

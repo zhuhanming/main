@@ -1,0 +1,41 @@
+@startuml
+!include style.puml
+
+box Logic LOGIC_COLOR_T1
+participant "a:AddModuleCommand" as AddModuleCommand LOGIC_COLOR
+participant "result:AddModuleCommandResult" as AddModuleCommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant ":Model" as Model MODEL_COLOR
+participant ":ModuleLibrary" as ModuleLibrary MODEL_COLOR
+end box
+
+activate AddModuleCommand
+
+group State Preparation
+AddModuleCommand -> Model : addModule(moduleCode, academicYear)
+activate Model
+
+Model --> AddModuleCommand
+deactivate Model
+
+AddModuleCommand -> Model: getModule(moduleCode, academicYear)
+activate Model
+Model --> AddModuleCommand: module: Module
+deactivate Model
+
+AddModuleCommand -> ModuleLibrary: getEventTypesOfModule(module)
+activate ModuleLibrary
+ModuleLibrary --> AddModuleCommand: eventTypes: List<EventType>
+note left: eventTypes will later\nserve as the state
+deactivate ModuleLibrary
+
+create AddModuleCommandResult
+AddModuleCommand -> AddModuleCommandResult: module, eventTypes
+activate AddModuleCommandResult
+
+AddModuleCommandResult --> AddModuleCommand
+deactivate AddModuleCommandResult
+end
+@enduml
