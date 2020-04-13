@@ -146,7 +146,6 @@ image::DeleteSequenceDiagram.png[]
 
 NOTE: The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
 
-// tag::model[]
 [[Design-Model]]
 === Model component
 
@@ -173,7 +172,6 @@ image:BetterModelClassDiagram.png[]
 Alternatively, we can remove the list of events under each module and instead just maintain the two separate
 `UniqueModuleList` and `UniqueEventList`.
 This may, however, make it costly to render the module list, since we now need to search through the entire list of events to find relevant ones.
-// end::model[]
 
 [[Design-Storage]]
 === Storage component
@@ -290,9 +288,41 @@ If a new type of state is required, the changes required will be heavy as well, 
 // end::statefullogic[]
 
 // tag::edit[]
-=== [Proposed] Edit Feature
+=== [Proposed] Done Feature
 
-Currently, Modulo does not allow for the editing of the details of modules, events and deadlines that have been created.
+This features allow user to set deadline'status to be completed or not completed.The user input is handled and retrieved by the `MainWindow` class in Ui first, after that passed to the `LogicManager` to process the input.
+First,`LogicManager` will call the `ModuleParser` which will pass the input to the `DoneCommandParser`.
+Then`DoneCommandParser` will invoked `DoneCommand` to set the status of deadline to be true(Completed) and update the model.
+Invalid input such as invalid index(i.e done 1000) also handled properly and error message will be displayed to user.
+The command is implemented corresponding to the operation in the logic module:
+
+* `DoneCommand` -- Set the status of the deadline to be true.
+
+For the command, a parser is implemented to parse the input into arguments.
+
+* `DoneCommandParser` --Parse the done command input and generates `DoneCommand`.
+
+Given below is a sequence diagram to show how the done mechanism behaves at each step.
+
+image::Done_SequenceDiagram.png[]
+
+Given below is a activity diagram to show how the done mechanism behaves at each step.
+
+image::Done_ActivityDiagram.png[]
+
+==== Design Considerations
+
+===== Aspect: How done features executes
+
+* **Alternative 1 (current choice):** Done 1 deadline at a time
+** Pros: Easy to implement.
+** Cons: More steps required for user to completed different deadlines.
+More difficult to implement as it required to check multiple modules and events to set the deadline's status, also more RAM is needed.
+
+* **Alternative 2 :** Modulo will keep track of deadline's status and update every week
+** Pros: User
+** Cons: Increase coupling,
+
 // end::edit[]
 
 // tag::undoredo[]
@@ -437,12 +467,12 @@ Refer to the guide <<DevOps#, here>>.
 *Target user profile*:
 
 * has a need to manage their modules and the deadlines for these modules
-* prefer desktop apps over other types of apps
-* can type fast and prefers typing over mouse input
+* prefer desktop apps over other types
+* can type fast
+* prefers typing over mouse input
 * is reasonably comfortable using CLI apps
-* is a current NUS student who is taking modules in AY19/20 Sem 2
 
-*Value proposition*: Manage modules and related deadlines faster than a typical mouse/GUI driven app
+*Value proposition*: manage modules and deadlines faster than a typical mouse/GUI driven app
 
 [appendix]
 == User Stories
@@ -452,22 +482,21 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 [width="59%",cols="22%,<23%,<25%,<30%",options="header",]
 |=======================================================================
 |Priority |As a ... |I want to ... |So that I can...
-|`* * *` |new user |see usage instructions |refer to instructions when I forget how to use Modulo
+|`* * *` |new user |see usage instructions |refer to instructions when I forget how to use the App
 
-|`* * *` |user |view my events for the week |never miss any event
+|`* * *` |user |create a deadline |ensure I do not miss any of my module / assignment deadlines
 
-|`* * *` |busy user |create deadlines |ensure I do not miss any of my module / assignment deadlines
-
-|`* * *` |user |complete deadlines |track the work I have done
-
-|`* * *` |user |set routine deadlines based on events |routinely prepare for these events
+|`* * *` |user |track all my daily events |never miss any event
 
 |`* * *` |user |categorise my work based on module |don’t have to manually categorise myself
 
-|`* * *` |user |add events to modules easily |get started on deadline planning earlier
+|`* * *` |user |can track the tutorials which I have done |
+
+|`* *` |user |avoid clashes within my own schedule |
 
 |`* *` |user |export my data from this app |access the data I’ve created from anywhere
 
+|`*` |user |can assign a maximum number of deadlines within a timeframe |not get overwhelmed by my assigned workload
 |=======================================================================
 
 _{More to be added}_
@@ -475,15 +504,15 @@ _{More to be added}_
 [appendix]
 == Use Cases
 
-(For all use cases below, the *System* is `Modulo` and the *Actor* is the `user`, unless specified otherwise)
+(For all use cases below, the *System* is the `Modulo` and the *Actor* is the `user`, unless specified otherwise)
 
 [discrete]
 === Use case: UC01 - Add a <<deadline,deadline>>
 
 *MSS* Preconditions: Module data file is loaded properly. +
-Guarantees: Deadline is added under the correct <<module,module>> and <<event,event>>, with the correct details. +
+Guarantees: Deadline is added, tagged to the correct <<module,module>> and <<event,event>>, with the correct details. +
 
-1. User <<UseCaseTwo,adds a module (UC02)>>.
+1. User +++<u>adds a module (UC02)</u>+++.
 2. User adds a deadline to the correct <<module,module>> and <<event,event>>, with all the required details.
 3. Modulo shows the newly created deadline.
 +
@@ -494,26 +523,24 @@ Use case ends.
 [none]
 * 2a.
 User enters incorrect information.
+
 [none]
 ** 2a1. Modulo shows user the correct format for the deadline creation.
 ** 2a2. User enters new information following the correct format.
 +
 Use case resumes from step 3.
 
-// tag::uctwo[]
-[[UseCaseTwo]]
 [discrete]
 === Use case: UC02 - Add a module
 
-*MSS* Preconditions: Module data files are loaded properly. +
-Guarantees: Module is added to the user's Modulo. +
+*MSS* Preconditions: Module data file is loaded properly. +
+Guarantees: Module is added to the user's modulo. +
 
-1. User enters a module code, e.g. CS2103.
-2. Modulo searches its data files for the module and creates the module using information from the data files.
-3. Modulo prompts user to enter the slot for an event type.
-4. User enters their slot for the event type. +
-Steps 3-4 are repeated for as many times as required until the User has entered slots for all event types of the module.
-5. Modulo shows the newly created module.
+1. User enters a module code or module name.
+2. Modulo searches its data files for the closest matching module
+3. Modulo prompts the user for his/her confirmation
+4. User enters ‘Y’ to confirm his/her module selection
+5. Modulo shows the newly created module in the user’s modulo
 +
 Use case ends.
 
@@ -522,52 +549,36 @@ Use case ends.
 [none]
 * 1a.
 User enters incorrect data and the wrong module is found.
+
 [none]
-** 1a1. Steps 2 to 4 are performed.
-** 1a2. User <<UseCaseThree,deletes the added module (UC03)>> and its events.
+** 1a1. Steps 2 and 3 are performed.
+** 1a2. User enters ‘N’ to reject his/her module selection.
+** 1a3. Steps 1 to 4 are repeated until the correct module is found and User enters ‘Y’.
 +
-Use case resumes from step 1.
+Use case resumes from step 5.
 
 [none]
 * 1b.
 User enters invalid data and no modules are found.
+
 [none]
 ** 1b1. Modulo informs User that no modules with the given information can be found.
-** 1b2. Step 1 repeated until User enters a correct module code.
+** 1b2. Steps 1 to 4 or 1 to 1b1 are repeated until User finds a module.
 +
-Use case resumes from step 2.
-
-[none]
-* 3a.
-User added a module with no events.
-[none]
-Use case resumes from step 5.
-
-[none]
-* 3b.
-User exited Modulo before adding all events.
-[none]
-** 3b1. Modulo saves all events that were already added.
-+
-Use case ends.
+Use case resumes from step 3.
 
 [none]
 * 4a.
-User enters an invalid slot.
+User enters something other than ‘Y’.
+
 [none]
 ** 4a1. Modulo cancels the request by the User.
 ** 4a2. Modulo informs the User of the cancellation.
 +
 Use case ends.
-// end::uctwo[]
-
-[[UseCaseThree]]
-[discrete]
-=== Use case: UC03 - Delete a module
 
 [appendix]
-
-== Non-Functional Requirements
+== Non Functional Requirements
 
 . A NUS student with above-average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
 . Should work on any <<mainstream-os,mainstream OS>> as long as it has Java 11 or above installed.
@@ -587,37 +598,32 @@ Windows, Linux, Unix, OS-X
 
 [[module]]
 Module::
-Modules that the User is taking for AY19/20 Semester 2.
+Modules that the User is taking for the current semester.
 
 [[event]]
-Event::
-There are two types of events: official and user-added.
-Official ones include events such as Lectures, Tutorials, Recitations, Sectionals etc.
-User-added are events that are not recognised.
-
-Refer to <<UserGuide.adoc#EventTypes,here>> for the list of recognised event types.
+Event These are default events for each module, such as Lectures, Tutorials, Recitations, Sectionals etc.
+All these events are automatically populated from NUS data upon module creation.
 
 [[deadline]]
-Deadline::
-Individual tasks to complete that can be tagged to a specific event.
+Deadlines Individual tasks to complete that can be tagged to a specific event.
+These can be both recurring or just one-off.
 
 [appendix]
 == Product Survey
 
-*NUSMods*
+*Product Name*
 
-Author: Zhu Hanming
+Author: ...
 
 Pros:
 
-* Extremely clean and intuitive UI.
-* Effortless data population and contains all the information I may need.
-* Can save my data as a `.ics` file.
+* ...
+* ...
 
 Cons:
 
-* Not a CLI app.
-* Doesn't help me plan my deadlines.
+* ...
+* ...
 
 [appendix]
 == Instructions for Manual Testing
@@ -633,56 +639,36 @@ These instructions only provide a starting point for testers to work on; testers
 
 .. Download the jar file and copy into an empty folder
 .. Double-click the jar file +
-   Expected: Shows the GUI with no data. The window size may not be optimum.
-
+   Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
 . Saving window preferences
 
 .. Resize the window to an optimum size. Move the window to a different location. Close the window.
 .. Re-launch the app by double-clicking the jar file. +
    Expected: The most recent window size and location is retained.
+_{ more test cases ... }_
 
-. Shutting down
+=== Deleting a person
 
-.. Launch the help window by typing `help`.
-.. Quit the app by typing `exit`. +
-Expected: Both the main window and the help window should close.
+. Deleting a person while all persons are listed
 
-=== Deleting a module
-
-. Deleting a module using index while all modules are listed
-
-.. Prerequisites: List all modules using the `list modules` command. Multiple modules in the list.
+.. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
 .. Test case: `delete 1` +
-Expected: First module is deleted from the list. All events of that module are deleted.
-Details of the deleted module shown in the status message.
+Expected: First contact is deleted from the list.
+Details of the deleted contact shown in the status message.
+Timestamp in the status bar is updated.
 .. Test case: `delete 0` +
-Expected: No module is deleted. No events deleted.
+Expected: No person is deleted.
 Error details shown in the status message.
-.. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size). +
+Status bar remains the same.
+.. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size) _{give more}_ +
 Expected: Similar to previous.
 
-. Deleting a module using search terms while all modules are listed
-
-.. Prerequisites: List all modules using the `list modules` command. CS2103 in the list. Other CS modules in the
-list.
-.. Test case: `delete CS2103` +
-Expected: CS2103 is deleted from the list.
-Details of the deleted module shown in the status message.
-.. Test case: `delete cs` +
-Expected: All CS modules are deleted.
-Number of deleted modules shown in the status message.
-.. Test case: `delete cs2199` +
-Expected: No module is deleted.
-Information shown in the status message.
-.. Other incorrect delete commands to try: `delete x` (where x is a term that does not exist in the list). +
-Expected: Similar to previous.
+_{ more test cases ... }_
 
 === Saving data
 
 . Dealing with missing/corrupted data files
 
-.. Corrupt the current save file under `./data/`. The easiest way is to type `-` somewhere in one of the saved
-modules' academic year. Another way may be to add random characters that make the JSON format unreadable.
-.. Double-click the jar file +
-Expected: Shows the GUI with no data.
+.. _{explain how to simulate a missing/corrupted file and the expected behavior}_
+_{ more test cases ... }_
 
