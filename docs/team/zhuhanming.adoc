@@ -1,0 +1,151 @@
+= Zhu Hanming - Project Portfolio
+:site-section: AboutUs
+:imagesDir: ../images
+:stylesDir: ../stylesheets
+:repoSenseURL: https://nus-cs2103-ay1920s2.github.io/tp-dashboard/#search=zhuhanming&sort=groupTitle&sortWithin=title&since=2020-02-14&timeframe=commit&mergegroup=false&groupSelect=groupByRepos&breakdown=false
+
+== PROJECT: Modulo
+
+---
+
+== Overview
+
+Modulo is a desktop module management application written for students with fast fingers.
+A GUI created with JavaFX is also provided.
+It is written in Java, and has about 16 kLoC.
+
+== Summary of contributions
+
+* *Major enhancement: `StatefulLogic` - Enabling Multistep Commands*
+** This feature allows the user to perform elaborate multistep commands by having their inputs build onto what was previously entered.
+** *Justification:* This feature greatly reduces the amount of repetitive commands that a user needs to enter to achieve the same result.
+It also helps to connect related processes.
+** *Highlights:* This feature was implemented from scratch with minimal changes to existing logic and classes, and instead extended on the Command Pattern.
+The brainstorming and implementation process required an in-depth analysis of design alternatives.
+
+* *Major enhancement: `ModuleLibrary` - Understanding NUS Module JSONs*
+** This feature allows the user to add modules and events using official NUS module data.
+** *Justification:* This feature makes the app a lot more useful and convenient to use.
+** *Highlights:* A lot of difficulties were faced when analysing the patterns and inconsistencies within the NUS JSON files.
+`ModuleLibrary` now makes sense of the highly nested files to give users the required data meaningfully.
+** *Credits:* Google's Gson.
+
+* *Major enhancement: JavaFX - Pleasing to the Eye*
+** I designed and built the current GUI for Modulo.
+
+* *Minor enhancement: `Storage` - Saving Your Progress*
+** I adapted the code for the `Storage` classes to work with the new `Model`.
+
+== Code contributed
+
+My code contributions can be found here: link:{repoSenseURL}[RepoSense Code Dashboard]
+
+== Other contributions
+
+** Project Management
+*** Managed releases `v1.2.1` - `v1.4` (9 releases) on GitHub.
+*** Managed the issue tracker and milestones `v1.1` - `v1.4` (7 milestones) on GitHub.
+
+** Enhancements to Existing Features
+*** Designed the mockups for the app using Adobe XD.
+*** Wrote tests to increase coverage by 16.5% approximately (PRs
+https://github.com/AY1920S2-CS2103-T09-1/main/pull/129[#129],
+https://github.com/AY1920S2-CS2103-T09-1/main/pull/130[#130],
+https://github.com/AY1920S2-CS2103-T09-1/main/pull/138[#138],
+https://github.com/AY1920S2-CS2103-T09-1/main/pull/140[#140],
+https://github.com/AY1920S2-CS2103-T09-1/main/pull/151[#151]).
+*** Did up JavaDocs: https://github.com/AY1920S2-CS2103-T09-1/main/pull/73[#73],
+https://github.com/AY1920S2-CS2103-T09-1/main/pull/129[#129].
+*** Did cosmetic tweaks to both the app (e.g. app icon) and docs (screenshots).
+
+** Community:
+*** PRs reviewed (non-trivial):
+https://github.com/AY1920S2-CS2103-T09-1/main/pull/24[#24],
+https://github.com/AY1920S2-CS2103-T09-1/main/pull/37[#37],
+https://github.com/AY1920S2-CS2103-T09-1/main/pull/44[#44],
+https://github.com/AY1920S2-CS2103-T09-1/main/pull/131[#131],
+https://github.com/AY1920S2-CS2103-T09-1/main/pull/153[#153],
+*** PRs reviewed (semi-trivial):
+https://github.com/AY1920S2-CS2103-T09-1/main/pull/36[#36],
+https://github.com/AY1920S2-CS2103-T09-1/main/pull/52[#52],
+https://github.com/AY1920S2-CS2103-T09-1/main/pull/53[#53],
+https://github.com/AY1920S2-CS2103-T09-1/main/pull/59[#59],
+https://github.com/AY1920S2-CS2103-T09-1/main/pull/137[#137],
+https://github.com/AY1920S2-CS2103-T09-1/main/pull/152[#152],
+https://github.com/AY1920S2-CS2103-T09-1/main/pull/155[#155],
+https://github.com/AY1920S2-CS2103-T09-1/main/pull/160[#160]
+*** Clarified and shared tips when module first started.
+(https://github.com/nus-cs2103-AY1920S2/forum/issues/8[#8],
+https://github.com/nus-cs2103-AY1920S2/forum/issues/5[#5])
+*** Actively answered questions and responded to help requests on the forums.
+(https://github.com/nus-cs2103-AY1920S2/forum/issues/11[#11],
+https://github.com/nus-cs2103-AY1920S2/forum/issues/12[#12],
+https://github.com/nus-cs2103-AY1920S2/forum/issues/15[#15],
+https://github.com/nus-cs2103-AY1920S2/forum/issues/23[#23],
+https://github.com/nus-cs2103-AY1920S2/forum/issues/28[#28],
+https://github.com/nus-cs2103-AY1920S2/forum/issues/31[#31],
+https://github.com/nus-cs2103-AY1920S2/forum/issues/34[#34],
+https://github.com/nus-cs2103-AY1920S2/forum/issues/37[#37],
+https://github.com/nus-cs2103-AY1920S2/forum/issues/38[#38],
+https://github.com/nus-cs2103-AY1920S2/forum/issues/40[#40],
+https://github.com/nus-cs2103-AY1920S2/forum/issues/55[#55],
+https://github.com/nus-cs2103-AY1920S2/forum/issues/61[#61],
+https://github.com/nus-cs2103-AY1920S2/forum/issues/64[#64],
+https://github.com/nus-cs2103-AY1920S2/forum/issues/74[#74],
+https://github.com/nus-cs2103-AY1920S2/forum/issues/118[#118])
+*** Reported bugs and suggestions for other teams in the class (examples:
+https://github.com/nus-cs2103-AY1920S2/addressbook-level3/pull/37#pullrequestreview-369246753[1],
+https://github.com/nus-cs2103-AY1920S2/addressbook-level3/pull/21#pullrequestreview-381647317[2])
+
+** Tools:
+*** Integrated and managed the following GitHub plugins:
+**** Travis CI - to ensure that our product builds on UNIX platforms:
+https://github.com/AY1920S2-CS2103-T09-1/main/commit/efdb85f4f3c821d9f751382ef1bb0312f215ce38[efdb85f]
+**** AppVeyor - to ensure that our product builds on Windows platforms:
+https://github.com/AY1920S2-CS2103-T09-1/main/commit/3b5300a57fa00dadb1c8475d2f7cf8fad71f8d80[3b5300a]
+**** Coveralls - to track the coverage of our code:
+https://github.com/AY1920S2-CS2103-T09-1/main/commit/9846966ae2981d003d0515ea5dd648a22a8a7ccd[9846966]
+**** Codacy - to track the code quality of our project:
+https://github.com/AY1920S2-CS2103-T09-1/main/commit/da9c64098ad2637349b28ee941179a1f9e7e2137[da9c640]
+**** Netlify - to deploy a preview of our documentation for PRs
+*** Integrated a third party library (GSON) to the project (https://github.com/AY1920S2-CS2103-T09-1/main/pull/54[#54]).
+
+== Contributions to the User Guide
+
+|===
+|_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
+|===
+
+include::../UserGuide.adoc[tag=tutorial]
+
+include::../UserGuide.adoc[tag=addmodule]
+
+include::../UserGuide.adoc[tag=addevent]
+
+include::../UserGuide.adoc[tag=adddeadline]
+
+include::../UserGuide.adoc[tag=clear]
+
+include::../UserGuide.adoc[tag=ui]
+
+include::../UserGuide.adoc[tag=appendix]
+
+<<<
+
+== Contributions to the Developer Guide
+
+|===
+|_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
+|===
+
+include::../DeveloperGuide.adoc[tag=model]
+
+include::../DeveloperGuide.adoc[tag=statefullogic]
+
+include::../DeveloperGuide.adoc[tag=edit]
+
+include::../DeveloperGuide.adoc[tag=ucone]
+
+include::../DeveloperGuide.adoc[tag=uctwo]
+
+include::../DeveloperGuide.adoc[tag=manual]
