@@ -643,7 +643,11 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 |Priority |As a ... |I want to ... |So that I can...
 |`* * *` |new user |see usage instructions |refer to instructions when I forget how to use Modulo
 
-|`* * *` |user |view my events for the week |never miss any event
+|`* * *` |user |view my events by week |never miss any event
+
+|`* * *` |user |view the deadlines of my events |can know the deadlines I have
+
+|`* * *` |user |view class slots (e.g. tutorial) of my events |remember which class slot I signed up for
 
 |`* * *` |busy user |create deadlines |ensure I do not miss any of my module / assignment deadlines
 
@@ -654,6 +658,12 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 |`* * *` |user |categorise my work based on module |don’t have to manually categorise myself
 
 |`* * *` |user |add events to modules easily |get started on deadline planning earlier
+
+|`* * *` |user |delete modules / events / deadlines |if I finished doing them or made an error while adding them
+
+|`* * *` |busy user |delete all modules / events / deadlines |if I want to save time
+
+|`* * *` |user |find modules / events according to keyword |find modules / events are relevant to me
 
 |`* *` |user |export my data from this app |access the data I’ve created from anywhere
 
@@ -763,8 +773,27 @@ Use case ends.
 [[UseCaseThree]]
 [discrete]
 === Use case: UC03 - Delete a module / event / deadline
-1. User enters delete function followed by an input
-2. The input is valid and the ModuloParser class parses the input
+1. User enters `delete` followed by an input or `delete d/` followed by an input for deadlines.
+2. Modulo parses the input.
+3. The input is parsed and the relevant item is deleted.
+4. Modulo displays the item or items that have been deleted.
+Use case ends.
+
+*Extensions*
+
+[none]
+* 1a.
+User enters an invalid input.
+* 1b.
+Step 2 takes place.
+
+[none]
+** 1b1. Modulo informs the user that the item the user wants to delete does not exist.
+** 1b2. User enters a new item to deleteadd
++
+Use case resumes from step 1.
+
+
 // end::ucthree[]
 
 // tag::ucfour[]
