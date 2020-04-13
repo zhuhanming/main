@@ -344,7 +344,7 @@ Difficult to write test cases as well.
 
 * **Future Extension:** Modulo can have another UI panel to display every deadline that needs to be done a certain week.
 The user can then use the `done` command to update the deadlines' statuses from there.
-// edit::done[]
+// end::done[]
 
 // tag::export[]
 [[Export]]
