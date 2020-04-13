@@ -149,6 +149,12 @@ public class AddDeadlineCommand extends Command {
                 false, false, true, true, null, null);
     }
 
+    /**
+     * Returns true if the other object is equal to this AddDeadlineCommand object.
+     *
+     * @param other another object that this is compared to.
+     * @return true if it is equals, false otherwise.
+     */
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
