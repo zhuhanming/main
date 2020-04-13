@@ -11,7 +11,7 @@ import modulo.model.displayable.DisplayableType;
 
 public class ListCommandParserTest {
 
-    private ListCommandParser parser = new ListCommandParser();
+    private final ListCommandParser parser = new ListCommandParser();
 
     @Test
     public void parseEmptyArg_throwsParseException() {

@@ -20,7 +20,7 @@ import modulo.testutil.module.TypicalModules;
 
 public class ViewCommandTest {
 
-    private Model model = new ModelManager(TypicalModules.getTypicalModulo(), new UserPrefs());
+    private final Model model = new ModelManager(TypicalModules.getTypicalModulo(), new UserPrefs());
 
     @Test
     public void executeViewValidIndex_unFilteredList_success() {

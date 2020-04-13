@@ -16,7 +16,6 @@ import static modulo.testutil.event.TypicalEvents.TUTORIAL_1;
 import static modulo.testutil.event.TypicalEvents.TUTORIAL_2;
 import static modulo.testutil.event.TypicalEvents.TUTORIAL_INVALID_DATE;
 import static modulo.testutil.event.TypicalEvents.TUTORIAL_INVALID_TIME;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
@@ -43,7 +42,7 @@ import modulo.testutil.module.TypicalModules;
  */
 public class AddEventCommandTest {
 
-    private Model model = new ModelManager(TypicalModules.getTypicalModulo(), new UserPrefs());
+    private final Model model = new ModelManager(TypicalModules.getTypicalModulo(), new UserPrefs());
 
     @Test
     public void executeNothingToAdd_focusedDisplayableEvent_throwsCommandException() {
@@ -110,7 +109,6 @@ public class AddEventCommandTest {
         TemporalAmount frequency = Period.ofWeeks(1);
         AddEventCommand addEventCommand = new AddEventCommand(PARTIAL_EVENT_TUTORIAL_1_CS1231S,
                 true, end, frequency, null);
-        LocalDateTime start = PARTIAL_EVENT_TUTORIAL_1_CS1231S.getEventStart();
         Model expectedModel = new ModelManager(model.getModulo(), model.getUserPrefs());
         expectedModel.setFocusedDisplayable(expectedModel.getFilteredModuleList().get(0));
 
@@ -124,7 +122,6 @@ public class AddEventCommandTest {
         TemporalAmount frequency = Period.ofWeeks(1);
         AddEventCommand addEventCommand = new AddEventCommand(PARTIAL_EVENT_TUTORIAL_1_CS2103,
                 false, end, frequency, null);
-        LocalDateTime start = PARTIAL_EVENT_TUTORIAL_1_CS2103.getEventStart();
         Model expectedModel = new ModelManager(model.getModulo(), model.getUserPrefs());
         expectedModel.setFocusedDisplayable(expectedModel.getFilteredModuleList().get(0));
 
@@ -138,7 +135,6 @@ public class AddEventCommandTest {
         TemporalAmount frequency = Period.ofWeeks(1);
         AddEventCommand addEventCommand = new AddEventCommand(TUTORIAL_INVALID_DATE,
                 false, end, frequency, null);
-        LocalDateTime start = TUTORIAL_INVALID_DATE.getEventStart();
         Model expectedModel = new ModelManager(model.getModulo(), model.getUserPrefs());
         expectedModel.setFocusedDisplayable(expectedModel.getFilteredModuleList().get(0));
 
@@ -207,7 +203,6 @@ public class AddEventCommandTest {
         assertNotEquals(addEventCommandFirst, addEventCommandSecond);
 
 
-
         frequency = Period.ofWeeks(1);
         addEventCommandFirst = new AddEventCommand(new Name(VALID_NAME_EVENT_TUTORIAL_1),
                 LocalDateTime.of(LocalDate.now(), LocalTime.NOON),
@@ -256,7 +251,6 @@ public class AddEventCommandTest {
         assertNotEquals(addEventCommandFirst, addEventCommandSecond);
 
 
-
         addEventCommandFirst = new AddEventCommand(TUTORIAL_1,
                 false, end, frequency, null);
 
@@ -267,7 +261,6 @@ public class AddEventCommandTest {
         assertNotEquals(addEventCommandFirst, addEventCommandSecond);
 
 
-
         addEventCommandFirst = new AddEventCommand(TUTORIAL_1,
                 false, end, frequency, null);
 
@@ -275,7 +268,6 @@ public class AddEventCommandTest {
                 false, end, frequency, null);
 
         assertNotEquals(addEventCommandFirst, addEventCommandSecond);
-
 
 
         addEventCommandFirst = new AddEventCommand(TUTORIAL_1,

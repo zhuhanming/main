@@ -22,7 +22,7 @@ import modulo.testutil.module.ModuleBuilder;
  * Test class to test the functionality of the AddModuleCommandParser.
  */
 public class AddModuleCommandParserTest {
-    private AddModuleCommandParser addModuleCommandParser = new AddModuleCommandParser();
+    private final AddModuleCommandParser addModuleCommandParser = new AddModuleCommandParser();
 
     @Test
     public void parse_allFieldsPresent_success() {
