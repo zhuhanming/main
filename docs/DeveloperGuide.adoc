@@ -681,6 +681,8 @@ Expected: Similar to previous.
 
 . Dealing with missing/corrupted data files
 
-.. _{explain how to simulate a missing/corrupted file and the expected behavior}_
-_{ more test cases ... }_
+.. Corrupt the current save file under `./data/`. The easiest way is to type `-` somewhere in one of the saved
+modules' academic year. Another way may be to add random characters that make the JSON format unreadable.
+.. Double-click the jar file +
+Expected: Shows the GUI with no data.
 
