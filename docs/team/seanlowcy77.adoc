@@ -7,6 +7,7 @@
 
 ---
 
+image::images/Ui.png[width="600"]
 == Overview
 
 Modulo is for NUS students who prefer to use a desktop app for managing their school work on a modular level. It helps you to break down your modules into deadlines and track their progress.
