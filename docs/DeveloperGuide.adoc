@@ -70,7 +70,7 @@ image::LogicClassDiagram.png[]
 The _Sequence Diagram_ below shows how the components interact with each other for the scenario where the user issues the command `delete 1`.
 
 .Component interactions for `delete 1` command
-image::ArchitectureSequenceDiagram.png[]
+image::ArchitectureSequenceDiagram.png[width="690"]
 // end::architecture[]
 
 The sections below give more details of each component.
@@ -172,7 +172,7 @@ As of now, there are two separate `ObservableList` being maintained, and with ea
 In the future, to better enable the concept of a single source of truth, we can discard the use of a
 `ObservableList<Event>` and expose solely the unmodifiable `ObservableList<Module>`, and have events accessed through its parent module. +
 
-image:BetterModelClassDiagram.png[]
+image:BetterModelClassDiagram.png[width="500"]
 
 [NOTE]
 Alternatively, we can remove the list of events under each module and instead just maintain the two separate
@@ -213,7 +213,7 @@ It is an interface with three methods exposed, and currently only has one class 
 `AddModuleStatefulLogicManager`.
 
 .Structure of the Stateful Logic Component
-image::StatefulLogicClassDiagram.png[]
+image::StatefulLogicClassDiagram.png[width="750"]
 
 Let us understand how `StatefulLogic` works.
 
@@ -222,12 +222,12 @@ Let us understand how `StatefulLogic` works.
 As long as a `StatefulLogicManager`, which is a class that implements `StatefulLogic`, has state, it will take over the `LogicManager` in executing the given `String`.
 
 .The current implementation
-image::AddModuleHasStateSequenceDiagram.png[]
+image::AddModuleHasStateSequenceDiagram.png[width="750"]
 
 Should there be more `StatefulLogicManager` instances in play, we will see something like this:
 
 .If more Stateful Logic Managers are added
-image::MultipleHasStateSequenceDiagram.png[]
+image::MultipleHasStateSequenceDiagram.png[width="750"]
 
 At any point of time, only one `StatefulLogicManager` will have state.
 The `LogicManager` will thus check through them one by one, and will only directly parse the command itself should no `StatefulLogicManager` have state.
@@ -253,7 +253,7 @@ There is no difference for the first part from a regular `Command` execution.
 The differences lie in the state preparation and state loading.
 
 .State Preparation for `AddModuleCommandResult`
-image::StatePreparationSequenceDiagram.png[]
+image::StatePreparationSequenceDiagram.png[width="750"]
 
 The state is prepared during the initialising command, and that command will pack that state into a special subclass of `CommandResult`.
 This `CommandResult` is then passed back to the default `LogicManager`.
@@ -261,7 +261,7 @@ This `CommandResult` is then passed back to the default `LogicManager`.
 State loading is then done, if suitable.
 
 .State Loading for `AddModuleStatefulLogicManager`
-image::StateLoadingSequenceDiagram.png[]
+image::StateLoadingSequenceDiagram.png[width="750"]
 
 The `eventList` is passed on to the `AddModuleStatefulLogicManager` to be used as state.
 As long as the list is not empty, it is considered to have state.
@@ -372,8 +372,7 @@ Event entities can be mapped to VEVENT .ics type, but there is a lack of suitabl
 ** Pros: Users are able to see at a glance what are the `Deadline` for each `Event` easily
 ** Cons: Users are unable to take advantage of VTODO import functionality of certain calendar application.
 
-* **Alternative 3 (current choice):** Combine both options
-Users are able to make full use of .ics importing capabilities, while also providing a quick overview of `Deadline`
+* **Alternative 3 (current choice):** Combine both options Users are able to make full use of .ics importing capabilities, while also providing a quick overview of `Deadline`
 // end::export[]
 
 // tag::delete[]
@@ -382,11 +381,8 @@ Users are able to make full use of .ics importing capabilities, while also provi
 This Deletion feature allows the user to delete modules, events or deadlines.
 The user input is first retrieved by the `MainWindow` class which is then passed to the `LogicManager` via the `execute`
 function.
-`LogicManager` will call the `parseCommand` function of ModuloParser`, which will parse the input to create a temporary `DeleteCommandParser` object,
- parsing the input and returning a `DeleteCommand`.
-The command will then be executed in the `LogicManager`, returning a `CommandResult` object which will then be returned as
-feedback to the user.
-
+`LogicManager` will call the `parseCommand` function of ModuloParser`, which will parse the input to create a temporary `DeleteCommandParser` object, parsing the input and returning a `DeleteCommand`.
+The command will then be executed in the `LogicManager`, returning a `CommandResult` object which will then be returned as feedback to the user.
 
 Given below is a sequence diagram to show how the `delete` feature parsing an input of '1' behaves at each step:
 
@@ -401,28 +397,21 @@ image::DeleteActivityDiagram.png[]
 ===== Aspect: How `delete` may be executed
 
 * **Alternative 1 (current choice):** User can delete multiple items using the command at the same time.
-** Pros: Allows the user more flexibility in deleting modules and events instead of just deleting them one
-by one. For example users can choose to delete one, many or even all modules and events, depending on
-their command input.
-** Cons: This has caused the code to become more complex in dealing with the many possible inputs
-and scenarios, leading to a higher amount of potential errors.
+** Pros: Allows the user more flexibility in deleting modules and events instead of just deleting them one by one.
+For example users can choose to delete one, many or even all modules and events, depending on their command input.
+** Cons: This has caused the code to become more complex in dealing with the many possible inputs and scenarios, leading to a higher amount of potential errors.
 
 [NOTE]
-With respect to deadlines, users can only delete one or all deadlines of a particular event. This
-is to avoid any confusion and unnecessary complexity which may be caused by deleting deadlines across
-all events, especially since the user may only observe deadlines of one event at any one time and do
-not have access to the overall list of deadlines.
-
+With respect to deadlines, users can only delete one or all deadlines of a particular event.
+This is to avoid any confusion and unnecessary complexity which may be caused by deleting deadlines across all events, especially since the user may only observe deadlines of one event at any one time and do not have access to the overall list of deadlines.
 
 * **Alternative 2 :** User can `delete` only one or all items.
 ** Pros: Reduces the lack of potential errors due to the decreased complexity of the code.
-** Cons: It is less intuitive for the user as users are now limited by deleting one or all the events /
- modules / deadlines.
+** Cons: It is less intuitive for the user as users are now limited by deleting one or all the events / modules / deadlines.
 
 
 * **Future Extension:** Modulo can have another UI panel to display every deadline that needs to be done a certain week.
-The user can then use the `delete` command to delete multiple deadlines at one go, making it more convenient
-for the user.
+The user can then use the `delete` command to delete multiple deadlines at one go, making it more convenient for the user.
 // end::delete[]
 
 // tag::edit[]
@@ -434,7 +423,7 @@ Currently, Modulo does not allow for the editing of the details of events and de
 
 The Edit functionality will be achieved through the introduction of an `EditCommand` and its parser `EditCommandParser`.
 
-image::EditCommandClassDiagram.png[]
+image::EditCommandClassDiagram.png[width="650"]
 
 The `edit` command will have the following format:
 
@@ -447,20 +436,19 @@ The flow of the command parsing will be as such:
 
 image::EditCommandActivityDiagram.png[]
 
-If an `EditCommand` is successfully created, it will be executed on the `Model`. It will work mainly through the
-`setEvent` method already exposed in the `Model` interface, as well as a `setDeadline` that will be exposed through
-the parent event.
+If an `EditCommand` is successfully created, it will be executed on the `Model`.
+It will work mainly through the
+`setEvent` method already exposed in the `Model` interface, as well as a `setDeadline` that will be exposed through the parent event.
 
 Here's an example of how it may look like if the `EditCommand` was to modify an event's venue.
 
 User input: `edit n/Tutorial 1 m/CS2103 v/Home`
 
-image::EditCommandSequenceDiagram.png[]
-
+image::EditCommandSequenceDiagram.png[width="500"]
 
 ==== Limitations
-Due to the fact that repeated events are not currently being tagged or grouped in any way, it is difficult to allow
-mass editing of repeated events.
+
+Due to the fact that repeated events are not currently being tagged or grouped in any way, it is difficult to allow mass editing of repeated events.
 
 If there's a need to edit a repeated event, there would be a need to edit the events one by one.
 
@@ -473,8 +461,8 @@ If there's a need to edit a repeated event, there would be a need to edit the ev
 ** Cons: May have slight performance issues in terms of speed, and a lot of coding to be done.
 * **Alternative 2:** Consolidate the deadlines in a UniqueDeadlineList.
 ** Pros: Less code to write *for this feature* specifically, in terms of the `setDeadline` method.
-** Cons: Increases complexity of the application, since now three lists are maintained. There is also the same issue
-with events and modules in terms of the source of truth.
+** Cons: Increases complexity of the application, since now three lists are maintained.
+There is also the same issue with events and modules in terms of the source of truth.
 // end::edit[]
 
 // tag::undoredo[]
@@ -498,18 +486,18 @@ Given below is an example usage scenario and how the undo/redo mechanism behaves
 Step 1. The user launches the application, toggles to the event list and views an event.
 The `VersionedModulo` will be initialized with the initial modulo state, and the `currentStatePointer` pointing to that single modulo state.
 
-image::UndoRedoState0.png[]
+image::UndoRedoState0.png[width="500"]
 
 Step 2. The user executes `delete 5` command to delete the 5th event in Modulo.
 The `delete` command calls `Model#commitModulo()`, causing the modified state of Modulo after the `delete 5`
 command executes to be saved in the `moduloStateList`, and the `currentStatePointer` is shifted to the newly inserted Modulo state.
 
-image::UndoRedoState1.png[]
+image::UndoRedoState1.png[width="500"]
 
 Step 3. The user executes `deadline n/Draw UML` to add a new deadline to the viewed event.
 The `deadline` command also calls `Model#commitModulo()`, causing another modified modulo state to be saved into the `moduloStateList`.
 
-image::UndoRedoState2.png[]
+image::UndoRedoState2.png[width="500"]
 
 [NOTE]
 If a command fails its execution, it will not call `Model#commitModulo()`, so the Modulo state will not be saved into the `moduloStateList`.
@@ -518,7 +506,7 @@ Step 4. The user now decides that adding the deadline was a mistake, and decides
 `undo` command.
 The `undo` command will call `Model#undoModulo()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous Modulo state, and restores Modulo to that state.
 
-image::UndoRedoState3.png[]
+image::UndoRedoState3.png[width="500"]
 
 [NOTE]
 If the `currentStatePointer` is at index 0, pointing to the initial Modulo state, then there are no previous Modulo states to restore.
@@ -543,7 +531,7 @@ Commands that do not modify Modulo, such as `list`, will usually not call `Model
 `Model#undoModulo()` or `Model#redoModulo()`.
 Thus, the `moduloStateList` remains unchanged.
 
-image::UndoRedoState4.png[]
+image::UndoRedoState4.png[width="500"]
 
 Step 6. The user executes `clear`, which calls `Model#commitModulo()`.
 Since the `currentStatePointer` is not pointing at the end of the `moduloStateList`, all modulo states after the
@@ -551,7 +539,7 @@ Since the `currentStatePointer` is not pointing at the end of the `moduloStateLi
 We designed it this way because it no longer makes sense to redo the `deadline n/Draw UML` command.
 This is the behavior that most modern desktop applications follow.
 
-image::UndoRedoState5.png[]
+image::UndoRedoState5.png[width="500"]
 
 The following activity diagram summarizes what happens when a user executes a new command:
 
@@ -706,6 +694,7 @@ Use case resumes from step 3.
 // tag::uctwo[]
 [[UseCaseTwo]]
 [discrete]
+
 === Use case: UC02 - Add a module
 
 *MSS* Preconditions: Module data files are loaded properly. +
@@ -747,7 +736,7 @@ Use case resumes from step 2.
 User added a module with no events.
 
 [none]
-Use case resumes from step 5.
+** Use case resumes from step 5.
 
 [none]
 * 3b.
@@ -772,7 +761,9 @@ Use case ends.
 // tag::ucthree[]
 [[UseCaseThree]]
 [discrete]
+
 === Use case: UC03 - Delete a module / event / deadline
+
 1. User enters `delete` followed by an input or `delete d/` followed by an input for deadlines.
 2. Modulo parses the input.
 3. The input is parsed and the relevant item is deleted.
@@ -792,13 +783,12 @@ Step 2 takes place.
 ** 1b2. User enters a new item to deleteadd
 +
 Use case resumes from step 1.
-
-
 // end::ucthree[]
 
 // tag::ucfour[]
 [[UseCaseFour]]
 [discrete]
+
 === Use case: UC04 - Set Done to Deadline if user viewing a event
 
 *MSS* Preconditions: Module, Event and deadline are added. +
@@ -826,6 +816,7 @@ Use case resumes from step 5.
 // tag::ucfive[]
 [[UseCaseFive]]
 [discrete]
+
 === Use case: UC05 - Set Done to deadline if user not viewing event.
 
 *MSS* Preconditions: Module, Event and deadline are added and exits in Modulo. +
@@ -886,6 +877,7 @@ Use case resumes from step 1.
 // tag::ucseven[]
 [[UseCaseSeven]]
 [discrete]
+
 === Use case: UC07 - List Module
 
 *MSS* Preconditions: Modules are added in Modulo . +
@@ -900,7 +892,7 @@ Use case ends.
 
 [none]
 * 1a.
-User enters invalid command. e.g: list CS2103
+User enters invalid command. e.g: `list CS2103`
 
 [none]
 ** 1a1. Module inform user the command is invalid and display correct format to user +
@@ -910,6 +902,7 @@ Use case resumes from step 1.
 // tag::uceight[]
 [[UseCaseEight]]
 [discrete]
+
 === Use case: UC08 - View Module
 
 *MSS* Preconditions: Modules data are added in Modulo. +
@@ -977,17 +970,19 @@ Use case ends.
 *Extensions*
 
 [none]
-* 2a. Modulo is unable to find the directory specified by user.
+* 2a.
+Modulo is unable to find the directory specified by user.
 
 [none]
 ** 2a1. Modulo creates the directory.
 +
 Use case resumes from step 3.
-+
+
 // end::ucten[]
 
 // tag::nfr[]
 [appendix]
+
 == Non-Functional Requirements
 
 . A NUS student with above-average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
@@ -1045,6 +1040,7 @@ Cons:
 * Doesn't help me plan my deadlines.
 // end::productsurvey[]
 
+// tag::manual[]
 [appendix]
 == Instructions for Manual Testing
 
@@ -1091,15 +1087,16 @@ Expected: Lecture slot 1 should be added.
 
 .. Prerequisites: CS2103 already added. No event named Exam has been added to CS2103 yet.
 .. Test case: `event n/Exam m/CS2103 s/2020-01-15 09:00 e/2020-01-15 10:00 v/Home` +
-Expected: Event named Exam should appear in the list of events. To check, enter `list events`. It should be near the
-top of the list. The details should be as entered.
+Expected: Event named Exam should appear in the list of events.
+To check, enter `list events`.
+It should be near the top of the list.
+The details should be as entered.
 
 . Adding recurring events to CS2103
 
 .. Prerequisites: CS2103 already added. No recurring event named Self Study has been added to CS2103 yet.
 .. Test case: `event n/Self Study m/CS2103 s/2020-01-20 09:00 e/2020-01-20 10:00 v/Home r/YES until/2020-02-20` +
-Expected: Events named Self Study 1, Self Study 2, until Self Study 5 should appear, with a frequency of 1 week, and
-stopping before 2020-02-20.
+Expected: Events named Self Study 1, Self Study 2, until Self Study 5 should appear, with a frequency of 1 week, and stopping before 2020-02-20.
 
 === Adding a deadline
 
@@ -1108,9 +1105,9 @@ stopping before 2020-02-20.
 .. Prerequisites: CS2103 added. Event named Exam added. No deadline named "Study hard for exam" has been added to
 the event yet.
 .. Test case: `deadline n/Study hard for exam m/CS2103 e/Exam` +
-Expected: Deadline added to Exam. To check, first make sure you're listing events with `list events`, then enter
+Expected: Deadline added to Exam.
+To check, first make sure you're listing events with `list events`, then enter
 `view INDEX`, where `INDEX` is the index of the event on the list.
-
 
 === Completing a deadline
 
@@ -1152,7 +1149,8 @@ Expected: Details of the first event should show on the right panel.
 
 .. Prerequisite: List all events using the `list events` command. Has event(s) named Self Study.
 .. Test case: `find self study` +
-Expected: All events with Self Study in their names would appear. You can operate on this filtered list.
+Expected: All events with Self Study in their names would appear.
+You can operate on this filtered list.
 
 . Find Software Engineering
 
@@ -1227,7 +1225,8 @@ Expected: Similar to previous.
 . Deleting a deadline using index while an event is focused
 
 .. Prerequisites: List all events using the `list events` command. Events in the list. View first event with
-`view 1`. First event has a deadline.
+`view 1`.
+First event has a deadline.
 .. Test case: `delete d/1` +
 Expected: First deadline is deleted from the list.
 Details of the deleted deadline shown in the status message.
@@ -1242,8 +1241,8 @@ Expected: Similar to previous.
 . Export data
 
 .. Test case: `export` +
-Expected: A `modulo.ics` file should be created in the same `./data/` folder. You can use this `.ics` file to add
-your events and deadlines into your calendar.
+Expected: A `modulo.ics` file should be created in the same `./data/` folder.
+You can use this `.ics` file to add your events and deadlines into your calendar.
 
 === Viewing help
 
@@ -1273,6 +1272,7 @@ Expected: Shows the GUI with no data.
 .. Delete the current save file under `./data/`.
 .. Double-click the jar file +
 Expected: Shows the GUI with no data.
+// end::manual[]
 
 [appendix]
 == Effort
