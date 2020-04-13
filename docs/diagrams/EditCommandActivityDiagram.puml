@@ -1,0 +1,53 @@
+@startuml
+start
+:      ModuloParser parses user input into
+arguments and creates an EditCommandParser;
+
+:EditCommandParser parses arguments;
+
+if() then(  [name prefix is found and
+  there is no deadline prefix])
+    :User is editing event;
+    if() then([module prefix given])
+    if() then([valid module code])
+    :Parse for remaining
+            prefixes;
+    if() then([else])
+    :Show command
+    usage message;
+    else([at least one
+prefix found])
+:Create an EditCommand with
+the given inputs and return it;
+    endif
+    else ([else])
+    :Show module prefix
+       usage message;
+    endif
+    else ([else])
+    :Show command
+    usage message;
+    endif
+else if() then([deadline prefix found and
+   no name prefix found])
+:User is editing deadline;
+if() then( [module, event and new
+   name prefixes found])
+if() then([all inputs are valid])
+:Create an EditCommand with
+the given inputs and return it;
+else ([else])
+:    Show respective
+prefix usage message;
+endif
+else ([else])
+:Show command
+usage message;
+endif
+else ([else])
+:Show command
+usage message;
+
+endif
+stop
+@enduml

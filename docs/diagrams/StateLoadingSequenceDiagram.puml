@@ -10,7 +10,6 @@ end box
 
 activate AddModuleCommand
 activate LogicManager
-activate AddModuleStatefulLogicManager
 
 create AddModuleCommandResult
 AddModuleCommand -> AddModuleCommandResult
@@ -25,7 +24,9 @@ deactivate AddModuleCommand
 
 opt result instanceof AddModuleCommandResult
 LogicManager -> AddModuleStatefulLogicManager: setStateWithCommandResult(result)
+activate AddModuleStatefulLogicManager
 AddModuleStatefulLogicManager --> LogicManager
+deactivate AddModuleStatefulLogicManager
 
 end
 end
