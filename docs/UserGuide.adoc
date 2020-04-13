@@ -27,6 +27,7 @@ Interested?
 Jump to <<Quick Start>> to get started.
 Enjoy!
 
+// tag::quickstart[]
 == Quick Start
 
 . Ensure you have Java `11` or above installed in your Computer.
@@ -45,6 +46,7 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 . Used Modulo before?
 Refer to <<Features>> for details of each command.
 Note: We highly recommend going through the <<Tutorial,tutorial>> before starting!
+// end::quickstart[]
 
 // tag::tutorial[]
 [[Tutorial]]
@@ -183,13 +185,14 @@ is a parameter which can be used as `module m/CS2103`.
 `deadline n/Work`.
 * Parameters can be in any order e.g. if the command specifies `m/MODULE_CODE n/NAME`, `n/NAME m/MODULE_CODE` is also acceptable.
 ====
-
+// tag::help[]
 === Viewing help : `help`
 
 Opens the pop-up help window with the link to this user guide. +
 Format: `help`
 
 image::HelpWindow.png[width="790"]
+// end::help[]
 
 // tag::addmodule[]
 === Adding a module: `module` (Multistep)
@@ -244,6 +247,7 @@ Limitations: +
 * The datetime format recognised is YYYY-MM-DD HH:MM.
 * The date format is YYYY-MM-DD.
 * The start and end times of the event must be within AY 19/20 Sem 2, and the end time must be after the start time.
+* Your event cannot be longer than a day.
 * By default, the event will not repeat.
 * The default repeat frequency (in weeks) is 1 week.
 * If no repeat end datetime is specified, the event will repeat until the end of the semester (Week 16).
@@ -288,6 +292,7 @@ If you're already viewing an event (i.e. <<Focused,focused>> on an event), you c
 AND the `e/EVENT_NAME`!
 // end::adddeadline[]
 
+// tag::list[]
 [[List]]
 === Listing events or modules on the left: `list`
 
@@ -315,7 +320,9 @@ Same behaviour as `list modules` - lists all the modules on the left display pan
 * Lists all events or modules recorded in Modulo.
 * Switching of the lists can also be done by clicking the `Modules` or `Events` buttons at the top of the left display panel.
 ****
+// end::list[]
 
+// tag::view[]
 [[View]]
 === Viewing module or event details: `view`
 
@@ -333,7 +340,9 @@ Example:
 * `view 3`
 
 image::SampleView.png[width="790"]
+// end::view[]
 
+// tag::done[]
 === Finishing a deadline: `done`
 
 Toggles the completion status of a deadline.
@@ -364,7 +373,9 @@ AND the `e/EVENT_NAME`!
 *Known Bug:* When you complete a deadline, the list on the left side will refresh, and the item that was selected will unselect itself.
 
 =====
+// end::done[]
 
+// tag::find[]
 [[Find]]
 === Finding events or modules using keywords: `find`
 
@@ -390,7 +401,9 @@ image::SampleFind.png[width="500"]
 
 The `find` command allows the user to continually filter their list of searches.
 For example, while viewing the list of events, entering `find cs2103` and then `find tutorial` right after will allow the user to view CS2103 tutorials.
+// end::find[]
 
+// tag::delete[]
 [[Delete]]
 === Deleting a module/event/deadline: `delete`
 
@@ -431,7 +444,9 @@ Things to note:
 * You can delete an event's deadline using the deadline's index.
 * You can also delete all deadlines of that event.
 * This event needs to be currently viewed on the right panel.
+// end::delete[]
 
+// tag::export[]
 === Exporting Events and Deadlines: `export`
 
 Exports all events and deadlines into a `.ics` file.
@@ -456,14 +471,29 @@ Examples:
 * If the given export directory does not exist, it will be created.
 So do be careful with the directory given!
 *****
+// end::export[]
 
+// tag::clear[]
+=== Clearing all data: `clear`
+
+Clears all data from Modulo and starts the app from a clean slate.
+
+*Note:* This command cannot be undone! So do use it wisely.
+
+Format: `clear`
+// end::clear[]
+
+// tag::edit[]
 === Editing added Events and Deadlines: `[coming in v2.0]`
 
 _{explain how the user can edit an added Event or Deadline}_
+// end::edit[]
 
+// tag::import[]
 === Importing a NUSMods Calendar: `[coming in v2.0]`
 
 _{explain how the user can import a NUSMods Calendar}_
+// end::import[]
 
 // tag::ui[]
 == UI
@@ -528,6 +558,7 @@ You can head over to that folder to find the `.json` file for your usage.
 Your exported `modulo.ics` will also be found in the same directory, unless otherwise specified when exporting.
 // end::ui[]
 
+// tag::faq[]
 == FAQ
 
 *Q*: How do I transfer my data to another Computer? +
@@ -545,6 +576,7 @@ Stay Tuned!
 *Q*: Does Modulo only work for NUS students? +
 *A*: Unfortunately for now, Modulo is only catered to NUS students.
 For other universities, feel free to reach out to our team to discuss a possible collaboration!
+// end::faq[]
 
 // tag::appendix[]
 == Appendix
