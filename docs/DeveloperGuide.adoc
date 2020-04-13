@@ -646,7 +646,7 @@ Use case ends.
 // tag::ucfour[]
 [[UseCaseFour]]
 [discrete]
-=== Use case: UC04 - Done a Deadline if user viewing a events
+=== Use case: UC04 - Set Done to Deadline if user viewing a event
 
 *MSS* Preconditions: Module, Event and deadline are added. +
 Guarantees: Status of viewed deadline is updated. +
@@ -673,9 +673,9 @@ Use case resumes from step 5.
 // tag::ucthree[]
 [[UseCaseFive]]
 [discrete]
-=== Use case: UC05 - Done a deadline if user not viewing event details
+=== Use case: UC05 - Set Done to deadline if user not viewing event.
 
-*MSS* Preconditions: Module, Event and deadline are added. +
+*MSS* Preconditions: Module, Event and deadline are added and exits in Modulo. +
 Guarantees: Status of deadline under correct module and event is updated. +
 
 1. User enter module code, event name and index of deadline. e.g: done 1 m/CS2103 e/Tutorial 2. +
@@ -715,6 +715,7 @@ Guarantees: A list of added Events are displayed. +
 
 1. User enter list event. +
 2. Modulo searches for all the events that are added in the system and displayed in the left panel.
++
 Use case ends.
 
 *Extensions*
@@ -737,6 +738,7 @@ Guarantees: A list of added Modules is displayed. +
 
 1. User enter list module +
 2. Modulo searches for all the modules that are added in the system and displayed in the left panel.
++
 Use case ends.
 
 *Extensions*
@@ -754,7 +756,7 @@ Use case resumes from step 1.
 [discrete]
 === Use case: UC08 - View Module
 
-*MSS* Preconditions: Modules data are added in Modulo . +
+*MSS* Preconditions: Modules data are added in Modulo. +
 Guarantees: Details of selected module will be displayed. +
 
 1. User <<UseCaseSeven,list all the registered module (UC07)>>. +
@@ -786,6 +788,7 @@ Guarantees: Details of selected event will be displayed. +
 1. User <<UseCaseSix,list all the registered event (UC06)>>. +
 2. User enter view command, e.g view 1(index). +
 3. Modulo will searches and for the correct index from the events list and display the details of event at the right panel.
++
 Use case ends.
 
 *Extensions*
