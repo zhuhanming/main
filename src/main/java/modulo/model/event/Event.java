@@ -18,16 +18,16 @@ import modulo.model.module.Module;
 public class Event implements Displayable {
 
     // Identity Fields
-    private Name name;
-    private EventType eventType;
-    private LocalDateTime eventStart;
-    private LocalDateTime eventEnd;
-    private Module parentModule;
-    private Location location;
+    private final Name name;
+    private final EventType eventType;
+    private final LocalDateTime eventStart;
+    private final LocalDateTime eventEnd;
+    private final Module parentModule;
+    private final Location location;
     private Slot slot = null;
 
     // Data Fields
-    private List<Deadline> deadlines;
+    private final List<Deadline> deadlines;
 
     public Event(Name name, EventType eventType, LocalDateTime eventStart,
                  LocalDateTime eventEnd, Module parentModule, Location location) {
@@ -219,16 +219,6 @@ public class Event implements Displayable {
      */
     public boolean isAfterEvent(Event otherEvent) {
         return this.getEventStart().isAfter(otherEvent.getEventEnd());
-    }
-
-    /**
-     * Returns a string for debugging purposes.
-     *
-     * @return String for debugging purposes.
-     */
-    public String toDebugString() {
-        return (getParentModule() == null ? "null" : getParentModule().getModuleCode()) + " | "
-                + eventType + " | " + name + " | " + eventStart + " | " + eventEnd;
     }
 
     @Override

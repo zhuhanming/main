@@ -21,7 +21,6 @@ import modulo.model.Modulo;
 import modulo.model.ReadOnlyModulo;
 import modulo.model.ReadOnlyUserPrefs;
 import modulo.model.UserPrefs;
-import modulo.model.util.SampleDataUtil;
 import modulo.storage.JsonModuloStorage;
 import modulo.storage.JsonUserPrefsStorage;
 import modulo.storage.ModuloStorage;
@@ -83,10 +82,9 @@ public class MainApp extends Application {
         try {
             calendarOptional = storage.readModulo();
             if (calendarOptional.isEmpty()) {
-                logger.info("Data file not found. Will be starting with a sample Calendar");
+                logger.info("Data file not found. Will be starting with an empty Calendar");
             }
-            initialData = calendarOptional.orElseGet(SampleDataUtil::getSampleCalendar);
-            System.out.println("initial data is " + initialData);
+            initialData = calendarOptional.orElseGet(Modulo::new);
         } catch (DataConversionException e) {
             logger.warning("Data file not in the correct format. Will be starting with an empty Calendar");
             initialData = new Modulo();

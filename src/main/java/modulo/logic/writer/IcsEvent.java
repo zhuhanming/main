@@ -15,13 +15,13 @@ public class IcsEvent {
 
     private static final String ICS_ITEM_TYPE = "VEVENT";
     private String uid;
-    private String dtstart;
-    private String dtend;
-    private IcsRRule icsRRule;
+    private final String dtstart;
+    private final String dtend;
+    private final IcsRRule icsRRule;
     private String summary;
     private String location;
     private String description;
-    private List<IcsDeadline> deadlineList;
+    private final List<IcsDeadline> deadlineList;
     private boolean isRecurring;
 
     /**

@@ -3,9 +3,11 @@ package modulo.logic.parser;
 import static modulo.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static modulo.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import modulo.commons.core.LogsCenter;
 import modulo.logic.commands.AddDeadlineCommand;
 import modulo.logic.commands.AddEventCommand;
 import modulo.logic.commands.AddModuleCommand;
@@ -25,11 +27,12 @@ import modulo.logic.parser.exceptions.ParseException;
  * Parses user input.
  */
 public class ModuloParser {
-
     /**
      * Used for initial separation of command word and args.
      */
     private static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
+
+    private final Logger logger = LogsCenter.getLogger(ModuloParser.class);
 
     /**
      * Parses user input into command for execution.
@@ -46,8 +49,8 @@ public class ModuloParser {
 
         final String commandWord = matcher.group("commandWord");
         final String arguments = matcher.group("arguments");
-        System.out.println(commandWord);
-        System.out.println("arguments " + arguments);
+        logger.info("----------------[COMMAND WORD][" + commandWord + "]");
+        logger.info("----------------[ARGUMENTS][" + arguments + "]");
         switch (commandWord) {
 
         case AddDeadlineCommand.COMMAND_WORD:

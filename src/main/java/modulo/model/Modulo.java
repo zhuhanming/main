@@ -152,7 +152,6 @@ public class Modulo implements ReadOnlyModulo {
      */
     public boolean hasEvent(Event event) {
         requireNonNull(event);
-        // System.out.println("Calendar item !!!!!!!!!!!!!!!"+ calendarItem);
         return events.contains(event);
     }
 

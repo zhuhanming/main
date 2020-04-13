@@ -146,7 +146,6 @@ public class ModelManager implements Model {
         requireNonNull(toFind);
         List<Event> eventList = modulo.getEventList();
         List<Event> result = new ArrayList<>();
-        System.out.println("event list length: " + eventList.size());
         for (Event event : eventList) {
             if (event.isSameCategoryOfEvents(toFind)) {
                 result.add(event);

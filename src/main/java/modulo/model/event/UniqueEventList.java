@@ -44,7 +44,6 @@ public class UniqueEventList implements Iterable<Event> {
      */
     public boolean contains(Event toCheck) {
         requireNonNull(toCheck);
-        System.out.println("toCheck ins uniqueCalendarList " + toCheck);
         return internalList.stream().anyMatch(toCheck::isSameEvent);
     }
 
@@ -54,7 +53,6 @@ public class UniqueEventList implements Iterable<Event> {
     public void add(Event toAdd) {
         requireNonNull(toAdd);
         if (contains(toAdd)) {
-            System.out.println("Already contain: " + toAdd.toDebugString());
             throw new DuplicateEventException();
         }
         internalList.add(toAdd);

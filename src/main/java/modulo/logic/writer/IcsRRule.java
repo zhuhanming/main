@@ -4,9 +4,9 @@ package modulo.logic.writer;
  * Class that helps to convert repeated events into .ics format.
  */
 public class IcsRRule {
-    private String freq;
+    private final String freq;
     private int count;
-    private String byDay;
+    private final String byDay;
 
     /**
      * Constructs a helper class with the given parameters.
