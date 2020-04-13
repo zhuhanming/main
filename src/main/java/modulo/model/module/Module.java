@@ -9,12 +9,8 @@ import modulo.model.Name;
 import modulo.model.displayable.Displayable;
 import modulo.model.event.Event;
 
-
 /**
  * Represents a module in Modulo. Guarantees: details are present and not null, field values are validated, immutable.
- * <p>
- * <p>
- * TODO: The current implementation results in 2 sources of truth for events. May need to remove events under modules.
  */
 public class Module implements Displayable {
 
