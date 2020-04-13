@@ -85,8 +85,10 @@ public class Deadline implements Displayable {
     }
 
     /**
-     * Returns true if both deadlines have the same identity and data fields. This defines a stronger notion of equality
-     * between two deadlines.
+     * Returns true if the other object is equal to this Deadline object.
+     *
+     * @param other another object that this is compared to.
+     * @return true if it is equals, false otherwise.
      */
     @Override
     public boolean equals(Object other) {

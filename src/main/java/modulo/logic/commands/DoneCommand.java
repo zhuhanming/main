@@ -52,6 +52,7 @@ public class DoneCommand extends Command {
         this.index = index;
     }
 
+
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
@@ -62,15 +63,7 @@ public class DoneCommand extends Command {
 
         if (toCheckEvent == null && toCheckModule == null) {
             if (focusedDisplayable instanceof Event) {
-                try {
-                    deadlineToComplete = ((Event) focusedDisplayable).getDeadlines().get(index.getZeroBased());
-                } catch (IndexOutOfBoundsException e) {
-                    throw new CommandException(MESSAGE_INVALID_DONE_INDEX);
-                }
-                isDeadlineOriginallyComplete = deadlineToComplete.isCompleted();
-                deadlineToComplete.setCompleted(!isDeadlineOriginallyComplete);
-                return new CommandResult(String.format(isDeadlineOriginallyComplete ? MESSAGE_UNCOMPLETED_DEADLINE
-                        : MESSAGE_COMPLETED_DEADLINE, deadlineToComplete), false, false, true, true, null, null);
+                return returnResult_focusedDisplayableEvent(focusedDisplayable);
             } else if (focusedDisplayable != null) {
                 throw new CommandException(MESSAGE_CANNOT_COMPLETE_EVENT);
             } else {
@@ -78,8 +71,6 @@ public class DoneCommand extends Command {
                         DoneCommand.MESSAGE_USAGE));
             }
         }
-
-
         if (!model.hasModule(toCheckModule.getModuleCode(), toCheckModule.getAcademicYear())) {
             throw new CommandException(MESSAGE_MODULE_DOES_NOT_EXIST);
         }
@@ -100,6 +91,29 @@ public class DoneCommand extends Command {
             throw new CommandException(MESSAGE_DEADLINE_DOES_NOT_EXIST);
         }
     }
+
+
+    /**
+     * Returns a CommandResult should the deadline be within range when the focusedDispisplayable is an event,
+     * otherwise throws a CommandException.
+     *
+     * @param displayable The current displayable item in focus.
+     * @return CommandResult should the deadline be completable.
+     * @throws CommandException Should the index of the deadline be out of range.
+     */
+    public CommandResult returnResult_focusedDisplayableEvent(Displayable displayable) throws CommandException {
+        Deadline deadlineToComplete;
+        try {
+            deadlineToComplete = ((Event) displayable).getDeadlines().get(index.getZeroBased());
+        } catch (IndexOutOfBoundsException e) {
+            throw new CommandException(MESSAGE_INVALID_DONE_INDEX);
+        }
+        boolean isDeadlineOriginallyComplete = deadlineToComplete.isCompleted();
+        deadlineToComplete.setCompleted(!isDeadlineOriginallyComplete);
+        return new CommandResult(String.format(isDeadlineOriginallyComplete ? MESSAGE_UNCOMPLETED_DEADLINE
+                : MESSAGE_COMPLETED_DEADLINE, deadlineToComplete), false, false, true, true, null, null);
+    }
+
 
     @Override
     public boolean equals(Object other) {

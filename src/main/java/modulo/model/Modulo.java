@@ -176,7 +176,6 @@ public class Modulo implements ReadOnlyModulo {
     public String toString() {
         return events.asUnmodifiableObservableList().size() + " events "
                 + modules.asUnmodifiableObservableList().size() + " modules";
-        // TODO: refine later
     }
 
     @Override
