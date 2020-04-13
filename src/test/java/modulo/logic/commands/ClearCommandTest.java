@@ -19,6 +19,7 @@ public class ClearCommandTest {
     public void execute_clear_success() {
         ClearCommand clearCommand = new ClearCommand();
         Model expectedModel = new ModelManager(new Modulo(), model.getUserPrefs());
-        assertCommandSuccess(clearCommand, model, new CommandResult(MESSAGE_MODULO_CLEARED), expectedModel);
+        assertCommandSuccess(clearCommand, model, new CommandResult(MESSAGE_MODULO_CLEARED, false, false,
+                true, true, null, null), expectedModel);
     }
 }

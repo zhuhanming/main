@@ -432,6 +432,49 @@ Currently, Modulo does not allow for the editing of the details of events and de
 
 ==== Proposed Implementation
 
+The Edit functionality will be achieved through the introduction of an `EditCommand` and its parser `EditCommandParser`.
+
+image::EditCommandClassDiagram.png[]
+
+The `edit` command will have the following format:
+
+* Editing events:
+`edit n/EVENT_NAME m/MODULE_CODE [nn/NEW_NAME] [s/NEW_START_DATETIME] [e/NEW_END_DATETIME] [v/NEW_VENUE]`
+* Editing deadlines:
+`edit d/INDEX m/MODULE_CODE e/EVENT_NAME nn/NEW_NAME`
+
+The flow of the command parsing will be as such:
+
+image::EditCommandActivityDiagram.png[]
+
+If an `EditCommand` is successfully created, it will be executed on the `Model`. It will work mainly through the
+`setEvent` method already exposed in the `Model` interface, as well as a `setDeadline` that will be exposed through
+the parent event.
+
+Here's an example of how it may look like if the `EditCommand` was to modify an event's venue.
+
+User input: `edit n/Tutorial 1 m/CS2103 v/Home`
+
+image::EditCommandSequenceDiagram.png[]
+
+
+==== Limitations
+Due to the fact that repeated events are not currently being tagged or grouped in any way, it is difficult to allow
+mass editing of repeated events.
+
+If there's a need to edit a repeated event, there would be a need to edit the events one by one.
+
+==== Design Considerations
+
+===== Aspect: How to easily modify deadlines
+
+* **Alternative 1 (current choice):** Manually fetch the deadline from the event and replace.
+** Pros: Easy to implement.
+** Cons: May have slight performance issues in terms of speed, and a lot of coding to be done.
+* **Alternative 2:** Consolidate the deadlines in a UniqueDeadlineList.
+** Pros: Less code to write *for this feature* specifically, in terms of the `setDeadline` method.
+** Cons: Increases complexity of the application, since now three lists are maintained. There is also the same issue
+with events and modules in terms of the source of truth.
 // end::edit[]
 
 // tag::undoredo[]
@@ -974,9 +1017,6 @@ Cons:
 // end::productsurvey[]
 
 [appendix]
-== Effort
-
-[appendix]
 == Instructions for Manual Testing
 
 Given below are instructions to test the app manually.
@@ -1004,6 +1044,93 @@ These instructions only provide a starting point for testers to work on; testers
 .. Quit the app by typing `exit`. +
 Expected: Both the main window and the help window should close.
 
+=== Adding a module
+
+. Adding CS2103
+
+.. Prerequisites: CS2103 not already added. If added, delete it.
+.. Test case: `module m/cs2103` +
+Expected: CS2103 to appear in the list of modules, and app to prompt for further input.
+.. If prompt is for tutorial, test case: `3` +
+Expected: Tutorial slot 3 should be added.
+.. If prompt is for lecture, test case: `1` +
+Expected: Lecture slot 1 should be added.
+
+=== Adding an event
+
+. Adding Exam to CS2103
+
+.. Prerequisites: CS2103 already added. No event named Exam has been added to CS2103 yet.
+.. Test case: `event n/Exam m/CS2103 s/2020-01-15 09:00 e/2020-01-15 10:00 v/Home` +
+Expected: Event named Exam should appear in the list of events. To check, enter `list events`. It should be near the
+top of the list. The details should be as entered.
+
+. Adding recurring events to CS2103
+
+.. Prerequisites: CS2103 already added. No recurring event named Self Study has been added to CS2103 yet.
+.. Test case: `event n/Self Study m/CS2103 s/2020-01-20 09:00 e/2020-01-20 10:00 v/Home r/YES until/2020-02-20` +
+Expected: Events named Self Study 1, Self Study 2, until Self Study 5 should appear, with a frequency of 1 week, and
+stopping before 2020-02-20.
+
+=== Adding a deadline
+
+. Adding a deadline to CS2103 Exam
+
+.. Prerequisites: CS2103 added. Event named Exam added. No deadline named "Study hard for exam" has been added to
+the event yet.
+.. Test case: `deadline n/Study hard for exam m/CS2103 e/Exam` +
+Expected: Deadline added to Exam. To check, first make sure you're listing events with `list events`, then enter
+`view INDEX`, where `INDEX` is the index of the event on the list.
+
+
+=== Completing a deadline
+
+. Complete Study hard for exam.
+
+.. Prerequisites: CS2103 added. Event named Exam added. Deadline named Study hard for exam added, and is not completed.
+.. Test case: `done 2 m/CS2103 e/Exam` +
+Expected: Deadline named Study hard for exam is completed.
+
+=== Switching lists
+
+. List events
+
+.. Test case: `list events` +
+Expected: If not already listing events, events will now be listed.
+
+. List modules
+
+.. Test case: `list modules` +
+Expected: If not already listing modules, modules will not be listed.
+
+=== View event or module
+
+. View module
+
+.. Prerequisite: List all modules using the `list modules` command. At least one module.
+.. Test case: `view 1` +
+Expected: Details of the first module should show on the right panel.
+
+. View event
+
+.. Prerequisite: List all events using the `list events` command. At least one event.
+.. Test case: `view 1` +
+Expected: Details of the first event should show on the right panel.
+
+=== Find event or module
+
+. Find event(s) with Self Study in their names
+
+.. Prerequisite: List all events using the `list events` command. Has event(s) named Self Study.
+.. Test case: `find self study` +
+Expected: All events with Self Study in their names would appear. You can operate on this filtered list.
+
+. Find Software Engineering
+
+.. Prerequisite: List all modules using the `list modules` command. CS2103 added.
+.. Test case: `find software engineering` +
+Expected: CS2103 should show, along with any other modules that may have Software Engineering in their names.
+
 === Deleting a module
 
 . Deleting a module using index while all modules are listed
@@ -1030,11 +1157,79 @@ Details of the deleted module shown in the status message.
 .. Test case: `delete cs` +
 Expected: All CS modules are deleted.
 Number of deleted modules shown in the status message.
-.. Test case: `delete cs2199` +
+.. Test case: `delete cs2999` +
 Expected: No module is deleted.
 Information shown in the status message.
 .. Other incorrect delete commands to try: `delete x` (where x is a term that does not exist in the list). +
 Expected: Similar to previous.
+
+=== Deleting an event
+
+. Deleting an event using index while all events are listed
+
+.. Prerequisites: List all events using the `list events` command. Multiple events in the list.
+.. Test case: `delete 1` +
+Expected: First event is deleted from the list.
+Details of the deleted event shown in the status message.
+.. Test case: `delete 0` +
+Expected: No event is deleted.
+Error details shown in the status message.
+.. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size). +
+Expected: Similar to previous.
+
+. Deleting an event using search terms while all events are listed
+
+.. Prerequisites: List all events using the `list events` command. At least one Tutorial 1 in the list.
+Other Tutorials in the list as well.
+.. Test case: `delete Tutorial 1` +
+Expected: All events with Tutorial 1 in their names are deleted from the list.
+Number of deleted events shown in the status message.
+.. Test case: `delete Tutorial` +
+Expected: All Tutorials are deleted.
+Number of deleted events shown in the status message.
+.. Test case: `delete Tvtor!al` +
+Expected: No event is deleted.
+Information shown in the status message.
+.. Other incorrect delete commands to try: `delete x` (where x is a term that does not exist in the list). +
+Expected: Similar to previous.
+
+=== Deleting a deadline
+
+. Deleting a deadline using index while an event is focused
+
+.. Prerequisites: List all events using the `list events` command. Events in the list. View first event with
+`view 1`. First event has a deadline.
+.. Test case: `delete d/1` +
+Expected: First deadline is deleted from the list.
+Details of the deleted deadline shown in the status message.
+.. Test case: `delete 0` +
+Expected: No deadline is deleted.
+Error details shown in the status message.
+.. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size). +
+Expected: Similar to previous.
+
+=== Exporting data as `.ics` file
+
+. Export data
+
+.. Test case: `export` +
+Expected: A `modulo.ics` file should be created in the same `./data/` folder. You can use this `.ics` file to add
+your events and deadlines into your calendar.
+
+=== Viewing help
+
+. View help
+
+.. Test case: `help` +
+Expected: Help window appears.
+
+=== Clearing Modulo
+
+. Clear all existing data in Modulo
+
+.. Prerequisites: Some data has been added to Modulo.
+.. Test case: `clear` +
+Expected: All data cleared.
 
 === Saving data
 
@@ -1049,3 +1244,6 @@ Expected: Shows the GUI with no data.
 .. Delete the current save file under `./data/`.
 .. Double-click the jar file +
 Expected: Shows the GUI with no data.
+
+[appendix]
+== Effort

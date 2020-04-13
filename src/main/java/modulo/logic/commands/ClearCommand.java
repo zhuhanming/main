@@ -19,6 +19,6 @@ public class ClearCommand extends Command {
     public CommandResult execute(Model model) {
         requireNonNull(model);
         model.setModulo(new Modulo());
-        return new CommandResult(MESSAGE_MODULO_CLEARED);
+        return new CommandResult(MESSAGE_MODULO_CLEARED, false, false, true, true, null, null);
     }
 }
