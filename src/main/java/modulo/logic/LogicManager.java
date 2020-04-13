@@ -40,11 +40,6 @@ public class LogicManager implements Logic {
 
     @Override
     public CommandResult execute(String commandText) throws CommandException, ParseException {
-
-        for (int i = 0; i < model.getModulo().getEventList().size(); i++) {
-            System.out.println("Item " + i + ": ");
-            System.out.println(model.getModulo().getEventList().get(i));
-        }
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
         CommandResult commandResult;

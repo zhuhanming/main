@@ -16,8 +16,8 @@ import modulo.model.event.Event;
 public class Deadline implements Displayable {
 
     // Identity fields
-    private Name name;
-    private LocalDateTime dueTime;
+    private final Name name;
+    private final LocalDateTime dueTime;
 
     // Data fields
     private boolean isCompleted;

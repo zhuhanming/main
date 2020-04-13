@@ -36,7 +36,6 @@ public class UniqueModuleList implements Iterable<Module> {
      */
     public boolean contains(Module toCheck) {
         requireNonNull(toCheck);
-        System.out.println("Check in uniqueModuleList     ##########" + toCheck.getModuleCode());
         return internalList.stream().anyMatch(toCheck::isSameModule);
     }
 

@@ -19,15 +19,15 @@ import modulo.model.event.Event;
 public class Module implements Displayable {
 
     // Identity Fields
-    private ModuleCode moduleCode;
-    private Name name;
-    private AcademicYear academicYear;
+    private final ModuleCode moduleCode;
+    private final Name name;
+    private final AcademicYear academicYear;
 
     // Non-identity fields
-    private String description;
+    private final String description;
 
     // Data fields
-    private List<Event> events;
+    private final List<Event> events;
 
     /**
      * Constructs a {@code Module} with a given module code, name, academic year and description. An empty list of
@@ -147,16 +147,6 @@ public class Module implements Displayable {
                 && otherModule.getDescription().equals(getDescription())
                 && otherModule.getEvents().equals(getEvents());
 
-    }
-
-    /**
-     * Returns a string for debugging purposes.
-     *
-     * @return String for debugging purposes.
-     */
-    public String toDebugString() {
-        return moduleCode + " | " + getAcademicYear().getStartDate().toString() + " | "
-                + getAcademicYear().getEndDate().toString();
     }
 
     @Override
