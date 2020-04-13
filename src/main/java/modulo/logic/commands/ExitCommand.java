@@ -14,7 +14,7 @@ public class ExitCommand extends Command {
             + "Example: " + COMMAND_WORD;
 
     /**
-     * Returns the result after execution of ClearCommand
+     * Returns the result after execution of ExitCommand
      *
      * @param model Model of modulo
      * @return CommandResult containing info regarding execution of the command
