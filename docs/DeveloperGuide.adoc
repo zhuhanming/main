@@ -668,9 +668,9 @@ User enters invalid index. e.g: done 1000
 [none]
 ** 5a1. Module inform user that index is not valid. +
 Use case resumes from step 5.
+// end::ucfour[]
 
-
-// tag::ucthree[]
+// tag::ucfive[]
 [[UseCaseFive]]
 [discrete]
 === Use case: UC05 - Set Done to deadline if user not viewing event.
@@ -703,9 +703,9 @@ User enters correct module code but wrong event name and no event is found.
 ** 1a1. Modulo informs User that the event does not exists. +
 ** 1b2. Step 1 repeated until User enters a correct event name.
 Use case resumes from step 2.
+// end::ucfive[]
 
-
-// tag::ucthree[]
+// tag::ucsix[]
 [[UseCaseSix]]
 [discrete]
 === Use case: UC06 - List Event
@@ -727,8 +727,9 @@ User enters invalid command. e.g: list tutorial
 [none]
 ** 1a1. Module inform user the command is invalid and display correct format to user +
 Use case resumes from step 1.
+// end::ucsix[]
 
-// tag::ucthree[]
+// tag::ucseven[]
 [[UseCaseSeven]]
 [discrete]
 === Use case: UC07 - List Module
@@ -750,8 +751,9 @@ User enters invalid command. e.g: list CS2103
 [none]
 ** 1a1. Module inform user the command is invalid and display correct format to user +
 Use case resumes from step 1.
+// end::ucseven[]
 
-// tag::ucthree[]
+// tag::uceight[]
 [[UseCaseEight]]
 [discrete]
 === Use case: UC08 - View Module
@@ -775,9 +777,9 @@ User enters invalid index. e.g: view 1000
 ** 2b2. Step 2 repeated until user enters a valid index. +
 
 Use case resumes from step 2.
+// end::uceight[]
 
-
-// tag::ucthree[]
+// tag::ucnine[]
 [[UseCaseNine]]
 [discrete]
 === Use case: UC09 - View Event
@@ -802,18 +804,7 @@ User enters invalid index. e.g: view 1000
 ** 2b2. Step 2 repeated until user enters a valid index. +
 
 Use case resumes from step 2.
-
-// end::ucthree[]
-
-
-
-
-
-
-
-
-
-// end::ucthree[]
+// end::ucnine[]
 
 // tag::nfr[]
 [appendix]
