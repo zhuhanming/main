@@ -722,7 +722,6 @@ Use case ends.
 === Use case: UC03 - Delete a module / event / deadline
 1. User enters delete function followed by an input
 2. The input is valid and the ModuloParser class parses the input
-3. 
 // end::ucthree[]
 
 // tag::ucfour[]
