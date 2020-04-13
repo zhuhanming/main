@@ -991,9 +991,6 @@ Cons:
 // end::productsurvey[]
 
 [appendix]
-== Effort
-
-[appendix]
 == Instructions for Manual Testing
 
 Given below are instructions to test the app manually.
@@ -1221,3 +1218,6 @@ Expected: Shows the GUI with no data.
 .. Delete the current save file under `./data/`.
 .. Double-click the jar file +
 Expected: Shows the GUI with no data.
+
+[appendix]
+== Effort
