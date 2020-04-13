@@ -24,7 +24,7 @@ It helps you to break down your modules into deadlines and track their progress.
 Currently Modulo is made for NUS students taking modules this Academic Year AY2019/2020 Semester 2! More importantly, Modulo is *optimized for those who prefer to work with a Command Line Interface (CLI)* while still having the benefits of a Graphical User Interface (GUI).
 If you can type fast, Modulo can get your module management tasks done faster than traditional GUI apps.
 Interested?
-Jump to Section 2, <<Quick Start>> to get started.
+Jump to <<Quick Start>> to get started.
 Enjoy!
 
 == Quick Start
@@ -63,6 +63,9 @@ Here at Modulo, we strongly believe in smooth and seamless user experiences. +
 
 Why type the same thing twice when you can do it once, or even never?
 Modulo builds onto what you've already entered, to reduce the amount of typing required, and make everything easier for you!
+
+And for the testers out there: No, we don't believe this reduces testability.
+In fact, it helps you jump right into testing the exciting stuff!
 ====
 
 In Modulo, some commands are multistep commands.
@@ -211,7 +214,7 @@ Example of prompts by Modulo:
 image::SamplePrompt1.png[width="500"]
 
 *****
-* There are limitations with module data obtained from NUS. For example, based on official records, some tutorials will start from Week 1, despite actually only starting in Week 3.
+* *Known Issue:* There are limitations with module data obtained from NUS. For example, based on official records, some tutorials will start from Week 1, despite actually only starting in Week 3.
 * If you quit Modulo in the middle of this process, your autopopulation will be incomplete!
 You may have to restart the process by deleting the module and re-adding it.
 Do see the section on <<Delete,deleting a module>> below.
@@ -505,7 +508,7 @@ image::DescriptionWindow.png[width="790"]
 This window displays the description of the module.
 
 *****
-This is currently the only feature that is only accessible via the UI. This will be updated in subsequent releases.
+*Known Issue:* This is currently the only feature that is only accessible via the UI. This will be updated in subsequent releases.
 *****
 
 === Event Details
