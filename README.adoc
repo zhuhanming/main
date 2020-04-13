@@ -9,6 +9,7 @@ https://www.codacy.com/gh/AY1920S2-CS2103-T09-1/main?utm_source=github.com&amp;u
 ### Manage your modules like never before.
 
 ### Team: Modulo (CS2103-T09-1)
+
 ifdef::env-github[]
 image::docs/images/Ui.png[width="600"]
 endif::[]
@@ -17,7 +18,8 @@ ifndef::env-github[]
 image::images/Ui.png[width="600"]
 endif::[]
 
-* This is a desktop module management application written for students with fast fingers. Being a CLI-centric application, users can quickly manage their modules simply by typing.
+* This is a desktop module management application written for students with fast fingers.
+Being a CLI-centric application, users can quickly manage their modules simply by typing.
 * A GUI is also provided to help users visualise the various deadlines they have for their modules and enhance their overall experience.
 * More information can be found in the various guides below!
 
@@ -30,9 +32,8 @@ endif::[]
 
 == Acknowledgements
 
-* Some parts of this sample application were inspired by the excellent http://code.makery.ch/library/javafx-8-tutorial/[Java FX tutorial] by
-_Marco Jakob_.
-* Libraries used: https://openjfx.io/[JavaFX], https://github.com/FasterXML/jackson[Jackson], https://github.com/junit-team/junit5[JUnit5]
+* Some parts of this sample application were inspired by the excellent http://code.makery.ch/library/javafx-8-tutorial/[Java FX tutorial] by _Marco Jakob_.
+* Libraries used: https://openjfx.io/[JavaFX], https://github.com/FasterXML/jackson[Jackson], https://github.com/junit-team/junit5[JUnit5], https://github.com/google/gson[Gson].
 * This project was extended from https://se-education.org[AddressBook-Level3] project created by SE-EDU initiative
 
 == Licence : link:LICENSE[MIT]
