@@ -1,0 +1,1025 @@
+= Modulo - Developer Guide
+:site-section: DeveloperGuide
+:toc:
+:toc-title:
+:toc-placement: preamble
+:sectnums:
+:imagesDir: images
+:stylesDir: stylesheets
+:xrefstyle: full
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:warning-caption: :warning:
+endif::[]
+:repoURL: https://github.com/AY1920S2-CS2103-T09-1/main/tree/master
+
+By: `Team Modulo`      Since: `Feb 2020`      Licence: `MIT`
+
+== Setting up
+
+Refer to the guide <<SettingUp#, here>>.
+
+== Design
+// tag::architecture[]
+[[Design-Architecture]]
+=== Architecture
+
+.Architecture Diagram
+image::ArchitectureDiagram.png[]
+
+The *_Architecture Diagram_* given above explains the high-level design of the App.
+Given below is a quick overview of each component.
+
+[TIP]
+The `.puml` files used to create diagrams in this document can be found in the link:{repoURL}/docs/diagrams/[diagrams] folder.
+Refer to the <<UsingPlantUml#, Using PlantUML guide>> to learn how to create and edit diagrams.
+
+`Main` has two classes called link:{repoURL}/src/main/java/modulo/Main.java[`Main`] and
+link:{repoURL}/src/main/java/modulo/MainApp.java[`MainApp`].
+It is responsible for,
+
+* At app launch: Initializes the components in the correct sequence, and connects them up with each other.
+* At shut down: Shuts down the components and invokes cleanup method where necessary.
+
+<<Design-Commons,*`Commons`*>> represents a collection of classes used by multiple other components.
+The following class plays an important role at the architecture level:
+
+* `LogsCenter` : Used by many classes to write log messages to the App's log file.
+
+The rest of the App consists of four components.
+
+* <<Design-Ui,*`UI`*>>: The UI of the App.
+* <<Design-Logic,*`Logic`*>>: The command executor.
+* <<Design-Model,*`Model`*>>: Holds the data of the App in-memory.
+* <<Design-Storage,*`Storage`*>>: Reads data from, and writes data to, the hard disk.
+
+Each of the four components
+
+* Defines its _API_ in an `interface` with the same name as the Component.
+* Exposes its functionality using a `{Component Name}Manager` class.
+
+For example, the `Logic` component (see the class diagram given below) defines it's API in the `Logic.java` interface and exposes its functionality using the `LogicManager.java` class.
+
+.Class Diagram of the Logic Component
+image::LogicClassDiagram.png[]
+
+[discrete]
+==== How the architecture components interact with each other
+
+The _Sequence Diagram_ below shows how the components interact with each other for the scenario where the user issues the command `delete 1`.
+
+.Component interactions for `delete 1` command
+image::ArchitectureSequenceDiagram.png[]
+// end::architecture[]
+
+The sections below give more details of each component.
+
+// tag::ui[]
+[[Design-Ui]]
+=== UI component
+
+.Structure of the UI Component
+image::UiClassDiagram.png[]
+
+*API* : link:{repoURL}/src/main/java/modulo/ui/Ui.java[`Ui.java`]
+
+The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `ListPanel`, `StatusBarFilter`, `RightPanel` etc.
+All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
+
+The `ListPanel` is located at the left of the application and it consists of UI `EventCard`, `ModuleCard`, `TitleCard` to display list of events or modules.
+The `RightPanel` is located at the right of the application and it consists of UI `RightPanelDeadlineCard` ,
+`RightPanelDescription`, and `RightPanelEventCard` to display the details of the module or event.
+
+For example, user can do `view` command to view the deadlines of the event in the `ListPanel` and the details and deadlines of the event will be displayed on the `RightPanel`.
+
+The `UI` component uses the JavaFX UI framework.
+The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder.
+For example, the layout of the link:{repoURL}/src/main/java/modulo/ui/MainWindow.java[`MainWindow`] is specified in
+link:{repoURL}/src/main/resources/view/MainWindow.fxml[`MainWindow.fxml`]
+
+The `UI` component,
+
+* Executes user commands using the `Logic` component.
+* Listens for changes to `Model` data so that the UI can be updated with the modified data.
+// end::ui[]
+
+// tag::logic[]
+[[Design-Logic]]
+=== Logic component
+
+[[fig-LogicClassDiagram]]
+.Structure of the Logic Component
+image::LogicClassDiagram.png[]
+
+*API* :
+link:{repoURL}/src/main/java/modulo/logic/Logic.java[`Logic.java`]
+
+. `Logic` uses the `ModuloParser` class to parse the user command.
+. This results in a `Command` object which is executed by the `LogicManager`.
+. The command execution can affect the `Model` (e.g. adding an event).
+. The result of the command execution is encapsulated as a `CommandResult` object which is passed back to the `Ui`.
+. In addition, the `CommandResult` object can also instruct the `Ui` to perform certain actions, such as displaying help to the user.
+
+==== *StatefulLogic* Interface:
+
+`StatefulLogic` is implemented by classes that only manages logic while a state exists.
+This state would be loaded from special `CommandResult` subclasses, and allows this `StatefulLogicManager` to take priority over the default `LogicManager`.
+The exact implementation of state is up to the developer. +
+
+Currently, there is only one class that implements it: `AddModuleStatefulLogicManager`.
+Its state is loaded from a special `AddModuleCommandResult` created by the `AddModuleCommand`, i.e. when the user uses the
+`module m/MODULE_CODE` command.
+
+The state is created using a list of the event types (tutorial, lecture, lab etc.) that the added module has.
+Subsequently, while the list is not empty, the `AddModuleStatefulLogicManager` handles all inputs, thus allowing Modulo to add the relevant events.
+
+More details on the implementation can be found <<StatefulLogic,here>>.
+
+==== *Writer* Component:
+
+The Writer component is activated when the `ExportCommand` is executed.
+It then calls the `writeIcsFile()` function from the `IcsWriter` class which retrieves the current list of events from the `Model` component which, along with its deadlines, are converted into `IcsEvent` and `IcsDeadline` objects, which are then written into the ICS file.
+
+==== Sample Interactions
+
+Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")` API call.
+
+.Interactions Inside the Logic Component for the `delete 1` Command
+image::DeleteSequenceDiagram.png[]
+
+NOTE: The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+// end::logic[]
+
+// tag::model[]
+[[Design-Model]]
+=== Model component
+
+.Structure of the Model Component
+image::ModelClassDiagram.png[]
+
+*API* : link:{repoURL}/src/main/java/modulo/model/Model.java[`Model.java`]
+
+The `Model`,
+
+* stores a `UserPref` object that represents the user's preferences.
+* stores Modulo data.
+* exposes an unmodifiable `ObservableList<Module>` and `ObservableList<Event>` that can be 'observed' e.g. the UI can be bound to these lists so that the UI automatically updates when the data in the lists change.
+* does not depend on any of the other three components.
+
+[NOTE]
+As of now, there are two separate `ObservableList` being maintained, and with each individual module keeping its own list of events as well.
+In the future, to better enable the concept of a single source of truth, we can discard the use of a
+`ObservableList<Event>` and expose solely the unmodifiable `ObservableList<Module>`, and have events accessed through its parent module. +
+
+image:BetterModelClassDiagram.png[]
+
+[NOTE]
+Alternatively, we can remove the list of events under each module and instead just maintain the two separate
+`UniqueModuleList` and `UniqueEventList`.
+This may, however, make it costly to render the module list, since we now need to search through the entire list of events to find relevant ones.
+// end::model[]
+
+// tag::storage[]
+[[Design-Storage]]
+=== Storage component
+
+.Structure of the Storage Component
+image::StorageClassDiagram.png[]
+
+*API* : link:{repoURL}/src/main/java/modulo/storage/Storage.java[`Storage.java`]
+
+The `Storage` component,
+
+* can save `UserPref` objects in json format and read it back.
+* can save the Modulo data in json format and read it back.
+// end::storage[]
+
+[[Design-Commons]]
+=== Common classes
+
+Classes used by multiple components are in the `modulo.commons` package.
+
+== Implementation
+
+This section describes some noteworthy details on how certain features are implemented.
+
+// tag::statefullogic[]
+[[StatefulLogic]]
+=== Stateful Logic Feature
+
+Multistep commands are facilitated by `StatefulLogic`.
+It is an interface with three methods exposed, and currently only has one class implementing it,
+`AddModuleStatefulLogicManager`.
+
+.Structure of the Stateful Logic Component
+image::StatefulLogicClassDiagram.png[]
+
+Let us understand how `StatefulLogic` works.
+
+==== How `StatefulLogic` works
+
+As long as a `StatefulLogicManager`, which is a class that implements `StatefulLogic`, has state, it will take over the `LogicManager` in executing the given `String`.
+
+.The current implementation
+image::AddModuleHasStateSequenceDiagram.png[]
+
+Should there be more `StatefulLogicManager` instances in play, we will see something like this:
+
+.If more Stateful Logic Managers are added
+image::MultipleHasStateSequenceDiagram.png[]
+
+At any point of time, only one `StatefulLogicManager` will have state.
+The `LogicManager` will thus check through them one by one, and will only directly parse the command itself should no `StatefulLogicManager` have state.
+We can think of these `StatefulLogicManager` as "consumers" that consume the input if it has state.
+
+The abstraction of how these `StatefulLogicManager` execute the given `String` helps to maintain the *Single Responsibility Principle*.
+The interaction between the `LogicManager` and `StatefulLogicManager` is also facilitated through the interface,
+`StatefulLogic`, which upholds the *Dependency Inversion Principle*.
+
+==== How state is loaded and maintained
+
+State is loaded into `StatefulLogicManager` using special `CommandResult` subclasses.
+In the instance of the
+`AddModuleStatefulLogicManager`, its state is loaded by passing a `AddModuleCommandResult` into its
+`loadStateFromCommandResult` method.
+
+Let us take a look at the full process, using `AddModuleCommand` as an example:
+
+.Executing the `module m/CS2103` command
+image::AddModuleOverviewSequenceDiagram.png[]
+
+There is no difference for the first part from a regular `Command` execution.
+The differences lie in the state preparation and state loading.
+
+.State Preparation for `AddModuleCommandResult`
+image::StatePreparationSequenceDiagram.png[]
+
+The state is prepared during the initialising command, and that command will pack that state into a special subclass of `CommandResult`.
+This `CommandResult` is then passed back to the default `LogicManager`.
+
+State loading is then done, if suitable.
+
+.State Loading for `AddModuleStatefulLogicManager`
+image::StateLoadingSequenceDiagram.png[]
+
+The `eventList` is passed on to the `AddModuleStatefulLogicManager` to be used as state.
+As long as the list is not empty, it is considered to have state.
+
+==== Design Considerations
+
+===== Aspect: How `StatefulLogic` should be positioned with respect to `Logic`
+
+* **Alternative 1 (current choice):** Have `StatefulLogic` exist as a sub-logic-circuit within `Logic` that activates when conditions are met.
+** Pros: Reduce repeated code (*DRY*) and adheres to the *Open Closed Principle*, since the use of a simple interface makes it easy to create future `StatefulLogic` classes and integrate them.
+** Cons: `Logic` now has to take care of checking for state prior to execution of command, as well as follow up on special subclasses of `CommandResult`, thus violating the Single Responsibility Principle.
+* **Alternative 2:** Have `StatefulLogic` extend `Logic` and have a separate `LogicDispatcher` class that decides which `Logic` to dispatch the command to.
+** Pros: Seems to follow the Single Responsibility Principle better.
+** Cons: A lot of repeated code, and to some extent, this may be an adaptation of the current implementation, where the
+`Logic` class acts as the `LogicDispatcher`.
+Furthermore, it may not be correct to say that `Logic` and `StatefulLogic` are similar.
+`StatefulLogic` does operate quite differently from `Logic`.
+
+* **Future Extension:** It may be worth looking into this and find a better way to handle this logic without breaking the existing Command Pattern.
+There may be more similarities that can be abstracted out and maximised using OOP.
+
+===== Aspect: How multistep commands should be implemented and achieved
+
+* **Alternative 1 (current choice):** Use `StatefulLogic` to keep relevant states and logic together.
+** Pros: Uses OOP to reduce complexity.
+Adheres to the *Open Closed Principle*, since each class can just implement
+`StatefulLogic`, and the exact management of its state is open.
+** Cons: `Logic` now needs to handle the pre and post-command logic.
+* **Alternative 2:** Maintain a global state that `Logic` listens to when executing commands.
+** Pros: All commands can push state to this global state without having to go through `Logic`, reducing the pre and post-command handling.
+** Cons: The implementation of this global state will be highly complex, since the logic required for different states is different as well. `Logic` would be overwhelmed.
+If a new type of state is required, the changes required will be heavy as well, thus violating the Open Closed Principle.
+// end::statefullogic[]
+
+// tag::done[]
+=== Done Feature
+
+This feature allows the User to set the deadline's status to be completed or not completed.
+The user input is handled and retrieved by the `MainWindow` class in the Ui component first, before being passed to the `LogicManager` to execute.
+First,`LogicManager` will call `ModuloParser`, which will parse the input to give a `DoneCommandParser`.
+Then, `DoneCommandParser` will return a `DoneCommand`, which will help to set the status of deadline and update the
+`Model`.
+Invalid inputs such as an invalid index (e.g. `done 1000`) are also handled properly, with suitable error messages being displayed to the user.
+The `DoneCommand` is implemented according to the operation in the `Logic` module:
+
+* `DoneCommand` -- Sets the status of the deadline.
+
+For the command, a `DoneCommandParser` is implemented to parse the input into the required index.
+
+* `DoneCommandParser` -- Parses the `done` command input and generates a `DoneCommand`.
+
+Given below is a sequence diagram to show how the `done` mechanism behaves at each step.
+
+image::Done_SequenceDiagram.png[]
+
+Given below is an activity diagram to show how the `done` operation works.
+
+image::Done_ActivityDiagram.png[]
+
+==== Design Considerations
+
+===== Aspect: How `done` is executed
+
+* **Alternative 1 (current choice):** User can `done` one deadline at a time.
+** Pros: Easy to implement and not likely to create bugs.
+** Cons: More steps are required for the user if they wish to complete different deadlines.
+
+* **Alternative 2 :** User can `done` multiple deadlines at a time.
+** Pros: Less time-consuming than if the user were to complete a list of deadlines, one at a time.
+** Cons: User input will be highly complex, as we may need to consider the different use cases, e.g. deadlines of different events, of different modules etc.
+We will be required to check and account for various possibilities before the operation can be done.
+Difficult to implement, and even harder to troubleshoot if bugs occur.
+
+===== Other considerations
+
+* Modulo will keep track of all the deadlines' statuses and send reminders to the user accordingly.
+** Pros: A good feature that helps to remind users of their incomplete deadlines.
+** Cons: Hard to implement and it increases coupling.
+Difficult to write test cases as well.
+
+* **Future Extension:** Modulo can have another UI panel to display every deadline that needs to be done a certain week.
+The user can then use the `done` command to update the deadlines' statuses from there.
+// end::done[]
+
+// tag::export[]
+[[Export]]
+=== Export Feature
+
+Modulo supports exporting user's calendar to .ics file format to facilitate data transfer between different scheduling platforms.
+
+By using a simple `FileWriter` class and generating the .ics entities, we're able to generate an .ics file that can be consumed by commonly used platforms (e.g. Google Calendar)
+
+An overview of the process is shown as below through the triggering of ExportCommand:
+
+image::ExportCommandSequenceDiagram.png[]
+
+==== Design Considerations
+
+===== Aspect: How `Deadline` should be exported together with `Event`
+
+Event entities can be mapped to VEVENT .ics type, but there is a lack of suitable counterparts for deadline.
+
+* **Alternative 1: ** Export `Deadline` as VTODO
+** Pros: Deadline has its standalone VTODO .ics item type.
+** Cons: Some popular calendar applications do not support VTODO importing, thus making users lose out on important information regarding events.
+
+* **Alternative 2:** Export `Deadline` within the description of each `Event`
+** Pros: Users are able to see at a glance what are the `Deadline` for each `Event` easily
+** Cons: Users are unable to take advantage of VTODO import functionality of certain calendar application.
+
+* **Alternative 3 (current choice):** Combine both options
+Users are able to make full use of .ics importing capabilities, while also providing a quick overview of `Deadline`
+// end::export[]
+
+// tag::delete[]
+=== Module / Event / Deadline Deletion Feature
+
+This Deletion feature allows the user to delete modules, events or deadlines.
+The user input is first retrieved by the `MainWindow` class which is then passed to the `LogicManager` via the `execute`
+function.
+`LogicManager` will call the `parseCommand` function of ModuloParser`, which will parse the input to create a temporary `DeleteCommandParser` object,
+ parsing the input and returning a `DeleteCommand`.
+The command will then be executed in the `LogicManager`, returning a `CommandResult` object which will then be returned as
+feedback to the user.
+
+
+Given below is a sequence diagram to show how the `delete` feature parsing an input of '1' behaves at each step:
+
+image::DeleteSequenceDiagram.png[]
+
+Given below is an activity diagram to show how the `delete` operation works.
+
+image::DeleteActivityDiagram.png[]
+
+==== Design Considerations
+
+===== Aspect: How `delete` may be executed
+
+* **Alternative 1 (current choice):** User can delete multiple items using the command at the same time.
+** Pros: Allows the user more flexibility in deleting modules and events instead of just deleting them one
+by one. For example users can choose to delete one, many or even all modules and events, depending on
+their command input.
+** Cons: This has caused the code to become more complex in dealing with the many possible inputs
+and scenarios, leading to a higher amount of potential errors.
+
+[NOTE]
+With respect to deadlines, users can only delete one or all deadlines of a particular event. This
+is to avoid any confusion and unnecessary complexity which may be caused by deleting deadlines across
+all events, especially since the user may only observe deadlines of one event at any one time and do
+not have access to the overall list of deadlines.
+
+
+* **Alternative 2 :** User can `delete` only one or all items.
+** Pros: Reduces the lack of potential errors due to the decreased complexity of the code.
+** Cons: It is less intuitive for the user as users are now limited by deleting one or all the events /
+ modules / deadlines.
+
+
+* **Future Extension:** Modulo can have another UI panel to display every deadline that needs to be done a certain week.
+The user can then use the `delete` command to delete multiple deadlines at one go, making it more convenient
+for the user.
+// end::delete[]
+
+// tag::edit[]
+=== [Proposed] Edit Feature
+
+Currently, Modulo does not allow for the editing of the details of events and deadlines that have been created.
+
+==== Proposed Implementation
+
+// end::edit[]
+
+// tag::undoredo[]
+=== [Proposed] Undo/Redo Feature
+
+==== Proposed Implementation
+
+The undo/redo mechanism is facilitated by `VersionedModulo`.
+It extends `Modulo` with an undo/redo history, stored internally as an `moduloStateList` and `currentStatePointer`.
+Additionally, it implements the following operations:
+
+* `VersionedModulo#commit()` -- Saves the current modulo state in its history.
+* `VersionedModulo#undo()` -- Restores the previous modulo state from its history.
+* `VersionedModulo#redo()` -- Restores a previously undone modulo state from its history.
+
+These operations are exposed in the `Model` interface as `Model#commitModulo()`, `Model#undoModulo()` and
+`Model#redoModulo()` respectively.
+
+Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.
+
+Step 1. The user launches the application, toggles to the event list and views an event.
+The `VersionedModulo` will be initialized with the initial modulo state, and the `currentStatePointer` pointing to that single modulo state.
+
+image::UndoRedoState0.png[]
+
+Step 2. The user executes `delete 5` command to delete the 5th event in Modulo.
+The `delete` command calls `Model#commitModulo()`, causing the modified state of Modulo after the `delete 5`
+command executes to be saved in the `moduloStateList`, and the `currentStatePointer` is shifted to the newly inserted Modulo state.
+
+image::UndoRedoState1.png[]
+
+Step 3. The user executes `deadline n/Draw UML` to add a new deadline to the viewed event.
+The `deadline` command also calls `Model#commitModulo()`, causing another modified modulo state to be saved into the `moduloStateList`.
+
+image::UndoRedoState2.png[]
+
+[NOTE]
+If a command fails its execution, it will not call `Model#commitModulo()`, so the Modulo state will not be saved into the `moduloStateList`.
+
+Step 4. The user now decides that adding the deadline was a mistake, and decides to undo that action by executing the
+`undo` command.
+The `undo` command will call `Model#undoModulo()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous Modulo state, and restores Modulo to that state.
+
+image::UndoRedoState3.png[]
+
+[NOTE]
+If the `currentStatePointer` is at index 0, pointing to the initial Modulo state, then there are no previous Modulo states to restore.
+The `undo` command uses `Model#canUndoModulo()` to check if this is the case.
+If so, it will return an error to the user rather than attempting to perform the undo.
+
+The following sequence diagram shows how the undo operation works:
+
+image::UndoSequenceDiagram.png[]
+
+NOTE: The lifeline for `UndoCommand` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+
+The `redo` command does the opposite -- it calls `Model#redoModulo()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and restores Modulo to that state.
+
+[NOTE]
+If the `currentStatePointer` is at index `moduloStateList.size() - 1`, pointing to the latest Modulo state, then there are no undone Modulo states to restore.
+The `redo` command uses `Model#canRedoModulo()` to check if this is the case.
+If so, it will return an error to the user rather than attempting to perform the redo.
+
+Step 5. The user then decides to execute the command `list modules`.
+Commands that do not modify Modulo, such as `list`, will usually not call `Model#commitModulo()`,
+`Model#undoModulo()` or `Model#redoModulo()`.
+Thus, the `moduloStateList` remains unchanged.
+
+image::UndoRedoState4.png[]
+
+Step 6. The user executes `clear`, which calls `Model#commitModulo()`.
+Since the `currentStatePointer` is not pointing at the end of the `moduloStateList`, all modulo states after the
+`currentStatePointer` will be purged.
+We designed it this way because it no longer makes sense to redo the `deadline n/Draw UML` command.
+This is the behavior that most modern desktop applications follow.
+
+image::UndoRedoState5.png[]
+
+The following activity diagram summarizes what happens when a user executes a new command:
+
+image::CommitActivityDiagram.png[]
+
+==== Design Considerations
+
+===== Aspect: How undo & redo executes
+
+* **Alternative 1 (current choice):** Saves the entire Modulo.
+** Pros: Easy to implement.
+** Cons: May have performance issues in terms of memory usage.
+* **Alternative 2:** Individual command knows how to undo/redo by itself.
+** Pros: Will use less memory (e.g. for `delete`, just save the deadline being deleted).
+** Cons: We must ensure that the implementation of each individual command are correct.
+
+===== Aspect: Data structure to support the undo/redo commands
+
+* **Alternative 1 (current choice):** Use a list to store the history of Modulo states.
+** Pros: Easy for new Computer Science student undergraduates to understand, who are likely to be the new incoming developers of our project.
+** Cons: Logic is duplicated twice.
+For example, when a new command is executed, we must remember to update both `HistoryManager` and `VersionedModulo`.
+* **Alternative 2:** Use `HistoryManager` for undo/redo
+** Pros: We do not need to maintain a separate list, and just reuse what is already in the codebase.
+** Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands.
+Violates Single Responsibility Principle and Separation of Concerns as `HistoryManager` now needs to do two different things.
+// end::undoredo[]
+
+// tag::logging[]
+=== Logging
+
+We are using `java.util.logging` package for logging.
+The `LogsCenter` class is used to manage the logging levels and logging destinations.
+
+* The logging level can be controlled using the `logLevel` setting in the configuration file (See <<Implementation-Configuration>>)
+* The `Logger` for a class can be obtained using `LogsCenter.getLogger(Class)` which will log messages according to the specified logging level
+* Currently log messages are output through: `Console` and to a `.log` file.
+
+*Logging Levels*
+
+* `SEVERE` : Critical problem detected which may possibly cause the termination of the application
+* `WARNING` : Can continue, but with caution
+* `INFO` : Information showing the noteworthy actions by the App
+* `FINE` : Details that is not usually noteworthy but may be useful in debugging e.g. print the actual list instead of just its size
+// end::logging[]
+
+// tag::configuration[]
+[[Implementation-Configuration]]
+=== Configuration
+
+Certain properties of the application can be controlled (e.g user prefs file location, logging level) through the configuration file (default: `config.json`).
+// end::configuration[]
+
+== Documentation
+
+Refer to the guide <<Documentation#, here>>.
+
+== Testing
+
+Refer to the guide <<Testing#, here>>.
+
+== Dev Ops
+
+Refer to the guide <<DevOps#, here>>.
+
+[appendix]
+== Product Scope
+
+// tag::userprofile[]
+*Target user profile*:
+
+* has a need to manage their modules and the deadlines for these modules
+* prefer desktop apps over other types of apps
+* can type fast and prefers typing over mouse input
+* is reasonably comfortable using CLI apps
+* is a current NUS student who is taking modules in AY19/20 Sem 2
+
+*Value proposition*: Manage modules and related deadlines faster than a typical mouse/GUI driven app
+// end::userprofile[]
+
+[appendix]
+// tag::userstories[]
+== User Stories
+
+Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (unlikely to have) - `*`
+
+[width="59%",cols="22%,<23%,<25%,<30%",options="header",]
+|=======================================================================
+|Priority |As a ... |I want to ... |So that I can...
+|`* * *` |new user |see usage instructions |refer to instructions when I forget how to use Modulo
+
+|`* * *` |user |view my events for the week |never miss any event
+
+|`* * *` |busy user |create deadlines |ensure I do not miss any of my module / assignment deadlines
+
+|`* * *` |user |complete deadlines |track the work I have done
+
+|`* * *` |user |set routine deadlines based on events |routinely prepare for these events
+
+|`* * *` |user |categorise my work based on module |don’t have to manually categorise myself
+
+|`* * *` |user |add events to modules easily |get started on deadline planning earlier
+
+|`* *` |user |export my data from this app |access the data I’ve created from anywhere
+
+|=======================================================================
+
+_{More to be added}_
+// end::userstories[]
+
+[appendix]
+== Use Cases
+
+(For all use cases below, the *System* is `Modulo` and the *Actor* is the `user`, unless specified otherwise)
+
+// tag::ucone[]
+[discrete]
+=== Use case: UC01 - Add a <<deadline,deadline>>
+
+*MSS* Preconditions: Module data file is loaded properly. +
+Guarantees: Deadline is added under the correct <<module,module>> and <<event,event>>, with the correct details. +
+
+1. User <<UseCaseTwo,adds a module (UC02)>>.
+2. User adds a deadline to the correct <<module,module>> and <<event,event>>, with all the required details.
+3. Modulo shows the newly created deadline.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a.
+User enters incorrect information.
+
+[none]
+** 2a1. Modulo shows user the correct format for the deadline creation.
+** 2a2. User enters new information following the correct format.
++
+Use case resumes from step 3.
+// end::ucone[]
+
+// tag::uctwo[]
+[[UseCaseTwo]]
+[discrete]
+=== Use case: UC02 - Add a module
+
+*MSS* Preconditions: Module data files are loaded properly. +
+Guarantees: Module is added to the user's Modulo. +
+
+1. User enters a module code, e.g. CS2103.
+2. Modulo searches its data files for the module and creates the module using information from the data files.
+3. Modulo prompts user to enter the slot for an event type.
+4. User enters their slot for the event type. +
+Steps 3-4 are repeated for as many times as required until the User has entered slots for all event types of the module.
+5. Modulo shows the newly created module.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 1a.
+User enters incorrect data and the wrong module is found.
+
+[none]
+** 1a1. Steps 2 to 4 are performed.
+** 1a2. User <<UseCaseThree,deletes the added module (UC03)>> and its events.
++
+Use case resumes from step 1.
+
+[none]
+* 1b.
+User enters invalid data and no modules are found.
+
+[none]
+** 1b1. Modulo informs User that no modules with the given information can be found.
+** 1b2. Step 1 repeated until User enters a correct module code.
++
+Use case resumes from step 2.
+
+[none]
+* 3a.
+User added a module with no events.
+
+[none]
+Use case resumes from step 5.
+
+[none]
+* 3b.
+User exited Modulo before adding all events.
+
+[none]
+** 3b1. Modulo saves all events that were already added.
++
+Use case ends.
+
+[none]
+* 4a.
+User enters an invalid slot.
+
+[none]
+** 4a1. Modulo cancels the request by the User.
+** 4a2. Modulo informs the User of the cancellation.
++
+Use case ends.
+// end::uctwo[]
+
+// tag::ucthree[]
+[[UseCaseThree]]
+[discrete]
+=== Use case: UC03 - Delete a module / event / deadline
+1. User enters delete function followed by an input
+2. The input is valid and the ModuloParser class parses the input
+// end::ucthree[]
+
+// tag::ucfour[]
+[[UseCaseFour]]
+[discrete]
+=== Use case: UC04 - Set Done to Deadline if user viewing a event
+
+*MSS* Preconditions: Module, Event and deadline are added. +
+Guarantees: Status of viewed deadline is updated. +
+
+1. User <<UseCaseSix,list all the registered event (UC06)>>. +
+2. User <<UseCaseNine, view the selected events(UC09)>>. +
+3. User enter index of deadline. e.g: done 1. +
+4. Modulo checks is if the index is valid or not and toggles the completion status of the deadline.
+If the deadline was incomplete, it would be completed, and vice versa.
+The color of the status changes accordingly and success message will displayed in result box.  +
+Use case ends.
+
+*Extensions*
+
+[none]
+* 5a.
+User enters invalid index. e.g: done 1000
+
+[none]
+** 5a1. Module inform user that index is not valid. +
+Use case resumes from step 5.
+// end::ucfour[]
+
+// tag::ucfive[]
+[[UseCaseFive]]
+[discrete]
+=== Use case: UC05 - Set Done to deadline if user not viewing event.
+
+*MSS* Preconditions: Module, Event and deadline are added and exits in Modulo. +
+Guarantees: Status of deadline under correct module and event is updated. +
+
+1. User enter module code, event name and index of deadline. e.g: done 1 m/CS2103 e/Tutorial 2. +
+2. Modulo searches for the registered module, event and index of the deadline toggles the completion status of the deadline.
+If the deadline was incomplete, it would be completed, and vice versa.
+A success message will displayed in result box +
+Use case ends. +
+
+*Extensions*
+
+[none]
+* 1a.
+User enters wrong module code and no module is found.
+
+[none]
+** 1a1. Modulo informs User that the module does not exists. +
+** 1b2. Step 1 repeated until User enters a correct module code. +
+Use case resumes from step 2.
+
+[none]
+* 1a.
+User enters correct module code but wrong event name and no event is found.
+
+[none]
+** 1a1. Modulo informs User that the event does not exists. +
+** 1b2. Step 1 repeated until User enters a correct event name.
+Use case resumes from step 2.
+// end::ucfive[]
+
+// tag::ucsix[]
+[[UseCaseSix]]
+[discrete]
+
+=== Use case: UC06 - List Event
+
+*MSS* Preconditions: Modules and Events are already added in Modulo . +
+Guarantees: A list of added Events are displayed. +
+
+1. User enter list event. +
+2. Modulo searches for all the events that are added in the system and displayed in the left panel.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 1a.
+User enters invalid command. e.g: list tutorial
+
+[none]
+** 1a1. Module inform user the command is invalid and display correct format to user +
+Use case resumes from step 1.
+// end::ucsix[]
+
+// tag::ucseven[]
+[[UseCaseSeven]]
+[discrete]
+=== Use case: UC07 - List Module
+
+*MSS* Preconditions: Modules are added in Modulo . +
+Guarantees: A list of added Modules is displayed. +
+
+1. User enter list module +
+2. Modulo searches for all the modules that are added in the system and displayed in the left panel.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 1a.
+User enters invalid command. e.g: list CS2103
+
+[none]
+** 1a1. Module inform user the command is invalid and display correct format to user +
+Use case resumes from step 1.
+// end::ucseven[]
+
+// tag::uceight[]
+[[UseCaseEight]]
+[discrete]
+=== Use case: UC08 - View Module
+
+*MSS* Preconditions: Modules data are added in Modulo. +
+Guarantees: Details of selected module will be displayed. +
+
+1. User <<UseCaseSeven,list all the registered module (UC07)>>. +
+2. User enter view command, e.g view 1(index). +
+3. Modulo will searches and for the correct index from module list and display the details of module at the right panel.
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a.
+User enters invalid index. e.g: view 1000
+
+[none]
+** 2a2. Module inform user that index is not valid. +
+** 2b2. Step 2 repeated until user enters a valid index. +
+
+Use case resumes from step 2.
+// end::uceight[]
+
+// tag::ucnine[]
+[[UseCaseNine]]
+[discrete]
+=== Use case: UC09 - View Event
+
+*MSS* Preconditions: Modules and events are added in Modulo . +
+Guarantees: Details of selected event will be displayed. +
+
+1. User <<UseCaseSix,list all the registered event (UC06)>>. +
+2. User enter view command, e.g view 1(index). +
+3. Modulo will searches and for the correct index from the events list and display the details of event at the right panel.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a.
+User enters invalid index. e.g: view 1000
+
+[none]
+** 2a2. Module inform user that index is not valid. +
+** 2b2. Step 2 repeated until user enters a valid index. +
+
+Use case resumes from step 2.
+// end::ucnine[]
+
+// tag::nfr[]
+[appendix]
+== Non-Functional Requirements
+
+. A NUS student with above-average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+. Should work on any <<mainstream-os,mainstream OS>> as long as it has Java 11 or above installed.
+. Should be able to run seamlessly with 10 <<module,module>>s’ worth of data.
+. Data should be persistent within the local machine and the save file should be editable.
+. The application should not require an installer and be for a single user, with its size being smaller than 100mb.
+. Object-oriented.
+
+_{More to be added}_
+// end::nfr[]
+
+// tag::glossary[]
+[appendix]
+== Glossary
+
+[[mainstream-os]]
+Mainstream OS::
+Windows, Linux, Unix, OS-X
+
+[[module]]
+Module::
+Modules that the User is taking for AY19/20 Semester 2.
+
+[[event]]
+Event::
+There are two types of events: official and user-added.
+Official ones include events such as Lectures, Tutorials, Recitations, Sectionals etc.
+User-added are events that are not recognised.
+
+Refer to <<UserGuide.adoc#EventTypes,here>> for the list of recognised event types.
+
+[[deadline]]
+Deadline::
+Individual tasks to complete that can be tagged to a specific event.
+// end::glossary[]
+
+// tag::productsurvey[]
+[appendix]
+== Product Survey
+
+*NUSMods*
+
+Author: Zhu Hanming
+
+Pros:
+
+* Extremely clean and intuitive UI.
+* Effortless data population and contains all the information I may need.
+* Can save my data as a `.ics` file.
+
+Cons:
+
+* Not a CLI app.
+* Doesn't help me plan my deadlines.
+// end::productsurvey[]
+
+[appendix]
+== Effort
+
+[appendix]
+== Instructions for Manual Testing
+
+Given below are instructions to test the app manually.
+
+[NOTE]
+These instructions only provide a starting point for testers to work on; testers are expected to do more _exploratory_ testing.
+
+=== Launch and Shutdown
+
+. Initial launch
+
+.. Download the jar file and copy into an empty folder
+.. Double-click the jar file +
+   Expected: Shows the GUI with no data. The window size may not be optimum.
+
+. Saving window preferences
+
+.. Resize the window to an optimum size. Move the window to a different location. Close the window.
+.. Re-launch the app by double-clicking the jar file. +
+   Expected: The most recent window size and location is retained.
+
+. Shutting down
+
+.. Launch the help window by typing `help`.
+.. Quit the app by typing `exit`. +
+Expected: Both the main window and the help window should close.
+
+=== Deleting a module
+
+. Deleting a module using index while all modules are listed
+
+.. Prerequisites: List all modules using the `list modules` command. Multiple modules in the list.
+.. Test case: `delete 1` +
+Expected: First module is deleted from the list.
+All events of that module are deleted.
+Details of the deleted module shown in the status message.
+.. Test case: `delete 0` +
+Expected: No module is deleted.
+No events deleted.
+Error details shown in the status message.
+.. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size). +
+Expected: Similar to previous.
+
+. Deleting a module using search terms while all modules are listed
+
+.. Prerequisites: List all modules using the `list modules` command. CS2103 in the list. Other CS modules in the
+list.
+.. Test case: `delete CS2103` +
+Expected: CS2103 is deleted from the list.
+Details of the deleted module shown in the status message.
+.. Test case: `delete cs` +
+Expected: All CS modules are deleted.
+Number of deleted modules shown in the status message.
+.. Test case: `delete cs2199` +
+Expected: No module is deleted.
+Information shown in the status message.
+.. Other incorrect delete commands to try: `delete x` (where x is a term that does not exist in the list). +
+Expected: Similar to previous.
+
+=== Saving data
+
+. Dealing with missing/corrupted data files
+
+.. Corrupt the current save file under `./data/`. The easiest way is to type `-` somewhere in one of the saved
+modules' academic year.
+Another way may be to add random characters that make the JSON format unreadable.
+.. Double-click the jar file +
+Expected: Shows the GUI with no data.
+
+.. Delete the current save file under `./data/`.
+.. Double-click the jar file +
+Expected: Shows the GUI with no data.
