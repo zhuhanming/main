@@ -344,10 +344,37 @@ Difficult to write test cases as well.
 
 * **Future Extension:** Modulo can have another UI panel to display every deadline that needs to be done a certain week.
 The user can then use the `done` command to update the deadlines' statuses from there.
-// edit::done[]
+// end::done[]
 
+// tag::export[]
+[[Export]]
+=== Export Feature
 
+Modulo supports exporting user's calendar to .ics file format to facilitate data transfer between different scheduling platforms.
 
+By using a simple `FileWriter` class and generating the .ics entities, we're able to generate an .ics file that can be consumed by commonly used platforms (e.g. Google Calendar)
+
+An overview of the process is shown as below through the triggering of ExportCommand:
+
+image::ExportCommandSequenceDiagram.png[]
+
+==== Design Considerations
+
+===== Aspect: How `Deadline` should be exported together with `Event`
+
+Event entities can be mapped to VEVENT .ics type, but there is a lack of suitable counterparts for deadline.
+
+* **Alternative 1: ** Export `Deadline` as VTODO
+** Pros: Deadline has its standalone VTODO .ics item type.
+** Cons: Some popular calendar applications do not support VTODO importing, thus making users lose out on important information regarding events.
+
+* **Alternative 2:** Export `Deadline` within the description of each `Event`
+** Pros: Users are able to see at a glance what are the `Deadline` for each `Event` easily
+** Cons: Users are unable to take advantage of VTODO import functionality of certain calendar application.
+
+* **Alternative 3 (current choice):** Combine both options
+Users are able to make full use of .ics importing capabilities, while also providing a quick overview of `Deadline`
+// end::export[]
 
 // tag::delete[]
 === Module / Event / Deadline Deletion Feature
@@ -397,8 +424,6 @@ not have access to the overall list of deadlines.
 The user can then use the `delete` command to delete multiple deadlines at one go, making it more convenient
 for the user.
 // end::delete[]
-
-
 
 // tag::edit[]
 === [Proposed] Edit Feature
@@ -700,6 +725,169 @@ Use case ends.
 3. 
 // end::ucthree[]
 
+// tag::ucfour[]
+[[UseCaseFour]]
+[discrete]
+=== Use case: UC04 - Set Done to Deadline if user viewing a event
+
+*MSS* Preconditions: Module, Event and deadline are added. +
+Guarantees: Status of viewed deadline is updated. +
+
+1. User <<UseCaseSix,list all the registered event (UC06)>>. +
+2. User <<UseCaseNine, view the selected events(UC09)>>. +
+3. User enter index of deadline. e.g: done 1. +
+4. Modulo checks is if the index is valid or not and toggles the completion status of the deadline.
+If the deadline was incomplete, it would be completed, and vice versa.
+The color of the status changes accordingly and success message will displayed in result box.  +
+Use case ends.
+
+*Extensions*
+
+[none]
+* 5a.
+User enters invalid index. e.g: done 1000
+
+[none]
+** 5a1. Module inform user that index is not valid. +
+Use case resumes from step 5.
+// end::ucfour[]
+
+// tag::ucfive[]
+[[UseCaseFive]]
+[discrete]
+=== Use case: UC05 - Set Done to deadline if user not viewing event.
+
+*MSS* Preconditions: Module, Event and deadline are added and exits in Modulo. +
+Guarantees: Status of deadline under correct module and event is updated. +
+
+1. User enter module code, event name and index of deadline. e.g: done 1 m/CS2103 e/Tutorial 2. +
+2. Modulo searches for the registered module, event and index of the deadline toggles the completion status of the deadline.
+If the deadline was incomplete, it would be completed, and vice versa.
+A success message will displayed in result box +
+Use case ends. +
+
+*Extensions*
+
+[none]
+* 1a.
+User enters wrong module code and no module is found.
+
+[none]
+** 1a1. Modulo informs User that the module does not exists. +
+** 1b2. Step 1 repeated until User enters a correct module code. +
+Use case resumes from step 2.
+
+[none]
+* 1a.
+User enters correct module code but wrong event name and no event is found.
+
+[none]
+** 1a1. Modulo informs User that the event does not exists. +
+** 1b2. Step 1 repeated until User enters a correct event name.
+Use case resumes from step 2.
+// end::ucfive[]
+
+// tag::ucsix[]
+[[UseCaseSix]]
+[discrete]
+
+=== Use case: UC06 - List Event
+
+*MSS* Preconditions: Modules and Events are already added in Modulo . +
+Guarantees: A list of added Events are displayed. +
+
+1. User enter list event. +
+2. Modulo searches for all the events that are added in the system and displayed in the left panel.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 1a.
+User enters invalid command. e.g: list tutorial
+
+[none]
+** 1a1. Module inform user the command is invalid and display correct format to user +
+Use case resumes from step 1.
+// end::ucsix[]
+
+// tag::ucseven[]
+[[UseCaseSeven]]
+[discrete]
+=== Use case: UC07 - List Module
+
+*MSS* Preconditions: Modules are added in Modulo . +
+Guarantees: A list of added Modules is displayed. +
+
+1. User enter list module +
+2. Modulo searches for all the modules that are added in the system and displayed in the left panel.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 1a.
+User enters invalid command. e.g: list CS2103
+
+[none]
+** 1a1. Module inform user the command is invalid and display correct format to user +
+Use case resumes from step 1.
+// end::ucseven[]
+
+// tag::uceight[]
+[[UseCaseEight]]
+[discrete]
+=== Use case: UC08 - View Module
+
+*MSS* Preconditions: Modules data are added in Modulo. +
+Guarantees: Details of selected module will be displayed. +
+
+1. User <<UseCaseSeven,list all the registered module (UC07)>>. +
+2. User enter view command, e.g view 1(index). +
+3. Modulo will searches and for the correct index from module list and display the details of module at the right panel.
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a.
+User enters invalid index. e.g: view 1000
+
+[none]
+** 2a2. Module inform user that index is not valid. +
+** 2b2. Step 2 repeated until user enters a valid index. +
+
+Use case resumes from step 2.
+// end::uceight[]
+
+// tag::ucnine[]
+[[UseCaseNine]]
+[discrete]
+=== Use case: UC09 - View Event
+
+*MSS* Preconditions: Modules and events are added in Modulo . +
+Guarantees: Details of selected event will be displayed. +
+
+1. User <<UseCaseSix,list all the registered event (UC06)>>. +
+2. User enter view command, e.g view 1(index). +
+3. Modulo will searches and for the correct index from the events list and display the details of event at the right panel.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a.
+User enters invalid index. e.g: view 1000
+
+[none]
+** 2a2. Module inform user that index is not valid. +
+** 2b2. Step 2 repeated until user enters a valid index. +
+
+Use case resumes from step 2.
+// end::ucnine[]
 
 // tag::nfr[]
 [appendix]
