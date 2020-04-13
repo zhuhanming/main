@@ -683,7 +683,6 @@ Use case ends.
 [none]
 * 2a.
 User enters incorrect information.
-
 [none]
 ** 2a1. Modulo shows user the correct format for the deadline creation.
 ** 2a2. User enters new information following the correct format.
@@ -694,7 +693,6 @@ Use case resumes from step 3.
 // tag::uctwo[]
 [[UseCaseTwo]]
 [discrete]
-
 === Use case: UC02 - Add a module
 
 *MSS* Preconditions: Module data files are loaded properly. +
@@ -714,7 +712,6 @@ Use case ends.
 [none]
 * 1a.
 User enters incorrect data and the wrong module is found.
-
 [none]
 ** 1a1. Steps 2 to 4 are performed.
 ** 1a2. User <<UseCaseThree,deletes the added module (UC03)>> and its events.
@@ -724,7 +721,6 @@ Use case resumes from step 1.
 [none]
 * 1b.
 User enters invalid data and no modules are found.
-
 [none]
 ** 1b1. Modulo informs User that no modules with the given information can be found.
 ** 1b2. Step 1 repeated until User enters a correct module code.
@@ -734,14 +730,12 @@ Use case resumes from step 2.
 [none]
 * 3a.
 User added a module with no events.
-
 [none]
 ** Use case resumes from step 5.
 
 [none]
 * 3b.
 User exited Modulo before adding all events.
-
 [none]
 ** 3b1. Modulo saves all events that were already added.
 +
@@ -750,7 +744,6 @@ Use case ends.
 [none]
 * 4a.
 User enters an invalid slot.
-
 [none]
 ** 4a1. Modulo cancels the request by the User.
 ** 4a2. Modulo informs the User of the cancellation.
@@ -761,7 +754,6 @@ Use case ends.
 // tag::ucthree[]
 [[UseCaseThree]]
 [discrete]
-
 === Use case: UC03 - Delete a module / event / deadline
 
 1. User enters `delete` followed by an input or `delete d/` followed by an input for deadlines.
@@ -777,7 +769,6 @@ Use case ends.
 User enters an invalid input.
 * 1b.
 Step 2 takes place.
-
 [none]
 ** 1b1. Modulo informs the user that the item the user wants to delete does not exist.
 ** 1b2. User enters a new item to deleteadd
@@ -788,7 +779,6 @@ Use case resumes from step 1.
 // tag::ucfour[]
 [[UseCaseFour]]
 [discrete]
-
 === Use case: UC04 - Set Done to Deadline if user viewing a event
 
 *MSS* Preconditions: Module, Event and deadline are added. +
@@ -807,7 +797,6 @@ Use case ends.
 [none]
 * 5a.
 User enters invalid index. e.g: done 1000
-
 [none]
 ** 5a1. Module inform user that index is not valid. +
 Use case resumes from step 5.
@@ -816,7 +805,6 @@ Use case resumes from step 5.
 // tag::ucfive[]
 [[UseCaseFive]]
 [discrete]
-
 === Use case: UC05 - Set Done to deadline if user not viewing event.
 
 *MSS* Preconditions: Module, Event and deadline are added and exits in Modulo. +
@@ -833,7 +821,6 @@ Use case ends. +
 [none]
 * 1a.
 User enters wrong module code and no module is found.
-
 [none]
 ** 1a1. Modulo informs User that the module does not exists. +
 ** 1b2. Step 1 repeated until User enters a correct module code. +
@@ -842,7 +829,6 @@ Use case resumes from step 2.
 [none]
 * 1a.
 User enters correct module code but wrong event name and no event is found.
-
 [none]
 ** 1a1. Modulo informs User that the event does not exists. +
 ** 1b2. Step 1 repeated until User enters a correct event name.
@@ -852,7 +838,6 @@ Use case resumes from step 2.
 // tag::ucsix[]
 [[UseCaseSix]]
 [discrete]
-
 === Use case: UC06 - List Event
 
 *MSS* Preconditions: Modules and Events are already added in Modulo . +
@@ -868,7 +853,6 @@ Use case ends.
 [none]
 * 1a.
 User enters invalid command. e.g: list tutorial
-
 [none]
 ** 1a1. Module inform user the command is invalid and display correct format to user +
 Use case resumes from step 1.
@@ -877,7 +861,6 @@ Use case resumes from step 1.
 // tag::ucseven[]
 [[UseCaseSeven]]
 [discrete]
-
 === Use case: UC07 - List Module
 
 *MSS* Preconditions: Modules are added in Modulo . +
@@ -893,7 +876,6 @@ Use case ends.
 [none]
 * 1a.
 User enters invalid command. e.g: `list CS2103`
-
 [none]
 ** 1a1. Module inform user the command is invalid and display correct format to user +
 Use case resumes from step 1.
@@ -902,7 +884,6 @@ Use case resumes from step 1.
 // tag::uceight[]
 [[UseCaseEight]]
 [discrete]
-
 === Use case: UC08 - View Module
 
 *MSS* Preconditions: Modules data are added in Modulo. +
@@ -918,7 +899,6 @@ Use case ends.
 [none]
 * 2a.
 User enters invalid index. e.g: view 1000
-
 [none]
 ** 2a2. Module inform user that index is not valid. +
 ** 2b2. Step 2 repeated until user enters a valid index. +
@@ -945,7 +925,6 @@ Use case ends.
 [none]
 * 2a.
 User enters invalid index. e.g: view 1000
-
 [none]
 ** 2a2. Module inform user that index is not valid. +
 ** 2b2. Step 2 repeated until user enters a valid index. +
@@ -972,7 +951,6 @@ Use case ends.
 [none]
 * 2a.
 Modulo is unable to find the directory specified by user.
-
 [none]
 ** 2a1. Modulo creates the directory.
 +
@@ -1276,3 +1254,55 @@ Expected: Shows the GUI with no data.
 
 [appendix]
 == Effort
+
+=== Model
+
+The `Model` of Modulo is certainly more complex than that of AddressBook.
+In AddressBook, there was only one key object in play - Person.
+Most of the other classes were ones that served as attributes for the Person object.
+
+For Modulo, three different objects are managed at once, with the `Model` class having to juggle two different lists
+at all times.
+As such, there was much greater complexity, especially when the commands used one type of object as a reference for
+another!
+An example would be finding an event that belongs to a certain module.
+The logic behind can be implemented in various ways, and we sought to reduce the complexity of this logic.
+
+The process was rough - we didn't get it right from the start (and we cannot say for sure that we have gotten it
+right currently), and we had to refactor our code over quite a few times, as we realise the limitations of our
+previous implementations. This is with careful planning right from the start!
+
+=== Logic
+
+Modulo implemented its own `StatefulLogic` that allows users to perform multistep commands.
+This in itself is quite a huge step up from the existing `Logic` flow in AddressBook, where commands were all
+"one-shot".
+
+And as mentioned earlier, with the increased complexity of the `Model` and its classes, naturally, the complexity of
+`Logic` follows. Commands are no longer "single-dimensional", and now need to perform various operations before being
+able to determine the correct action to execute.
+
+Our team spent quite a lot of effort to come up with ways to implement both the `StatefulLogic` and the commands.
+
+=== Storage
+
+The complexity of `Storage` naturally increased as well, as now we have to store objects of three types into a single
+`JSON` file, and still have a way to recover and restore the associations between all of these "save data" upon
+loading. The process of deriving our current way of doing things took quite a while as well.
+
+=== Ui
+
+Lastly, the Ui. Our Modulo team spent quite a bit of effort in ensuring that our interface was pleasing to the eye.
+And we're glad that we did, as the Ui turned out the way we wanted! This is not a painless process, however. We did
+spend quite a bit of time undoing what we've designed at times, as we designed and built iteratively.
+
+=== Overall
+
+As a whole, this process was not an easy one for the Modulo team. We started off with a grandiose idea in mind, and
+met obstacle after obstacle. We did fight hard, but for a large part, we were slowly worn down. It's rather sad to
+see that we did not achieve the goal we initially set out to due to these challenges. But we're also very glad to say
+that, in exchange, we've learnt a lot more than we expected to. In overcoming a lot of the problems mentioned above,
+our team spent sessions discussing, debating and brainstorming, and we learnt together in the end.
+
+We wouldn't say we're the team that spent the most effort, but we can say for sure that we didn't spare any effort
+throughout the process.

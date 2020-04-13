@@ -98,7 +98,7 @@ Now you may see the following prompt:
 image::Multistep.png[width="500"]
 
 Simply type in your slot and press kbd:[Enter]!
-Modulo is from slot 4, so we'll type that in.
+For the purposes of this tutorial, we'll go with slot 3!
 
 You'll see two changes.
 Firstly, the event is added:
@@ -486,13 +486,13 @@ Format: `clear`
 // tag::edit[]
 === Editing added Events and Deadlines: `[coming in v2.0]`
 
-_{explain how the user can edit an added Event or Deadline}_
+_This is an upcoming feature! Do keep an eye out!_
 // end::edit[]
 
 // tag::import[]
 === Importing a NUSMods Calendar: `[coming in v2.0]`
 
-_{explain how the user can import a NUSMods Calendar}_
+_This is an upcoming feature! Do keep an eye out!_
 // end::import[]
 
 // tag::ui[]
