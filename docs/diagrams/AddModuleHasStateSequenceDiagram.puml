@@ -9,12 +9,17 @@ end box
 
 [-> LogicManager : execute("D09")
 activate LogicManager
-activate AddModuleStatefulLogicManager
 alt AddModuleStatefulLogicManager has state
 LogicManager -> AddModuleStatefulLogicManager : execute("D09")
+activate AddModuleStatefulLogicManager
+
+AddModuleStatefulLogicManager --> LogicManager
+deactivate AddModuleStatefulLogicManager
 
 else else
 LogicManager -> ModuloParser : parseCommand("D09")
 activate ModuloParser
+ModuloParser --> LogicManager
+deactivate ModuloParser
 end
 @enduml
