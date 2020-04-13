@@ -9,8 +9,8 @@
 
 == Overview
 
-AddressBook - Level 3 is a desktop address book application used for teaching Software Engineering principles.
-The user interacts with it using a CLI, and it has a GUI created with JavaFX. It is written in Java, and has about 10 kLoC.
+Modulo is for *NUS students* who *prefer to use a desktop app for managing their school work on a modular level*.
+It helps you to break down your modules into deadlines and track their progress. +
 
 == Summary of contributions
 
@@ -78,8 +78,4 @@ include::../DeveloperGuide.adoc[tag=ucnine]
 
 include::../DeveloperGuide.adoc[tag=done]
 
-== PROJECT: PowerPointLabs
 
----
-
-_{Optionally, you may include other projects in your portfolio.}_
