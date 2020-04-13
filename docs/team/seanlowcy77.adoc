@@ -17,7 +17,7 @@ the benefits of a Graphical User Interface (GUI). If you can type fast, Modulo c
 
 == Summary of contributions
 
-* *Major enhancement*: added *Deletion function to delete modules, events and deadlines*
+* *Major enhancement*: Implemented *Deletion function to delete modules, events and deadlines*
 ** What it does: allows the user to delete modules, events or deadlines
 ** Justification: This feature is important as it is an essential function should the user want to delete Modules, Events or Deadlines from Modulo.
 ** Highlights: This feature also allows for deletion of multiple Modules and Events at a time. For example while on the Module view,
@@ -25,22 +25,22 @@ the benefits of a Graphical User Interface (GUI). If you can type fast, Modulo c
 some events / modules containing certain keywords. Modulo will also return the appropriate feedback should the user
 enter invalid inputs or use the command inappropriately.
 
-* *Minor enhancement*: Initial logic implementation to switch between left panel views.
+* *Minor enhancement*: Initial logic implementation to *switch between left panel views*.
 ** What it does: Refreshes the list view every time the user switches between module and event views.
 ** Justification: This feature was important as our team wanted to ensure that users were able to switch between list views in Modulo.
 
-* *Minor enhancement*: Implemented FindCommand
+* *Minor enhancement*: Implemented *FindCommand*
 ** What it does: allows the user to find modules or events using certain keywords.
 ** Justification: This feature is important as it is an essential function should the user want to find modules or events by certain keywords.
 ** Highlights: This FindCommand allows additional filtering (not only once). For example if the user wants to search for `tutorial 1` from the module
 `CS2103`, the user can first enter `find CS2103` and then `find tutorial 1`. Modulo will also return the appropriate feedback should the user
 enter invalid inputs or use the command inappropriately.
 
-* *Minor enhancement*: Implemented ListCommand
+* *Minor enhancement*: Implemented *ListCommand*
 ** What it does: allows the user to list modules or events on the left panel of Modulo.
 ** Justification: This feature is important as it allows the user to switch between the module and event view.
 
-* *Minor enhancement*: Created Module and Event Cards to display the details of events and modules
+* *Minor enhancement*: Created *Module and Event Cards* to display the details of events and modules
 ** What it does: provides details of modules and events.
 ** Justification: This feature is important as it allows the user to see details of modules and events in the list
 ** Credit: Modified the Module and Event Cards with help from the original implementation of PersonCard from AddressBook3.
@@ -48,8 +48,8 @@ enter invalid inputs or use the command inappropriately.
 
 * *Code contributed*: [https://nus-cs2103-ay1920s2.github.io/tp-dashboard/#search=seanlowcy77&sort=groupTitle&sortWithin=title&since=2020-02-14&timeframe=commit&mergegroup=false&groupSelect=groupByRepos&breakdown=false&tabOpen=true&tabType=authorship&tabAuthor=seanlowcy77&tabRepo=AY1920S2-CS2103-T09-1%2Fmain%5Bmaster%5D[tP Code Dashboard]]
 * *Functional Code contributed*:
-** *Model*: [https://github.com/AY1920S1-CS2103-F09-4/main/blob/master/src/main/java/seedu/address/model/ModelManager.java[Model Manager]]
-*** `getPolicyPopularityBreakdown()`, `getAgeGroupBreakdown()`, `getGenderBreakdown()`
+** *Model*: [https://github.com/AY1920S2-CS2103-T09-1/main/blob/master/src/main/java/modulo/model/ModelManager.java[Model Manager]]
+*** `getFilteredDisplayableList()`
 
 ** *View*: [https://github.com/AY1920S2-CS2103-T09-1/main/resources/view/ModuleListCard.fxml[Module List Card]][https://github.com/AY1920S2-CS2103-T09-1/main/resources/view/EventListCard.fxml[Event List Card]]
 
