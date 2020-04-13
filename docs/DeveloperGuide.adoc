@@ -289,10 +289,57 @@ Adheres to the *Open Closed Principle*, since each class can just implement
 If a new type of state is required, the changes required will be heavy as well, thus violating the Open Closed Principle.
 // end::statefullogic[]
 
+=== Done Feature
+
+This features allow user to set deadline'status to be completed or not completed.The user input is handled and retrieved by the `MainWindow` class in Ui first, after that passed to the `LogicManager` to process the input.
+First,`LogicManager` will call the `ModuleParser` which will pass the input to the `DoneCommandParser`.
+Then`DoneCommandParser` will invoked `DoneCommand` to set the status of deadline to be true(Completed) and update the model.
+Invalid input such as invalid index(i.e done 1000) also handled properly and error message will be displayed to user.
+The command is implemented corresponding to the operation in the logic module:
+
+* `DoneCommand` -- Set the status of the deadline to be true.
+
+For the command, a parser is implemented to parse the input into arguments.
+
+* `DoneCommandParser` --Parse the done command input and generates `DoneCommand`.
+
+Given below is a sequence diagram to show how the done mechanism behaves at each step.
+
+image::Done_SequenceDiagram.png[]
+
+Given below is a activity diagram to show how the how operations work.
+
+image::Done_ActivityDiagram.png[]
+
+==== Design Considerations
+
+===== Aspect: How done features executes
+
+* **Alternative 1 (current choice):** Done 1 deadline at one time
+** Pros: Easy to implement,not likely to create bugs.
+** Cons: More steps required for user if she/he wants to complete different deadlines.
+
+* **Alternative 2 :** Done multiple deadlines at one time
+** Pros: More time consuming for user to complete list of deadline at one time.
+** Cons: User input will be complex as it required to check for different modules and events then finally can set the status to be true.
+Difficult to troubleshoot if bugs occur.
+
+* **Alternative 3 :** Modulo will keep track of deadline's status and send reminder to user
+** Pros: Remind user which deadline he/she have not completed yet.
+** Cons: Hard to implement and it increase coupling.Difficult to write test cases.
+
+* **Future Extension:** Modulo can have another ui panel to display every deadline that needs to be done for every weeks, then user can enter done command to update deadlines' status from there.
+
+
 // tag::edit[]
 === [Proposed] Edit Feature
 
-Currently, Modulo does not allow for the editing of the details of modules, events and deadlines that have been created.
+Currently, Modulo does not allow for the editing of the details of events and deadlines that have been created.
+
+==== Proposed Implementation
+
+
+
 // end::edit[]
 
 // tag::undoredo[]
@@ -494,6 +541,7 @@ Use case ends.
 [none]
 * 2a.
 User enters incorrect information.
+
 [none]
 ** 2a1. Modulo shows user the correct format for the deadline creation.
 ** 2a2. User enters new information following the correct format.
@@ -522,6 +570,7 @@ Use case ends.
 [none]
 * 1a.
 User enters incorrect data and the wrong module is found.
+
 [none]
 ** 1a1. Steps 2 to 4 are performed.
 ** 1a2. User <<UseCaseThree,deletes the added module (UC03)>> and its events.
@@ -531,6 +580,7 @@ Use case resumes from step 1.
 [none]
 * 1b.
 User enters invalid data and no modules are found.
+
 [none]
 ** 1b1. Modulo informs User that no modules with the given information can be found.
 ** 1b2. Step 1 repeated until User enters a correct module code.
@@ -540,12 +590,14 @@ Use case resumes from step 2.
 [none]
 * 3a.
 User added a module with no events.
+
 [none]
 Use case resumes from step 5.
 
 [none]
 * 3b.
 User exited Modulo before adding all events.
+
 [none]
 ** 3b1. Modulo saves all events that were already added.
 +
@@ -554,6 +606,7 @@ Use case ends.
 [none]
 * 4a.
 User enters an invalid slot.
+
 [none]
 ** 4a1. Modulo cancels the request by the User.
 ** 4a2. Modulo informs the User of the cancellation.
@@ -566,7 +619,6 @@ Use case ends.
 === Use case: UC03 - Delete a module
 
 [appendix]
-
 == Non-Functional Requirements
 
 . A NUS student with above-average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
@@ -653,10 +705,12 @@ Expected: Both the main window and the help window should close.
 
 .. Prerequisites: List all modules using the `list modules` command. Multiple modules in the list.
 .. Test case: `delete 1` +
-Expected: First module is deleted from the list. All events of that module are deleted.
+Expected: First module is deleted from the list.
+All events of that module are deleted.
 Details of the deleted module shown in the status message.
 .. Test case: `delete 0` +
-Expected: No module is deleted. No events deleted.
+Expected: No module is deleted.
+No events deleted.
 Error details shown in the status message.
 .. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size). +
 Expected: Similar to previous.
@@ -682,7 +736,7 @@ Expected: Similar to previous.
 . Dealing with missing/corrupted data files
 
 .. Corrupt the current save file under `./data/`. The easiest way is to type `-` somewhere in one of the saved
-modules' academic year. Another way may be to add random characters that make the JSON format unreadable.
+modules' academic year.
+Another way may be to add random characters that make the JSON format unreadable.
 .. Double-click the jar file +
 Expected: Shows the GUI with no data.
-
