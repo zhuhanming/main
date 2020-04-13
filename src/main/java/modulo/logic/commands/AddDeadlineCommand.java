@@ -85,6 +85,15 @@ public class AddDeadlineCommand extends Command {
         return this.isRepeated;
     }
 
+    /**
+     * Returns the result after execution of AddDeadlineCommand
+     *
+     * Deadline will be added to a specified parentEvent, or the current focused event if parentEvent isn't specified
+     *
+     * @param model Model of modulo
+     * @return CommandResult containing info regarding execution of the command
+     * @throws CommandException If certain prerequisites are unmet
+     */
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);

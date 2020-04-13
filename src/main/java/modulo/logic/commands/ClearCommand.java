@@ -15,6 +15,12 @@ public class ClearCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Clears all data from Modulo.\n"
             + "Example: " + COMMAND_WORD;
 
+    /**
+     * Returns the result after execution of ClearCommand
+     *
+     * @param model Model of modulo
+     * @return CommandResult containing info regarding execution of the command
+     */
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);

@@ -31,6 +31,12 @@ public class ListCommand extends Command {
         this.displayableType = displayableType;
     }
 
+    /**
+     * Returns the result after execution of ListCommand
+     *
+     * @param model Model of modulo
+     * @return CommandResult containing info regarding execution of the command
+     */
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
