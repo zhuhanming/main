@@ -301,7 +301,7 @@ If a new type of state is required, the changes required will be heavy as well, 
 
 This feature allows the User to set the deadline's status to be completed or not completed.
 The user input is handled and retrieved by the `MainWindow` class in the Ui component first, before being passed to the `LogicManager` to execute.
-First,`LogicManager` will call `ModuleParser`, which will parse the input to give a `DoneCommandParser`.
+First,`LogicManager` will call `ModuloParser`, which will parse the input to give a `DoneCommandParser`.
 Then, `DoneCommandParser` will return a `DoneCommand`, which will help to set the status of deadline and update the
 `Model`.
 Invalid inputs such as an invalid index (e.g. `done 1000`) are also handled properly, with suitable error messages being displayed to the user.
@@ -345,6 +345,60 @@ Difficult to write test cases as well.
 * **Future Extension:** Modulo can have another UI panel to display every deadline that needs to be done a certain week.
 The user can then use the `done` command to update the deadlines' statuses from there.
 // edit::done[]
+
+
+
+
+// tag::delete[]
+=== Module / Event / Deadline Deletion Feature
+
+This Deletion feature allows the user to delete modules, events or deadlines.
+The user input is first retrieved by the `MainWindow` class which is then passed to the `LogicManager` via the `execute`
+function.
+`LogicManager` will call the `parseCommand` function of ModuloParser`, which will parse the input to create a temporary `DeleteCommandParser` object,
+ parsing the input and returning a `DeleteCommand`.
+The command will then be executed in the `LogicManager`, returning a `CommandResult` object which will then be returned as
+feedback to the user.
+
+
+Given below is a sequence diagram to show how the `delete` feature parsing an input of '1' behaves at each step:
+
+image::DeleteSequenceDiagram.png[]
+
+Given below is an activity diagram to show how the `delete` operation works.
+
+image::DeleteActivityDiagram.png[]
+
+==== Design Considerations
+
+===== Aspect: How `delete` may be executed
+
+* **Alternative 1 (current choice):** User can delete multiple items using the command at the same time.
+** Pros: Allows the user more flexibility in deleting modules and events instead of just deleting them one
+by one. For example users can choose to delete one, many or even all modules and events, depending on
+their command input.
+** Cons: This has caused the code to become more complex in dealing with the many possible inputs
+and scenarios, leading to a higher amount of potential errors.
+
+[NOTE]
+With respect to deadlines, users can only delete one or all deadlines of a particular event. This
+is to avoid any confusion and unnecessary complexity which may be caused by deleting deadlines across
+all events, especially since the user may only observe deadlines of one event at any one time and do
+not have access to the overall list of deadlines.
+
+
+* **Alternative 2 :** User can `delete` only one or all items.
+** Pros: Reduces the lack of potential errors due to the decreased complexity of the code.
+** Cons: It is less intuitive for the user as users are now limited by deleting one or all the events /
+ modules / deadlines.
+
+
+* **Future Extension:** Modulo can have another UI panel to display every deadline that needs to be done a certain week.
+The user can then use the `delete` command to delete multiple deadlines at one go, making it more convenient
+for the user.
+// end::delete[]
+
+
 
 // tag::edit[]
 === [Proposed] Edit Feature
@@ -640,8 +694,12 @@ Use case ends.
 // tag::ucthree[]
 [[UseCaseThree]]
 [discrete]
-=== Use case: UC03 - Delete a module
+=== Use case: UC03 - Delete a module / event / deadline
+1. User enters delete function followed by an input
+2. The input is valid and the ModuloParser class parses the input
+3. 
 // end::ucthree[]
+
 
 // tag::nfr[]
 [appendix]
