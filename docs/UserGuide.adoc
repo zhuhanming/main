@@ -46,6 +46,7 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 Refer to <<Features>> for details of each command.
 Note: We highly recommend going through the <<Tutorial,tutorial>> before starting!
 
+// tag::tutorial[]
 [[Tutorial]]
 == Tutorial
 
@@ -164,6 +165,8 @@ For that, our commands have variations that do not depend on the <<Focused,*focu
 
 Want to find out more?
 Head over to <<Features>> now!
+// end::tutorial[]
+
 
 [[Features]]
 == Features
@@ -185,6 +188,7 @@ Format: `help`
 
 image::HelpWindow.png[width="790"]
 
+// tag::addmodule[]
 === Adding a module: `module` (Multistep)
 
 Adds a module for AY 19/20 Sem 2 to Modulo. +
@@ -212,7 +216,9 @@ image::SamplePrompt1.png[width="500"]
 You may have to restart the process by deleting the module and re-adding it.
 Do see the section on <<Delete,deleting a module>> below.
 *****
+// end::addmodule[]
 
+// tag::addevent[]
 === Adding an event: `event`
 
 Adds a custom event to a module.
@@ -252,7 +258,9 @@ You can view the full list of event types <<EventTypes,here>>.
 ==== Pro-tip (GUI-dependent)
 
 If you're already viewing a module (i.e. <<Focused,focused>> on a module), you can actually drop the `m/MODULE_CODE`!
+// end::addevent[]
 
+// tag::adddeadline[]
 [[AddingDeadline]]
 === Adding a deadline: `deadline`
 
@@ -275,6 +283,7 @@ This is to prevent the creation of irrelevant deadlines for unrecognised types o
 
 If you're already viewing an event (i.e. <<Focused,focused>> on an event), you can actually drop the `m/MODULE_CODE`
 AND the `e/EVENT_NAME`!
+// end::adddeadline[]
 
 [[List]]
 === Listing events or modules on the left: `list`
@@ -390,7 +399,7 @@ Deletes a module, event, or deadline by its index, a search term, or delete all.
 
 ==== Deleting Modules and Events
 
-Format: `delete INDEX` OR `delete SEARCH TERM` OR `delete all`
+Format: `delete INDEX` OR `delete SEARCH_TERM` OR `delete all`
 
 Things to note:
 
@@ -453,6 +462,7 @@ _{explain how the user can edit an added Event or Deadline}_
 
 _{explain how the user can import a NUSMods Calendar}_
 
+// tag::ui[]
 == UI
 
 *****
@@ -513,6 +523,7 @@ This status bar displays where your data is being saved at.
 You can head over to that folder to find the `.json` file for your usage.
 
 Your exported `modulo.ics` will also be found in the same directory, unless otherwise specified when exporting.
+// end::ui[]
 
 == FAQ
 
@@ -532,6 +543,7 @@ Stay Tuned!
 *A*: Unfortunately for now, Modulo is only catered to NUS students.
 For other universities, feel free to reach out to our team to discuss a possible collaboration!
 
+// tag::appendix[]
 == Appendix
 
 [[EventTypes]]
@@ -550,3 +562,4 @@ Recognised official event types are:
 * Packaged Lecture
 * Tutorial Type Two
 * Design Lecture
+// end::appendix[]
