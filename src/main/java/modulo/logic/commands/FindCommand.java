@@ -28,7 +28,12 @@ public class FindCommand extends Command {
         this.predicate = predicate;
     }
 
-
+    /**
+     * Returns the result after execution of FindCommand
+     *
+     * @param model Model of modulo
+     * @return CommandResult containing info regarding execution of the command
+     */
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);

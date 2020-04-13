@@ -34,6 +34,13 @@ public class ViewCommand extends Command {
         this.index = index;
     }
 
+    /**
+     * Returns the result after execution of ViewCommand
+     *
+     * @param model Model of modulo
+     * @return CommandResult containing info regarding execution of the command
+     * @throws CommandException When index specified is invalid
+     */
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);

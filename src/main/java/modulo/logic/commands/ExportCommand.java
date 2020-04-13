@@ -43,6 +43,13 @@ public class ExportCommand extends Command {
         this.exportDirectory = exportDirectory;
     }
 
+    /**
+     * Returns the result after execution of ExportCommand
+     *
+     * @param model Model of modulo
+     * @return CommandResult containing info regarding execution of the command
+     * @throws CommandException When system fails to write to file
+     */
     @Override
     public CommandResult execute(Model model) throws CommandException {
 
