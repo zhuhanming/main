@@ -651,12 +651,10 @@ Use case ends.
 *MSS* Preconditions: Module, Event and deadline are added. +
 Guarantees: Status of viewed deadline is updated. +
 
-1. User enter list event command. +
-2. Modulo will display all the events with numbering index in the left panel. +
-3. User enter view 1 to view the details of the event. +
-4. Modulo display the event details and its deadline on the right panel. +
-5. User enter index of deadline. e.g: done 1. +
-6. Modulo checks is if the index is valid or not and toggles the completion status of the deadline.
+1. User <<UseCaseSix,list all the registered event (UC06)>>. +
+2. User <<UseCaseNine, view the selected events(UC09)>>. +
+3. User enter index of deadline. e.g: done 1. +
+4. Modulo checks is if the index is valid or not and toggles the completion status of the deadline.
 If the deadline was incomplete, it would be completed, and vice versa.
 The color of the status changes accordingly and success message will displayed in result box.  +
 Use case ends.
@@ -785,7 +783,7 @@ Use case resumes from step 2.
 *MSS* Preconditions: Modules and events are added in Modulo . +
 Guarantees: Details of selected event will be displayed. +
 
-1. User <<UseCaseNine,list all the registered module (UC09)>>. +
+1. User <<UseCaseSix,list all the registered event (UC06)>>. +
 2. User enter view command, e.g view 1(index). +
 3. Modulo will searches and for the correct index from the events list and display the details of event at the right panel.
 Use case ends.
