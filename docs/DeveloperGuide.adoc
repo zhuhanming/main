@@ -912,7 +912,6 @@ Use case ends.
 +
 Use case resumes from step 3.
 +
-Use case ends.
 // end::ucten[]
 
 // tag::nfr[]
