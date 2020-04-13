@@ -288,7 +288,7 @@ If a new type of state is required, the changes required will be heavy as well, 
 // end::statefullogic[]
 
 // tag::edit[]
-=== [Proposed] Done Feature
+=== Done Feature
 
 This features allow user to set deadline'status to be completed or not completed.The user input is handled and retrieved by the `MainWindow` class in Ui first, after that passed to the `LogicManager` to process the input.
 First,`LogicManager` will call the `ModuleParser` which will pass the input to the `DoneCommandParser`.
@@ -306,7 +306,8 @@ Given below is a sequence diagram to show how the done mechanism behaves at each
 
 image::Done_SequenceDiagram.png[]
 
-Given below is a activity diagram to show how the done mechanism behaves at each step.
+
+Given below is a activity diagram to show how the how operations work.
 
 image::Done_ActivityDiagram.png[]
 
@@ -319,9 +320,14 @@ image::Done_ActivityDiagram.png[]
 ** Cons: More steps required for user to completed different deadlines.
 More difficult to implement as it required to check multiple modules and events to set the deadline's status, also more RAM is needed.
 
-* **Alternative 2 :** Modulo will keep track of deadline's status and update every week
-** Pros: User
-** Cons: Increase coupling,
+* **Alternative 2 :** Modulo will keep track of deadline's status and send reminder to user
+** Pros: Remind user which deadline he/she have not completed yet.
+** Cons: Hard to implement and it increase coupling.
+Difficult to write test cases.
+
+* **Future Extension:** Modulo can have another ui panel to display every deadline that needs to be done for every weeks, then user can enter done command to update deadlines' status from there.
+
+
 
 // end::edit[]
 
