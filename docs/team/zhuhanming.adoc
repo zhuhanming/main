@@ -1,0 +1,116 @@
+= Zhu Hanming - Project Portfolio
+:site-section: AboutUs
+:imagesDir: ../images
+:stylesDir: ../stylesheets
+:repoSenseURL: https://nus-cs2103-ay1920s2.github.io/tp-dashboard/#search=zhuhanming&sort=groupTitle&sortWithin=title&since=2020-02-14&timeframe=commit&mergegroup=false&groupSelect=groupByRepos&breakdown=false
+
+== PROJECT: Modulo
+
+---
+
+== Overview
+
+Modulo is a desktop module management application written for students with fast fingers.
+Being a CLI-centric application, users can quickly manage their modules simply by typing.
+A GUI created with JavaFX is also provided to help users visualise the various deadlines they have for their modules and enhance their overall experience.
+It is written in Java, and has about 16 kLoC.
+
+== Summary of contributions
+
+* *Code contributed*: link:{repoSenseURL}[RepoSense Code Dashboard]
+
+* *Major enhancement*: Added *multistep commands* via the `StatefulLogic` interface
+** What it does: It allows the user to perform elaborate multistep commands by having their inputs build onto what was previously entered.
+** Justification: This feature improves the product significantly because it greatly reduces the amount of repetitive commands that a user needs to enter to achieve the same result.
+It also helps to connect processes that go together, instead of having the user perform each step manually and separately.
+** Highlights: This enhancement was created with the *existing architecture* and the *Open-closed Principle* in mind.
+It was implemented with minimal changes to existing logic and classes, and instead extended on the existing Command Pattern.
+The process required an in-depth analysis of design alternatives.
+
+* *Major enhancement*: Built `ModuleLibrary`, a class that interfaces *between Modulo and the module JSON files*
+** What it does: It allows the user to add modules and events using official NUS module data.
+** Justification: This feature greatly increases the product's use value and competitiveness, because users no longer need to refer to other information sources e.g. NUSMods when using Modulo.
+** Highlights: `ModuleLibrary` was designed with the intention of it being the *single source of truth* when it comes to data related to modules and their events.
+It was difficult, but was eventually successfully implemented, and now acts as a source of "properly-created" modules when adding modules or loading modules from save.
+GSON was chosen over Jackson due to the highly nested JSON files.
+** Credits: GSON Library for its amazing JSON parsing features.
+
+* *Major enhancement*: Built `AddModuleCommand`, a `Command` that uses both of the above enhancements to make module adding seamless
+** What it does: It is a multistep command that helps a user add a module and its events through meaningful prompts.
+** Justification: Our `AddEventCommand`, though powerful, requires rather lengthy inputs.
+It is not very realistic to expect our users to stay through the whole event population process.
+This `AddModuleCommand` helps a user to add all official events of a module in less than a minute!
+** Highlights: The `State` for this command was chosen to be the list of event types to add to a module.
+The process required an in-depth analysis of design alternatives, as I had to consider what would allow the app to show meaningful prompts and handle user inputs correctly.
+
+* *Major enhancement*: Designed and built the final GUI
+** What it does: Allows the user to have a more aesthetic experience.
+
+* *Minor enhancement*: Adapt AddressBook *Storage* for Modulo so that user data can now be saved and loaded.
+
+
+* *Other contributions*:
+
+** Project management:
+*** Managed releases `v1.2.1` - `v1.4` (8 releases) on GitHub
+** Product development:
+*** Designed the mockups for the app using Adobe XD.
+** Enhancements to existing features:
+*** Wrote tests for existing features to increase coverage by a total of 16.5% approximately (Pull requests
+https://github.com/AY1920S2-CS2103-T09-1/main/pull/129[#129],
+https://github.com/AY1920S2-CS2103-T09-1/main/pull/130[#130],
+https://github.com/AY1920S2-CS2103-T09-1/main/pull/138[#138],
+https://github.com/AY1920S2-CS2103-T09-1/main/pull/140[#140],
+https://github.com/AY1920S2-CS2103-T09-1/main/pull/151[#151]).
+** Documentation:
+*** Did up JavaDocs: https://github.com/AY1920S2-CS2103-T09-1/main/pull/73[#73] and
+https://github.com/AY1920S2-CS2103-T09-1/main/pull/129[#129].
+*** Did cosmetic tweaks to existing contents of the User Guide, which includes taking screenshots of the features:
+Commit https://github.com/AY1920S2-CS2103-T09-1/main/commit/038f7a50e29bc28aa73bb319b5a89f65eed7515e[038f7a5]
+and Pull Request https://github.com/AY1920S2-CS2103-T09-1/main/pull/142[#142]
+*** Added Tutorial, Appendix and a few of the Features to User Guide:
+https://github.com/AY1920S2-CS2103-T09-1/main/pull/142[#142]
+*** Added Model Class Diagram, Stateful Logic Diagrams, User Stories, Use Cases and Manual Testing to Developer Guide:
+https://github.com/AY1920S2-CS2103-T09-1/main/pull/79[#79],
+https://github.com/AY1920S2-CS2103-T09-1/main/pull/148[#148],
+https://github.com/AY1920S2-CS2103-T09-1/main/pull/150[#150]
+** Community:
+*** PRs reviewed (with non-trivial review comments): https://github.com[#12], https://github.com[#32], https://github.com[#19], https://github.com[#42]
+*** Contributed to forum discussions (examples: https://github.com[1], https://github.com[2], https://github.com[3], https://github.com[4])
+*** Reported bugs and suggestions for other teams in the class (examples:  https://github.com[1], https://github.com[2], https://github.com[3])
+*** Some parts of the history feature I added was adopted by several other class mates (https://github.com[1], https://github.com[2])
+** Tools:
+*** Integrated a third party library (GSON) to the project (https://github.com/AY1920S2-CS2103-T09-1/main/pull/54[#54]) for interfacing with the NUS Module JSON files.
+*** Integrated a new Github plugin (CircleCI) to the team repo
+
+== Contributions to the User Guide
+
+|===
+|_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
+|===
+
+include::../UserGuide.adoc[tag=tutorial]
+
+include::../UserGuide.adoc[tag=addmodule]
+
+include::../UserGuide.adoc[tag=addevent]
+
+include::../UserGuide.adoc[tag=adddeadline]
+
+include::../UserGuide.adoc[tag=ui]
+
+include::../UserGuide.adoc[tag=appendix]
+
+== Contributions to the Developer Guide
+
+|===
+|_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
+|===
+
+include::../DeveloperGuide.adoc[tag=model]
+
+include::../DeveloperGuide.adoc[tag=statefullogic]
+
+include::../DeveloperGuide.adoc[tag=edit]
+
+include::../DeveloperGuide.adoc[tag=uctwo]
