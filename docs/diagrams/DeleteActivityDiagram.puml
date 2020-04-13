@@ -1,0 +1,60 @@
+'@startuml
+'start
+':User enters 'delete 1';
+'
+''Since the beta syntax does not support placing the condition outside the
+''diamond we place it as the true branch instead.
+'
+''if () then (matches command input format)
+''    ':Creates AddDeadlineCommandParser object;
+''    ':AddDeadlineCommandParser parses input;
+''    if () then (sasa)
+''        :sassa
+''    else ()
+''        :bla
+''    endif
+''
+''    :Save Modulo to
+''    moduloStateList;
+''else ([else])
+'':throws ParseException;
+''endif
+'':throws ParseException;
+''
+'':throws ParseException;
+'
+'stop
+'@enduml
+'
+
+@startuml
+
+scale 0.4
+start
+:User enters 'delete 1';
+
+    if () then ([matches command input format])
+    :Creates AddDeadlineCommandParser object;
+    :AddDeadlineCommandParser parses input;
+        if () then ([is not empty])
+            :Returns DeleteCommand object;
+            if () then ([inputs are valid])
+                :Model deletes deadline / event / module;
+                :Returns CommandResult to LogicManager;
+                :Saves changes to Storage on Modulo;
+            else ([else])
+                :throw CommandException;
+            endif
+        else ([else])
+            :throws ParseException;
+        endif
+    else ([else])
+        :throws ParseException;
+
+    endif
+
+:Returns Feedback to user;
+
+stop
+
+@enduml
