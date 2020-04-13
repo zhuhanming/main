@@ -1,0 +1,31 @@
+@startuml
+
+scale 0.4
+start
+:User enters 'delete 1';
+
+    if () then ([matches command input format])
+    :Creates AddDeadlineCommandParser object;
+    :AddDeadlineCommandParser parses input;
+        if () then ([is not empty])
+            :Returns DeleteCommand object;
+            if () then ([inputs are valid])
+                :Model deletes deadline / event / module;
+                :Returns CommandResult to LogicManager;
+                :Saves changes to Storage on Modulo;
+            else ([else])
+                :throw CommandException;
+            endif
+        else ([else])
+            :throws ParseException;
+        endif
+    else ([else])
+        :throws ParseException;
+
+    endif
+
+:Returns Feedback to user;
+
+stop
+
+@enduml

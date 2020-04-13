@@ -26,6 +26,7 @@ public class Messages {
     public static final String MESSAGE_EVENT_NOT_SELECTED = "Please select an event to delete deadlines from!";
     public static final String MESSAGE_NO_EVENT_DELETED = "There are no events containing %1$s.\n"
             + "No events have been deleted";
+    public static final String MESSAGE_EVENT_TOO_LONG = "Your event cannot be longer than a day!";
 
     // DEADLINE-RELATED
     public static final String MESSAGE_DEADLINE_DOES_NOT_EXIST = "The deadline you want does not exist!";
