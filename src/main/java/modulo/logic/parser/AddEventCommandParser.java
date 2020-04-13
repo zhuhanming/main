@@ -1,5 +1,6 @@
 package modulo.logic.parser;
 
+import static modulo.commons.core.Messages.MESSAGE_EVENT_TOO_LONG;
 import static modulo.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static modulo.logic.parser.CliSyntax.PREFIX_END_DATETIME;
 import static modulo.logic.parser.CliSyntax.PREFIX_FREQUENCY;
@@ -64,6 +65,10 @@ public class AddEventCommandParser implements Parser<AddEventCommand> {
                 .orElseThrow(parseExceptionSupplier));
         boolean isRepeated = ParserUtil.parseRepeat(argMultimap.getValue(PREFIX_REPEAT).orElse("NO"));
         EventType eventType = ParserUtil.parseEventType(name.toString());
+
+        if (startDateTime.plusDays(1).isBefore(endDateTime)) {
+            throw new ParseException(MESSAGE_EVENT_TOO_LONG);
+        }
 
         LocalDate endRepeatDate = null;
 
