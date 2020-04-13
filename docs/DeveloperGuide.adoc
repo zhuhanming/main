@@ -372,7 +372,8 @@ Event entities can be mapped to VEVENT .ics type, but there is a lack of suitabl
 ** Pros: Users are able to see at a glance what are the `Deadline` for each `Event` easily
 ** Cons: Users are unable to take advantage of VTODO import functionality of certain calendar application.
 
-* **Alternative 3 (current choice):** Combine both options Users are able to make full use of .ics importing capabilities, while also providing a quick overview of `Deadline`
+* **Alternative 3 (current choice):** Combine both options
+Users are able to make full use of .ics importing capabilities, while also providing a quick overview of `Deadline`
 // end::export[]
 
 // tag::delete[]
@@ -381,8 +382,11 @@ Event entities can be mapped to VEVENT .ics type, but there is a lack of suitabl
 This Deletion feature allows the user to delete modules, events or deadlines.
 The user input is first retrieved by the `MainWindow` class which is then passed to the `LogicManager` via the `execute`
 function.
-`LogicManager` will call the `parseCommand` function of ModuloParser`, which will parse the input to create a temporary `DeleteCommandParser` object, parsing the input and returning a `DeleteCommand`.
-The command will then be executed in the `LogicManager`, returning a `CommandResult` object which will then be returned as feedback to the user.
+`LogicManager` will call the `parseCommand` function of ModuloParser`, which will parse the input to create a temporary `DeleteCommandParser` object,
+ parsing the input and returning a `DeleteCommand`.
+The command will then be executed in the `LogicManager`, returning a `CommandResult` object which will then be returned as
+feedback to the user.
+
 
 Given below is a sequence diagram to show how the `delete` feature parsing an input of '1' behaves at each step:
 
@@ -397,21 +401,28 @@ image::DeleteActivityDiagram.png[]
 ===== Aspect: How `delete` may be executed
 
 * **Alternative 1 (current choice):** User can delete multiple items using the command at the same time.
-** Pros: Allows the user more flexibility in deleting modules and events instead of just deleting them one by one.
-For example users can choose to delete one, many or even all modules and events, depending on their command input.
-** Cons: This has caused the code to become more complex in dealing with the many possible inputs and scenarios, leading to a higher amount of potential errors.
+** Pros: Allows the user more flexibility in deleting modules and events instead of just deleting them one
+by one. For example users can choose to delete one, many or even all modules and events, depending on
+their command input.
+** Cons: This has caused the code to become more complex in dealing with the many possible inputs
+and scenarios, leading to a higher amount of potential errors.
 
 [NOTE]
-With respect to deadlines, users can only delete one or all deadlines of a particular event.
-This is to avoid any confusion and unnecessary complexity which may be caused by deleting deadlines across all events, especially since the user may only observe deadlines of one event at any one time and do not have access to the overall list of deadlines.
+With respect to deadlines, users can only delete one or all deadlines of a particular event. This
+is to avoid any confusion and unnecessary complexity which may be caused by deleting deadlines across
+all events, especially since the user may only observe deadlines of one event at any one time and do
+not have access to the overall list of deadlines.
+
 
 * **Alternative 2 :** User can `delete` only one or all items.
 ** Pros: Reduces the lack of potential errors due to the decreased complexity of the code.
-** Cons: It is less intuitive for the user as users are now limited by deleting one or all the events / modules / deadlines.
+** Cons: It is less intuitive for the user as users are now limited by deleting one or all the events /
+ modules / deadlines.
 
 
 * **Future Extension:** Modulo can have another UI panel to display every deadline that needs to be done a certain week.
-The user can then use the `delete` command to delete multiple deadlines at one go, making it more convenient for the user.
+The user can then use the `delete` command to delete multiple deadlines at one go, making it more convenient
+for the user.
 // end::delete[]
 
 // tag::edit[]
@@ -436,9 +447,9 @@ The flow of the command parsing will be as such:
 
 image::EditCommandActivityDiagram.png[]
 
-If an `EditCommand` is successfully created, it will be executed on the `Model`.
-It will work mainly through the
-`setEvent` method already exposed in the `Model` interface, as well as a `setDeadline` that will be exposed through the parent event.
+If an `EditCommand` is successfully created, it will be executed on the `Model`. It will work mainly through the
+`setEvent` method already exposed in the `Model` interface, as well as a `setDeadline` that will be exposed through
+the parent event.
 
 Here's an example of how it may look like if the `EditCommand` was to modify an event's venue.
 
@@ -446,9 +457,10 @@ User input: `edit n/Tutorial 1 m/CS2103 v/Home`
 
 image::EditCommandSequenceDiagram.png[]
 
-==== Limitations
 
-Due to the fact that repeated events are not currently being tagged or grouped in any way, it is difficult to allow mass editing of repeated events.
+==== Limitations
+Due to the fact that repeated events are not currently being tagged or grouped in any way, it is difficult to allow
+mass editing of repeated events.
 
 If there's a need to edit a repeated event, there would be a need to edit the events one by one.
 
@@ -461,8 +473,8 @@ If there's a need to edit a repeated event, there would be a need to edit the ev
 ** Cons: May have slight performance issues in terms of speed, and a lot of coding to be done.
 * **Alternative 2:** Consolidate the deadlines in a UniqueDeadlineList.
 ** Pros: Less code to write *for this feature* specifically, in terms of the `setDeadline` method.
-** Cons: Increases complexity of the application, since now three lists are maintained.
-There is also the same issue with events and modules in terms of the source of truth.
+** Cons: Increases complexity of the application, since now three lists are maintained. There is also the same issue
+with events and modules in terms of the source of truth.
 // end::edit[]
 
 // tag::undoredo[]
@@ -631,7 +643,11 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 |Priority |As a ... |I want to ... |So that I can...
 |`* * *` |new user |see usage instructions |refer to instructions when I forget how to use Modulo
 
-|`* * *` |user |view my events for the week |never miss any event
+|`* * *` |user |view my events by week |never miss any event
+
+|`* * *` |user |view the deadlines of my events |can know the deadlines I have
+
+|`* * *` |user |view class slots (e.g. tutorial) of my events |remember which class slot I signed up for
 
 |`* * *` |busy user |create deadlines |ensure I do not miss any of my module / assignment deadlines
 
@@ -642,6 +658,12 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 |`* * *` |user |categorise my work based on module |don’t have to manually categorise myself
 
 |`* * *` |user |add events to modules easily |get started on deadline planning earlier
+
+|`* * *` |user |delete modules / events / deadlines |if I finished doing them or made an error while adding them
+
+|`* * *` |busy user |delete all modules / events / deadlines |if I want to save time
+
+|`* * *` |user |find modules / events according to keyword |find modules / events are relevant to me
 
 |`* *` |user |export my data from this app |access the data I’ve created from anywhere
 
@@ -751,9 +773,27 @@ Use case ends.
 [[UseCaseThree]]
 [discrete]
 === Use case: UC03 - Delete a module / event / deadline
+1. User enters `delete` followed by an input or `delete d/` followed by an input for deadlines.
+2. Modulo parses the input.
+3. The input is parsed and the relevant item is deleted.
+4. Modulo displays the item or items that have been deleted.
+Use case ends.
 
-1. User enters delete function followed by an input
-2. The input is valid and the ModuloParser class parses the input
+*Extensions*
+
+[none]
+* 1a.
+User enters an invalid input.
+* 1b.
+Step 2 takes place.
+
+[none]
+** 1b1. Modulo informs the user that the item the user wants to delete does not exist.
+** 1b2. User enters a new item to deleteadd
++
+Use case resumes from step 1.
+
+
 // end::ucthree[]
 
 // tag::ucfour[]
@@ -769,20 +809,18 @@ Guarantees: Status of viewed deadline is updated. +
 3. User enter index of deadline. e.g: done 1. +
 4. Modulo checks is if the index is valid or not and toggles the completion status of the deadline.
 If the deadline was incomplete, it would be completed, and vice versa.
-The color of the status changes accordingly and success message will displayed in result box.
-+
+The color of the status changes accordingly and success message will displayed in result box.  +
 Use case ends.
 
 *Extensions*
 
 [none]
-* 3a.
+* 5a.
 User enters invalid index. e.g: done 1000
 
 [none]
-** 3a1. Module inform user that index is not valid.
-+
-Use case resumes from step 3.
+** 5a1. Module inform user that index is not valid. +
+Use case resumes from step 5.
 // end::ucfour[]
 
 // tag::ucfive[]
@@ -796,9 +834,8 @@ Guarantees: Status of deadline under correct module and event is updated. +
 1. User enter module code, event name and index of deadline. e.g: done 1 m/CS2103 e/Tutorial 2. +
 2. Modulo searches for the registered module, event and index of the deadline toggles the completion status of the deadline.
 If the deadline was incomplete, it would be completed, and vice versa.
-A success message will displayed in result box
-+
-Use case ends.
+A success message will displayed in result box +
+Use case ends. +
 
 *Extensions*
 
@@ -818,13 +855,13 @@ User enters correct module code but wrong event name and no event is found.
 [none]
 ** 1a1. Modulo informs User that the event does not exists. +
 ** 1b2. Step 1 repeated until User enters a correct event name.
-+
 Use case resumes from step 2.
 // end::ucfive[]
 
 // tag::ucsix[]
 [[UseCaseSix]]
 [discrete]
+
 === Use case: UC06 - List Event
 
 *MSS* Preconditions: Modules and Events are already added in Modulo . +
@@ -842,8 +879,7 @@ Use case ends.
 User enters invalid command. e.g: list tutorial
 
 [none]
-** 1a1. Module inform user the command is invalid and display correct format to user
-+
+** 1a1. Module inform user the command is invalid and display correct format to user +
 Use case resumes from step 1.
 // end::ucsix[]
 
@@ -867,8 +903,7 @@ Use case ends.
 User enters invalid command. e.g: list CS2103
 
 [none]
-** 1a1. Module inform user the command is invalid and display correct format to user
-+
+** 1a1. Module inform user the command is invalid and display correct format to user +
 Use case resumes from step 1.
 // end::ucseven[]
 
@@ -883,7 +918,6 @@ Guarantees: Details of selected module will be displayed. +
 1. User <<UseCaseSeven,list all the registered module (UC07)>>. +
 2. User enter view command, e.g view 1(index). +
 3. Modulo will searches and for the correct index from module list and display the details of module at the right panel.
-+
 Use case ends.
 
 *Extensions*
@@ -894,8 +928,8 @@ User enters invalid index. e.g: view 1000
 
 [none]
 ** 2a2. Module inform user that index is not valid. +
-** 2b2. Step 2 repeated until user enters a valid index.
-+
+** 2b2. Step 2 repeated until user enters a valid index. +
+
 Use case resumes from step 2.
 // end::uceight[]
 
@@ -1057,16 +1091,15 @@ Expected: Lecture slot 1 should be added.
 
 .. Prerequisites: CS2103 already added. No event named Exam has been added to CS2103 yet.
 .. Test case: `event n/Exam m/CS2103 s/2020-01-15 09:00 e/2020-01-15 10:00 v/Home` +
-Expected: Event named Exam should appear in the list of events.
-To check, enter `list events`.
-It should be near the top of the list.
-The details should be as entered.
+Expected: Event named Exam should appear in the list of events. To check, enter `list events`. It should be near the
+top of the list. The details should be as entered.
 
 . Adding recurring events to CS2103
 
 .. Prerequisites: CS2103 already added. No recurring event named Self Study has been added to CS2103 yet.
 .. Test case: `event n/Self Study m/CS2103 s/2020-01-20 09:00 e/2020-01-20 10:00 v/Home r/YES until/2020-02-20` +
-Expected: Events named Self Study 1, Self Study 2, until Self Study 5 should appear, with a frequency of 1 week, and stopping before 2020-02-20.
+Expected: Events named Self Study 1, Self Study 2, until Self Study 5 should appear, with a frequency of 1 week, and
+stopping before 2020-02-20.
 
 === Adding a deadline
 
@@ -1075,9 +1108,9 @@ Expected: Events named Self Study 1, Self Study 2, until Self Study 5 should app
 .. Prerequisites: CS2103 added. Event named Exam added. No deadline named "Study hard for exam" has been added to
 the event yet.
 .. Test case: `deadline n/Study hard for exam m/CS2103 e/Exam` +
-Expected: Deadline added to Exam.
-To check, first make sure you're listing events with `list events`, then enter
+Expected: Deadline added to Exam. To check, first make sure you're listing events with `list events`, then enter
 `view INDEX`, where `INDEX` is the index of the event on the list.
+
 
 === Completing a deadline
 
@@ -1119,8 +1152,7 @@ Expected: Details of the first event should show on the right panel.
 
 .. Prerequisite: List all events using the `list events` command. Has event(s) named Self Study.
 .. Test case: `find self study` +
-Expected: All events with Self Study in their names would appear.
-You can operate on this filtered list.
+Expected: All events with Self Study in their names would appear. You can operate on this filtered list.
 
 . Find Software Engineering
 
@@ -1195,8 +1227,7 @@ Expected: Similar to previous.
 . Deleting a deadline using index while an event is focused
 
 .. Prerequisites: List all events using the `list events` command. Events in the list. View first event with
-`view 1`.
-First event has a deadline.
+`view 1`. First event has a deadline.
 .. Test case: `delete d/1` +
 Expected: First deadline is deleted from the list.
 Details of the deleted deadline shown in the status message.
@@ -1211,8 +1242,8 @@ Expected: Similar to previous.
 . Export data
 
 .. Test case: `export` +
-Expected: A `modulo.ics` file should be created in the same `./data/` folder.
-You can use this `.ics` file to add your events and deadlines into your calendar.
+Expected: A `modulo.ics` file should be created in the same `./data/` folder. You can use this `.ics` file to add
+your events and deadlines into your calendar.
 
 === Viewing help
 
