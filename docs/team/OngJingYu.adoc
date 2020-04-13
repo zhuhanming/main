@@ -29,9 +29,9 @@ This actually help user not to miss any assignment and deadline.
 
 * *Code contributed*: [https://nus-cs2103-ay1920s2.github.io/tp-dashboard/#search=JingYu&sort=totalCommits%20dsc&sortWithin=title&since=2020-02-14&timeframe=commit&mergegroup=false&groupSelect=groupByRepos&breakdown=false[Functional code]]
 * *Test Case'code contributed*: +
-** [https://github.com/AY1920S2-CS2103-T09-1/main/pull/126[ParserUtil Test]] _{give links to collated code files}_
-** [https://github.com/AY1920S2-CS2103-T09-1/main/pull/122[Model Event Test]] _{give links to collated code files}
-** [https://github.com/AY1920S2-CS2103-T09-1/main/pull/143[View & CommandTest]] _{give links to collated code files}
+** [https://github.com/AY1920S2-CS2103-T09-1/main/pull/126[ParserUtil Test]]
+** [https://github.com/AY1920S2-CS2103-T09-1/main/pull/122[Model Event Test]]
+** [https://github.com/AY1920S2-CS2103-T09-1/main/pull/143[View & CommandTest]]
 
 * *Other contributions*:
 

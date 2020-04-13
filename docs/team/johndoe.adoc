@@ -1,64 +1,58 @@
-= Ong Jing Yu - Project Portfolio
+= John Doe - Project Portfolio
 :site-section: AboutUs
 :imagesDir: ../images
 :stylesDir: ../stylesheets
 
-== PROJECT: Modulo
+== PROJECT: AddressBook - Level 3
 
 ---
 
 == Overview
 
-AddressBook - Level 3 is a desktop address book application used for teaching Software Engineering principles.
-The user interacts with it using a CLI, and it has a GUI created with JavaFX. It is written in Java, and has about 10 kLoC.
+AddressBook - Level 3 is a desktop address book application used for teaching Software Engineering principles. The user interacts with it using a CLI, and it has a GUI created with JavaFX. It is written in Java, and has about 10 kLoC.
 
 == Summary of contributions
 
-* *Major enhancement*: added *the ability to update a deadline status to be done or not done*
-** What it does: allows the user to keep track of their deadlines and update them easily.
-When user added module and events, a deadline will be auto populated to each event.
-Therefore, user can view the deadline for every week and update them if it is not completed.
-This actually help user not to miss any assignment and deadline.
+* *Major enhancement*: added *the ability to undo/redo previous commands*
+** What it does: allows the user to undo all previous commands one at a time. Preceding undo commands can be reversed by using the redo command.
+** Justification: This feature improves the product significantly because a user can make mistakes in commands and the app should provide a convenient way to rectify them.
+** Highlights: This enhancement affects existing commands and commands to be added in future. It required an in-depth analysis of design alternatives. The implementation too was challenging as it required changes to existing commands.
+** Credits: _{mention here if you reused any code/ideas from elsewhere or if a third-party library is heavily used in the feature so that a reader can make a more accurate judgement of how much effort went into the feature}_
 
-** Justification: When user added module and events, a deadline will be auto populated to each event.
-Therefore, user can view the deadline for every week and update them if it is not completed.
-This actually help user not to miss any assignment and deadline.
-** Highlights: This features required multi layer of checking for modules and events in order to update the status of the deadline.
+* *Minor enhancement*: added a history command that allows the user to navigate to previous commands using up/down keys.
 
-* *Minor enhancement*: Implemented the right panel for UI and wire up the logic for viewing details for modules / details + deadlines for events
-
-* *Code contributed*: [https://nus-cs2103-ay1920s2.github.io/tp-dashboard/#search=JingYu&sort=totalCommits%20dsc&sortWithin=title&since=2020-02-14&timeframe=commit&mergegroup=false&groupSelect=groupByRepos&breakdown=false[Functional code]]
-* *Test Case'code contributed*: +
-** [https://github.com/AY1920S2-CS2103-T09-1/main/pull/126[ParserUtil Test]] _{give links to collated code files}_
-** [https://github.com/AY1920S2-CS2103-T09-1/main/pull/122[Model Event Test]] _{give links to collated code files}
-** [https://github.com/AY1920S2-CS2103-T09-1/main/pull/143[View & CommandTest]] _{give links to collated code files}
+* *Code contributed*: [https://github.com[Functional code]] [https://github.com[Test code]] _{give links to collated code files}_
 
 * *Other contributions*:
 
 ** Project management:
-*** Reviewed and merged teammates' pull requests
+*** Managed releases `v1.3` - `v1.5rc` (3 releases) on GitHub
 ** Enhancements to existing features:
-*** Fixed failed test cases (Pull requests https://github.com/AY1920S2-CS2103-T09-1/main/pull/141[#141])
+*** Updated the GUI color scheme (Pull requests https://github.com[#33], https://github.com[#34])
+*** Wrote additional tests for existing features to increase coverage from 88% to 92% (Pull requests https://github.com[#36], https://github.com[#38])
 ** Documentation:
-*** Added use case in Developer Guide: https://github.com/AY1920S2-CS2103-T09-1/main/pull/153[#14]
-*** Updated Developer Guide with implemented feature: https://github.com/AY1920S2-CS2103-T09-1/main/pull/152[#152]
-*** Update feature in user guide  https://github.com/AY1920S2-CS2103-T09-1/main/pull/80[#80]
-*** Added UML diagram for Developer Guide https://github.com/AY1920S2-CS2103-T09-1/main/pull/77[#77]
-
+*** Did cosmetic tweaks to existing contents of the User Guide: https://github.com[#14]
 ** Community:
-*** PRs reviewed (with non-trivial review comments): https://github.com/AY1920S2-CS2103-T09-1/main/pull/134[#134], https://github.com/AY1920S2-CS2103-T09-1/main/pull/151[#151]
-*** Contributed to forum discussions (examples:  https://github.com/nus-cs2103-AY1920S2/forum/issues/57[#57)
+*** PRs reviewed (with non-trivial review comments): https://github.com[#12], https://github.com[#32], https://github.com[#19], https://github.com[#42]
+*** Contributed to forum discussions (examples:  https://github.com[1], https://github.com[2], https://github.com[3], https://github.com[4])
+*** Reported bugs and suggestions for other teams in the class (examples:  https://github.com[1], https://github.com[2], https://github.com[3])
+*** Some parts of the history feature I added was adopted by several other class mates (https://github.com[1], https://github.com[2])
+** Tools:
+*** Integrated a third party library (Natty) to the project (https://github.com[#42])
+*** Integrated a new Github plugin (CircleCI) to the team repo
 
-
-
+_{you can add/remove categories in the list above}_
 
 == Contributions to the User Guide
+
 
 |===
 |_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
 |===
 
-include::../UserGuide.adoc[tag=done]
+include::../UserGuide.adoc[tag=delete]
+
+include::../UserGuide.adoc[tag=dataencryption]
 
 == Contributions to the Developer Guide
 
@@ -66,17 +60,10 @@ include::../UserGuide.adoc[tag=done]
 |_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
 |===
 
-include::../DeveloperGuide.adoc[tag=ucfive]
+include::../DeveloperGuide.adoc[tag=undoredo]
 
-include::../DeveloperGuide.adoc[tag=ucsix]
+include::../DeveloperGuide.adoc[tag=dataencryption]
 
-include::../DeveloperGuide.adoc[tag=ucseven]
-
-include::../DeveloperGuide.adoc[tag=uceight]
-
-include::../DeveloperGuide.adoc[tag=ucnine]
-
-include::../DeveloperGuide.adoc[tag=done]
 
 == PROJECT: PowerPointLabs
 
