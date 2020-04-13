@@ -23,7 +23,7 @@ import modulo.testutil.module.TypicalModules;
 
 public class DoneCommandTest {
 
-    private Model model = new ModelManager(TypicalModules.getTypicalModulo(), new UserPrefs());
+    private final Model model = new ModelManager(TypicalModules.getTypicalModulo(), new UserPrefs());
 
     @Test
     public void execute_invalidModule_throwsCommandException() {

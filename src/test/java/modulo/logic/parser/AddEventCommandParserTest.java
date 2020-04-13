@@ -34,7 +34,7 @@ import modulo.testutil.event.EventBuilder;
  * Test class to test the functionality of the AddEventCommandParser.
  */
 public class AddEventCommandParserTest {
-    private AddEventCommandParser addEventCommandParser = new AddEventCommandParser();
+    private final AddEventCommandParser addEventCommandParser = new AddEventCommandParser();
     private final String expectedMessage = String.format(
             MESSAGE_INVALID_COMMAND_FORMAT, AddEventCommand.MESSAGE_USAGE);
 

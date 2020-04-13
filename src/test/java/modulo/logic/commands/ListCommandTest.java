@@ -14,12 +14,11 @@ import modulo.testutil.module.TypicalModules;
 
 
 /**
- * Contains integration tests (interaction with the Model) and unit tests for
- * {@code DeleteCommand}.
+ * Contains integration tests (interaction with the Model) and unit tests for {@code DeleteCommand}.
  */
 public class ListCommandTest {
 
-    private Model model = new ModelManager(TypicalModules.getTypicalModulo(), new UserPrefs());
+    private final Model model = new ModelManager(TypicalModules.getTypicalModulo(), new UserPrefs());
 
     @Test
     public void execute_validListEventInput_success() {

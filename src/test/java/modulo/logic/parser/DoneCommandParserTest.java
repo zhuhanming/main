@@ -16,7 +16,7 @@ import modulo.testutil.module.TypicalModules;
 
 public class DoneCommandParserTest {
 
-    private DoneCommandParser parser = new DoneCommandParser();
+    private final DoneCommandParser parser = new DoneCommandParser();
 
     @Test
     public void parse_invalidInputZeroInteger_throwsParseException() {

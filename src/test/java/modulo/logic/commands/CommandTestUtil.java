@@ -13,7 +13,6 @@ import static modulo.logic.parser.CliSyntax.PREFIX_STOP_REPEAT;
 import static modulo.logic.parser.CliSyntax.PREFIX_VENUE;
 import static modulo.testutil.Assert.assertThrows;
 import static modulo.testutil.TypicalIndexesUtils.INDEX_FIRST_ITEM;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -21,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.collections.ObservableList;
-
 import modulo.commons.core.index.Index;
 import modulo.logic.commands.exceptions.CommandException;
 import modulo.logic.predicate.NameContainsKeywordsPredicate;
@@ -35,7 +33,7 @@ import modulo.model.module.Module;
 /**
  * Contains helper methods for testing commands.
  */
-public class CommandTestUtil<DESC_CS2103> {
+public class CommandTestUtil {
     // --------- Input String for Module --------- //
     public static final String VALID_CODE_CS2103 = "CS2103";
     public static final String VALID_CODE_CS2103_LOWER_CASE = "cs2103";
@@ -61,9 +59,9 @@ public class CommandTestUtil<DESC_CS2103> {
     public static final String SEMESTER_DESC_CS2103 = " " + PREFIX_SEMESTER + VALID_SEMESTER_CS2103;
     public static final String INVALID_MODULE_CODE_CS2000 = "cs2000";
     public static final String INVALID_CODE_DESC = " " + PREFIX_MODULE + "CS210&";
-    public static final String ACEDEMICYEAR_DESC_CS2103 = " " + PREFIX_ACADEMIC_YEAR + VALID_ACADEMIC_START_YEAR_CS2103
+    public static final String ACADEMIC_YEAR_DESC_CS2103 = " " + PREFIX_ACADEMIC_YEAR + VALID_ACADEMIC_START_YEAR_CS2103
             + "/" + VALID_ACADEMIC_END_YEAR_CS2103;
-    public static final String ACEDEMICYEAR_DESC_CS2105 = " " + PREFIX_ACADEMIC_YEAR + VALID_ACADEMIC_START_YEAR_CS2105
+    public static final String ACADEMIC_YEAR_DESC_CS2105 = " " + PREFIX_ACADEMIC_YEAR + VALID_ACADEMIC_START_YEAR_CS2105
             + "/" + VALID_ACADEMIC_END_YEAR_CS2105;
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     // --------- End of Input String for Module --------- //
@@ -140,8 +138,8 @@ public class CommandTestUtil<DESC_CS2103> {
     }
 
     /**
-     * Updates {@code model}'s filtered list to show only the module at the given {@code targetIndex} in the
-     * {@code model}'s modulo.
+     * Updates {@code model}'s filtered list to show only the module at the given {@code targetIndex} in the {@code
+     * model}'s modulo.
      * <p>
      */
     public static void showModuleAtIndex(Model model, Index targetIndex) {
@@ -155,8 +153,8 @@ public class CommandTestUtil<DESC_CS2103> {
 
 
     /**
-     * Updates {@code model}'s filtered list to show only the event at the given {@code targetIndex} in the
-     * {@code model}'s modulo.
+     * Updates {@code model}'s filtered list to show only the event at the given {@code targetIndex} in the {@code
+     * model}'s modulo.
      * <p>
      */
     public static void showEventAtIndex(Model model, Index targetIndex) {

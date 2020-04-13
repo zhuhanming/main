@@ -13,7 +13,7 @@ import modulo.testutil.module.TypicalModules;
 
 public class ClearCommandTest {
 
-    private Model model = new ModelManager(TypicalModules.getTypicalModulo(), new UserPrefs());
+    private final Model model = new ModelManager(TypicalModules.getTypicalModulo(), new UserPrefs());
 
     @Test
     public void execute_clear_success() {

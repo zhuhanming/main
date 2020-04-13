@@ -18,7 +18,7 @@ import modulo.logic.predicate.NameContainsKeywordsPredicate;
 
 public class DeleteCommandParserTest {
 
-    private DeleteCommandParser deleteCommandParser = new DeleteCommandParser();
+    private final DeleteCommandParser deleteCommandParser = new DeleteCommandParser();
 
     @Test
     public void parse_emptyInput_throwsParseException() {

@@ -11,7 +11,7 @@ import modulo.logic.commands.ViewCommand;
 
 public class ViewCommandParserTest {
 
-    private ViewCommandParser parser = new ViewCommandParser();
+    private final ViewCommandParser parser = new ViewCommandParser();
 
     @Test
     public void parse_emptyArg_throwsParseException() {

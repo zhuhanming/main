@@ -13,7 +13,6 @@ import java.util.function.Predicate;
 import org.junit.jupiter.api.Test;
 
 import javafx.collections.ObservableList;
-
 import modulo.commons.core.Messages;
 import modulo.commons.core.index.Index;
 import modulo.logic.predicate.NameContainsKeywordsPredicate;
@@ -33,7 +32,7 @@ import modulo.testutil.module.TypicalModules;
  */
 public class DeleteCommandTest {
 
-    private Model model = new ModelManager(TypicalModules.getTypicalModulo(), new UserPrefs());
+    private final Model model = new ModelManager(TypicalModules.getTypicalModulo(), new UserPrefs());
 
     /**
      * Valid index deletion while having an unfiltered event list on the left panel.
@@ -85,8 +84,8 @@ public class DeleteCommandTest {
     }
 
     /**
-    * Invalid index deletion while having an unfiltered event list on the left panel.
-    */
+     * Invalid index deletion while having an unfiltered event list on the left panel.
+     */
     @Test
     public void executeInvalidIndexDeletion_unFilteredEventList_throwsCommandException() {
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredEventList().size() + 1);
@@ -96,8 +95,8 @@ public class DeleteCommandTest {
     }
 
     /**
-    * Invalid index deletion while having an unfiltered module list on the left panel.
-    */
+     * Invalid index deletion while having an unfiltered module list on the left panel.
+     */
     @Test
     public void executeInvalidIndexDeletion_unFilteredModuleList_throwsCommandException() {
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredModuleList().size() + 1);
@@ -109,6 +108,7 @@ public class DeleteCommandTest {
     /**
      * Valid index deletion while having a filtered module list on the left panel.
      */
+    @SuppressWarnings("unchecked")
     @Test
     public void executeValidIndexDeletion_filteredEventList_success() {
         model.updateFilteredEventList((Predicate) VALID_PREDICATE_CS2103);
@@ -193,6 +193,7 @@ public class DeleteCommandTest {
     /**
      * Invalid index deletion while a filtered event list is shown on the left panel.
      */
+    @SuppressWarnings("unchecked")
     @Test
     public void executeInvalidIndexDeletion_filteredEventList_throwsCommandException() {
         model.updateFilteredEventList((Predicate) VALID_PREDICATE_CS2103);
@@ -204,8 +205,8 @@ public class DeleteCommandTest {
     }
 
     /**
-     * Left panel shows events but event is not selected on the right panel despite valid index deadline input,
-     * causing CommandException to be thrown.
+     * Left panel shows events but event is not selected on the right panel despite valid index deadline input, causing
+     * CommandException to be thrown.
      */
     @Test
     public void executeValidIndexDeadlineDeletion_unFilteredEventListEventNotSelected_throwsCommandException() {
@@ -217,8 +218,8 @@ public class DeleteCommandTest {
     }
 
     /**
-     * Left panel shows modules but event is not selected on the right panel despite valid index deadline input,
-     * causing CommandException to be thrown.
+     * Left panel shows modules but event is not selected on the right panel despite valid index deadline input, causing
+     * CommandException to be thrown.
      */
     @Test
     public void executeValidIndexDeadlineDeletion_unFilteredModuleListEventNotSelected_throwsCommandException() {
@@ -231,9 +232,10 @@ public class DeleteCommandTest {
     }
 
     /**
-     * Valid deadline deletion with valid index input while a list of filtered events are shown on the left panel
-     * and while an event is on focus on the right panel.
+     * Valid deadline deletion with valid index input while a list of filtered events are shown on the left panel and
+     * while an event is on focus on the right panel.
      */
+    @SuppressWarnings("unchecked")
     @Test
     public void executeValidIndexDeadlineDeletion_filteredEventList_success() {
         model.updateFilteredEventList((Predicate) VALID_PREDICATE_CS2103);
@@ -261,6 +263,7 @@ public class DeleteCommandTest {
      * Invalid deadline deletion with invalid index input while a list of filtered events are shown on the left panel
      * and while an event is on focus on the right panel.
      */
+    @SuppressWarnings("unchecked")
     @Test
     public void executeInvalidIndexDeadlineDeletion_filteredEventList_throwsCommandException() {
         model.updateFilteredEventList((Predicate) VALID_PREDICATE_CS2103);
@@ -333,8 +336,8 @@ public class DeleteCommandTest {
     }
 
     /**
-     * Valid deletion of all deadlines while an unfiltered event list is shown on the left panel and an
-     * event is on focus on the right panel.
+     * Valid deletion of all deadlines while an unfiltered event list is shown on the left panel and an event is on
+     * focus on the right panel.
      */
     @Test
     public void executeValidDeleteAllDeadlines_filteredUpcomingEventList_success() {

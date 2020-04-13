@@ -21,10 +21,7 @@ public class NameContainsKeywordsPredicate implements Predicate<Displayable> {
 
     @Override
     public boolean test(Displayable displayable) {
-        if (!displayable.toString().trim().toLowerCase().contains(keyword)) {
-            return false;
-        }
-        return true;
+        return displayable.toString().trim().toLowerCase().contains(keyword);
     }
 
 

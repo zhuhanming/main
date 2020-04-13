@@ -15,7 +15,7 @@ import modulo.logic.parser.exceptions.ParseException;
  */
 public class ExportCommandParserTest {
 
-    private ExportCommandParser exportCommandParser = new ExportCommandParser();
+    private final ExportCommandParser exportCommandParser = new ExportCommandParser();
 
 
     @Test

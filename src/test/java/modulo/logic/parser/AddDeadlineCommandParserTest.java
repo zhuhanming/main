@@ -8,7 +8,6 @@ import static modulo.logic.commands.CommandTestUtil.EVENT_DESC_TUTORIAL_1;
 import static modulo.logic.commands.CommandTestUtil.REPEAT;
 import static modulo.logic.commands.CommandTestUtil.VALID_DEADLINE_ONE;
 import static modulo.logic.commands.CommandTestUtil.VALID_REPEAT_BOOL;
-
 import static modulo.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static modulo.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static modulo.testutil.event.TypicalEvents.PARTIAL_EVENT_TUTORIAL_1_CS1231S;
@@ -20,7 +19,7 @@ import modulo.model.Name;
 
 public class AddDeadlineCommandParserTest {
 
-    private AddDeadlineCommandParser parser = new AddDeadlineCommandParser();
+    private final AddDeadlineCommandParser parser = new AddDeadlineCommandParser();
 
     @Test
     public void parse_emptyInput_throwsParseException() {

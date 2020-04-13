@@ -9,9 +9,8 @@ import static modulo.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static modulo.testutil.event.TypicalEvents.TUTORIAL_1;
 import static modulo.testutil.event.TypicalEvents.TUTORIAL_2;
 import static modulo.testutil.event.TypicalEvents.TUTORIAL_3;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.jupiter.api.Test;
 
@@ -24,14 +23,11 @@ import modulo.testutil.module.TypicalModules;
 
 
 /**
- * Contains integration tests (interaction with the Model) and unit tests for
- * {@code DeleteCommand}.
+ * Contains integration tests (interaction with the Model) and unit tests for {@code DeleteCommand}.
  */
 public class AddDeadlineCommandTest {
 
-    private Model model = new ModelManager(TypicalModules.getTypicalModulo(), new UserPrefs());
-
-
+    private final Model model = new ModelManager(TypicalModules.getTypicalModulo(), new UserPrefs());
 
     @Test
     public void executeParentEventNull_focusedDisplayableModule_throwsCommandException() {
@@ -130,23 +126,23 @@ public class AddDeadlineCommandTest {
                 new Name(VALID_NAME_DEADLINE_LECTURE), TUTORIAL_2, false);
 
         // same object -> returns true
-        assertTrue(addDeadlineCommandTutorialOne.equals(addDeadlineCommandTutorialOne));
+        assertEquals(addDeadlineCommandTutorialOne, addDeadlineCommandTutorialOne);
 
         // same values -> returns true
         AddDeadlineCommand addDeadlineCommandCopy = new AddDeadlineCommand(addDeadlineCommandTutorialOne.get_name(),
                 addDeadlineCommandTutorialOne.get_parentEvent(), addDeadlineCommandTutorialOne.get_isRepeated());
-        assertTrue(addDeadlineCommandCopy.equals(addDeadlineCommandTutorialOne));
+        assertEquals(addDeadlineCommandCopy, addDeadlineCommandTutorialOne);
 
         // different types -> returns false
-        assertFalse(addDeadlineCommandTutorialOne.equals(1));
+        assertNotEquals(1, addDeadlineCommandTutorialOne);
 
         // null -> returns false
-        assertFalse(addDeadlineCommandTutorialOne.equals(null));
+        assertNotEquals(addDeadlineCommandTutorialOne, null);
 
         // same kind of deadline despite different parentEvents -> return true
-        assertTrue(addDeadlineCommandTutorialOne.equals(addDeadlineCommandTutorialTwo));
+        assertEquals(addDeadlineCommandTutorialOne, addDeadlineCommandTutorialTwo);
 
         // different kind of deadline -> return false
-        assertFalse(addDeadlineCommandTutorialThree.equals(addDeadlineCommandTutorialTwo));
+        assertNotEquals(addDeadlineCommandTutorialThree, addDeadlineCommandTutorialTwo);
     }
 }
