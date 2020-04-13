@@ -740,4 +740,3 @@ modules' academic year.
 Another way may be to add random characters that make the JSON format unreadable.
 .. Double-click the jar file +
 Expected: Shows the GUI with no data.
-
