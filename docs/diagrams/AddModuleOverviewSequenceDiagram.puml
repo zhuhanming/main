@@ -1,0 +1,73 @@
+@startuml
+!include style.puml
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":ModuloParser" as ModuloParser LOGIC_COLOR
+participant ":AddModuleCommandParser" as AddModuleCommandParser LOGIC_COLOR
+participant "a:AddModuleCommand" as AddModuleCommand LOGIC_COLOR
+participant "result:AddModuleCommandResult" as AddModuleCommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant ":Model" as Model MODEL_COLOR
+end box
+
+[-> LogicManager : execute("module m/CS2103")
+activate LogicManager
+
+LogicManager -> ModuloParser : parseCommand("module m/CS2103")
+activate ModuloParser
+
+create AddModuleCommandParser
+ModuloParser -> AddModuleCommandParser
+activate AddModuleCommandParser
+
+AddModuleCommandParser --> ModuloParser
+deactivate AddModuleCommandParser
+
+ModuloParser -> AddModuleCommandParser : parse("m/CS2103")
+activate AddModuleCommandParser
+
+create AddModuleCommand
+AddModuleCommandParser -> AddModuleCommand
+activate AddModuleCommand
+
+AddModuleCommand --> AddModuleCommandParser : a
+deactivate AddModuleCommand
+
+AddModuleCommandParser --> ModuloParser : a
+deactivate AddModuleCommandParser
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+AddModuleCommandParser -[hidden]-> ModuloParser
+destroy AddModuleCommandParser
+
+ModuloParser --> LogicManager : a
+deactivate ModuloParser
+
+LogicManager -> AddModuleCommand : execute()
+activate AddModuleCommand
+
+group State Preparation
+AddModuleCommand -> Model : addModule("CS2103")
+activate Model
+
+Model --> AddModuleCommand
+deactivate Model
+
+create AddModuleCommandResult
+AddModuleCommand -> AddModuleCommandResult
+activate AddModuleCommandResult
+
+AddModuleCommandResult --> AddModuleCommand
+deactivate AddModuleCommandResult
+end
+
+group State Loading
+AddModuleCommand --> LogicManager : result
+deactivate AddModuleCommand
+end
+
+[<--LogicManager
+deactivate LogicManager
+@enduml

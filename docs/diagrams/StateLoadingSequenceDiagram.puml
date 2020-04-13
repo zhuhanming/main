@@ -1,0 +1,36 @@
+@startuml
+!include style.puml
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant "a:AddModuleCommand" as AddModuleCommand LOGIC_COLOR
+participant "result:AddModuleCommandResult" as AddModuleCommandResult LOGIC_COLOR
+participant ":AddModuleStatefulLogicManager" as AddModuleStatefulLogicManager LOGIC_COLOR
+end box
+
+activate AddModuleCommand
+activate LogicManager
+activate AddModuleStatefulLogicManager
+
+create AddModuleCommandResult
+AddModuleCommand -> AddModuleCommandResult
+activate AddModuleCommandResult
+
+AddModuleCommandResult --> AddModuleCommand
+deactivate AddModuleCommandResult
+
+group State Loading
+AddModuleCommand --> LogicManager : result
+deactivate AddModuleCommand
+
+opt result instanceof AddModuleCommandResult
+LogicManager -> AddModuleStatefulLogicManager: setStateWithCommandResult(result)
+AddModuleStatefulLogicManager --> LogicManager
+
+end
+end
+
+[<--LogicManager
+deactivate AddModuleStatefulLogicManager
+deactivate LogicManager
+@enduml

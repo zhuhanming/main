@@ -1,0 +1,20 @@
+@startuml
+!include style.puml
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddModuleStatefulLogicManager" as AddModuleStatefulLogicManager LOGIC_COLOR
+participant ":ModuloParser" as ModuloParser LOGIC_COLOR
+end box
+
+[-> LogicManager : execute("D09")
+activate LogicManager
+activate AddModuleStatefulLogicManager
+alt AddModuleStatefulLogicManager has state
+LogicManager -> AddModuleStatefulLogicManager : execute("D09")
+
+else else
+LogicManager -> ModuloParser : parseCommand("D09")
+activate ModuloParser
+end
+@enduml
