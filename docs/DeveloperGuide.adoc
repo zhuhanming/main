@@ -931,6 +931,32 @@ User enters invalid index. e.g: view 1000
 Use case resumes from step 2.
 // end::ucnine[]
 
+// tag::ucten[]
+[[UseCaseTen]]
+[discrete]
+=== Use case: UC10 - Export
+
+*MSS* Preconditions: Application is running. +
+Guarantees: An .ics file is generated containing `Event` and `Deadline` from user's calendar. +
+
+1. User enters a directory for system to export, e.g. /data.
+2. Modulo looks for the directory specified by user.
+3. Modulo deposits an .ics file into the specified directory.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. Modulo is unable to find the directory specified by user.
+
+[none]
+** 2a1. Modulo creates the directory.
++
+Use case resumes from step 3.
++
+// end::ucten[]
+
 // tag::nfr[]
 [appendix]
 == Non-Functional Requirements
