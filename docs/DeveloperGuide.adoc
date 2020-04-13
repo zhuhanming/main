@@ -146,6 +146,7 @@ image::DeleteSequenceDiagram.png[]
 
 NOTE: The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
 
+// tag::model[]
 [[Design-Model]]
 === Model component
 
@@ -172,6 +173,7 @@ image:BetterModelClassDiagram.png[]
 Alternatively, we can remove the list of events under each module and instead just maintain the two separate
 `UniqueModuleList` and `UniqueEventList`.
 This may, however, make it costly to render the module list, since we now need to search through the entire list of events to find relevant ones.
+// end::model[]
 
 [[Design-Storage]]
 === Storage component
@@ -435,12 +437,12 @@ Refer to the guide <<DevOps#, here>>.
 *Target user profile*:
 
 * has a need to manage their modules and the deadlines for these modules
-* prefer desktop apps over other types
-* can type fast
-* prefers typing over mouse input
+* prefer desktop apps over other types of apps
+* can type fast and prefers typing over mouse input
 * is reasonably comfortable using CLI apps
+* is a current NUS student who is taking modules in AY19/20 Sem 2
 
-*Value proposition*: manage modules and deadlines faster than a typical mouse/GUI driven app
+*Value proposition*: Manage modules and related deadlines faster than a typical mouse/GUI driven app
 
 [appendix]
 == User Stories
@@ -450,21 +452,22 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 [width="59%",cols="22%,<23%,<25%,<30%",options="header",]
 |=======================================================================
 |Priority |As a ... |I want to ... |So that I can...
-|`* * *` |new user |see usage instructions |refer to instructions when I forget how to use the App
+|`* * *` |new user |see usage instructions |refer to instructions when I forget how to use Modulo
 
-|`* * *` |user |create a deadline |ensure I do not miss any of my module / assignment deadlines
+|`* * *` |user |view my events for the week |never miss any event
 
-|`* * *` |user |track all my daily events |never miss any event
+|`* * *` |busy user |create deadlines |ensure I do not miss any of my module / assignment deadlines
+
+|`* * *` |user |complete deadlines |track the work I have done
+
+|`* * *` |user |set routine deadlines based on events |routinely prepare for these events
 
 |`* * *` |user |categorise my work based on module |don’t have to manually categorise myself
 
-|`* * *` |user |can track the tutorials which I have done |
-
-|`* *` |user |avoid clashes within my own schedule |
+|`* * *` |user |add events to modules easily |get started on deadline planning earlier
 
 |`* *` |user |export my data from this app |access the data I’ve created from anywhere
 
-|`*` |user |can assign a maximum number of deadlines within a timeframe |not get overwhelmed by my assigned workload
 |=======================================================================
 
 _{More to be added}_
