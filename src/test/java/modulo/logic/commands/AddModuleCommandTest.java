@@ -3,6 +3,7 @@ package modulo.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static modulo.commons.core.Messages.MESSAGE_DUPLICATE_MODULE;
 import static modulo.testutil.Assert.assertThrows;
+import static modulo.testutil.module.TypicalModules.CS2103;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
@@ -19,7 +20,6 @@ import javafx.collections.ObservableList;
 import modulo.commons.core.GuiSettings;
 import modulo.logic.commands.exceptions.CommandException;
 import modulo.model.Model;
-import modulo.model.Modulo;
 import modulo.model.ReadOnlyModulo;
 import modulo.model.ReadOnlyUserPrefs;
 import modulo.model.displayable.Displayable;
@@ -40,11 +40,13 @@ public class AddModuleCommandTest {
     @Test
     public void constructor_nullModule_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> new AddModuleCommand(null,
+                AcademicYear.now()));
+        assertThrows(NullPointerException.class, () -> new AddModuleCommand(CS2103.getModuleCode(),
                 null));
     }
 
     @Test
-    public void equals() {
+    public void testEquals() {
         Module cs2103 = new ModuleBuilder().withModuleCode("CS2103").build();
         Module cs2105 = new ModuleBuilder().withModuleCode("CS2105").build();
         AddModuleCommand addCS2103Command = new AddModuleCommand(cs2103.getModuleCode(), cs2103.getAcademicYear());
@@ -64,12 +66,12 @@ public class AddModuleCommandTest {
         // null -> returns false
         assertNotEquals(addCS2103Command, null);
 
-        // different person -> returns false
+        // different module -> returns false
         assertNotEquals(addCS2103Command, addCS2105Command);
     }
 
     @Test
-    public void execute_personAcceptedByModel_addSuccessful() throws Exception {
+    public void execute_moduleAcceptedByModel_addSuccessful() throws Exception {
         ModelStubAcceptingModuleAdded modelStub = new ModelStubAcceptingModuleAdded();
         Module validModule = new ModuleBuilder().build();
 
@@ -91,7 +93,6 @@ public class AddModuleCommandTest {
         ModelStub modelStub = new ModelStubWithModule(validModule);
         assertThrows(CommandException.class, MESSAGE_DUPLICATE_MODULE, () -> addModuleCommand.execute(modelStub));
     }
-
 
     /**
      * A default model stub that have all of the methods failing.
@@ -271,7 +272,7 @@ public class AddModuleCommandTest {
     }
 
     /**
-     * A Model stub that contains a single person.
+     * A Model stub that contains a single module.
      */
     private static class ModelStubWithModule extends ModelStub {
 
@@ -286,10 +287,7 @@ public class AddModuleCommandTest {
         public boolean hasModule(ModuleCode moduleCode, AcademicYear academicYear) {
             requireNonNull(moduleCode);
             requireNonNull(academicYear);
-            //TODO: check if this correct, ,manually create a module the do compare cuz
-            // hasModule does not take in module object as input param,
-            String ac = (academicYear.getStartYear()) + "/" + (academicYear.getEndYear());
-            Module m = new ModuleBuilder().withModuleCode(moduleCode.moduleCode)
+            Module m = new ModuleBuilder().withModuleCode(moduleCode.toString())
                     .withAcademicYear(academicYear.getStartYear(), academicYear.getEndYear(),
                             academicYear.getSemester()).build();
             return module.isSameModule(m);
@@ -297,36 +295,26 @@ public class AddModuleCommandTest {
     }
 
     /**
-     * A Model stub that always accept the person being added.
+     * A Model stub that always accept the module being added.
      */
-    private class ModelStubAcceptingModuleAdded extends ModelStub {
+    private static class ModelStubAcceptingModuleAdded extends ModelStub {
         final ArrayList<Module> modulesAdded = new ArrayList<>();
-        // TODO: Need Review on this part, have to use Modulo to add module otherwise
-        //  it will throw module does not exists.
-        private final Modulo m = new Modulo();
 
-        //TODO: Review on this part - addModule in Model does not take a Module object
-        // Have to create or retrieve from modulo.
         @Override
         public void addModule(ModuleCode moduleCode, AcademicYear academicYear) {
             requireNonNull(moduleCode);
             requireNonNull(academicYear);
-            String ac = (academicYear.getStartYear()) + "/" + (academicYear.getEndYear());
             Module module = new ModuleBuilder().withModuleCode(moduleCode.moduleCode)
                     .withAcademicYear(academicYear.getStartYear(),
                             academicYear.getEndYear(), academicYear.getSemester()).build();
             modulesAdded.add(module);
-            m.addModule(moduleCode, academicYear);
         }
 
         @Override
         public Optional<Module> getModule(ModuleCode moduleCode, AcademicYear academicYear) {
-            return m.getModule(moduleCode, academicYear);
-        }
-
-        @Override
-        public ReadOnlyModulo getModulo() {
-            return new Modulo();
+            assertEquals(modulesAdded.get(0).getModuleCode(), moduleCode);
+            assertEquals(modulesAdded.get(0).getAcademicYear(), academicYear);
+            return Optional.of(modulesAdded.get(0));
         }
     }
 }

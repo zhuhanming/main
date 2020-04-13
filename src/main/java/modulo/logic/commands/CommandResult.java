@@ -165,11 +165,13 @@ public class CommandResult {
                 && toExit == otherCommandResult.toExit
                 && toUpdateRightPanel == otherCommandResult.toUpdateRightPanel
                 && toUpdateLeftPanel == otherCommandResult.toUpdateLeftPanel
-                && indexToShow == otherCommandResult.indexToShow;
+                && indexToShow == otherCommandResult.indexToShow
+                && newPlaceholderText == otherCommandResult.newPlaceholderText;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(feedbackToUser, toShowHelp, toExit, toUpdateLeftPanel, toUpdateRightPanel, indexToShow);
+        return Objects.hash(feedbackToUser, toShowHelp, toExit, toUpdateLeftPanel, toUpdateRightPanel, indexToShow,
+                newPlaceholderText);
     }
 }
