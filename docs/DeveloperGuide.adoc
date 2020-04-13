@@ -355,6 +355,7 @@ Modulo supports exporting user's calendar to .ics file format to facilitate data
 By using a simple `FileWriter` class and generating the .ics entities, we're able to generate an .ics file that can be consumed by commonly used platforms (e.g. Google Calendar)
 
 An overview of the process is shown as below through the triggering of ExportCommand:
+
 image::ExportCommandSequenceDiagram.png[]
 
 ==== Design Considerations
@@ -362,15 +363,17 @@ image::ExportCommandSequenceDiagram.png[]
 ===== Aspect: How `Deadline` should be exported together with `Event`
 
 Event entities can be mapped to VEVENT .ics type, but there is a lack of suitable counterparts for deadline.
+
 * **Alternative 1: ** Export `Deadline` as VTODO
 ** Pros: Deadline has its standalone VTODO .ics item type.
 ** Cons: Some popular calendar applications do not support VTODO importing, thus making users lose out on important information regarding events.
+
 * **Alternative 2:** Export `Deadline` within the description of each `Event`
 ** Pros: Users are able to see at a glance what are the `Deadline` for each `Event` easily
 ** Cons: Users are unable to take advantage of VTODO import functionality of certain calendar application.
+
 * **Alternative 3 (current choice):** Combine both options
 Users are able to make full use of .ics importing capabilities, while also providing a quick overview of `Deadline`
-
 // end::export[]
 
 // tag::edit[]
