@@ -53,9 +53,8 @@ The process required an in-depth analysis of design alternatives, as I had to co
 
 ** Project management:
 *** Managed releases `v1.2.1` - `v1.4` (8 releases) on GitHub
-** Product development:
+** Product:
 *** Designed the mockups for the app using Adobe XD.
-** Enhancements to existing features:
 *** Wrote tests for existing features to increase coverage by a total of 16.5% approximately (Pull requests
 https://github.com/AY1920S2-CS2103-T09-1/main/pull/129[#129],
 https://github.com/AY1920S2-CS2103-T09-1/main/pull/130[#130],

@@ -21,7 +21,7 @@ By: `Team Modulo`      Since: `Feb 2020`      Licence: `MIT`
 Refer to the guide <<SettingUp#, here>>.
 
 == Design
-
+// tag::architecture[]
 [[Design-Architecture]]
 === Architecture
 
@@ -71,9 +71,11 @@ The _Sequence Diagram_ below shows how the components interact with each other f
 
 .Component interactions for `delete 1` command
 image::ArchitectureSequenceDiagram.png[]
+// end::architecture[]
 
 The sections below give more details of each component.
 
+// tag::ui[]
 [[Design-Ui]]
 === UI component
 
@@ -100,7 +102,9 @@ The `UI` component,
 
 * Executes user commands using the `Logic` component.
 * Listens for changes to `Model` data so that the UI can be updated with the modified data.
+// end::ui[]
 
+// tag::logic[]
 [[Design-Logic]]
 === Logic component
 
@@ -145,6 +149,7 @@ Given below is the Sequence Diagram for interactions within the `Logic` componen
 image::DeleteSequenceDiagram.png[]
 
 NOTE: The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+// end::logic[]
 
 // tag::model[]
 [[Design-Model]]
@@ -175,6 +180,7 @@ Alternatively, we can remove the list of events under each module and instead ju
 This may, however, make it costly to render the module list, since we now need to search through the entire list of events to find relevant ones.
 // end::model[]
 
+// tag::storage[]
 [[Design-Storage]]
 === Storage component
 
@@ -187,6 +193,7 @@ The `Storage` component,
 
 * can save `UserPref` objects in json format and read it back.
 * can save the Modulo data in json format and read it back.
+// end::storage[]
 
 [[Design-Commons]]
 === Common classes
@@ -289,47 +296,55 @@ Adheres to the *Open Closed Principle*, since each class can just implement
 If a new type of state is required, the changes required will be heavy as well, thus violating the Open Closed Principle.
 // end::statefullogic[]
 
+// tag::done[]
 === Done Feature
 
-This features allow user to set deadline'status to be completed or not completed.The user input is handled and retrieved by the `MainWindow` class in Ui first, after that passed to the `LogicManager` to process the input.
-First,`LogicManager` will call the `ModuleParser` which will pass the input to the `DoneCommandParser`.
-Then`DoneCommandParser` will invoked `DoneCommand` to set the status of deadline to be true(Completed) and update the model.
-Invalid input such as invalid index(i.e done 1000) also handled properly and error message will be displayed to user.
-The command is implemented corresponding to the operation in the logic module:
+This feature allows the User to set the deadline's status to be completed or not completed.
+The user input is handled and retrieved by the `MainWindow` class in the Ui component first, before being passed to the `LogicManager` to execute.
+First,`LogicManager` will call `ModuleParser`, which will parse the input to give a `DoneCommandParser`.
+Then, `DoneCommandParser` will return a `DoneCommand`, which will help to set the status of deadline and update the
+`Model`.
+Invalid inputs such as an invalid index (e.g. `done 1000`) are also handled properly, with suitable error messages being displayed to the user.
+The `DoneCommand` is implemented according to the operation in the `Logic` module:
 
-* `DoneCommand` -- Set the status of the deadline to be true.
+* `DoneCommand` -- Sets the status of the deadline.
 
-For the command, a parser is implemented to parse the input into arguments.
+For the command, a `DoneCommandParser` is implemented to parse the input into the required index.
 
-* `DoneCommandParser` --Parse the done command input and generates `DoneCommand`.
+* `DoneCommandParser` -- Parses the `done` command input and generates a `DoneCommand`.
 
-Given below is a sequence diagram to show how the done mechanism behaves at each step.
+Given below is a sequence diagram to show how the `done` mechanism behaves at each step.
 
 image::Done_SequenceDiagram.png[]
 
-Given below is a activity diagram to show how the how operations work.
+Given below is an activity diagram to show how the `done` operation works.
 
 image::Done_ActivityDiagram.png[]
 
 ==== Design Considerations
 
-===== Aspect: How done features executes
+===== Aspect: How `done` is executed
 
-* **Alternative 1 (current choice):** Done 1 deadline at one time
-** Pros: Easy to implement,not likely to create bugs.
-** Cons: More steps required for user if she/he wants to complete different deadlines.
+* **Alternative 1 (current choice):** User can `done` one deadline at a time.
+** Pros: Easy to implement and not likely to create bugs.
+** Cons: More steps are required for the user if they wish to complete different deadlines.
 
-* **Alternative 2 :** Done multiple deadlines at one time
-** Pros: More time consuming for user to complete list of deadline at one time.
-** Cons: User input will be complex as it required to check for different modules and events then finally can set the status to be true.
-Difficult to troubleshoot if bugs occur.
+* **Alternative 2 :** User can `done` multiple deadlines at a time.
+** Pros: Less time-consuming than if the user were to complete a list of deadlines, one at a time.
+** Cons: User input will be highly complex, as we may need to consider the different use cases, e.g. deadlines of different events, of different modules etc.
+We will be required to check and account for various possibilities before the operation can be done.
+Difficult to implement, and even harder to troubleshoot if bugs occur.
 
-* **Alternative 3 :** Modulo will keep track of deadline's status and send reminder to user
-** Pros: Remind user which deadline he/she have not completed yet.
-** Cons: Hard to implement and it increase coupling.Difficult to write test cases.
+===== Other considerations
 
-* **Future Extension:** Modulo can have another ui panel to display every deadline that needs to be done for every weeks, then user can enter done command to update deadlines' status from there.
+* Modulo will keep track of all the deadlines' statuses and send reminders to the user accordingly.
+** Pros: A good feature that helps to remind users of their incomplete deadlines.
+** Cons: Hard to implement and it increases coupling.
+Difficult to write test cases as well.
 
+* **Future Extension:** Modulo can have another UI panel to display every deadline that needs to be done a certain week.
+The user can then use the `done` command to update the deadlines' statuses from there.
+// edit::done[]
 
 // tag::edit[]
 === [Proposed] Edit Feature
@@ -337,8 +352,6 @@ Difficult to troubleshoot if bugs occur.
 Currently, Modulo does not allow for the editing of the details of events and deadlines that have been created.
 
 ==== Proposed Implementation
-
-
 
 // end::edit[]
 
@@ -445,6 +458,7 @@ For example, when a new command is executed, we must remember to update both `Hi
 Violates Single Responsibility Principle and Separation of Concerns as `HistoryManager` now needs to do two different things.
 // end::undoredo[]
 
+// tag::logging[]
 === Logging
 
 We are using `java.util.logging` package for logging.
@@ -460,11 +474,14 @@ The `LogsCenter` class is used to manage the logging levels and logging destinat
 * `WARNING` : Can continue, but with caution
 * `INFO` : Information showing the noteworthy actions by the App
 * `FINE` : Details that is not usually noteworthy but may be useful in debugging e.g. print the actual list instead of just its size
+// end::logging[]
 
+// tag::configuration[]
 [[Implementation-Configuration]]
 === Configuration
 
 Certain properties of the application can be controlled (e.g user prefs file location, logging level) through the configuration file (default: `config.json`).
+// end::configuration[]
 
 == Documentation
 
@@ -481,6 +498,7 @@ Refer to the guide <<DevOps#, here>>.
 [appendix]
 == Product Scope
 
+// tag::userprofile[]
 *Target user profile*:
 
 * has a need to manage their modules and the deadlines for these modules
@@ -490,8 +508,10 @@ Refer to the guide <<DevOps#, here>>.
 * is a current NUS student who is taking modules in AY19/20 Sem 2
 
 *Value proposition*: Manage modules and related deadlines faster than a typical mouse/GUI driven app
+// end::userprofile[]
 
 [appendix]
+// tag::userstories[]
 == User Stories
 
 Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (unlikely to have) - `*`
@@ -518,12 +538,14 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 |=======================================================================
 
 _{More to be added}_
+// end::userstories[]
 
 [appendix]
 == Use Cases
 
 (For all use cases below, the *System* is `Modulo` and the *Actor* is the `user`, unless specified otherwise)
 
+// tag::ucone[]
 [discrete]
 === Use case: UC01 - Add a <<deadline,deadline>>
 
@@ -547,6 +569,7 @@ User enters incorrect information.
 ** 2a2. User enters new information following the correct format.
 +
 Use case resumes from step 3.
+// end::ucone[]
 
 // tag::uctwo[]
 [[UseCaseTwo]]
@@ -614,10 +637,13 @@ User enters an invalid slot.
 Use case ends.
 // end::uctwo[]
 
+// tag::ucthree[]
 [[UseCaseThree]]
 [discrete]
 === Use case: UC03 - Delete a module
+// end::ucthree[]
 
+// tag::nfr[]
 [appendix]
 == Non-Functional Requirements
 
@@ -629,7 +655,9 @@ Use case ends.
 . Object-oriented.
 
 _{More to be added}_
+// end::nfr[]
 
+// tag::glossary[]
 [appendix]
 == Glossary
 
@@ -652,7 +680,9 @@ Refer to <<UserGuide.adoc#EventTypes,here>> for the list of recognised event typ
 [[deadline]]
 Deadline::
 Individual tasks to complete that can be tagged to a specific event.
+// end::glossary[]
 
+// tag::productsurvey[]
 [appendix]
 == Product Survey
 
@@ -670,6 +700,10 @@ Cons:
 
 * Not a CLI app.
 * Doesn't help me plan my deadlines.
+// end::productsurvey[]
+
+[appendix]
+== Effort
 
 [appendix]
 == Instructions for Manual Testing
@@ -738,5 +772,9 @@ Expected: Similar to previous.
 .. Corrupt the current save file under `./data/`. The easiest way is to type `-` somewhere in one of the saved
 modules' academic year.
 Another way may be to add random characters that make the JSON format unreadable.
+.. Double-click the jar file +
+Expected: Shows the GUI with no data.
+
+.. Delete the current save file under `./data/`.
 .. Double-click the jar file +
 Expected: Shows the GUI with no data.
