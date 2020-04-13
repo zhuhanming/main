@@ -53,8 +53,13 @@ public class AddModuleStatefulLogicManager implements StatefulLogic {
             throw new ParseException(String.format(MESSAGE_INVALID_SLOT_NUMBER, this.eventTypes.get(0).toString())
                     + "\n" + e.getMessage());
         }
-        for (AddEventCommand command : addEventCommands) {
-            command.execute(model);
+        try {
+            for (AddEventCommand command : addEventCommands) {
+                command.execute(model);
+            }
+        } catch (CommandException e) {
+            this.eventTypes.add(0, eventType);
+            throw e;
         }
         if (this.eventTypes.size() != 0) {
             return new CommandResult("Enter slot for " + module.getModuleCode().toString()
