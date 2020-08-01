@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
@@ -31,7 +32,7 @@ public class DeadlineTest {
 
     @Test
     public void testConstructor_usingRawFields_success() {
-        LocalDateTime testDueTime = LocalDateTime.now();
+        LocalDateTime testDueTime = LocalDate.of(2020, 1, 20).atTime(10, 0);
         Deadline testDeadline = new Deadline(new Name(VALID_NAME_DEADLINE_TUTORIAL), testDueTime, true);
         assertEquals(testDeadline.getName(), new Name(VALID_NAME_DEADLINE_TUTORIAL));
         assertEquals(testDeadline.getDueTime(), testDueTime);

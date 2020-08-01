@@ -47,8 +47,8 @@ public class AddEventCommandTest {
     @Test
     public void executeNothingToAdd_focusedDisplayableEvent_throwsCommandException() {
         AddEventCommand addEventCommand = new AddEventCommand(new Name(VALID_NAME_EVENT_TUTORIAL_1),
-                LocalDateTime.of(LocalDate.now(), LocalTime.NOON),
-                LocalDateTime.of(LocalDate.now(), LocalTime.NOON.plusHours(1)), new Location("Arbitrary location"),
+                LocalDateTime.of(LocalDate.of(2020, 1, 20), LocalTime.NOON),
+                LocalDateTime.of(LocalDate.of(2020, 1, 20), LocalTime.NOON.plusHours(1)), new Location("Arbitrary location"),
                 false, null, null, null);
 
         Model expectedModel = new ModelManager(model.getModulo(), model.getUserPrefs());
@@ -60,8 +60,8 @@ public class AddEventCommandTest {
     @Test
     public void executeNothingToAdd_noFocusedDisplayable_throwsCommandException() {
         AddEventCommand addEventCommand = new AddEventCommand(new Name(VALID_NAME_EVENT_TUTORIAL_1),
-                LocalDateTime.of(LocalDate.now(), LocalTime.NOON),
-                LocalDateTime.of(LocalDate.now(), LocalTime.NOON.plusHours(1)), new Location("Arbitrary location"),
+                LocalDateTime.of(LocalDate.of(2020, 1, 20), LocalTime.NOON),
+                LocalDateTime.of(LocalDate.of(2020, 1, 20), LocalTime.NOON.plusHours(1)), new Location("Arbitrary location"),
                 false, null, null, null);
 
         Model expectedModel = new ModelManager(model.getModulo(), model.getUserPrefs());
@@ -72,8 +72,8 @@ public class AddEventCommandTest {
 
     @Test
     public void executeNothingToAdd_startTimeBeforeEndTime_throwsCommandException() {
-        LocalDateTime start = LocalDateTime.of(LocalDate.now(), LocalTime.NOON.plusHours(1));
-        LocalDateTime end = LocalDateTime.of(LocalDate.now(), LocalTime.NOON);
+        LocalDateTime start = LocalDateTime.of(LocalDate.of(2020, 1, 20), LocalTime.NOON.plusHours(1));
+        LocalDateTime end = LocalDateTime.of(LocalDate.of(2020, 1, 20), LocalTime.NOON);
 
         AddEventCommand addEventCommand = new AddEventCommand(new Name(VALID_NAME_EVENT_TUTORIAL_10),
                 start, end, new Location("Arbitrary location"),
@@ -105,7 +105,7 @@ public class AddEventCommandTest {
 
     @Test
     public void executeEventIsSpecified_modelDoesNotContainModuleOfEvent_throwsCommandException() {
-        LocalDate end = LocalDate.now();
+        LocalDate end = LocalDate.of(2020, 1, 20);
         TemporalAmount frequency = Period.ofWeeks(1);
         AddEventCommand addEventCommand = new AddEventCommand(PARTIAL_EVENT_TUTORIAL_1_CS1231S,
                 true, end, frequency, null);
@@ -118,7 +118,7 @@ public class AddEventCommandTest {
 
     @Test
     public void executeValidInput_eventAlreadyExistsAndWillNotBeRepeated_throwsCommandException() {
-        LocalDate end = LocalDate.now();
+        LocalDate end = LocalDate.of(2020, 1, 20);
         TemporalAmount frequency = Period.ofWeeks(1);
         AddEventCommand addEventCommand = new AddEventCommand(PARTIAL_EVENT_TUTORIAL_1_CS2103,
                 false, end, frequency, null);
@@ -131,7 +131,7 @@ public class AddEventCommandTest {
 
     @Test
     public void executeValidInput_hasInvalidDateRange_throwsCommandException() {
-        LocalDate end = LocalDate.now();
+        LocalDate end = LocalDate.of(2020, 1, 20);
         TemporalAmount frequency = Period.ofWeeks(1);
         AddEventCommand addEventCommand = new AddEventCommand(TUTORIAL_INVALID_DATE,
                 false, end, frequency, null);
@@ -146,8 +146,9 @@ public class AddEventCommandTest {
     public void execute_validInputs_success() {
         TemporalAmount frequency = Period.ofWeeks(1);
         AddEventCommand addEventCommand = new AddEventCommand(new Name(VALID_NAME_EVENT_TUTORIAL_10),
-                LocalDateTime.of(LocalDate.now(), LocalTime.NOON),
-                LocalDateTime.of(LocalDate.now(), LocalTime.NOON.plusHours(1)), new Location("Arbitrary location"),
+                LocalDateTime.of(LocalDate.of(2020, 1, 20), LocalTime.NOON),
+                LocalDateTime.of(LocalDate.of(2020, 1, 20), LocalTime.NOON.plusHours(1)),
+                new Location("Arbitrary location"),
                 false, null, EventType.TUTORIAL, frequency);
 
         CommandResult expectedResult = new CommandResult(String.format(MESSAGE_EVENT_ADDED,
@@ -163,12 +164,12 @@ public class AddEventCommandTest {
     public void sameCommandWithToAddEvent() {
         TemporalAmount frequency = Period.ofWeeks(1);
         AddEventCommand addEventCommandFirst = new AddEventCommand(new Name(VALID_NAME_EVENT_TUTORIAL_10),
-                LocalDateTime.of(LocalDate.now(), LocalTime.NOON),
-                LocalDateTime.of(LocalDate.now(), LocalTime.NOON.plusHours(1)), new Location("Arbitrary location"),
+                LocalDateTime.of(LocalDate.of(2020, 1, 20), LocalTime.NOON),
+                LocalDateTime.of(LocalDate.of(2020, 1, 20), LocalTime.NOON.plusHours(1)), new Location("Arbitrary location"),
                 false, null, EventType.TUTORIAL, frequency);
         AddEventCommand addEventCommandSecond = new AddEventCommand(new Name(VALID_NAME_EVENT_TUTORIAL_10),
-                LocalDateTime.of(LocalDate.now(), LocalTime.NOON),
-                LocalDateTime.of(LocalDate.now(), LocalTime.NOON.plusHours(1)),
+                LocalDateTime.of(LocalDate.of(2020, 1, 20), LocalTime.NOON),
+                LocalDateTime.of(LocalDate.of(2020, 1, 20), LocalTime.NOON.plusHours(1)),
                 new Location("Second Arbitrary location"),
                 false, null, EventType.TUTORIAL, frequency);
 
@@ -178,12 +179,12 @@ public class AddEventCommandTest {
 
 
         addEventCommandFirst = new AddEventCommand(new Name(VALID_NAME_EVENT_TUTORIAL_10),
-                LocalDateTime.of(LocalDate.now(), LocalTime.NOON),
-                LocalDateTime.of(LocalDate.now(), LocalTime.NOON.plusHours(1)), new Location("Arbitrary location"),
+                LocalDateTime.of(LocalDate.of(2020, 1, 20), LocalTime.NOON),
+                LocalDateTime.of(LocalDate.of(2020, 1, 20), LocalTime.NOON.plusHours(1)), new Location("Arbitrary location"),
                 false, null, EventType.TUTORIAL, frequency);
         addEventCommandSecond = new AddEventCommand(new Name(VALID_NAME_EVENT_TUTORIAL_10),
-                LocalDateTime.of(LocalDate.now(), LocalTime.NOON),
-                LocalDateTime.of(LocalDate.now(), LocalTime.NOON.plusHours(2)), new Location("Arbitrary location"),
+                LocalDateTime.of(LocalDate.of(2020, 1, 20), LocalTime.NOON),
+                LocalDateTime.of(LocalDate.of(2020, 1, 20), LocalTime.NOON.plusHours(2)), new Location("Arbitrary location"),
                 false, null, EventType.TUTORIAL, frequency);
 
 
@@ -191,13 +192,13 @@ public class AddEventCommandTest {
 
 
         addEventCommandFirst = new AddEventCommand(new Name(VALID_NAME_EVENT_TUTORIAL_10),
-                LocalDateTime.of(LocalDate.now(), LocalTime.NOON),
-                LocalDateTime.of(LocalDate.now(), LocalTime.NOON.plusHours(1)), new Location("Arbitrary location"),
+                LocalDateTime.of(LocalDate.of(2020, 1, 20), LocalTime.NOON),
+                LocalDateTime.of(LocalDate.of(2020, 1, 20), LocalTime.NOON.plusHours(1)), new Location("Arbitrary location"),
                 false, null, EventType.TUTORIAL, frequency);
         frequency = Period.ofWeeks(2);
         addEventCommandSecond = new AddEventCommand(new Name(VALID_NAME_EVENT_TUTORIAL_10),
-                LocalDateTime.of(LocalDate.now(), LocalTime.NOON),
-                LocalDateTime.of(LocalDate.now(), LocalTime.NOON.plusHours(1)), new Location("Arbitrary location"),
+                LocalDateTime.of(LocalDate.of(2020, 1, 20), LocalTime.NOON),
+                LocalDateTime.of(LocalDate.of(2020, 1, 20), LocalTime.NOON.plusHours(1)), new Location("Arbitrary location"),
                 false, null, EventType.TUTORIAL, frequency);
 
         assertNotEquals(addEventCommandFirst, addEventCommandSecond);
@@ -205,23 +206,23 @@ public class AddEventCommandTest {
 
         frequency = Period.ofWeeks(1);
         addEventCommandFirst = new AddEventCommand(new Name(VALID_NAME_EVENT_TUTORIAL_1),
-                LocalDateTime.of(LocalDate.now(), LocalTime.NOON),
-                LocalDateTime.of(LocalDate.now(), LocalTime.NOON.plusHours(1)), new Location("Arbitrary location"),
+                LocalDateTime.of(LocalDate.of(2020, 1, 20), LocalTime.NOON),
+                LocalDateTime.of(LocalDate.of(2020, 1, 20), LocalTime.NOON.plusHours(1)), new Location("Arbitrary location"),
                 false, null, EventType.TUTORIAL, frequency);
         addEventCommandSecond = new AddEventCommand(new Name(VALID_NAME_EVENT_TUTORIAL_10),
-                LocalDateTime.of(LocalDate.now(), LocalTime.NOON),
-                LocalDateTime.of(LocalDate.now(), LocalTime.NOON.plusHours(1)), new Location("Arbitrary location"),
+                LocalDateTime.of(LocalDate.of(2020, 1, 20), LocalTime.NOON),
+                LocalDateTime.of(LocalDate.of(2020, 1, 20), LocalTime.NOON.plusHours(1)), new Location("Arbitrary location"),
                 false, null, EventType.TUTORIAL, frequency);
 
         assertNotEquals(addEventCommandFirst, addEventCommandSecond);
 
         addEventCommandFirst = new AddEventCommand(new Name(VALID_NAME_EVENT_TUTORIAL_10),
-                LocalDateTime.of(LocalDate.now(), LocalTime.NOON),
-                LocalDateTime.of(LocalDate.now(), LocalTime.NOON.plusHours(1)), new Location("Arbitrary location"),
+                LocalDateTime.of(LocalDate.of(2020, 1, 20), LocalTime.NOON),
+                LocalDateTime.of(LocalDate.of(2020, 1, 20), LocalTime.NOON.plusHours(1)), new Location("Arbitrary location"),
                 false, null, EventType.TUTORIAL, frequency);
         addEventCommandSecond = new AddEventCommand(new Name(VALID_NAME_EVENT_TUTORIAL_10),
-                LocalDateTime.of(LocalDate.now(), LocalTime.NOON),
-                LocalDateTime.of(LocalDate.now(), LocalTime.NOON.plusHours(1)), new Location("Arbitrary location"),
+                LocalDateTime.of(LocalDate.of(2020, 1, 20), LocalTime.NOON),
+                LocalDateTime.of(LocalDate.of(2020, 1, 20), LocalTime.NOON.plusHours(1)), new Location("Arbitrary location"),
                 false, null, EventType.LECTURE, frequency);
 
         assertNotEquals(addEventCommandFirst, addEventCommandSecond);
@@ -231,7 +232,7 @@ public class AddEventCommandTest {
 
     @Test
     public void sameCommandWithoutToAddEvent() {
-        LocalDate end = LocalDate.now();
+        LocalDate end = LocalDate.of(2020, 1, 20);
         TemporalAmount frequency = Period.ofWeeks(1);
         AddEventCommand addEventCommandFirst = new AddEventCommand(TUTORIAL_1,
                 true, end, frequency, null);
@@ -272,7 +273,7 @@ public class AddEventCommandTest {
 
         addEventCommandFirst = new AddEventCommand(TUTORIAL_1,
                 true, end, frequency, null);
-        end = LocalDate.now().minusDays(1);
+        end = LocalDate.of(2020, 1, 20).minusDays(1);
         addEventCommandSecond = new AddEventCommand(TUTORIAL_1,
                 false, end, frequency, null);
 

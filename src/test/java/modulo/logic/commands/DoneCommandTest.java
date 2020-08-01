@@ -2,7 +2,7 @@ package modulo.logic.commands;
 
 import static modulo.testutil.Assert.assertThrows;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
@@ -35,9 +35,9 @@ public class DoneCommandTest {
 
     @Test
     public void execute_invalidEvent_throwsCommandException() {
-        Module module = model.getModule(new ModuleCode("CS2103"), AcademicYear.now()).orElseThrow();
-        Event event = new Event(new Name("TestEvent"), EventType.TUTORIAL, LocalDateTime.now(), LocalDateTime.now(),
-                module, new Location("TestLocation"));
+        Module module = model.getModule(new ModuleCode("CS2103"), new AcademicYear(2019, 2020, 2)).orElseThrow();
+        Event event = new Event(new Name("TestEvent"), EventType.TUTORIAL, LocalDate.of(2020, 1, 20).atTime(10, 0),
+                LocalDate.of(2020, 1, 20).atTime(10, 0), module, new Location("TestLocation"));
         DoneCommand doneCommand = new DoneCommand(module, event, Index.fromOneBased(1));
         assertThrows(CommandException.class, () -> doneCommand.execute(model));
     }
