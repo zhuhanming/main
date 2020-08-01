@@ -41,7 +41,8 @@ public class ModuleLibraryTest {
 
     @Test
     public void testGetModule_moduleExists_success() {
-        Module module = ModuleLibrary.createAndReturnModule(new ModuleCode(VALID_CODE_CS2103), new AcademicYear(2019, 2020, 2));
+        Module module = ModuleLibrary.createAndReturnModule(new ModuleCode(VALID_CODE_CS2103),
+                new AcademicYear(2019, 2020, 2));
         assertEquals(module.getModuleCode(), new ModuleCode(VALID_CODE_CS2103));
         assertEquals(module.getAcademicYear(), new AcademicYear(2019, 2020, 2));
     }
@@ -146,11 +147,14 @@ public class ModuleLibraryTest {
         assertEquals(1, eventCommands.size());
         AddEventCommand eventCommand = eventCommands.get(0);
         Event expectedEvent = new Event(new Name(EventType.LECTURE.toString()), EventType.LECTURE,
-                new AcademicYear(2019, 2020, 2).getStartDate().with(TemporalAdjusters.next(DayOfWeek.FRIDAY)).atTime(14, 0),
-                new AcademicYear(2019, 2020, 2).getStartDate().with(TemporalAdjusters.next(DayOfWeek.FRIDAY)).atTime(16, 0),
+                new AcademicYear(2019, 2020, 2).getStartDate()
+                        .with(TemporalAdjusters.next(DayOfWeek.FRIDAY)).atTime(14, 0),
+                new AcademicYear(2019, 2020, 2).getStartDate()
+                        .with(TemporalAdjusters.next(DayOfWeek.FRIDAY)).atTime(16, 0),
                 CS2103, new Location("I3-AUD"), new Slot("1"));
         AddEventCommand expectedCommand = new AddEventCommand(expectedEvent, true,
-                new AcademicYear(2019, 2020, 2).getStartDate().with(TemporalAdjusters.next(DayOfWeek.FRIDAY)).plusWeeks(12),
+                new AcademicYear(2019, 2020, 2).getStartDate()
+                        .with(TemporalAdjusters.next(DayOfWeek.FRIDAY)).plusWeeks(12),
                 Period.ofWeeks(1), null);
         assertEquals(expectedCommand, eventCommand);
     }
@@ -162,7 +166,8 @@ public class ModuleLibraryTest {
         assertEquals(2, eventCommands.size());
         AddEventCommand eventCommand = eventCommands.get(0);
         Event expectedEvent = new Event(new Name(EventType.LECTURE.toString()), EventType.LECTURE,
-                new AcademicYear(2019, 2020, 2).getStartDate().atTime(10, 0), new AcademicYear(2019, 2020, 2).getStartDate().atTime(12, 0),
+                new AcademicYear(2019, 2020, 2).getStartDate().atTime(10, 0),
+                new AcademicYear(2019, 2020, 2).getStartDate().atTime(12, 0),
                 cs2100, new Location("I3-AUD"), new Slot("2"));
         AddEventCommand expectedCommand = new AddEventCommand(expectedEvent, true,
                 new AcademicYear(2019, 2020, 2).getStartDate().plusWeeks(12), Period.ofWeeks(1), 'A');

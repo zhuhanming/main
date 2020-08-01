@@ -72,7 +72,8 @@ public class AddModuleCommandParser implements Parser<AddModuleCommand> {
             academicYear = new AcademicYear(argumentMultimap.getValue(PREFIX_ACADEMIC_YEAR).get(),
                     argumentMultimap.getValue(PREFIX_SEMESTER).get());
         } else if (argumentMultimap.getValue(PREFIX_SEMESTER).isPresent()) {
-            academicYear = new AcademicYear(new AcademicYear(2019, 2020, 2).getStartYear(), new AcademicYear(2019, 2020, 2).getEndYear(),
+            academicYear = new AcademicYear(new AcademicYear(2019, 2020, 2).getStartYear(),
+                    new AcademicYear(2019, 2020, 2).getEndYear(),
                     Integer.parseInt(argumentMultimap.getValue(PREFIX_SEMESTER).get()));
         } else if (argumentMultimap.getValue(PREFIX_ACADEMIC_YEAR).isPresent()) {
             academicYear = new AcademicYear(argumentMultimap.getValue(PREFIX_ACADEMIC_YEAR).get(),
