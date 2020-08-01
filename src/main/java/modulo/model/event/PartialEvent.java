@@ -17,8 +17,8 @@ import modulo.model.module.Module;
  */
 public class PartialEvent extends Event {
     public PartialEvent(Name eventName, EventType eventType, Module parentModule, Location location) {
-        super(eventName, eventType, LocalDateTime.of(LocalDate.now(), LocalTime.NOON),
-                LocalDateTime.of(LocalDate.now(), LocalTime.NOON.plusHours(1)), parentModule, location);
+        super(eventName, eventType, LocalDateTime.of(LocalDate.of(2020, 1, 20), LocalTime.NOON),
+                LocalDateTime.of(LocalDate.of(2020, 1, 20), LocalTime.NOON.plusHours(1)), parentModule, location);
     }
 
     public PartialEvent(Name eventName, EventType eventType, LocalDateTime eventStart, LocalDateTime eventEnd,

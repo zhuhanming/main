@@ -40,7 +40,7 @@ public class AddModuleCommandParser implements Parser<AddModuleCommand> {
         ModuleCode moduleCode = ParserUtil.parseModuleCode(argMultimap.getValue(PREFIX_MODULE)
                 .orElseThrow(parseExceptionSupplier));
 
-        AcademicYear academicYear = AcademicYear.now();
+        AcademicYear academicYear = new AcademicYear(2019, 2020, 2);
 
         return new AddModuleCommand(moduleCode, academicYear);
     }
@@ -65,18 +65,18 @@ public class AddModuleCommandParser implements Parser<AddModuleCommand> {
      * @throws AcademicYearException If the user input is invalid.
      */
     private static AcademicYear getAcademicYear(ArgumentMultimap argumentMultimap) throws AcademicYearException {
-        AcademicYear academicYear = AcademicYear.now();
+        AcademicYear academicYear = new AcademicYear(2019, 2020, 2);
 
         if (argumentMultimap.getValue(PREFIX_ACADEMIC_YEAR).isPresent()
                 && argumentMultimap.getValue(PREFIX_SEMESTER).isPresent()) {
             academicYear = new AcademicYear(argumentMultimap.getValue(PREFIX_ACADEMIC_YEAR).get(),
                     argumentMultimap.getValue(PREFIX_SEMESTER).get());
         } else if (argumentMultimap.getValue(PREFIX_SEMESTER).isPresent()) {
-            academicYear = new AcademicYear(AcademicYear.now().getStartYear(), AcademicYear.now().getEndYear(),
+            academicYear = new AcademicYear(new AcademicYear(2019, 2020, 2).getStartYear(), new AcademicYear(2019, 2020, 2).getEndYear(),
                     Integer.parseInt(argumentMultimap.getValue(PREFIX_SEMESTER).get()));
         } else if (argumentMultimap.getValue(PREFIX_ACADEMIC_YEAR).isPresent()) {
             academicYear = new AcademicYear(argumentMultimap.getValue(PREFIX_ACADEMIC_YEAR).get(),
-                    String.valueOf(AcademicYear.now().getSemester()));
+                    String.valueOf(new AcademicYear(2019, 2020, 2).getSemester()));
         }
         return academicYear;
     }

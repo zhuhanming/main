@@ -12,7 +12,7 @@ import modulo.model.event.Event;
  */
 public class PartialModule extends Module {
     public PartialModule(ModuleCode moduleCode) throws ParseException {
-        super(moduleCode, new Name("MatchableModule"), AcademicYear.now(), "Empty desc.");
+        super(moduleCode, new Name("MatchableModule"), new AcademicYear(2019, 2020, 2), "Empty desc.");
     }
 
     public PartialModule(ModuleCode moduleCode, AcademicYear academicYear) {

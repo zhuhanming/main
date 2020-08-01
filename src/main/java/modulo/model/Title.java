@@ -18,7 +18,7 @@ public class Title implements Displayable {
      * @param localDate Date object for construction.
      */
     public Title(LocalDate localDate) {
-        LocalDate startDate = AcademicYear.now().getStartDate();
+        LocalDate startDate = new AcademicYear(2019, 2020, 2).getStartDate();
         int weekNumber = (int) ChronoUnit.WEEKS.between(startDate, localDate);
         this.title = processWeekNumber(weekNumber);
     }

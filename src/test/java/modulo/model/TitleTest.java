@@ -14,21 +14,21 @@ import modulo.model.module.AcademicYear;
 public class TitleTest {
     @Test
     public void constructor_academicYear_success() {
-        Title title = new Title(AcademicYear.now());
-        assertEquals(AcademicYear.now().toModuleCardFormat(), title.getTitle());
+        Title title = new Title(new AcademicYear(2019, 2020, 2));
+        assertEquals(new AcademicYear(2019, 2020, 2).toModuleCardFormat(), title.getTitle());
     }
 
     @Test
     public void constructor_localDate_success() {
-        LocalDate firstWeek = AcademicYear.now().getStartDate();
+        LocalDate firstWeek = new AcademicYear(2019, 2020, 2).getStartDate();
         Title firstWeekTitle = new Title(firstWeek);
         assertEquals("Week 1", firstWeekTitle.getTitle());
 
-        LocalDate recessWeek = AcademicYear.now().getRecessWeekStartDate();
+        LocalDate recessWeek = new AcademicYear(2019, 2020, 2).getRecessWeekStartDate();
         Title recessWeekTitle = new Title(recessWeek);
         assertEquals("Recess Week", recessWeekTitle.getTitle());
 
-        LocalDate afterRecessWeek = AcademicYear.now().getRecessWeekStartDate().plusWeeks(1);
+        LocalDate afterRecessWeek = new AcademicYear(2019, 2020, 2).getRecessWeekStartDate().plusWeeks(1);
         Title afterRecessWeekTitle = new Title(afterRecessWeek);
         assertEquals("Week 7", afterRecessWeekTitle.getTitle());
     }

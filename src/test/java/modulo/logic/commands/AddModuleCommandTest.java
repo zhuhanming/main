@@ -40,7 +40,7 @@ public class AddModuleCommandTest {
     @Test
     public void constructor_nullModule_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> new AddModuleCommand(null,
-                AcademicYear.now()));
+                new AcademicYear(2019, 2020, 2)));
         assertThrows(NullPointerException.class, () -> new AddModuleCommand(CS2103.getModuleCode(),
                 null));
     }

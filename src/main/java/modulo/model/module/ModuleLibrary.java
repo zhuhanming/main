@@ -161,7 +161,7 @@ public class ModuleLibrary {
      * @return Integer for ordering.
      */
     private static int compareBetweenTwoLessons(JsonObject a, JsonObject b) {
-        AcademicYear academicYear = AcademicYear.now();
+        AcademicYear academicYear = new AcademicYear(2019, 2020, 2);
 
         String aDay = a.get("day").getAsString().toUpperCase();
         JsonArray aWeeks = a.getAsJsonArray("weeks");

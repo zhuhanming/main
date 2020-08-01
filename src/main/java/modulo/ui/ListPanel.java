@@ -54,7 +54,7 @@ public class ListPanel extends UiPart<Region> {
             return result;
         }
         LocalDate currentDate = ((Event) displayableList.get(0)).getEventStart().toLocalDate();
-        LocalDate startDate = AcademicYear.now().getStartDate();
+        LocalDate startDate = new AcademicYear(2019, 2020, 2).getStartDate();
         while (ChronoUnit.WEEKS.between(startDate, currentDate) > 0) {
             startDate = startDate.plusWeeks(1);
         }

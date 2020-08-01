@@ -41,15 +41,15 @@ public class ModuleLibraryTest {
 
     @Test
     public void testGetModule_moduleExists_success() {
-        Module module = ModuleLibrary.createAndReturnModule(new ModuleCode(VALID_CODE_CS2103), AcademicYear.now());
+        Module module = ModuleLibrary.createAndReturnModule(new ModuleCode(VALID_CODE_CS2103), new AcademicYear(2019, 2020, 2));
         assertEquals(module.getModuleCode(), new ModuleCode(VALID_CODE_CS2103));
-        assertEquals(module.getAcademicYear(), AcademicYear.now());
+        assertEquals(module.getAcademicYear(), new AcademicYear(2019, 2020, 2));
     }
 
     @Test
     public void testGetModule_moduleDoesNotExist_exceptionThrown() {
         assertThrows(ModuleNotFoundException.class, "Cannot find the module you specified!", () -> ModuleLibrary
-                .createAndReturnModule(new ModuleCode(INVALID_MODULE_CODE_CS2000), AcademicYear.now()));
+                .createAndReturnModule(new ModuleCode(INVALID_MODULE_CODE_CS2000), new AcademicYear(2019, 2020, 2)));
     }
 
     @Test
@@ -146,11 +146,11 @@ public class ModuleLibraryTest {
         assertEquals(1, eventCommands.size());
         AddEventCommand eventCommand = eventCommands.get(0);
         Event expectedEvent = new Event(new Name(EventType.LECTURE.toString()), EventType.LECTURE,
-                AcademicYear.now().getStartDate().with(TemporalAdjusters.next(DayOfWeek.FRIDAY)).atTime(14, 0),
-                AcademicYear.now().getStartDate().with(TemporalAdjusters.next(DayOfWeek.FRIDAY)).atTime(16, 0),
+                new AcademicYear(2019, 2020, 2).getStartDate().with(TemporalAdjusters.next(DayOfWeek.FRIDAY)).atTime(14, 0),
+                new AcademicYear(2019, 2020, 2).getStartDate().with(TemporalAdjusters.next(DayOfWeek.FRIDAY)).atTime(16, 0),
                 CS2103, new Location("I3-AUD"), new Slot("1"));
         AddEventCommand expectedCommand = new AddEventCommand(expectedEvent, true,
-                AcademicYear.now().getStartDate().with(TemporalAdjusters.next(DayOfWeek.FRIDAY)).plusWeeks(12),
+                new AcademicYear(2019, 2020, 2).getStartDate().with(TemporalAdjusters.next(DayOfWeek.FRIDAY)).plusWeeks(12),
                 Period.ofWeeks(1), null);
         assertEquals(expectedCommand, eventCommand);
     }
@@ -162,10 +162,10 @@ public class ModuleLibraryTest {
         assertEquals(2, eventCommands.size());
         AddEventCommand eventCommand = eventCommands.get(0);
         Event expectedEvent = new Event(new Name(EventType.LECTURE.toString()), EventType.LECTURE,
-                AcademicYear.now().getStartDate().atTime(10, 0), AcademicYear.now().getStartDate().atTime(12, 0),
+                new AcademicYear(2019, 2020, 2).getStartDate().atTime(10, 0), new AcademicYear(2019, 2020, 2).getStartDate().atTime(12, 0),
                 cs2100, new Location("I3-AUD"), new Slot("2"));
         AddEventCommand expectedCommand = new AddEventCommand(expectedEvent, true,
-                AcademicYear.now().getStartDate().plusWeeks(12), Period.ofWeeks(1), 'A');
+                new AcademicYear(2019, 2020, 2).getStartDate().plusWeeks(12), Period.ofWeeks(1), 'A');
         assertEquals(expectedCommand, eventCommand);
     }
 }
